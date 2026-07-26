@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Contact</title>
+
+<style>
+body{
+    background:#111;
+    color:white;
+    font-family:Arial;
+    text-align:center;
+}
+
+header{
+    background:#e91e63;
+    padding:20px;
+    font-size:30px;
+    font-weight:bold;
+}
+
+.card{
+    background:#222;
+    margin:20px;
+    padding:20px;
+    border-radius:10px;
+}
+</style>
+
+</head>
+
+<body>
+
+<header>Contact</header>
+
+<div class="card">
+<h2>Get in Touch</h2>
+
+<p>Email: your@email.com</p>
+
+<p>Instagram: @yourusername</p>
+
+<p>Facebook: Your Page Name</p>
+
+</div>
+
+<br>
+
+<a href="index.html" style="color:#e91e63;">⬅ Back to Home</a>
+
+</body>
+</html>
