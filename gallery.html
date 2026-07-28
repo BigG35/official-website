@@ -1,27 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Gallery</title>
+<title>Logical World Gallery</title>
 
 <style>
 body{
-    background:#111;
-    color:white;
-    font-family:Arial;
-    text-align:center;
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+padding:20px;
 }
 
-header{
-    background:#e91e63;
-    padding:20px;
-    font-size:30px;
-    font-weight:bold;
+.container{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px #ccc;
+max-width:700px;
+margin:auto;
 }
 
-img{
-    width:220px;
-    margin:10px;
-    border-radius:10px;
+input,textarea{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0a4ea3;
+color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
 }
 </style>
 
@@ -29,15 +40,19 @@ img{
 
 <body>
 
-<header>Photo Gallery</header>
+<div class="container">
 
-<h2>Welcome to the Gallery</h2>
+<h1>📷 Upload Photo</h1>
 
-<img src="63340809_013_4bfe.jpg" alt="Photo 1">
+<input type="text" placeholder="Photo Title">
 
-<br><br>
+<textarea placeholder="Photo Description"></textarea>
 
-<a href="index.html" style="color:#e91e63;">⬅ Back to Home</a>
+<input type="file">
+
+<button>Upload Photo</button>
+
+</div>
 
 </body>
-</html>
+    </html>
