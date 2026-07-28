@@ -5,32 +5,42 @@
 
 <style>
 body{
-font-family:Arial;
-background:#f5f5f5;
-margin:20px;
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+margin:0;
 }
 
-h1{
-color:#0066cc;
+header{
+background:#0a4ea3;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+padding:20px;
 }
 
 .card{
 background:white;
-padding:15px;
-margin:10px;
+padding:20px;
 border-radius:10px;
-box-shadow:0 0 10px gray;
+box-shadow:0 0 8px #ccc;
+text-align:center;
 }
 
 button{
 width:100%;
-padding:15px;
+padding:12px;
 margin-top:10px;
-font-size:18px;
-border:none;
-border-radius:8px;
-background:#0066cc;
+background:#0a4ea3;
 color:white;
+border:none;
+border-radius:6px;
+font-size:16px;
 }
 </style>
 
@@ -38,40 +48,60 @@ color:white;
 
 <body>
 
+<header>
 <h1>🌍 Logical World</h1>
+<p>Owner Dashboard</p>
+</header>
+
+<div class="grid">
 
 <div class="card">
-<h2>Welcome Owner</h2>
+<h2>👥 Members</h2>
+<p>0</p>
+<button>Manage Members</button>
+</div>
 
-<p>Members: 0</p>
-<p>Staff: 0</p>
-<p>Products: 0</p>
-<p>Videos: 0</p>
-<p>Photos: 0</p>
-<p>Bookings: 0</p>
-<p>Earnings: $0</p>
+<div class="card">
+<h2>👨‍💼 Staff</h2>
+<p>0</p>
+<button>Manage Staff</button>
+</div>
+
+<div class="card">
+<h2>🎥 Videos</h2>
+<p>0</p>
+<button>Upload Videos</button>
+</div>
+
+<div class="card">
+<h2>📷 Photos</h2>
+<p>0</p>
+<button>Upload Photos</button>
+</div>
+
+<div class="card">
+<h2>🛒 Products</h2>
+<p>0</p>
+<button>Add Product</button>
+</div>
+
+<div class="card">
+<h2>💳 Payments</h2>
+<p>$0</p>
+<button>View Payments</button>
+</div>
+
+<div class="card">
+<h2>🎁 Gift Cards</h2>
+<button>Create Gift Card</button>
+</div>
+
+<div class="card">
+<h2>📅 Bookings</h2>
+<button>View Bookings</button>
+</div>
 
 </div>
 
-<button>📷 Upload Photos</button>
-
-<button>🎥 Upload Videos</button>
-
-<button>🛒 Products</button>
-
-<button>👥 Staff</button>
-
-<button>👤 Members</button>
-
-<button>🎁 Gift Cards</button>
-
-<button>💳 Payments</button>
-
-<button>📅 Bookings</button>
-
-<button>⚙ Settings</button>
-
-<button>🚪 Logout</button>
-
 </body>
-                 </html>
+  </html>
