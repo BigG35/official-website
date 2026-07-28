@@ -1,25 +1,65 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Login</title>
+<title>Logical World Login</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.login-box{
+background:white;
+padding:30px;
+border-radius:10px;
+box-shadow:0 0 10px #ccc;
+width:320px;
+}
+
+input,select{
+width:100%;
+padding:10px;
+margin:10px 0;
+}
+
+button{
+width:100%;
+padding:12px;
+background:#0a4ea3;
+color:white;
+border:none;
+border-radius:6px;
+}
+</style>
+
 </head>
+
 <body>
-  <h1>Member Login</h1>
 
-  <form>
-    <label>Email</label><br>
-    <input type="email" placeholder="Enter your email"><br><br>
+<div class="login-box">
 
-    <label>Password</label><br>
-    <input type="password" placeholder="Enter your password"><br><br>
+<h2>Logical World Login</h2>
 
-    <button type="submit">Login</button>
-  </form>
+<input type="email" placeholder="Email">
 
-  <br>
+<input type="password" placeholder="Password">
 
-  <p>Don't have an account?
-    <a href="register.html">Register here</a>
-  </p>
+<select>
+<option>Member</option>
+<option>Staff</option>
+<option>Owner</option>
+</select>
+
+<button>Login</button>
+
+<p><a href="register.html">Create Account</a></p>
+
+</div>
+
 </body>
-</html>
+  </html>
