@@ -1,38 +1,54 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Videos</title>
+<title>Logical World Videos</title>
+
 <style>
 body{
-    background:#111;
-    color:white;
-    font-family:Arial;
-    text-align:center;
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+text-align:center;
+padding:30px;
 }
-header{
-    background:#e91e63;
-    padding:20px;
-    font-size:30px;
-    font-weight:bold;
+
+.card{
+background:white;
+padding:25px;
+border-radius:10px;
+box-shadow:0 0 10px #ccc;
+max-width:600px;
+margin:auto;
+}
+
+button{
+background:#0a4ea3;
+color:white;
+padding:12px 20px;
+border:none;
+border-radius:6px;
+margin:10px;
 }
 </style>
+
 </head>
 
 <body>
 
-<header>Videos</header>
+<div class="card">
 
-<h2>Welcome to the Videos Page</h2>
+<h1>🎥 Premium Videos</h1>
 
-<p>Your videos will appear here.</p>
+<p>You need an active subscription to watch premium videos.</p>
 
-<video width="320" controls>
-    <source src="video.mp4" type="video/mp4">
-</video>
+<button onclick="location.href='premium.html'">
+Become a Member
+</button>
 
-<br><br>
+<button onclick="location.href='login.html'">
+Login
+</button>
 
-<a href="index.html" style="color:#e91e63;">⬅ Back to Home</a>
+</div>
 
 </body>
 </html>
