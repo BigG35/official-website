@@ -131,39 +131,66 @@ color:#0a4ea3;
 </div>
 
 <script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import {
+  getAuth,
+  createUserWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDLdWY7gbNmLOc-jCoQ27FIW9iBzVtbwhk",
+  authDomain: "official-website-b2757.firebaseapp.com",
+  projectId: "official-website-b2757",
+  storageBucket: "official-website-b2757.firebasestorage.app",
+  messagingSenderId: "295891219037",
+  appId: "1:295891219037:web:c1b1713c9291f88cabd3b4",
+  measurementId: "G-T0BKW67381"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
 const form = document.getElementById("registerForm");
 const message = document.getElementById("message");
 
-form.addEventListener("submit", function(event){
+form.addEventListener("submit", async (event) => {
 
-event.preventDefault();
+  event.preventDefault();
 
-const fullname =
-document.getElementById("fullname").value;
+  const fullname = document.getElementById("fullname").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirmPassword").value;
 
-const email =
-document.getElementById("email").value;
+  if (password !== confirmPassword) {
+    message.style.color = "red";
+    message.innerHTML = "Passwords do not match.";
+    return;
+  }
 
-const password =
-document.getElementById("password").value;
+  try {
 
-const confirmPassword =
-document.getElementById("confirmPassword").value;
+    await createUserWithEmailAndPassword(auth, email, password);
 
-if(password !== confirmPassword){
+    message.style.color = "green";
+    message.innerHTML = "Account created successfully!";
 
-message.style.color="red";
-message.innerHTML="Passwords do not match.";
+    setTimeout(() => {
+      window.location.href = "login.html";
+    }, 2000);
 
-return;
+  } catch (error) {
 
-}
+    message.style.color = "red";
+    message.innerHTML = error.message;
 
-message.style.color="green";
-message.innerHTML="Registration successful! Firebase connection will be added next.";
+  }
 
 });
+
+</script>
   </script>
 
 </body>
