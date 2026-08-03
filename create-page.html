@@ -3,14 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Create Your Page - Logical World</title>
 
 <style>
-body{
-font-family:Arial,sans-serif;
-background:#f5f5f5;
+
+*{
 margin:0;
 padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f5f5f5;
 }
 
 header{
@@ -21,17 +27,18 @@ padding:20px;
 }
 
 .container{
-max-width:700px;
+max-width:800px;
 margin:30px auto;
 background:white;
-padding:20px;
+padding:25px;
 border-radius:10px;
 box-shadow:0 0 10px rgba(0,0,0,.2);
 }
 
 h2{
-color:#0a4ea3;
 text-align:center;
+color:#0a4ea3;
+margin-bottom:20px;
 }
 
 label{
@@ -58,8 +65,8 @@ resize:vertical;
 
 button{
 width:100%;
-margin-top:20px;
 padding:15px;
+margin-top:20px;
 background:#0a4ea3;
 color:white;
 border:none;
@@ -71,6 +78,17 @@ cursor:pointer;
 button:hover{
 background:#083d82;
 }
+
+.successBox{
+display:none;
+margin-top:20px;
+padding:15px;
+background:#e8f5e9;
+border:1px solid #4CAF50;
+border-radius:8px;
+text-align:center;
+}
+
 </style>
 
 </head>
@@ -78,8 +96,11 @@ background:#083d82;
 <body>
 
 <header>
+
 <h1>Create Your Own Page</h1>
+
 <p>All pages must be approved by the Logical World Admin.</p>
+
 </header>
 
 <div class="container">
@@ -87,21 +108,42 @@ background:#083d82;
 <h2>Page Information</h2>
 
 <form id="createPageForm">
+
 <label>Page Type</label>
 
-<select>
+<select id="pageType" required>
+
 <option value="">Select Page Type</option>
+
 <option>Business Page</option>
+
 <option>Personal Page</option>
+
 <option>Organization</option>
+
 <option>Community</option>
-  </select>
+
+</select>
+
 <label>Page Name</label>
-<input type="text" id="pageName" placeholder="Enter your page name">
+
+<input
+type="text"
+id="pageName"
+placeholder="Enter your page name"
+required>
+
 <label>Page Logo / Profile Picture</label>
-<input type="file" accept="image/*">
+
+<input
+type="file"
+id="pageLogo"
+accept="image/*">
+
 <label>Category</label>
+
 <select id="category">
+
 <option>Snails</option>
 <option>Cars</option>
 <option>Electronics</option>
@@ -109,97 +151,73 @@ background:#083d82;
 <option>Home Services</option>
 <option>Food</option>
 <option>Other</option>
-  </select>
-  <label>Description</label>
-  <textarea id="description" placeholder="Describe your business"></textarea>
 
-<label>Phone Number</label>
-<input type="tel" id="phone">
+</select>
 
-<label>Email</label>
-<input type="email" id="email">
+<label>Description</label>
 
-<label>Location</label>
-<input type="text" id="location">
-<label>Business Address</label>
-<textarea id="address" placeholder="Enter your full business address"></textarea>
-<label>Upload Photos</label>
-<input type="file" multiple>
+<textarea
+id="description"
+placeholder="Describe your business"></textarea>
+<script type="module">
 
-<label>Upload Videos</label>
-<input type="file" multiple>
-<label style="display:flex;align-items:center;gap:10px;margin-top:20px;">
-<input type="checkbox" required>
+import { db } from "./firebase.js";
 
-<span>
-I agree to the Logical World Terms & Conditions and understand that my page will be reviewed before it becomes public.
-</span>
+import {
+  collection,
+  addDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-                                         </label>
-<button type="submit">
-Submit For Approval
-</button>
-<p id="pageStatus" style="margin-top:15px;color:#0a4ea3;font-weight:bold;">
-Status: Pending Admin Approval
-  </p>
-</form>
+const form = document.getElementById("createPageForm");
 
-</div>
+form.addEventListener("submit", async (e) => {
 
-  <div id="submitMessage" style="display:none;margin-top:20px;padding:15px;background:#e8f5e9;border:1px solid #4CAF50;border-radius:8px;text-align:center;">
+  e.preventDefault();
 
-<h3>✅ Page Submitted Successfully</h3>
+  try {
 
-<p>
-Your page has been sent to the Logical World Admin.
-</p>
+    await addDoc(collection(db, "pendingPages"), {
 
-<p>
-It will remain hidden until it is approved.
-</p>
+      pageName: document.getElementById("pageName").value,
 
-</div>
+      category: document.getElementById("category").value,
 
-<no
+      description: document.getElementById("description").value,
 
-try{
+      phone: document.getElementById("phone").value,
 
-await addDoc(collection(db,"pendingPages"),{
+      email: document.getElementById("email").value,
 
-pageName:document.getElementById("pageName").value,
+      location: document.getElementById("location").value,
 
-category:document.getElementById("category").value,
+      address: document.getElementById("address").value,
 
-description:document.getElementById("description").value,
+      status: "Pending",
 
-phone:document.getElementById("phone").value,
+      createdAt: new Date()
 
-email:document.getElementById("email").value,
+    });
 
-location:document.getElementById("location").value,
+    document.getElementById("submitMessage").style.display = "block";
 
-address:document.getElementById("address").value,
+    form.reset();
 
-status:"Pending",
+    window.scrollTo({
+      top: document.body.scrollHeight,
+      behavior: "smooth"
+    });
 
-createdAt:new Date()
+  } catch (error) {
+
+    alert("Error submitting page: " + error.message);
+
+    console.error(error);
+
+  }
 
 });
 
-document.getElementById("submitMessage").style.display="block";
+</script>
 
-form.reset();
-
-window.scrollTo({
-top:document.body.scrollHeight,
-behavior:"smooth"
-});
-
-}catch(error){
-
-alert("Error submitting page: "+error.message);
-}
-});
-  </script>
 </body>
-  </html>
+</html>
