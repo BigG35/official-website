@@ -161,10 +161,40 @@ It will remain hidden until it is approved.
 </div>
 
 <script type="module">
+  import { db } from "./firebase.js";
+
+import {
+collection,
+addDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 const form=document.getElementById("createPageForm");
 
-form.addEventListener("submit",function(e){
+form.addEventListener("submit", async function(e){
 e.preventDefault();
+
+try{
+
+await addDoc(collection(db,"pendingPages"),{
+
+pageName:document.getElementById("pageName").value,
+
+category:document.getElementById("category").value,
+
+description:document.getElementById("description").value,
+
+phone:document.getElementById("phone").value,
+
+email:document.getElementById("email").value,
+
+location:document.getElementById("location").value,
+
+address:document.getElementById("address").value,
+
+status:"Pending",
+
+createdAt:new Date()
+
+});
 
 document.getElementById("submitMessage").style.display="block";
 
@@ -173,6 +203,13 @@ form.reset();
 window.scrollTo({
 top:document.body.scrollHeight,
 behavior:"smooth"
+});
+
+}catch(error){
+
+alert("Error submitting page: "+error.message);
+
+}
 });
 });
   </script>
