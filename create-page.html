@@ -109,7 +109,7 @@ background:#083d82;
 <option>Home Services</option>
 <option>Food</option>
 <option>Other</option>
-
+  </select>
   <label>Description</label>
   <textarea id="description" placeholder="Describe your business"></textarea>
 
@@ -160,17 +160,7 @@ It will remain hidden until it is approved.
 
 </div>
 
-<script type="module">
-  import { db } from "./firebase.js";
-
-import {
-collection,
-addDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-const form=document.getElementById("createPageForm");
-
-form.addEventListener("submit", async function(e){
-e.preventDefault();
+<no
 
 try{
 
@@ -208,9 +198,7 @@ behavior:"smooth"
 }catch(error){
 
 alert("Error submitting page: "+error.message);
-
 }
-});
 });
   </script>
 </body>
