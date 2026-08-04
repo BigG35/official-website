@@ -275,6 +275,23 @@ border-radius:5px;">
 </footer>
 
 </div>
+<script type="module">
 
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+alert("Admin Panel Connected");
+
+const pendingRef = collection(db, "pendingPages");
+
+const snapshot = await getDocs(pendingRef);
+
+console.log(snapshot.docs.length);
+
+  </script>
 </body>
 </html>
