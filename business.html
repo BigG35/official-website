@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Business Details - Logical World</title>
 
 <style>
@@ -22,8 +21,8 @@ background:#f5f5f5;
 header{
 background:#0a4ea3;
 color:white;
-text-align:center;
 padding:20px;
+text-align:center;
 }
 
 .container{
@@ -38,20 +37,20 @@ box-shadow:0 0 10px rgba(0,0,0,.15);
 .logo{
 width:180px;
 height:180px;
-border-radius:50%;
-object-fit:cover;
 display:block;
 margin:auto;
+border-radius:50%;
+object-fit:cover;
 }
 
 h1{
 text-align:center;
-color:#0a4ea3;
 margin:20px 0;
+color:#0a4ea3;
 }
 
 .info{
-margin:15px 0;
+margin:12px 0;
 font-size:18px;
 }
 
@@ -59,7 +58,7 @@ font-size:18px;
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:15px;
-margin-top:25px;
+margin-top:20px;
 }
 
 .gallery img{
@@ -95,9 +94,8 @@ background:#083d82;
 <p>Business Details</p>
 
 </header>
-
 <div class="container">
-  <img id="businessLogo" class="logo" src="" alt="Business Logo">
+  <img id="businessLogo" class="logo" src="images/default-logo.png" alt="Business Logo">
 
 <h1 id="businessName">Loading...</h1>
 
@@ -117,7 +115,7 @@ background:#083d82;
 
 <div id="photoGallery" class="gallery"></div>
 
-<br>
+<div style="margin-top:25px;text-align:center;">
 
 <a href="#" id="whatsappBtn" class="button">💬 WhatsApp</a>
 
@@ -138,52 +136,56 @@ getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
+
 const id = params.get("id");
 
-if (id) {
+if(id){
 
-  const docRef = doc(db, "approvedPages", id);
+const docRef = doc(db,"approvedPages",id);
 
-  const docSnap = await getDoc(docRef);
+const docSnap = await getDoc(docRef);
 
-  if (docSnap.exists()) {
+if(docSnap.exists()){
 
-    const data = docSnap.data();
+const data = docSnap.data();
 
-    document.getElementById("businessName").innerText = data.pageName || "";
+document.getElementById("businessName").innerText = data.pageName || "";
 
-    document.getElementById("category").innerText = data.category || "";
+document.getElementById("category").innerText = data.category || "";
 
-    document.getElementById("description").innerText = data.description || "";
+document.getElementById("description").innerText = data.description || "";
 
-    document.getElementById("location").innerText = data.location || "";
+document.getElementById("location").innerText = data.location || "";
 
-    document.getElementById("phone").innerText = data.phone || "";
+document.getElementById("phone").innerText = data.phone || "";
 
-    document.getElementById("email").innerText = data.email || "";
+document.getElementById("email").innerText = data.email || "";
 
-    document.getElementById("address").innerText = data.address || "";
+document.getElementById("address").innerText = data.address || "";
 
-    if (data.phone) {
-      document.getElementById("whatsappBtn").href =
-      "https://wa.me/" + data.phone.replace(/\D/g, "");
-    }
+if(data.phone){
 
-  } else {
-
-    document.getElementById("businessName").innerText =
-    "Business Not Found";
-
-  }
-
-} else {
-
-  document.getElementById("businessName").innerText =
-  "No Business Selected";
+document.getElementById("whatsappBtn").href =
+"https://wa.me/" + data.phone.replace(/\D/g,"");
 
 }
 
-</script>
+}else{
+
+document.getElementById("businessName").innerText =
+"Business Not Found";
+
+}
+
+}else{
+
+document.getElementById("businessName").innerText =
+"No Business Selected";
+
+}
+    </script>
+
+</div>
 
 </body>
-  </html>
+</html>
