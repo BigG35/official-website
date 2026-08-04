@@ -239,7 +239,6 @@ form.addEventListener("submit", async (e) => {
 
   try {
 
-    await addDoc(collection(db, "pendingPages"), {
 const logoFile = document.getElementById("pageLogo").files[0];
 
 const logoRef = ref(storage, "pageLogos/" + Date.now() + "_" + logoFile.name);
@@ -247,6 +246,7 @@ const logoRef = ref(storage, "pageLogos/" + Date.now() + "_" + logoFile.name);
 await uploadBytes(logoRef, logoFile);
 
 const logoURL = await getDownloadURL(logoRef);
+    await addDoc(collection(db, "pendingPages"), {
       pageName: document.getElementById("pageName").value,
 
       category: document.getElementById("category").value,
