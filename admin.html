@@ -268,7 +268,45 @@ border-radius:5px;">
 document.addEventListener("click", async (e) => {
 
   if (e.target.classList.contains("approve")) {
+document.addEventListener("click", async (e) => {
 
+  if (e.target.classList.contains("reject")) {
+document.addEventListener("click", async (e) => {
+
+  if (e.target.classList.contains("delete")) {
+
+    const id = e.target.dataset.id;
+
+    if (!confirm("Are you sure you want to permanently delete this page?")) return;
+
+    await deleteDoc(doc(db, "pendingPages", id));
+
+    alert("Page Deleted Successfully!");
+
+    location.reload();
+
+  }
+
+});
+    const id = e.target.dataset.id;
+
+    const page = snapshot.docs.find(d => d.id === id);
+
+    if (!page) return;
+
+    const data = page.data();
+
+    await addDoc(collection(db, "rejectedPages"), data);
+
+    await deleteDoc(doc(db, "pendingPages", id));
+
+    alert("Page Rejected Successfully!");
+
+    location.reload();
+
+  }
+
+});
     const id = e.target.dataset.id;
 
     const page = snapshot.docs.find(d => d.id === id);
@@ -332,9 +370,9 @@ pendingPagesList.innerHTML += `
 
 <button class="approve" data-id="${doc.id}">✅ Approve</button>
 
-<button class="reject">❌ Reject</button>
+<button class="reject" data-id="${doc.id}">❌ Reject</button>
 
-<button class="delete">🗑 Delete</button>
+<button class="delete" data-id="${doc.id}">🗑 Delete</button>
 
 </div>
 
