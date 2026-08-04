@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -97,7 +96,38 @@ background:#083d82;
 
 </header>
 
-<div class="
+<div class="container">
+  <img id="businessLogo" class="logo" src="" alt="Business Logo">
+
+<h1 id="businessName">Loading...</h1>
+
+<p class="info"><strong>Category:</strong> <span id="category"></span></p>
+
+<p class="info"><strong>Description:</strong> <span id="description"></span></p>
+
+<p class="info"><strong>Location:</strong> <span id="location"></span></p>
+
+<p class="info"><strong>Phone:</strong> <span id="phone"></span></p>
+
+<p class="info"><strong>Email:</strong> <span id="email"></span></p>
+
+<p class="info"><strong>Business Address:</strong> <span id="address"></span></p>
+
+<h2>Business Photos</h2>
+
+<div id="photoGallery" class="gallery"></div>
+
+<br>
+
+<a href="#" id="whatsappBtn" class="button">💬 WhatsApp</a>
+
+<a href="#" class="button">❤️ Like</a>
+
+<a href="#" class="button">⭐ Review</a>
+
+<a href="#" class="button">📤 Share</a>
+
+  </div>
   <script type="module">
 
 import { db } from "./firebase.js";
@@ -108,40 +138,52 @@ getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
-
 const id = params.get("id");
 
-if(id){
+if (id) {
 
-const docRef = doc(db,"approvedPages",id);
+  const docRef = doc(db, "approvedPages", id);
 
-const docSnap = await getDoc(docRef);
+  const docSnap = await getDoc(docRef);
 
-if(docSnap.exists()){
+  if (docSnap.exists()) {
 
-const data = docSnap.data();
+    const data = docSnap.data();
 
-document.getElementById("businessName").innerText = data.pageName || "";
+    document.getElementById("businessName").innerText = data.pageName || "";
 
-document.getElementById("category").innerText = data.category || "";
+    document.getElementById("category").innerText = data.category || "";
 
-document.getElementById("description").innerText = data.description || "";
+    document.getElementById("description").innerText = data.description || "";
 
-document.getElementById("location").innerText = data.location || "";
+    document.getElementById("location").innerText = data.location || "";
 
-document.getElementById("phone").innerText = data.phone || "";
+    document.getElementById("phone").innerText = data.phone || "";
 
-document.getElementById("email").innerText = data.email || "";
+    document.getElementById("email").innerText = data.email || "";
 
-document.getElementById("address").innerText = data.address || "";
+    document.getElementById("address").innerText = data.address || "";
 
-}
+    if (data.phone) {
+      document.getElementById("whatsappBtn").href =
+      "https://wa.me/" + data.phone.replace(/\D/g, "");
+    }
+
+  } else {
+
+    document.getElementById("businessName").innerText =
+    "Business Not Found";
+
+  }
+
+} else {
+
+  document.getElementById("businessName").innerText =
+  "No Business Selected";
 
 }
 
 </script>
-
-</div>
 
 </body>
   </html>
