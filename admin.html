@@ -287,7 +287,43 @@ const pendingRef = collection(db, "pendingPages");
 
 const snapshot = await getDocs(pendingRef);
 
-console.log(snapshot.docs.length);
+const pendingPagesList = document.getElementById("pendingPagesList");
+
+pendingPagesList.innerHTML = "";
+
+snapshot.forEach((doc) => {
+
+const data = doc.data();
+
+pendingPagesList.innerHTML += `
+
+<div class="card">
+
+<h3>${data.pageName}</h3>
+
+<p><strong>Category:</strong> ${data.category}</p>
+
+<p><strong>Description:</strong> ${data.description}</p>
+
+<p><strong>Phone:</strong> ${data.phone}</p>
+
+<p><strong>Email:</strong> ${data.email}</p>
+
+<p><strong>Location:</strong> ${data.location}</p>
+
+<p><strong>Status:</strong> ${data.status}</p>
+
+<button class="approve">✅ Approve</button>
+
+<button class="reject">❌ Reject</button>
+
+<button class="delete">🗑 Delete</button>
+
+</div>
+
+`;
+
+});
 
   </script>
 </body>
