@@ -138,7 +138,8 @@ required>
 <input
 type="file"
 id="pageLogo"
-accept="image/*">
+accept="image/*"
+required>
 
 <label>Category</label>
 
@@ -210,9 +211,22 @@ Status: Pending Admin Approval
 import { db } from "./firebase.js";
 
 import {
-  collection,
-  addDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+collection,
+addDoc
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+import {
+ref,
+uploadBytes,
+getDownloadURL
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
+
+import {
+db,
+storage
+} from "./firebase.js";
 
 alert("JavaScript is running");
 
@@ -226,7 +240,13 @@ form.addEventListener("submit", async (e) => {
   try {
 
     await addDoc(collection(db, "pendingPages"), {
+const logoFile = document.getElementById("pageLogo").files[0];
 
+const logoRef = ref(storage, "pageLogos/" + Date.now() + "_" + logoFile.name);
+
+await uploadBytes(logoRef, logoFile);
+
+const logoURL = await getDownloadURL(logoRef);
       pageName: document.getElementById("pageName").value,
 
       category: document.getElementById("category").value,
@@ -241,7 +261,9 @@ form.addEventListener("submit", async (e) => {
 
       address: document.getElementById("address").value,
 
-      status: "Pending",
+logoURL: logoURL,
+
+status: "Pending",
 
       createdAt: new Date()
 
