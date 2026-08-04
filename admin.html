@@ -335,7 +335,16 @@ getCountFromServer
 
 alert("Admin Panel Connected");
 
-const pendingRef = collection(db, "pendingPages");
+const pendingCount = await getCountFromServer(collection(db,"pendingPages"));
+document.getElementById("pendingCount").innerText = pendingCount.data().count;
+
+const approvedCount = await getCountFromServer(collection(db,"approvedPages"));
+document.getElementById("approvedCount").innerText = approvedCount.data().count;
+
+const totalPages =
+pendingCount.data().count + approvedCount.data().count;
+
+document.getElementById("totalPagesCount").innerText = totalPages;
 
 const snapshot = await getDocs(pendingRef);
 
