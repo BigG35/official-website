@@ -311,8 +311,51 @@ Buy and sell products from different categories in one marketplace.
 <p>
 © 2026 Logical World. All Rights Reserved.
 </p>
+<h2>Approved Business Pages</h2>
 
+<div id="approvedPagesList"></div>
 </footer>
+<script type="module">
 
+import { db } from "./firebase.js";
+
+import {
+collection,
+getDocs
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const approvedRef = collection(db,"approvedPages");
+
+const snapshot = await getDocs(approvedRef);
+
+const approvedPagesList = document.getElementById("approvedPagesList");
+
+approvedPagesList.innerHTML = "";
+
+snapshot.forEach((doc)=>{
+
+const data = doc.data();
+
+approvedPagesList.innerHTML += `
+
+<div class="card">
+
+<h3>${data.pageName}</h3>
+
+<p><strong>Category:</strong> ${data.category}</p>
+
+<p>${data.description}</p>
+
+<p><strong>Location:</strong> ${data.location}</p>
+
+<p><strong>Phone:</strong> ${data.phone}</p>
+
+</div>
+
+`;
+
+});
+
+   </script>
 </body>
       </html>
