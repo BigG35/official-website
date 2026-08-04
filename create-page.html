@@ -159,7 +159,54 @@ accept="image/*">
 <textarea
 id="description"
 placeholder="Describe your business"></textarea>
-  <script type="module">
+  <label>Phone Number</label>
+<input type="tel" id="phone">
+
+<label>Email</label>
+<input type="email" id="email">
+
+<label>Location</label>
+<input type="text" id="location">
+
+<label>Business Address</label>
+<textarea id="address" placeholder="Enter your full business address"></textarea>
+
+<label>Upload Photos</label>
+<input type="file" multiple>
+
+<label>Upload Videos</label>
+<input type="file" multiple>
+
+<label style="display:flex;align-items:center;gap:10px;margin-top:20px;">
+<input type="checkbox" required>
+<span>
+I agree to the Logical World Terms & Conditions and understand that my page will be reviewed before it becomes public.
+</span>
+</label>
+
+<button type="submit">
+Submit For Approval
+</button>
+
+<p id="pageStatus" style="margin-top:15px;color:#0a4ea3;font-weight:bold;">
+Status: Pending Admin Approval
+</p>
+
+</form>
+
+</div>
+
+<div id="submitMessage" style="display:none;margin-top:20px;padding:15px;background:#e8f5e9;border:1px solid #4CAF50;border-radius:8px;text-align:center;">
+
+<h3>✅ Page Submitted Successfully</h3>
+
+<p>Your page has been sent to the Logical World Admin.</p>
+
+<p>It will remain hidden until it is approved.</p>
+
+</div>
+
+<script type="module">
 
 alert("JavaScript is running");
 const form = document.getElementById("createPageForm");
