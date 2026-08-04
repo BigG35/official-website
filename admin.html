@@ -265,12 +265,37 @@ border-radius:5px;">
 
 </div>
 <script type="module">
+document.addEventListener("click", async (e) => {
 
+  if (e.target.classList.contains("approve")) {
+
+    const id = e.target.dataset.id;
+
+    const page = snapshot.docs.find(d => d.id === id);
+
+    if (!page) return;
+
+    const data = page.data();
+
+    await addDoc(collection(db, "approvedPages"), data);
+
+    await deleteDoc(doc(db, "pendingPages", id));
+
+    alert("Page Approved Successfully!");
+
+    location.reload();
+
+  }
+
+});
 import { db } from "./firebase.js";
 
 import {
 collection,
-getDocs
+getDocs,
+addDoc,
+deleteDoc,
+doc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 alert("Admin Panel Connected");
@@ -305,7 +330,7 @@ pendingPagesList.innerHTML += `
 
 <p><strong>Status:</strong> ${data.status}</p>
 
-<button class="approve">✅ Approve</button>
+<button class="approve" data-id="${doc.id}">✅ Approve</button>
 
 <button class="reject">❌ Reject</button>
 
