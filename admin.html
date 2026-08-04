@@ -261,67 +261,7 @@ border-radius:5px;">
 
 </div>
 <script type="module">
-document.addEventListener("click", async (e) => {
 
-  if (e.target.classList.contains("approve")) {
-document.addEventListener("click", async (e) => {
-
-  if (e.target.classList.contains("reject")) {
-document.addEventListener("click", async (e) => {
-
-  if (e.target.classList.contains("delete")) {
-
-    const id = e.target.dataset.id;
-
-    if (!confirm("Are you sure you want to permanently delete this page?")) return;
-
-    await deleteDoc(doc(db, "pendingPages", id));
-
-    alert("Page Deleted Successfully!");
-
-    location.reload();
-
-  }
-
-});
-    const id = e.target.dataset.id;
-
-    const page = snapshot.docs.find(d => d.id === id);
-
-    if (!page) return;
-
-    const data = page.data();
-
-    await addDoc(collection(db, "rejectedPages"), data);
-
-    await deleteDoc(doc(db, "pendingPages", id));
-
-    alert("Page Rejected Successfully!");
-
-    location.reload();
-
-  }
-
-});
-    const id = e.target.dataset.id;
-
-    const page = snapshot.docs.find(d => d.id === id);
-
-    if (!page) return;
-
-    const data = page.data();
-
-    await addDoc(collection(db, "approvedPages"), data);
-
-    await deleteDoc(doc(db, "pendingPages", id));
-
-    alert("Page Approved Successfully!");
-
-    location.reload();
-
-  }
-
-});
 import { db } from "./firebase.js";
 
 import {
@@ -333,28 +273,17 @@ doc,
 getCountFromServer
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-alert("Admin Panel Connected");
-
-const pendingCount = await getCountFromServer(collection(db,"pendingPages"));
-document.getElementById("pendingCount").innerText = pendingCount.data().count;
-
-const approvedCount = await getCountFromServer(collection(db,"approvedPages"));
-document.getElementById("approvedCount").innerText = approvedCount.data().count;
-
-const totalPages =
-pendingCount.data().count + approvedCount.data().count;
-
-document.getElementById("totalPagesCount").innerText = totalPages;
-
-const snapshot = await getDocs(pendingRef);
+const pendingRef = collection(db,"pendingPages");
 
 const pendingPagesList = document.getElementById("pendingPagesList");
 
+const snapshot = await getDocs(pendingRef);
+
 pendingPagesList.innerHTML = "";
 
-snapshot.forEach((doc) => {
+snapshot.forEach((page)=>{
 
-const data = doc.data();
+const data = page.data();
 
 pendingPagesList.innerHTML += `
 
@@ -372,13 +301,11 @@ pendingPagesList.innerHTML += `
 
 <p><strong>Location:</strong> ${data.location}</p>
 
-<p><strong>Status:</strong> ${data.status}</p>
+<button class="approve" data-id="${page.id}">✅ Approve</button>
 
-<button class="approve" data-id="${doc.id}">✅ Approve</button>
+<button class="reject" data-id="${page.id}">❌ Reject</button>
 
-<button class="reject" data-id="${doc.id}">❌ Reject</button>
-
-<button class="delete" data-id="${doc.id}">🗑 Delete</button>
+<button class="delete" data-id="${page.id}">🗑 Delete</button>
 
 </div>
 
@@ -386,6 +313,74 @@ pendingPagesList.innerHTML += `
 
 });
 
-  </script>
+const pendingCount =
+await getCountFromServer(collection(db,"pendingPages"));
+
+document.getElementById("pendingCount").innerText =
+pendingCount.data().count;
+
+const approvedCount =
+await getCountFromServer(collection(db,"approvedPages"));
+
+document.getElementById("approvedCount").innerText =
+approvedCount.data().count;
+
+document.getElementById("totalPagesCount").innerText =
+pendingCount.data().count + approvedCount.data().count;
+
+document.addEventListener("click", async(e)=>{
+
+const id = e.target.dataset.id;
+
+if(!id) return;
+
+const page =
+snapshot.docs.find(d=>d.id===id);
+
+if(!page) return;
+
+const data = page.data();
+
+if(e.target.classList.contains("approve")){
+
+await addDoc(collection(db,"approvedPages"),data);
+
+await deleteDoc(doc(db,"pendingPages",id));
+
+alert("Approved Successfully");
+
+location.reload();
+
+}
+
+if(e.target.classList.contains("reject")){
+
+await addDoc(collection(db,"rejectedPages"),data);
+
+await deleteDoc(doc(db,"pendingPages",id));
+
+alert("Rejected Successfully");
+
+location.reload();
+
+}
+
+if(e.target.classList.contains("delete")){
+
+if(confirm("Delete this page permanently?")){
+
+await deleteDoc(doc(db,"pendingPages",id));
+
+alert("Deleted Successfully");
+
+location.reload();
+
+}
+
+}
+
+});
+
+</script>
 </body>
 </html>
