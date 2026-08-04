@@ -145,39 +145,35 @@ color:white;
 
 <div class="stat-box">
 
-<h2>0</h2>
-
+<h2 id="pendingCount">0</h2>
 <p>Pending Pages</p>
 
 </div>
 
 <div class="stat-box">
 
-<h2>0</h2>
-
+<h2 id="approvedCount">0</h2>
 <p>Approved Pages</p>
 
 </div>
 
 <div class="stat-box">
 
-<h2>0</h2>
-
+<h2 id="usersCount">0</h2>
 <p>Users</p>
 
 </div>
 
 <div class="stat-box">
 
-<h2>0</h2>
-
+  <h2 id="reportsCount">0</h2>
 <p>Reports</p>
 
 </div>
 <div class="stat-box">
 
-<h2>0</h2>
 
+<h2 id="totalPagesCount">0</h2>
 <p>Total Pages</p>
 
 </div>
@@ -333,7 +329,8 @@ collection,
 getDocs,
 addDoc,
 deleteDoc,
-doc
+doc,
+getCountFromServer
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 alert("Admin Panel Connected");
