@@ -100,16 +100,17 @@ approvedPagesList.innerHTML += `
 
 <button class="view"
 onclick="location.href='business.html?id=${page.id}'">
-
 👁 View
+</button>
 
+<button class="edit"
+onclick="location.href='edit-page.html?id=${page.id}'">
+✏ Edit
 </button>
 
 <button class="delete"
 data-id="${page.id}">
-
 🗑 Delete
-
 </button>
 
 </div>
