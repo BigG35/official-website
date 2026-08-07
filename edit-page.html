@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Business Page</title>
+
+<style>
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+margin:0;
+padding:20px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.2);
+}
+
+h1{
+text-align:center;
+color:#0a4ea3;
+}
+
+input,textarea{
+width:100%;
+padding:12px;
+margin:10px 0;
+border:1px solid #ccc;
+border-radius:5px;
+}
+
+button{
+width:100%;
+padding:15px;
+background:#0a4ea3;
+color:white;
+border:none;
+border-radius:5px;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Edit Business Page</h1>
+
+<input id="pageName" placeholder="Business Name">
+
+<input id="category" placeholder="Category">
+
+<textarea id="description" placeholder="Description"></textarea>
+
+<input id="phone" placeholder="Phone">
+
+<input id="email" placeholder="Email">
+
+<input id="location" placeholder="Location">
+
+<input id="address" placeholder="Address">
+
+<button id="saveBtn">💾 Save Changes</button>
+
+</div>
+
+<script type="module">
+
+import { db } from "./firebase.js";
+
+import {
+doc,
+getDoc,
+updateDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+const params=new URLSearchParams(window.location.search);
+
+const id=params.get("id");
+
+const refDoc=doc(db,"approvedPages",id);
+
+const snap=await getDoc(refDoc);
+
+if(snap.exists()){
+
+const data=snap.data();
+
+pageName.value=data.pageName||"";
+
+category.value=data.category||"";
+
+description.value=data.description||"";
+
+phone.value=data.phone||"";
+
+email.value=data.email||"";
+
+location.value=data.location||"";
+
+address.value=data.address||"";
+
+}
+
+saveBtn.onclick=async()=>{
+
+await updateDoc(refDoc,{
+
+pageName:pageName.value,
+
+category:category.value,
+
+description:description.value,
+
+phone:phone.value,
+
+email:email.value,
+
+location:location.value,
+
+address:address.value
+
+});
+
+alert("Business page updated successfully.");
+
+location.href="approved-pages.html";
+
+};
+
+</script>
+
+</body>
+</html>
