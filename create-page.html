@@ -214,14 +214,18 @@ Status: Pending Admin Approval
 </div>
 <script type="module">
 
-import { db } from "./firebase.js";
+import { db, storage } from "./firebase.js";
 
 import {
 collection,
 addDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-alert("JavaScript is running");
+import {
+ref,
+uploadBytes,
+getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 const form = document.getElementById("createPageForm");
 
@@ -229,41 +233,76 @@ form.addEventListener("submit", async (e) => {
 
 e.preventDefault();
 
-try{
+try {
 
-await addDoc(collection(db,"pendingPages"),{
+const logoFile =
+document.getElementById("pageLogo").files[0];
 
-pageType: document.getElementById("pageType").value,
+if (!logoFile) {
 
-pageName: document.getElementById("pageName").value,
+alert("Please select a business logo.");
 
-category: document.getElementById("category").value,
+return;
 
-description: document.getElementById("description").value,
+}
 
-phone: document.getElementById("phone").value,
+/* Upload logo */
 
-email: document.getElementById("email").value,
+const logoRef = ref(
+storage,
+"pageLogos/" + Date.now() + "_" + logoFile.name
+);
 
-location: document.getElementById("location").value,
+await uploadBytes(logoRef, logoFile);
 
-address: document.getElementById("address").value,
+const logoURL =
+await getDownloadURL(logoRef);
 
-status:"Pending",
+/* Save page information */
 
-createdAt:new Date()
+await addDoc(collection(db, "pendingPages"), {
+
+pageType:
+document.getElementById("pageType").value,
+
+pageName:
+document.getElementById("pageName").value,
+
+category:
+document.getElementById("category").value,
+
+description:
+document.getElementById("description").value,
+
+phone:
+document.getElementById("phone").value,
+
+email:
+document.getElementById("email").value,
+
+location:
+document.getElementById("location").value,
+
+address:
+document.getElementById("address").value,
+
+logoURL: logoURL,
+
+status: "Pending",
+
+createdAt: new Date()
 
 });
 
-document.getElementById("submitMessage").style.display="block";
+document.getElementById("submitMessage").style.display = "block";
 
 form.reset();
 
-alert("Page Submitted Successfully");
+alert("Page Submitted Successfully!");
 
-}catch(error){
+} catch (error) {
 
-alert("Error: " + error.message);
+alert("Error submitting page: " + error.message);
 
 console.error(error);
 
