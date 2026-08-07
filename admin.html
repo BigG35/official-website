@@ -241,7 +241,31 @@ border-radius:5px;">
 
 </div>
 <script type="module">
+import { auth } from "./firebase.js";
 
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+onAuthStateChanged(auth,(user)=>{
+
+if(!user){
+
+location.href="login.html";
+
+return;
+
+}
+
+if(user.email!=="alagoagodstime@gmail.com"){
+
+alert("Access Denied!");
+
+location.href="index.html";
+
+}
+
+});
 import { db } from "./firebase.js";
 
 import {
