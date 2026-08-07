@@ -213,82 +213,58 @@ import { db } from "./firebase.js";
 import {
 collection,
 addDoc
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-import {
-ref,
-uploadBytes,
-getDownloadURL
-}
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
-
-import {
-db,
-storage
-} from "./firebase.js";
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 alert("JavaScript is running");
 
 const form = document.getElementById("createPageForm");
 
-
 form.addEventListener("submit", async (e) => {
 
-  e.preventDefault();
+e.preventDefault();
 
-  try {
+try{
 
-const logoFile = document.getElementById("pageLogo").files[0];
+await addDoc(collection(db,"pendingPages"),{
 
-const logoRef = ref(storage, "pageLogos/" + Date.now() + "_" + logoFile.name);
+pageType: document.getElementById("pageType").value,
 
-await uploadBytes(logoRef, logoFile);
+pageName: document.getElementById("pageName").value,
 
-const logoURL = await getDownloadURL(logoRef);
-    await addDoc(collection(db, "pendingPages"), {
-      pageName: document.getElementById("pageName").value,
+category: document.getElementById("category").value,
 
-      category: document.getElementById("category").value,
+description: document.getElementById("description").value,
 
-      description: document.getElementById("description").value,
+phone: document.getElementById("phone").value,
 
-      phone: document.getElementById("phone").value,
+email: document.getElementById("email").value,
 
-      email: document.getElementById("email").value,
+location: document.getElementById("location").value,
 
-      location: document.getElementById("location").value,
+address: document.getElementById("address").value,
 
-      address: document.getElementById("address").value,
+status:"Pending",
 
-logoURL: logoURL,
+createdAt:new Date()
 
-status: "Pending",
+});
 
-      createdAt: new Date()
+document.getElementById("submitMessage").style.display="block";
 
-    });
+form.reset();
 
-    document.getElementById("submitMessage").style.display = "block";
+alert("Page Submitted Successfully");
 
-    form.reset();
+}catch(error){
 
-    window.scrollTo({
-      top: document.body.scrollHeight,
-      behavior: "smooth"
-    });
+alert("Error: " + error.message);
 
-  } catch (error) {
+console.error(error);
 
-    alert("Error submitting page: " + error.message);
-
-    console.error(error);
-
-  }
+}
 
 });
 
 </script>
-
 </body>
 </html>
