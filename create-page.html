@@ -173,9 +173,7 @@ placeholder="Describe your business"></textarea>
 <textarea id="address" placeholder="Enter your full business address"></textarea>
 
 <label>Upload Photos</label>
-
-<input
-type="file"
+  
 id="galleryPhotos"
 accept="image/*"
 multiple>
@@ -228,9 +226,7 @@ getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 const form = document.getElementById("createPageForm");
-alert("Create Page JavaScript is working");
 form.addEventListener("submit", async (e) => {
-alert("Submit button detected");
 e.preventDefault();
 
 try {
