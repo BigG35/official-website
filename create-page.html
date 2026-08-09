@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -55,7 +56,6 @@ padding:12px;
 margin-top:5px;
 border:1px solid #ccc;
 border-radius:5px;
-box-sizing:border-box;
 }
 
 textarea{
@@ -75,14 +75,11 @@ font-size:18px;
 cursor:pointer;
 }
 
-button:hover{
-background:#083d82;
-}
-
 .successBox{
 display:none;
-margin-top:20px;
-padding:15px;
+margin:20px auto;
+max-width:800px;
+padding:20px;
 background:#e8f5e9;
 border:1px solid #4CAF50;
 border-radius:8px;
@@ -114,13 +111,9 @@ text-align:center;
 <select id="pageType" required>
 
 <option value="">Select Page Type</option>
-
 <option>Business Page</option>
-
 <option>Personal Page</option>
-
 <option>Organization</option>
-
 <option>Community</option>
 
 </select>
@@ -160,49 +153,71 @@ required>
 <textarea
 id="description"
 placeholder="Describe your business"></textarea>
-  <label>Phone Number</label>
-<input type="tel" id="phone">
+
+<label>Phone Number</label>
+
+<input
+type="tel"
+id="phone">
 
 <label>Email</label>
-<input type="email" id="email">
+
+<input
+type="email"
+id="email">
 
 <label>Location</label>
-<input type="text" id="location">
+
+<input
+type="text"
+id="location">
 
 <label>Business Address</label>
-<textarea id="address" placeholder="Enter your full business address"></textarea>
+
+<textarea
+id="address"
+placeholder="Enter your full business address"></textarea>
 
 <label>Upload Photos</label>
-  <input
+
+<input
 type="file"
 id="galleryPhotos"
 accept="image/*"
 multiple>
-<input type="file" multiple>
 
 <label>Upload Videos</label>
-<input type="file" multiple>
+
+<input
+type="file"
+id="pageVideos"
+accept="video/*"
+multiple>
 
 <label style="display:flex;align-items:center;gap:10px;margin-top:20px;">
-<input type="checkbox" required>
+
+<input
+type="checkbox"
+id="terms"
+required>
+
 <span>
 I agree to the Logical World Terms & Conditions and understand that my page will be reviewed before it becomes public.
 </span>
+
 </label>
 
 <button type="submit">
-Submit For Approval
-</button>
 
-<p id="pageStatus" style="margin-top:15px;color:#0a4ea3;font-weight:bold;">
-Status: Pending Admin Approval
-</p>
+Submit For Approval
+
+</button>
 
 </form>
 
 </div>
 
-<div id="submitMessage" style="display:none;margin-top:20px;padding:15px;background:#e8f5e9;border:1px solid #4CAF50;border-radius:8px;text-align:center;">
+<div id="submitMessage" class="successBox">
 
 <h3>✅ Page Submitted Successfully</h3>
 
@@ -210,103 +225,111 @@ Status: Pending Admin Approval
 
 <p>It will remain hidden until it is approved.</p>
 
-</div>
-<script type="module">
+  </div>
+  <script type="module">
 
 import { db, storage } from "./firebase.js";
 
 import {
-collection,
-addDoc
+  collection,
+  addDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 import {
-ref,
-uploadBytes,
-getDownloadURL
+  ref,
+  uploadBytes,
+  getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 const form = document.getElementById("createPageForm");
+
 form.addEventListener("submit", async (e) => {
-e.preventDefault();
 
-try {
+  e.preventDefault();
 
-const logoFile =
-document.getElementById("pageLogo").files[0];
+  try {
 
-if (!logoFile) {
+    const logoFile =
+      document.getElementById("pageLogo").files[0];
 
-alert("Please select a business logo.");
+    if (!logoFile) {
+      alert("Please select a page logo.");
+      return;
+    }
 
-return;
+    /* Upload logo */
 
-}
+    const logoRef = ref(
+      storage,
+      "pageLogos/" + Date.now() + "_" + logoFile.name
+    );
 
-/* Upload logo */
+    await uploadBytes(logoRef, logoFile);
 
-const logoRef = ref(
-storage,
-"pageLogos/" + Date.now() + "_" + logoFile.name
-);
+    const logoURL =
+      await getDownloadURL(logoRef);
 
-await uploadBytes(logoRef, logoFile);
+    /* Save page to Firestore */
 
-const logoURL =
-await getDownloadURL(logoRef);
+    const pageData = {
 
-/* Save page information */
+      pageType:
+        document.getElementById("pageType").value,
 
-await addDoc(collection(db, "pendingPages"), {
+      pageName:
+        document.getElementById("pageName").value,
 
-pageType:
-document.getElementById("pageType").value,
+      category:
+        document.getElementById("category").value,
 
-pageName:
-document.getElementById("pageName").value,
+      description:
+        document.getElementById("description").value,
 
-category:
-document.getElementById("category").value,
+      phone:
+        document.getElementById("phone").value,
 
-description:
-document.getElementById("description").value,
+      email:
+        document.getElementById("email").value,
 
-phone:
-document.getElementById("phone").value,
+      location:
+        document.getElementById("location").value,
 
-email:
-document.getElementById("email").value,
+      address:
+        document.getElementById("address").value,
 
-location:
-document.getElementById("location").value,
+      logoURL: logoURL,
 
-address:
-document.getElementById("address").value,
+      status: "Pending",
 
-logoURL: logoURL,
+      createdAt: new Date()
 
-status: "Pending",
+    };
 
-createdAt: new Date()
+    await addDoc(
+      collection(db, "pendingPages"),
+      pageData
+    );
 
-});
+    form.style.display = "none";
 
-document.getElementById("submitMessage").style.display = "block";
-form.style.display = "none";
-form.reset();
+    document.getElementById(
+      "submitMessage"
+    ).style.display = "block";
 
-alert("Page Submitted Successfully!");
+  } catch (error) {
 
-} catch (error) {
+    console.error(error);
 
-alert("Error submitting page: " + error.message);
+    alert(
+      "Error submitting page: " +
+      error.message
+    );
 
-console.error(error);
-
-}
+  }
 
 });
 
 </script>
+
 </body>
-</html>
+  </html>
