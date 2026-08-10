@@ -226,22 +226,19 @@ Submit For Approval
 <p>It will remain hidden until it is approved.</p>
 
   </div>
-  <script type="module">
+ <script type="module">
 
-import { db, storage } from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
   collection,
-  addDoc
+  addDoc,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
-
 const form = document.getElementById("createPageForm");
+
+alert("Create Page connected to Firebase");
 
 form.addEventListener("submit", async (e) => {
 
@@ -249,59 +246,27 @@ form.addEventListener("submit", async (e) => {
 
   try {
 
-    const logoFile =
-      document.getElementById("pageLogo").files[0];
-
-    if (!logoFile) {
-      alert("Please select a page logo.");
-      return;
-    }
-
-    /* Upload logo */
-
-    const logoRef = ref(
-      storage,
-      "pageLogos/" + Date.now() + "_" + logoFile.name
-    );
-
-    await uploadBytes(logoRef, logoFile);
-
-    const logoURL =
-      await getDownloadURL(logoRef);
-
-    /* Save page to Firestore */
-
     const pageData = {
 
-      pageType:
-        document.getElementById("pageType").value,
+      pageType: document.getElementById("pageType").value,
 
-      pageName:
-        document.getElementById("pageName").value,
+      pageName: document.getElementById("pageName").value,
 
-      category:
-        document.getElementById("category").value,
+      category: document.getElementById("category").value,
 
-      description:
-        document.getElementById("description").value,
+      description: document.getElementById("description").value,
 
-      phone:
-        document.getElementById("phone").value,
+      phone: document.getElementById("phone").value,
 
-      email:
-        document.getElementById("email").value,
+      email: document.getElementById("email").value,
 
-      location:
-        document.getElementById("location").value,
+      location: document.getElementById("location").value,
 
-      address:
-        document.getElementById("address").value,
-
-      logoURL: logoURL,
+      address: document.getElementById("address").value,
 
       status: "Pending",
 
-      createdAt: new Date()
+      createdAt: serverTimestamp()
 
     };
 
@@ -312,18 +277,15 @@ form.addEventListener("submit", async (e) => {
 
     form.style.display = "none";
 
-    document.getElementById(
-      "submitMessage"
-    ).style.display = "block";
+    document.getElementById("submitMessage").style.display = "block";
+
+    alert("Page submitted successfully!");
 
   } catch (error) {
 
-    console.error(error);
+    console.error("Firestore error:", error);
 
-    alert(
-      "Error submitting page: " +
-      error.message
-    );
+    alert("Submission error: " + error.message);
 
   }
 
