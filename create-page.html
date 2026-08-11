@@ -229,8 +229,14 @@ Submit For Approval
  <script type="module">
 
 import { db } from "./firebase.js";
-
+import { storage } from "./firebase.js";
 import {
+  
+  import {
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
   collection,
   addDoc,
   serverTimestamp
@@ -244,7 +250,7 @@ form.addEventListener("submit", async (e) => {
 
   e.preventDefault();
 
-  try {
+    try {
 
     const pageData = {
 
@@ -270,18 +276,63 @@ form.addEventListener("submit", async (e) => {
 
     };
 
-    await addDoc(
+    // Save page FIRST
+    const pageRef = await addDoc(
       collection(db, "pendingPages"),
       pageData
     );
 
+    // Try logo upload separately
+    const logoFile =
+      document.getElementById("pageLogo").files[0];
+
+    if (logoFile) {
+
+      try {
+
+        const logoRef = ref(
+          storage,
+          "pageLogos/" + pageRef.id + "_" + logoFile.name
+        );
+
+        await uploadBytes(logoRef, logoFile);
+
+        const logoURL =
+          await getDownloadURL(logoRef);
+
+        console.log("Logo uploaded:", logoURL);
+
+      } catch (logoError) {
+
+        console.error(
+          "Logo upload failed:",
+          logoError
+        );
+
+        alert(
+          "Page submitted successfully, but the logo could not be uploaded."
+        );
+
+      }
+
+    }
+
     form.style.display = "none";
 
-    document.getElementById("submitMessage").style.display = "block";
+    document.getElementById(
+      "submitMessage"
+    ).style.display = "block";
 
     alert("Page submitted successfully!");
 
   } catch (error) {
+
+    console.error("Firestore error:", error);
+
+    alert(
+      "Submission error: " +
+      error.message
+    );
 
     console.error("Firestore error:", error);
 
