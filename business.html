@@ -145,10 +145,14 @@ const docRef = doc(db,"approvedPages",id);
 
 const docSnap = await getDoc(docRef);
 
-if(docSnap.exists()){
+if(VT.exists()){
 
 const data = docSnap.data();
+const logo = document.getElementById("businessLogo");
 
+if (data.logoURL) {
+  logo.src = data.logoURL;
+  }
 document.getElementById("businessName").innerText = data.pageName || "";
 
 document.getElementById("category").innerText = data.category || "";
