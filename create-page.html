@@ -249,23 +249,14 @@ form.addEventListener("submit", async (e) => {
     const pageData = {
 
       pageType: document.getElementById("pageType").value,
-
       pageName: document.getElementById("pageName").value,
-
       category: document.getElementById("category").value,
-
       description: document.getElementById("description").value,
-
       phone: document.getElementById("phone").value,
-
       email: document.getElementById("email").value,
-
       location: document.getElementById("location").value,
-
       address: document.getElementById("address").value,
-
       status: "Pending",
-
       createdAt: serverTimestamp()
 
     };
@@ -277,26 +268,20 @@ form.addEventListener("submit", async (e) => {
 
     form.style.display = "none";
 
-    document.getElementById(
-      "submitMessage"
-    ).style.display = "block";
+    document.getElementById("submitMessage").style.display = "block";
 
     alert("Page submitted successfully!");
 
   } catch (error) {
 
-    console.error("Firestore error:", error);
+    console.error(error);
 
-    alert(
-      "Submission error: " +
-      error.message
-    );
+    alert("Submission error: " + error.message);
 
   }
 
 });
 
   </script>
-
 </body>
   </html>
