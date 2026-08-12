@@ -227,10 +227,11 @@ Submit For Approval
 
   </div>
 <script type="module">
-
-import { db } from "./firebase.js";
-const CLOUDINARY_CLOUD_NAME = "YOUR_CLOUD_NAME";
+  import { db } from "./firebase.js";
+  
+const CLOUDINARY_CLOUD_NAME = "rkcnhhdb";
 const CLOUDINARY_UPLOAD_PRESET = "logicalworld_pages";
+  
 import {
   collection,
   addDoc,
@@ -266,7 +267,39 @@ form.addEventListener("submit", async (e) => {
       collection(db, "pendingPages"),
       pageData
     );
+const logoFile =
+  document.getElementById("pageLogo").files[0];
 
+if (logoFile) {
+
+  const uploadData = new FormData();
+
+  uploadData.append("file", logoFile);
+  uploadData.append(
+    "upload_preset",
+    CLOUDINARY_UPLOAD_PRESET
+  );
+
+  const cloudinaryResponse = await fetch(
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+    {
+      method: "POST",
+      body: uploadData
+    }
+  );
+
+  if (!cloudinaryResponse.ok) {
+    throw new Error("Logo upload failed.");
+  }
+
+  const cloudinaryData =
+    await cloudinaryResponse.json();
+
+  console.log(
+    "Logo URL:",
+    cloudinaryData.secure_url
+  );
+  }
     form.style.display = "none";
 
     document.getElementById("submitMessage").style.display = "block";
