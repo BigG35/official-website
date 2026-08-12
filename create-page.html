@@ -226,21 +226,23 @@ Submit For Approval
 <p>It will remain hidden until it is approved.</p>
 
   </div>
- <script type="module">
+<script type="module">
 
-import { db } from "./firebase.js";
-import { storage } from "./firebase.js";
+import { db, storage } from "./firebase.js";
+
 import {
-  
-  import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+import {
   ref,
   uploadBytes,
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
-  collection,
-  addDoc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const form = document.getElementById("createPageForm");
 
@@ -250,8 +252,9 @@ form.addEventListener("submit", async (e) => {
 
   e.preventDefault();
 
-    try {
+  try {
 
+    // 1. Save the page FIRST
     const pageData = {
 
       pageType: document.getElementById("pageType").value,
@@ -276,13 +279,12 @@ form.addEventListener("submit", async (e) => {
 
     };
 
-    // Save page FIRST
     const pageRef = await addDoc(
       collection(db, "pendingPages"),
       pageData
     );
 
-    // Try logo upload separately
+    // 2. Upload logo AFTER page is saved
     const logoFile =
       document.getElementById("pageLogo").files[0];
 
@@ -300,17 +302,23 @@ form.addEventListener("submit", async (e) => {
         const logoURL =
           await getDownloadURL(logoRef);
 
-        console.log("Logo uploaded:", logoURL);
+        // 3. Add logo URL to the existing page
+        await updateDoc(
+          doc(db, "pendingPages", pageRef.id),
+          {
+            logoURL: logoURL
+          }
+        );
+
+        alert("Page and logo uploaded successfully!");
 
       } catch (logoError) {
 
-        console.error(
-          "Logo upload failed:",
-          logoError
-        );
+        console.error("Logo upload error:", logoError);
 
         alert(
-          "Page submitted successfully, but the logo could not be uploaded."
+          "Page was submitted, but the logo upload failed: " +
+          logoError.message
         );
 
       }
@@ -323,20 +331,14 @@ form.addEventListener("submit", async (e) => {
       "submitMessage"
     ).style.display = "block";
 
-    alert("Page submitted successfully!");
-
   } catch (error) {
 
-    console.error("Firestore error:", error);
+    console.error("Submission error:", error);
 
     alert(
       "Submission error: " +
       error.message
     );
-
-    console.error("Firestore error:", error);
-
-    alert("Submission error: " + error.message);
 
   }
 
