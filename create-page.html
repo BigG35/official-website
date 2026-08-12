@@ -235,6 +235,8 @@ const CLOUDINARY_UPLOAD_PRESET = "logicalworld_pages";
 import {
   collection,
   addDoc,
+  updateDoc,
+  doc,
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
@@ -263,10 +265,10 @@ form.addEventListener("submit", async (e) => {
 
     };
 
-    await addDoc(
-      collection(db, "pendingPages"),
-      pageData
-    );
+    const pageRef = await addDoc(
+  collection(db, "pendingPages"),
+  pageData
+);
 const logoFile =
   document.getElementById("pageLogo").files[0];
 
@@ -295,10 +297,12 @@ if (logoFile) {
   const cloudinaryData =
     await cloudinaryResponse.json();
 
-  console.log(
-    "Logo URL:",
-    cloudinaryData.secure_url
-  );
+  await updateDoc(
+  doc(db, "pendingPages", pageRef.id),
+  {
+    logoURL: cloudinaryData.secure_url
+  }
+);
   }
     form.style.display = "none";
 
