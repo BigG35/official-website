@@ -228,21 +228,13 @@ Submit For Approval
   </div>
 <script type="module">
 
-import { db, storage } from "./firebase.js";
+import { db } from "./firebase.js";
 
 import {
   collection,
   addDoc,
-  serverTimestamp,
-  updateDoc,
-  doc
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-import {
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-storage.js";
 
 const form = document.getElementById("createPageForm");
 
@@ -254,7 +246,6 @@ form.addEventListener("submit", async (e) => {
 
   try {
 
-    // 1. Save the page FIRST
     const pageData = {
 
       pageType: document.getElementById("pageType").value,
@@ -279,51 +270,10 @@ form.addEventListener("submit", async (e) => {
 
     };
 
-    const pageRef = await addDoc(
+    await addDoc(
       collection(db, "pendingPages"),
       pageData
     );
-
-    // 2. Upload logo AFTER page is saved
-    const logoFile =
-      document.getElementById("pageLogo").files[0];
-
-    if (logoFile) {
-
-      try {
-
-        const logoRef = ref(
-          storage,
-          "pageLogos/" + pageRef.id + "_" + logoFile.name
-        );
-
-        await uploadBytes(logoRef, logoFile);
-
-        const logoURL =
-          await getDownloadURL(logoRef);
-
-        // 3. Add logo URL to the existing page
-        await updateDoc(
-          doc(db, "pendingPages", pageRef.id),
-          {
-            logoURL: logoURL
-          }
-        );
-
-        alert("Page and logo uploaded successfully!");
-
-      } catch (logoError) {
-
-        console.error("Logo upload error:", logoError);
-
-        alert(
-          "Page was submitted, but the logo upload failed: " +
-          logoError.message
-        );
-
-      }
-
-    }
 
     form.style.display = "none";
 
@@ -331,9 +281,11 @@ form.addEventListener("submit", async (e) => {
       "submitMessage"
     ).style.display = "block";
 
+    alert("Page submitted successfully!");
+
   } catch (error) {
 
-    console.error("Submission error:", error);
+    console.error("Firestore error:", error);
 
     alert(
       "Submission error: " +
@@ -344,7 +296,7 @@ form.addEventListener("submit", async (e) => {
 
 });
 
-</script>
+  </script>
 
 </body>
   </html>
