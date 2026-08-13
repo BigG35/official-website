@@ -141,9 +141,13 @@ const id = params.get("id");
 
 if(docSnap.exists()){
 
-const docRef = doc(db,"approvedPages",id);
+const docRef = doc(db, "approvedPages", id);
+
+console.log("Business ID:", id);
 
 const docSnap = await getDoc(docRef);
+
+console.log("Document exists:", docSnap.exists());
 
 if(VT.exists()){
 
