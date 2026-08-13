@@ -35,6 +35,21 @@ border-radius:10px;
 box-shadow:0 2px 10px rgba(0,0,0,.2);
 }
 
+.page-logo{
+width:120px;
+height:120px;
+display:block;
+margin:0 auto 15px auto;
+border-radius:50%;
+object-fit:cover;
+cursor:pointer;
+transition:transform .2s;
+}
+
+.page-logo:hover{
+transform:scale(1.05);
+}
+
 button{
 padding:10px 15px;
 border:none;
@@ -49,9 +64,47 @@ background:#0a4ea3;
 color:white;
 }
 
+.edit{
+background:#555;
+color:white;
+}
+
 .delete{
 background:red;
 color:white;
+}
+
+
+/* FULL LOGO VIEW */
+
+.logoModal{
+display:none;
+position:fixed;
+z-index:9999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.9);
+align-items:center;
+justify-content:center;
+}
+
+.logoModal img{
+max-width:90%;
+max-height:85%;
+object-fit:contain;
+border-radius:10px;
+}
+
+.closeLogo{
+position:absolute;
+top:20px;
+right:25px;
+font-size:40px;
+color:white;
+cursor:pointer;
+font-weight:bold;
 }
 
 </style>
@@ -63,6 +116,30 @@ color:white;
 <h1>Approved Business Pages</h1>
 
 <div id="approvedPagesList"></div>
+
+
+<!-- FULL LOGO MODAL -->
+
+<div
+id="logoModal"
+class="logoModal"
+>
+
+<span
+class="closeLogo"
+id="closeLogo"
+>
+&times;
+</span>
+
+<img
+id="fullLogo"
+src=""
+alt="Full Logo"
+>
+
+</div>
+
 
 <script type="module">
 
@@ -76,40 +153,102 @@ doc
 }
 from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
 const approvedPagesList =
 document.getElementById("approvedPagesList");
 
+
+const logoModal =
+document.getElementById("logoModal");
+
+
+const fullLogo =
+document.getElementById("fullLogo");
+
+
+const closeLogo =
+document.getElementById("closeLogo");
+
+
+/* =========================
+   LOAD APPROVED PAGES
+========================= */
+
 const snapshot =
-await getDocs(collection(db,"approvedPages"));
+await getDocs(
+collection(db,"approvedPages")
+);
+
 
 snapshot.forEach((page)=>{
 
-const data = page.data();
+const data =
+page.data();
+
+
+/* LOGO */
+
+const logoHTML =
+data.logoURL
+
+?
+
+`
+<img
+src="${data.logoURL}"
+class="page-logo"
+alt="${data.pageName || "Business Logo"}"
+data-logo="${data.logoURL}"
+>
+`
+
+:
+
+"";
+
 
 approvedPagesList.innerHTML += `
 
 <div class="card">
 
-<h2>${data.pageName}</h2>
+${logoHTML}
 
-<p><strong>Category:</strong> ${data.category}</p>
+<h2>
+${data.pageName || ""}
+</h2>
 
-<p>${data.description}</p>
+<p>
+<strong>Category:</strong>
+${data.category || ""}
+</p>
 
-<p><strong>Location:</strong> ${data.location}</p>
+<p>
+${data.description || ""}
+</p>
 
-<button class="view"
-onclick="location.href='business.html?id=${page.id}'">
+<p>
+<strong>Location:</strong>
+${data.location || ""}
+</p>
+
+<button
+class="view"
+onclick="location.href='business.html?id=${page.id}'"
+>
 👁 View
 </button>
 
-<button class="edit"
-onclick="location.href='edit-page.html?id=${page.id}'">
+<button
+class="edit"
+onclick="location.href='edit-page.html?id=${page.id}'"
+>
 ✏ Edit
 </button>
 
-<button class="delete"
-data-id="${page.id}">
+<button
+class="delete"
+data-id="${page.id}"
+>
 🗑 Delete
 </button>
 
@@ -119,21 +258,99 @@ data-id="${page.id}">
 
 });
 
-document.addEventListener("click",async(e)=>{
 
-if(e.target.classList.contains("delete")){
+/* =========================
+   TAP LOGO
+========================= */
 
-const id=e.target.dataset.id;
+document.addEventListener(
+"click",
+async(e)=>{
 
-if(confirm("Delete this approved page?")){
 
-await deleteDoc(doc(db,"approvedPages",id));
+/* OPEN FULL LOGO */
 
-alert("Approved page deleted.");
+if(
+e.target.classList.contains("page-logo")
+){
+
+const logoURL =
+e.target.dataset.logo;
+
+
+fullLogo.src =
+logoURL;
+
+
+logoModal.style.display =
+"flex";
+
+}
+
+
+/* DELETE */
+
+if(
+e.target.classList.contains("delete")
+){
+
+const id =
+e.target.dataset.id;
+
+
+if(
+confirm(
+"Delete this approved page?"
+)
+){
+
+await deleteDoc(
+doc(db,"approvedPages",id)
+);
+
+alert(
+"Approved page deleted."
+);
 
 location.reload();
 
 }
+
+}
+
+});
+
+
+/* =========================
+   CLOSE LOGO
+========================= */
+
+closeLogo.addEventListener(
+"click",
+()=>{
+
+logoModal.style.display =
+"none";
+
+fullLogo.src = "";
+
+});
+
+
+/* CLOSE WHEN TAPPING OUTSIDE */
+
+logoModal.addEventListener(
+"click",
+(e)=>{
+
+if(
+e.target === logoModal
+){
+
+logoModal.style.display =
+"none";
+
+fullLogo.src = "";
 
 }
 
