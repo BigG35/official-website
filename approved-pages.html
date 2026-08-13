@@ -270,22 +270,13 @@ async(e)=>{
 
 /* OPEN FULL LOGO */
 
-if(
-e.target.classList.contains("page-logo")
-){
+if (e.target.classList.contains("page-logo")) {
 
-const logoURL =
-e.target.dataset.logo;
+  fullLogo.src = e.target.src;
 
+  logoModal.style.display = "flex";
 
-fullLogo.src =
-logoURL;
-
-
-logoModal.style.display =
-"flex";
-
-}
+   }
 
 
 /* DELETE */
