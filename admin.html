@@ -344,12 +344,28 @@ snapshot.docs.find(d=>d.id===id);
 if(!page) return;
 
 const data = page.data();
-
 if(e.target.classList.contains("approve")){
 
-await addDoc(collection(db,"approvedPages"),data);
+const approvedData = {
+  ...data,
+  status: "Approved",
+  approvedAt: new Date()
+};
 
-await deleteDoc(doc(db,"pendingPages",id));
+await addDoc(
+  collection(db,"approvedPages"),
+  approvedData
+);
+
+await deleteDoc(
+  doc(db,"pendingPages",id)
+);
+
+alert("Approved Successfully");
+
+location.reload();
+
+}
 
 alert("Approved Successfully");
 
