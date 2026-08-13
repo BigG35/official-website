@@ -139,7 +139,7 @@ const params = new URLSearchParams(window.location.search);
 
 const id = params.get("id");
 
-if(id){
+if(docSnap.exists()){
 
 const docRef = doc(db,"approvedPages",id);
 
