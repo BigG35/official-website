@@ -126,74 +126,83 @@ background:#083d82;
 <a href="#" class="button">📤 Share</a>
 
   </div>
-  <script type="module">
+<script type="module">
 
 import { db } from "./firebase.js";
 
 import {
-doc,
-getDoc
+  doc,
+  getDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const params = new URLSearchParams(window.location.search);
-
 const id = params.get("id");
 
-if(docSnap.exists()){
-
-const docRef = doc(db, "approvedPages", id);
-
-console.log("Business ID:", id);
-
-const docSnap = await getDoc(docRef);
-
-console.log("Document exists:", docSnap.exists());
-
-if(VT.exists()){
-
-const data = docSnap.data();
+const businessName = document.getElementById("businessName");
 const logo = document.getElementById("businessLogo");
 
-if (data.logoURL) {
-  logo.src = data.logoURL;
+if (!id) {
+
+  businessName.innerText = "No Business Selected";
+
+} else {
+
+  try {
+
+    const docRef = doc(db, "approvedPages", id);
+    const docSnap = await getDoc(docRef);
+
+    if (!docSnap.exists()) {
+
+      businessName.innerText = "Business Not Found";
+
+    } else {
+
+      const data = docSnap.data();
+
+      businessName.innerText = data.pageName || "";
+
+      document.getElementById("category").innerText =
+        data.category || "";
+
+      document.getElementById("description").innerText =
+        data.description || "";
+
+      document.getElementById("location").innerText =
+        data.location || "";
+
+      document.getElementById("phone").innerText =
+        data.phone || "";
+
+      document.getElementById("email").innerText =
+        data.email || "";
+
+      document.getElementById("address").innerText =
+        data.address || "";
+
+      if (data.logoURL) {
+        logo.src = data.logoURL;
+      }
+
+      if (data.phone) {
+        document.getElementById("whatsappBtn").href =
+          "https://wa.me/" + data.phone.replace(/\D/g, "");
+      }
+
+    }
+
+  } catch (error) {
+
+    console.error("Business loading error:", error);
+
+    businessName.innerText =
+      "Error loading business";
+
   }
-document.getElementById("businessName").innerText = data.pageName || "";
-
-document.getElementById("category").innerText = data.category || "";
-
-document.getElementById("description").innerText = data.description || "";
-
-document.getElementById("location").innerText = data.location || "";
-
-document.getElementById("phone").innerText = data.phone || "";
-
-document.getElementById("email").innerText = data.email || "";
-
-document.getElementById("address").innerText = data.address || "";
-
-if(data.phone){
-
-document.getElementById("whatsappBtn").href =
-"https://wa.me/" + data.phone.replace(/\D/g,"");
 
 }
 
-}else{
-
-document.getElementById("businessName").innerText =
-"Business Not Found";
-
-}
-
-}else{
-
-document.getElementById("businessName").innerText =
-"No Business Selected";
-
-}
-    </script>
-
-</div>
-
+  </script>
+  
 </body>
-</html>
+  </html>
