@@ -23,7 +23,7 @@ line-height:1.6;
 }
 
 header{
-background:#0a4ea3;yes
+background:#0a4ea3;
 color:white;
 padding:20px;
 text-align:center;
@@ -158,6 +158,74 @@ margin-bottom:10px;
 font-size:15px;
 }
 
+
+/* =========================
+   APPROVED BUSINESS PAGES
+========================= */
+
+.business-card{
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.15);
+text-align:center;
+}
+
+.business-link{
+display:block;
+text-decoration:none;
+color:inherit;
+}
+
+.business-logo{
+width:130px;
+height:130px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:0 auto 15px;
+border:3px solid #0a4ea3;
+background:#eee;
+transition:transform .2s;
+}
+
+.business-logo:hover{
+transform:scale(1.05);
+}
+
+.business-name{
+color:#0a4ea3;
+font-size:22px;
+font-weight:bold;
+margin:0;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+#approvedPagesList{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
+}
+
+.business-card{
+padding:12px;
+}
+
+.business-logo{
+width:110px;
+height:110px;
+}
+
+.business-name{
+font-size:17px;
+}
+
+}
+
+
 footer{
 background:#0a4ea3;
 color:white;
@@ -169,193 +237,415 @@ margin-top:50px;
 </style>
 
 </head>
+
+
 <body>
 
-<header>
-   <header>
-    <div class="logo">
-        <h1>🌍 Logical World</h1>
-        <p>Connecting People, Products & Services.</p>
-    </div>
 
-    <div class="search-box">
-        <input type="text" placeholder="Search photos, videos, products, services...">
-        <button>Search</button>
-    </div>
+<header>
+
+<div class="logo">
+
+<h1>🌍 Logical World</h1>
+
+<p>
+Connecting People, Products & Services.
+</p>
+
+</div>
+
+
+<div class="search-box">
+
+<input
+type="text"
+placeholder="Search photos, videos, products, services..."
+>
+
+<button>
+Search
+</button>
+
+</div>
+
 </header>
+
 
 <nav>
-    <a href="index.html">🏠 Home</a>
-    <a href="gallery.html">📸 Gallery</a>
-    <a href="videos.html">🎥 Videos</a>
-    <a href="marketplace.html">🛒 Marketplace</a>
-    <a href="services.html">🏠 Services</a>
-    <a href="contact.html">📞 Contact</a>
-    <a href="login.html">👤 Login</a>
-    <a href="register.html">📝 Register</a>
-</nav> 
-</header>
-   
+
+<a href="index.html">🏠 Home</a>
+
+<a href="gallery.html">📸 Gallery</a>
+
+<a href="videos.html">🎥 Videos</a>
+
+<a href="marketplace.html">🛒 Marketplace</a>
+
+<a href="services.html">🏠 Services</a>
+
+<a href="contact.html">📞 Contact</a>
+
+<a href="login.html">👤 Login</a>
+
+<a href="register.html">📝 Register</a>
+
+</nav>
+
+
 <div class="hero">
-    <div class="hero-content">
-        <h2>Welcome to Logical World</h2>
-        <p>
-            Explore amazing photos, premium videos, quality products,
-            and trusted home services—all in one place.
-        </p>
 
-        <a href="gallery.html" class="button">Explore Now</a>
-       <br><br>
+<div class="hero-content">
 
-<a href="create-page.html" class="button">
+<h2>
+Welcome to Logical World
+</h2>
+
+<p>
+
+Explore amazing photos, premium videos, quality products,
+and trusted home services—all in one place.
+
+</p>
+
+
+<a
+href="gallery.html"
+class="button"
+>
+Explore Now
+</a>
+
+
+<br><br>
+
+
+<a
+href="create-page.html"
+class="button"
+>
 ➕ Create Your Own Page
 </a>
 
-<p style="margin-top:15px;font-size:16px;">
+
+<p
+style="margin-top:15px;font-size:16px;"
+>
+
 All new pages are reviewed by the Logical World Admin before they become public.
+
 </p>
-    </div>
+
 </div>
+
+</div>
+
 
 <section>
 
-<h2 class="section-title">Latest Posts</h2>
+<h2 class="section-title">
+Latest Posts
+</h2>
+
 
 <div class="cards">
 
+
 <div class="card">
-<img src="images/post1.jpg" alt="Latest Post">
-<h3>Latest Post</h3>
+
+<img
+src="images/post1.jpg"
+alt="Latest Post"
+>
+
+<h3>
+Latest Post
+</h3>
+
 <p>
+
 Every photo, video, product or service you publish will appear here with its own description.
+
 </p>
+
 </div>
 
+
 <div class="card">
-<img src="images/post2.jpg" alt="Premium Videos">
-<h3>Premium Videos</h3>
+
+<img
+src="images/post2.jpg"
+alt="Premium Videos"
+>
+
+<h3>
+Premium Videos
+</h3>
+
 <p>
+
 Watch exclusive premium videos by becoming a member of Logical World.
+
 </p>
+
 </div>
 
+
 <div class="card">
-<img src="images/post3.jpg" alt="Marketplace">
-<h3>Marketplace</h3>
+
+<img
+src="images/post3.jpg"
+alt="Marketplace"
+>
+
+<h3>
+Marketplace
+</h3>
+
 <p>
+
 Buy and sell products from different categories in one marketplace.
+
 </p>
+
 </div>
+
 
 </div>
 
 </section>
 
+
 <section>
 
-<h2 class="section-title">Home Services</h2>
+<h2 class="section-title">
+Home Services
+</h2>
+
 
 <div class="cards">
 
-<div class="card">
-<h3>Cleaning Services</h3>
-<p>Book trusted cleaning services easily.</p>
-</div>
 
 <div class="card">
-<h3>Repairs</h3>
-<p>Find reliable repair professionals.</p>
+
+<h3>
+Cleaning Services
+</h3>
+
+<p>
+Book trusted cleaning services easily.
+</p>
+
 </div>
 
+
 <div class="card">
-<h3>Delivery</h3>
-<p>Fast and secure delivery services.</p>
+
+<h3>
+Repairs
+</h3>
+
+<p>
+Find reliable repair professionals.
+</p>
+
 </div>
+
+
+<div class="card">
+
+<h3>
+Delivery
+</h3>
+
+<p>
+Fast and secure delivery services.
+</p>
+
+</div>
+
 
 </div>
 
 </section>
+
+
 <section>
 
-<h2 class="section-title">Contact Us</h2>
+<h2 class="section-title">
+Contact Us
+</h2>
+
 
 <div class="cards">
 
-<div class="card">
-<h3>📞 Phone</h3>
-<p>Your phone number will appear here.</p>
-</div>
 
 <div class="card">
-<h3>📧 Email</h3>
-<p>Your email address will appear here.</p>
+
+<h3>
+📞 Phone
+</h3>
+
+<p>
+Your phone number will appear here.
+</p>
+
 </div>
+
 
 <div class="card">
-<h3>💬 WhatsApp</h3>
-<p>Your WhatsApp contact will appear here.</p>
-</div>
+
+<h3>
+📧 Email
+</h3>
+
+<p>
+Your email address will appear here.
+</p>
 
 </div>
+
+
+<div class="card">
+
+<h3>
+💬 WhatsApp
+</h3>
+
+<p>
+Your WhatsApp contact will appear here.
+</p>
+
+</div>
+
+
+</div>
+
 </section>
+
+
+<!-- APPROVED BUSINESSES -->
 
 <section>
 
-<h2 class="section-title">Approved Business Pages</h2>
+<h2 class="section-title">
+Approved Business Pages
+</h2>
 
-<div id="approvedPagesList" class="cards"></div>
+
+<div
+id="approvedPagesList"
+class="cards"
+>
+</div>
 
 </section>
+
 
 <footer>
 
-<h3>🌍 Logical World</h3>
+<h3>
+🌍 Logical World
+</h3>
 
-<p>Connecting People, Products & Services.</p>
+<p>
+Connecting People, Products & Services.
+</p>
 
 <br>
 
-<p>© 2026 Logical World. All Rights Reserved.</p>
+<p>
+© 2026 Logical World. All Rights Reserved.
+</p>
 
 </footer>
 
+
 <script type="module">
 
-import { db } from "./firebase.js";
+
+import { db }
+from "./firebase.js";
+
 
 import {
 collection,
 getDocs
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const approvedRef = collection(db,"approvedPages");
 
-const snapshot = await getDocs(approvedRef);
+const approvedPagesList =
+document.getElementById(
+"approvedPagesList"
+);
 
-const approvedPagesList = document.getElementById("approvedPagesList");
+
+try{
+
+
+const approvedRef =
+collection(
+db,
+"approvedPages"
+);
+
+
+const snapshot =
+await getDocs(
+approvedRef
+);
+
 
 approvedPagesList.innerHTML = "";
 
-snapshot.forEach((doc)=>{
 
-const data = doc.data();
+snapshot.forEach(
+(page)=>{
+
+
+const data =
+page.data();
+
+
+const businessName =
+data.pageName ||
+"Business";
+
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
+
+const businessURL =
+"business.html?id=" +
+encodeURIComponent(
+page.id
+);
+
+
+/* BUSINESS CARD */
 
 approvedPagesList.innerHTML += `
 
-<div class="card">
+<div class="business-card">
 
-<h3>${data.pageName}</h3>
+<a
+href="${businessURL}"
+class="business-link"
+>
 
-<p><strong>Category:</strong> ${data.category}</p>
+<img
+src="${logoURL}"
+class="business-logo"
+alt="${businessName}"
+>
 
-<p>${data.description}</p>
+<h3 class="business-name">
+${businessName}
+</h3>
 
-<p><strong>Location:</strong> ${data.location}</p>
-
-<p><strong>Phone:</strong> ${data.phone}</p>
-
-<a href="business.html?id=${doc.id}" class="button">
-View Business
 </a>
 
 </div>
@@ -364,6 +654,37 @@ View Business
 
 });
 
-   </script>
+
+}catch(error){
+
+
+console.error(
+"Error loading approved business pages:",
+error
+);
+
+
+approvedPagesList.innerHTML = `
+
+<p
+style="
+text-align:center;
+color:#666;
+grid-column:1/-1;
+"
+>
+
+Unable to load approved business pages.
+
+</p>
+
+`;
+
+}
+
+</script>
+
+
 </body>
-      </html>
+
+   </html>
