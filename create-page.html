@@ -75,6 +75,16 @@ font-size:18px;
 cursor:pointer;
 }
 
+button:hover{
+background:#083d82;
+}
+
+.loginMessage{
+display:none;
+text-align:center;
+padding:25px;
+}
+
 .successBox{
 display:none;
 margin:20px auto;
@@ -90,309 +100,707 @@ text-align:center;
 
 </head>
 
+
 <body>
+
 
 <header>
 
 <h1>Create Your Own Page</h1>
 
-<p>All pages must be approved by the Logical World Admin.</p>
+<p>
+All pages must be approved by the Logical World Admin.
+</p>
 
 </header>
 
-<div class="container">
 
-<h2>Page Information</h2>
+<div
+id="loginMessage"
+class="container loginMessage"
+>
+
+<h2>Login Required</h2>
+
+<p>
+You must login before creating a page.
+</p>
+
+<button
+onclick="location.href='login.html'"
+>
+Go To Login
+</button>
+
+</div>
+
+
+<div
+id="formContainer"
+class="container"
+style="display:none;"
+>
+
+<h2>
+Page Information
+</h2>
+
 
 <form id="createPageForm">
 
-<label>Page Type</label>
 
-<select id="pageType" required>
+<label>
+Page Type
+</label>
 
-<option value="">Select Page Type</option>
-<option>Business Page</option>
-<option>Personal Page</option>
-<option>Organization</option>
-<option>Community</option>
+<select
+id="pageType"
+required
+>
+
+<option value="">
+Select Page Type
+</option>
+
+<option value="Business Page">
+Business Page
+</option>
+
+<option value="Personal Page">
+Personal Page
+</option>
+
+<option value="Organization">
+Organization
+</option>
+
+<option value="Community">
+Community
+</option>
 
 </select>
 
-<label>Page Name</label>
+
+<label>
+Page Name
+</label>
 
 <input
 type="text"
 id="pageName"
 placeholder="Enter your page name"
-required>
+required
+>
 
-<label>Page Logo / Profile Picture</label>
+
+<label>
+Page Logo / Profile Picture
+</label>
 
 <input
 type="file"
 id="pageLogo"
 accept="image/*"
-required>
+required
+>
 
-<label>Category</label>
+
+<label>
+Category
+</label>
 
 <select id="category">
 
-<option>Snails</option>
-<option>Cars</option>
-<option>Electronics</option>
-<option>Fashion</option>
-<option>Home Services</option>
-<option>Food</option>
-<option>Other</option>
+<option>
+Snails
+</option>
+
+<option>
+Cars
+</option>
+
+<option>
+Electronics
+</option>
+
+<option>
+Fashion
+</option>
+
+<option>
+Home Services
+</option>
+
+<option>
+Food
+</option>
+
+<option>
+Other
+</option>
 
 </select>
 
-<label>Description</label>
+
+<label>
+Description
+</label>
 
 <textarea
 id="description"
-placeholder="Describe your business"></textarea>
+placeholder="Describe your business"
+></textarea>
 
-<label>Phone Number</label>
+
+<label>
+Phone Number
+</label>
 
 <input
 type="tel"
-id="phone">
+id="phone"
+>
 
-<label>Email</label>
+
+<label>
+Email
+</label>
 
 <input
 type="email"
-id="email">
+id="email"
+>
 
-<label>Location</label>
+
+<label>
+Location
+</label>
 
 <input
 type="text"
-id="location">
+id="location"
+>
 
-<label>Business Address</label>
+
+<label>
+Business Address
+</label>
 
 <textarea
 id="address"
-placeholder="Enter your full business address"></textarea>
+placeholder="Enter your full business address"
+></textarea>
 
-<label>Upload Photos</label>
+
+<label>
+Upload Photos
+</label>
 
 <input
 type="file"
 id="galleryPhotos"
 accept="image/*"
-multiple>
+multiple
+>
 
-<label>Upload Videos</label>
+
+<label>
+Upload Videos
+</label>
 
 <input
 type="file"
 id="pageVideos"
 accept="video/*"
-multiple>
+multiple
+>
 
-<label style="display:flex;align-items:center;gap:10px;margin-top:20px;">
+
+<label
+style="
+display:flex;
+align-items:center;
+gap:10px;
+margin-top:20px;
+"
+>
 
 <input
 type="checkbox"
 id="terms"
-required>
+required
+>
 
 <span>
-I agree to the Logical World Terms & Conditions and understand that my page will be reviewed before it becomes public.
+
+I agree to the Logical World Terms & Conditions
+and understand that my page will be reviewed
+before it becomes public.
+
 </span>
 
 </label>
 
-<button type="submit">
+
+<button
+type="submit"
+id="submitButton"
+>
 
 Submit For Approval
 
 </button>
 
+
 </form>
 
 </div>
 
-<div id="submitMessage" class="successBox">
 
-<h3>✅ Page Submitted Successfully</h3>
+<div
+id="submitMessage"
+class="successBox"
+>
 
-<p>Your page has been sent to the Logical World Admin.</p>
+<h3>
+✅ Page Submitted Successfully
+</h3>
 
-<p>It will remain hidden until it is approved.</p>
+<p>
+Your page has been sent to the Logical World Admin.
+</p>
 
-  </div>
+<p>
+It will remain hidden until it is approved.
+</p>
+
+</div>
+
+
 <script type="module">
-  import { db } from "./firebase.js";
-  
-const CLOUDINARY_CLOUD_NAME = "rkcnhhdb";
-const CLOUDINARY_UPLOAD_PRESET = "logicalworld_pages";
-  
+
+
 import {
-  collection,
-  addDoc,
-  updateDoc,
-  doc,
-  serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+auth,
+db
+}
+from "./firebase.js";
 
-const form = document.getElementById("createPageForm");
 
-alert("Create Page connected to Firebase");
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-form.addEventListener("submit", async (e) => {
 
-  e.preventDefault();
+import {
+collection,
+addDoc,
+updateDoc,
+doc,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-  try {
 
-    const pageData = {
-
-      pageType: document.getElementById("pageType").value,
-      pageName: document.getElementById("pageName").value,
-      category: document.getElementById("category").value,
-      description: document.getElementById("description").value,
-      phone: document.getElementById("phone").value,
-      email: document.getElementById("email").value,
-      location: document.getElementById("location").value,
-      address: document.getElementById("address").value,
-      status: "Pending",
-      createdAt: serverTimestamp()
-
-    };
-
-    const pageRef = await addDoc(
-  collection(db, "pendingPages"),
-  pageData
-);
-const logoFile =
-  document.getElementById("pageLogo").files[0];
-
-if (logoFile) {
-
-  const uploadData = new FormData();
-
-  uploadData.append("file", logoFile);
-  uploadData.append(
-    "upload_preset",
-    CLOUDINARY_UPLOAD_PRESET
-  );
-
-  const cloudinaryResponse = await fetch(
-    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-    {
-      method: "POST",
-      body: uploadData
-    }
-  );
-
-  if (!cloudinaryResponse.ok) {
-    throw new Error("Logo upload failed.");
-  }
-
-  const cloudinaryData =
-    await cloudinaryResponse.json();
-
-  await updateDoc(
-  doc(db, "pendingPages", pageRef.id),
-  {
-    logoURL: cloudinaryData.secure_url
-  }
-);
-  }
-    /* =========================
-   UPLOAD GALLERY PHOTOS
+/* =========================
+   CLOUDINARY
 ========================= */
 
-const galleryFiles =
-  document.getElementById("galleryPhotos").files;
+const CLOUDINARY_CLOUD_NAME =
+"rkcnhhdb";
 
-const photoURLs = [];
-
-
-for (const photoFile of galleryFiles) {
-
-  const photoData = new FormData();
-
-  photoData.append("file", photoFile);
-
-  photoData.append(
-    "upload_preset",
-    CLOUDINARY_UPLOAD_PRESET
-  );
+const CLOUDINARY_UPLOAD_PRESET =
+"logicalworld_pages";
 
 
-  const photoResponse = await fetch(
+/* =========================
+   ELEMENTS
+========================= */
 
-    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+const formContainer =
+document.getElementById(
+"formContainer"
+);
 
-    {
-      method: "POST",
-      body: photoData
-    }
+const loginMessage =
+document.getElementById(
+"loginMessage"
+);
 
-  );
+const form =
+document.getElementById(
+"createPageForm"
+);
 
-
-  if (!photoResponse.ok) {
-
-    throw new Error(
-      "Photo upload failed."
-    );
-
-  }
-
-
-  const photoCloudinary =
-    await photoResponse.json();
+const submitButton =
+document.getElementById(
+"submitButton"
+);
 
 
-  photoURLs.push(
-    photoCloudinary.secure_url
-  );
+/* =========================
+   CHECK LOGIN
+========================= */
+
+let currentUser = null;
+
+
+onAuthStateChanged(
+auth,
+(user)=>{
+
+if(user){
+
+currentUser = user;
+
+loginMessage.style.display =
+"none";
+
+formContainer.style.display =
+"block";
+
+}else{
+
+currentUser = null;
+
+formContainer.style.display =
+"none";
+
+loginMessage.style.display =
+"block";
+
+}
+
+}
+);
+
+
+/* =========================
+   CREATE PAGE
+========================= */
+
+form.addEventListener(
+"submit",
+async(e)=>{
+
+e.preventDefault();
+
+
+if(!currentUser){
+
+alert(
+"Please login first."
+);
+
+location.href =
+"login.html";
+
+return;
 
 }
 
 
-/* SAVE PHOTOS TO FIREBASE */
+try{
 
-if (photoURLs.length > 0) {
 
-  await updateDoc(
+submitButton.disabled =
+true;
 
-    doc(
-      db,
-      "pendingPages",
-      pageRef.id
-    ),
+submitButton.innerText =
+"Submitting...";
 
-    {
-      photos: photoURLs
-    }
 
-  );
+/* =========================
+   BASIC PAGE DATA
+========================= */
 
-  }
-    form.style.display = "none";
+const pageData = {
 
-    document.getElementById("submitMessage").style.display = "block";
+ownerId:
+currentUser.uid,
 
-    alert("Page submitted successfully!");
+ownerEmail:
+currentUser.email || "",
 
-  } catch (error) {
+pageType:
+document.getElementById(
+"pageType"
+).value,
 
-    console.error(error);
+pageName:
+document.getElementById(
+"pageName"
+).value.trim(),
 
-    alert("Submission error: " + error.message);
+category:
+document.getElementById(
+"category"
+).value,
 
-  }
+description:
+document.getElementById(
+"description"
+).value.trim(),
+
+phone:
+document.getElementById(
+"phone"
+).value.trim(),
+
+email:
+document.getElementById(
+"email"
+).value.trim(),
+
+location:
+document.getElementById(
+"location"
+).value.trim(),
+
+address:
+document.getElementById(
+"address"
+).value.trim(),
+
+status:
+"Pending",
+
+createdAt:
+serverTimestamp()
+
+};
+
+
+/* =========================
+   CREATE PENDING PAGE
+========================= */
+
+const pageRef =
+await addDoc(
+
+collection(
+db,
+"pendingPages"
+),
+
+pageData
+
+);
+
+
+/* =========================
+   UPLOAD LOGO
+========================= */
+
+const logoFile =
+document.getElementById(
+"pageLogo"
+).files[0];
+
+
+if(logoFile){
+
+const uploadData =
+new FormData();
+
+
+uploadData.append(
+"file",
+logoFile
+);
+
+
+uploadData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+const response =
+await fetch(
+
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+
+{
+method:"POST",
+body:uploadData
+}
+
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Logo upload failed."
+);
+
+}
+
+
+const result =
+await response.json();
+
+
+await updateDoc(
+
+doc(
+db,
+"pendingPages",
+pageRef.id
+),
+
+{
+
+logoURL:
+result.secure_url
+
+}
+
+);
+
+}
+
+
+/* =========================
+   UPLOAD GALLERY PHOTOS
+========================= */
+
+const galleryFiles =
+document.getElementById(
+"galleryPhotos"
+).files;
+
+
+const photoURLs = [];
+
+
+for(
+const photoFile of galleryFiles
+){
+
+const photoData =
+new FormData();
+
+
+photoData.append(
+"file",
+photoFile
+);
+
+
+photoData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+const photoResponse =
+await fetch(
+
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+
+{
+method:"POST",
+body:photoData
+}
+
+);
+
+
+if(!photoResponse.ok){
+
+throw new Error(
+"Photo upload failed."
+);
+
+}
+
+
+const photoResult =
+await photoResponse.json();
+
+
+photoURLs.push(
+photoResult.secure_url
+);
+
+}
+
+
+/* SAVE PHOTO URLS */
+
+if(photoURLs.length > 0){
+
+await updateDoc(
+
+doc(
+db,
+"pendingPages",
+pageRef.id
+),
+
+{
+
+photos:
+photoURLs
+
+}
+
+);
+
+}
+
+
+/* =========================
+   SUCCESS
+========================= */
+
+form.style.display =
+"none";
+
+
+document.getElementById(
+"submitMessage"
+).style.display =
+"block";
+
+
+alert(
+"Page submitted successfully!"
+);
+
+
+}catch(error){
+
+console.error(
+"Page submission error:",
+error
+);
+
+
+alert(
+"Submission error: " +
+error.message
+);
+
+
+submitButton.disabled =
+false;
+
+submitButton.innerText =
+"Submit For Approval";
+
+}
 
 });
 
-  </script>
+
+</script>
+
+
 </body>
   </html>
