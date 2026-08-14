@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Business Details - Logical World</title>
 
 <style>
@@ -41,6 +43,12 @@ display:block;
 margin:auto;
 border-radius:50%;
 object-fit:cover;
+cursor:pointer;
+transition:transform .2s;
+}
+
+.logo:active{
+transform:scale(.96);
 }
 
 h1{
@@ -64,6 +72,7 @@ margin-top:20px;
 .gallery img{
 width:100%;
 border-radius:10px;
+cursor:pointer;
 }
 
 .button{
@@ -81,11 +90,44 @@ font-weight:bold;
 background:#083d82;
 }
 
+
+/* FULL SIZE LOGO VIEWER */
+
+.logo-viewer{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.92);
+z-index:99999;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.logo-viewer img{
+max-width:95%;
+max-height:90vh;
+object-fit:contain;
+border-radius:10px;
+}
+
+.close-logo{
+position:absolute;
+top:15px;
+right:20px;
+color:white;
+font-size:42px;
+font-weight:bold;
+cursor:pointer;
+z-index:100000;
+}
+
 </style>
 
 </head>
 
 <body>
+
 
 <header>
 
@@ -94,115 +136,323 @@ background:#083d82;
 <p>Business Details</p>
 
 </header>
+
+
 <div class="container">
-  <img id="businessLogo" class="logo" src="images/default-logo.png" alt="Business Logo">
+
+<img
+id="businessLogo"
+class="logo"
+src="images/default-logo.png"
+alt="Business Logo"
+title="Tap to view full size"
+>
 
 <h1 id="businessName">Loading...</h1>
 
-<p class="info"><strong>Category:</strong> <span id="category"></span></p>
 
-<p class="info"><strong>Description:</strong> <span id="description"></span></p>
+<p class="info">
+<strong>Category:</strong>
+<span id="category"></span>
+</p>
 
-<p class="info"><strong>Location:</strong> <span id="location"></span></p>
 
-<p class="info"><strong>Phone:</strong> <span id="phone"></span></p>
+<p class="info">
+<strong>Description:</strong>
+<span id="description"></span>
+</p>
 
-<p class="info"><strong>Email:</strong> <span id="email"></span></p>
 
-<p class="info"><strong>Business Address:</strong> <span id="address"></span></p>
+<p class="info">
+<strong>Location:</strong>
+<span id="location"></span>
+</p>
+
+
+<p class="info">
+<strong>Phone:</strong>
+<span id="phone"></span>
+</p>
+
+
+<p class="info">
+<strong>Email:</strong>
+<span id="email"></span>
+</p>
+
+
+<p class="info">
+<strong>Business Address:</strong>
+<span id="address"></span>
+</p>
+
 
 <h2>Business Photos</h2>
 
 <div id="photoGallery" class="gallery"></div>
 
+
 <div style="margin-top:25px;text-align:center;">
 
-<a href="#" id="whatsappBtn" class="button">💬 WhatsApp</a>
+<a
+href="#"
+id="whatsappBtn"
+class="button"
+>
+💬 WhatsApp
+</a>
 
-<a href="#" class="button">❤️ Like</a>
+<a
+href="#"
+class="button"
+>
+❤️ Like
+</a>
 
-<a href="#" class="button">⭐ Review</a>
+<a
+href="#"
+class="button"
+>
+⭐ Review
+</a>
 
-<a href="#" class="button">📤 Share</a>
+<a
+href="#"
+class="button"
+>
+📤 Share
+</a>
 
-  </div>
+</div>
+
+</div>
+
+
+<!-- FULL SIZE LOGO -->
+
+<div
+id="logoViewer"
+class="logo-viewer"
+onclick="closeLogoViewer()"
+>
+
+<span
+class="close-logo"
+onclick="closeLogoViewer()"
+>
+&times;
+</span>
+
+<img
+id="fullLogo"
+src=""
+alt="Full Size Business Logo"
+onclick="event.stopPropagation()"
+>
+
+</div>
+
+
 <script type="module">
 
 import { db } from "./firebase.js";
 
 import {
-  doc,
-  getDoc
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+doc,
+getDoc
+}
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const params = new URLSearchParams(window.location.search);
-const id = params.get("id");
 
-const businessName = document.getElementById("businessName");
-const logo = document.getElementById("businessLogo");
+const params =
+new URLSearchParams(window.location.search);
 
-if (!id) {
+const id =
+params.get("id");
 
-  businessName.innerText = "No Business Selected";
 
-} else {
+const businessName =
+document.getElementById("businessName");
 
-  try {
+const logo =
+document.getElementById("businessLogo");
 
-    const docRef = doc(db, "approvedPages", id);
-    const docSnap = await getDoc(docRef);
 
-    if (!docSnap.exists()) {
+/* LOAD BUSINESS */
 
-      businessName.innerText = "Business Not Found";
+if(!id){
 
-    } else {
+businessName.innerText =
+"No Business Selected";
 
-      const data = docSnap.data();
+}else{
 
-      businessName.innerText = data.pageName || "";
+try{
 
-      document.getElementById("category").innerText =
-        data.category || "";
+const docRef =
+doc(db,"approvedPages",id);
 
-      document.getElementById("description").innerText =
-        data.description || "";
+const docSnap =
+await getDoc(docRef);
 
-      document.getElementById("location").innerText =
-        data.location || "";
 
-      document.getElementById("phone").innerText =
-        data.phone || "";
+if(!docSnap.exists()){
 
-      document.getElementById("email").innerText =
-        data.email || "";
+businessName.innerText =
+"Business Not Found";
 
-      document.getElementById("address").innerText =
-        data.address || "";
+}else{
 
-      if (data.logoURL) {
-        logo.src = data.logoURL;
-      }
+const data =
+docSnap.data();
 
-      if (data.phone) {
-        document.getElementById("whatsappBtn").href =
-          "https://wa.me/" + data.phone.replace(/\D/g, "");
-      }
 
-    }
+/* BUSINESS NAME */
 
-  } catch (error) {
+businessName.innerText =
+data.pageName || "";
 
-    console.error("Business loading error:", error);
 
-    businessName.innerText =
-      "Error loading business";
+/* BUSINESS INFORMATION */
 
-  }
+document.getElementById("category").innerText =
+data.category || "";
+
+
+document.getElementById("description").innerText =
+data.description || "";
+
+
+document.getElementById("location").innerText =
+data.location || "";
+
+
+document.getElementById("phone").innerText =
+data.phone || "";
+
+
+document.getElementById("email").innerText =
+data.email || "";
+
+
+document.getElementById("address").innerText =
+data.address || "";
+
+
+/* BUSINESS LOGO */
+
+if(data.logoURL){
+
+logo.src =
+data.logoURL;
 
 }
 
-  </script>
-  
+
+/* WHATSAPP */
+
+if(data.phone){
+
+document.getElementById("whatsappBtn").href =
+"https://wa.me/" +
+data.phone.replace(/\D/g,"");
+
+}
+
+
+/* BUSINESS PHOTOS */
+
+if(data.photos && Array.isArray(data.photos)){
+
+const gallery =
+document.getElementById("photoGallery");
+
+data.photos.forEach(function(photo){
+
+const image =
+document.createElement("img");
+
+image.src =
+photo;
+
+image.alt =
+"Business Photo";
+
+gallery.appendChild(image);
+
+});
+
+}
+
+}
+
+}catch(error){
+
+console.error(
+"Business loading error:",
+error
+);
+
+businessName.innerText =
+"Error loading business";
+
+}
+
+}
+
+
+/* FULL SIZE LOGO */
+
+logo.addEventListener(
+"click",
+function(){
+
+const viewer =
+document.getElementById("logoViewer");
+
+const fullLogo =
+document.getElementById("fullLogo");
+
+
+fullLogo.src =
+logo.src;
+
+
+viewer.style.display =
+"flex";
+
+}
+);
+
+
+/* CLOSE LOGO */
+
+function closeLogoViewer(){
+
+const viewer =
+document.getElementById("logoViewer");
+
+const fullLogo =
+document.getElementById("fullLogo");
+
+
+viewer.style.display =
+"none";
+
+fullLogo.src =
+"";
+
+}
+
+
+/* MAKE FUNCTION AVAILABLE */
+
+window.closeLogoViewer =
+closeLogoViewer;
+
+</script>
+
+
 </body>
-  </html>
+
+</html>
