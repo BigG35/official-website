@@ -304,6 +304,79 @@ if (logoFile) {
   }
 );
   }
+    /* =========================
+   UPLOAD GALLERY PHOTOS
+========================= */
+
+const galleryFiles =
+  document.getElementById("galleryPhotos").files;
+
+const photoURLs = [];
+
+
+for (const photoFile of galleryFiles) {
+
+  const photoData = new FormData();
+
+  photoData.append("file", photoFile);
+
+  photoData.append(
+    "upload_preset",
+    CLOUDINARY_UPLOAD_PRESET
+  );
+
+
+  const photoResponse = await fetch(
+
+    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+
+    {
+      method: "POST",
+      body: photoData
+    }
+
+  );
+
+
+  if (!photoResponse.ok) {
+
+    throw new Error(
+      "Photo upload failed."
+    );
+
+  }
+
+
+  const photoCloudinary =
+    await photoResponse.json();
+
+
+  photoURLs.push(
+    photoCloudinary.secure_url
+  );
+
+}
+
+
+/* SAVE PHOTOS TO FIREBASE */
+
+if (photoURLs.length > 0) {
+
+  await updateDoc(
+
+    doc(
+      db,
+      "pendingPages",
+      pageRef.id
+    ),
+
+    {
+      photos: photoURLs
+    }
+
+  );
+
+  }
     form.style.display = "none";
 
     document.getElementById("submitMessage").style.display = "block";
