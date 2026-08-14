@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Business Details - Logical World</title>
+<title>Business Page - Logical World</title>
 
 <style>
 
@@ -17,109 +17,256 @@ font-family:Arial,sans-serif;
 }
 
 body{
-background:#f5f5f5;
+background:#f0f2f5;
+color:#222;
 }
 
-header{
+
+/* TOP HEADER */
+
+.top-header{
 background:#0a4ea3;
 color:white;
-padding:20px;
+padding:18px;
 text-align:center;
 }
 
-.container{
-max-width:1000px;
-margin:30px auto;
-background:white;
-padding:25px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.15);
+.top-header h1{
+font-size:24px;
 }
 
-.logo{
-width:180px;
-height:180px;
-display:block;
-margin:auto;
+.top-header p{
+margin-top:5px;
+}
+
+
+/* BUSINESS PAGE */
+
+.business-page{
+max-width:900px;
+margin:20px auto 50px;
+}
+
+
+/* COVER */
+
+.cover{
+height:220px;
+background:linear-gradient(135deg,#0a4ea3,#1976d2);
+border-radius:12px 12px 0 0;
+position:relative;
+}
+
+
+/* PROFILE AREA */
+
+.profile-area{
+background:white;
+padding:0 25px 25px;
+border-radius:0 0 12px 12px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
+position:relative;
+}
+
+
+/* LOGO */
+
+.profile-logo{
+width:170px;
+height:170px;
 border-radius:50%;
 object-fit:cover;
+border:6px solid white;
+background:#eee;
+position:relative;
+margin-top:-85px;
+display:block;
 cursor:pointer;
-transition:transform .2s;
+box-shadow:0 2px 8px rgba(0,0,0,.25);
 }
 
-.logo:active{
-transform:scale(.96);
-}
 
-h1{
-text-align:center;
-margin:20px 0;
+/* NAME */
+
+.business-name{
+font-size:30px;
 color:#0a4ea3;
+margin-top:12px;
 }
 
-.info{
-margin:12px 0;
-font-size:18px;
+.business-category{
+font-size:16px;
+color:#666;
+margin-top:7px;
 }
 
-.gallery{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-gap:15px;
-margin-top:20px;
+.business-location{
+font-size:16px;
+color:#555;
+margin-top:5px;
 }
 
-.gallery img{
-width:100%;
-border-radius:10px;
+
+/* BUTTONS */
+
+.actions{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:18px;
+}
+
+.action-button{
+border:none;
+padding:11px 17px;
+border-radius:7px;
+font-weight:bold;
 cursor:pointer;
-}
-
-.button{
-display:inline-block;
-padding:12px 20px;
-margin:10px 5px;
+text-decoration:none;
+font-size:15px;
 background:#0a4ea3;
 color:white;
-text-decoration:none;
-border-radius:5px;
-font-weight:bold;
 }
 
-.button:hover{
+.action-button:hover{
 background:#083d82;
 }
 
 
-/* FULL SIZE LOGO VIEWER */
+/* CONTENT */
 
-.logo-viewer{
+.content{
+margin-top:20px;
+}
+
+.section{
+background:white;
+border-radius:12px;
+padding:22px;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+
+.section h2{
+color:#0a4ea3;
+margin-bottom:15px;
+font-size:22px;
+}
+
+.info{
+font-size:17px;
+margin:12px 0;
+line-height:1.5;
+}
+
+.info strong{
+color:#333;
+}
+
+
+/* PHOTOS */
+
+.photo-gallery{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+gap:12px;
+}
+
+.photo-gallery img{
+width:100%;
+height:200px;
+object-fit:cover;
+border-radius:10px;
+cursor:pointer;
+transition:transform .2s;
+}
+
+.photo-gallery img:hover{
+transform:scale(1.02);
+}
+
+
+/* FULL SIZE IMAGE VIEWER */
+
+.image-viewer{
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.92);
+background:rgba(0,0,0,.94);
 z-index:99999;
 align-items:center;
 justify-content:center;
 padding:20px;
 }
 
-.logo-viewer img{
-max-width:95%;
+.image-viewer img{
+max-width:96%;
 max-height:90vh;
 object-fit:contain;
-border-radius:10px;
+border-radius:8px;
 }
 
-.close-logo{
+.close-viewer{
 position:absolute;
 top:15px;
 right:20px;
 color:white;
-font-size:42px;
+font-size:45px;
 font-weight:bold;
 cursor:pointer;
-z-index:100000;
+line-height:1;
+}
+
+
+/* LOADING */
+
+.loading{
+text-align:center;
+padding:50px;
+font-size:20px;
+color:#666;
+}
+
+
+/* MOBILE */
+
+@media(max-width:600px){
+
+.business-page{
+margin:10px;
+}
+
+.cover{
+height:170px;
+}
+
+.profile-logo{
+width:140px;
+height:140px;
+margin-top:-70px;
+}
+
+.business-name{
+font-size:25px;
+}
+
+.profile-area{
+padding:0 18px 20px;
+}
+
+.action-button{
+padding:10px 13px;
+font-size:14px;
+}
+
+.photo-gallery{
+grid-template-columns:repeat(2,1fr);
+}
+
+.photo-gallery img{
+height:160px;
+}
+
 }
 
 </style>
@@ -129,221 +276,392 @@ z-index:100000;
 <body>
 
 
-<header>
+<!-- LOGICAL WORLD HEADER -->
 
-<h1>Logical World</h1>
+<header class="top-header">
 
-<p>Business Details</p>
+<h1>🌍 Logical World</h1>
+
+<p>Connecting People, Products & Services.</p>
 
 </header>
 
 
-<div class="container">
+<!-- BUSINESS PAGE -->
+
+<main class="business-page">
+
+
+<div id="loading" class="loading">
+Loading business...
+</div>
+
+
+<div id="businessContent" style="display:none;">
+
+
+<!-- COVER -->
+
+<div class="cover"></div>
+
+
+<!-- PROFILE -->
+
+<div class="profile-area">
+
 
 <img
 id="businessLogo"
-class="logo"
+class="profile-logo"
 src="images/default-logo.png"
 alt="Business Logo"
 title="Tap to view full size"
 >
 
-<h1 id="businessName">Loading...</h1>
+
+<h1
+id="businessName"
+class="business-name"
+>
+Business Name
+</h1>
 
 
-<p class="info">
-<strong>Category:</strong>
-<span id="category"></span>
+<p
+id="businessCategory"
+class="business-category"
+>
 </p>
 
 
-<p class="info">
-<strong>Description:</strong>
-<span id="description"></span>
+<p
+id="businessLocation"
+class="business-location"
+>
 </p>
 
 
-<p class="info">
-<strong>Location:</strong>
-<span id="location"></span>
-</p>
+<!-- ACTION BUTTONS -->
 
-
-<p class="info">
-<strong>Phone:</strong>
-<span id="phone"></span>
-</p>
-
-
-<p class="info">
-<strong>Email:</strong>
-<span id="email"></span>
-</p>
-
-
-<p class="info">
-<strong>Business Address:</strong>
-<span id="address"></span>
-</p>
-
-
-<h2>Business Photos</h2>
-
-<div id="photoGallery" class="gallery"></div>
-
-
-<div style="margin-top:25px;text-align:center;">
+<div class="actions">
 
 <a
-href="#"
 id="whatsappBtn"
-class="button"
+class="action-button"
+href="#"
+target="_blank"
 >
 💬 WhatsApp
 </a>
 
-<a
-href="#"
-class="button"
+
+<button
+class="action-button"
+onclick="likeBusiness()"
 >
 ❤️ Like
-</a>
+</button>
 
-<a
-href="#"
-class="button"
+
+<button
+class="action-button"
+onclick="reviewBusiness()"
 >
 ⭐ Review
-</a>
+</button>
 
-<a
-href="#"
-class="button"
+
+<button
+class="action-button"
+onclick="shareBusiness()"
 >
 📤 Share
-</a>
+</button>
 
 </div>
 
+
 </div>
 
 
-<!-- FULL SIZE LOGO -->
+<!-- INFORMATION -->
+
+<div class="content">
+
+
+<div class="section">
+
+<h2>About This Business</h2>
+
+
+<p class="info">
+
+<strong>Description:</strong><br>
+
+<span id="description">
+</span>
+
+</p>
+
+
+<p class="info">
+
+<strong>Location:</strong>
+
+<span id="location">
+</span>
+
+</p>
+
+
+<p class="info">
+
+<strong>Phone:</strong>
+
+<span id="phone">
+</span>
+
+</p>
+
+
+<p class="info">
+
+<strong>Email:</strong>
+
+<span id="email">
+</span>
+
+</p>
+
+
+<p class="info">
+
+<strong>Business Address:</strong><br>
+
+<span id="address">
+</span>
+
+</p>
+
+</div>
+
+
+<!-- PHOTOS -->
+
+<div class="section">
+
+<h2>📸 Business Photos</h2>
 
 <div
-id="logoViewer"
-class="logo-viewer"
-onclick="closeLogoViewer()"
+id="photoGallery"
+class="photo-gallery"
+>
+</div>
+
+<p
+id="noPhotos"
+style="color:#666;"
+>
+No business photos available.
+</p>
+
+</div>
+
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- FULL SIZE IMAGE VIEWER -->
+
+<div
+id="imageViewer"
+class="image-viewer"
+onclick="closeImageViewer()"
 >
 
+
 <span
-class="close-logo"
-onclick="closeLogoViewer()"
+class="close-viewer"
+onclick="closeImageViewer()"
 >
 &times;
 </span>
 
+
 <img
-id="fullLogo"
+id="fullSizeImage"
 src=""
-alt="Full Size Business Logo"
+alt="Full Size Image"
 onclick="event.stopPropagation()"
 >
+
 
 </div>
 
 
 <script type="module">
 
+
 import { db } from "./firebase.js";
+
 
 import {
 doc,
 getDoc
 }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
+/* GET BUSINESS ID */
 
 const params =
-new URLSearchParams(window.location.search);
+new URLSearchParams(
+window.location.search
+);
 
-const id =
+
+const businessId =
 params.get("id");
 
+
+/* ELEMENTS */
+
+const loading =
+document.getElementById("loading");
+
+const businessContent =
+document.getElementById("businessContent");
+
+const businessLogo =
+document.getElementById("businessLogo");
 
 const businessName =
 document.getElementById("businessName");
 
-const logo =
-document.getElementById("businessLogo");
 
+/* CHECK ID */
 
-/* LOAD BUSINESS */
+if(!businessId){
 
-if(!id){
-
-businessName.innerText =
-"No Business Selected";
+loading.innerText =
+"No Business Selected.";
 
 }else{
+
 
 try{
 
-const docRef =
-doc(db,"approvedPages",id);
 
-const docSnap =
-await getDoc(docRef);
+/* FIREBASE DOCUMENT */
+
+const businessRef =
+doc(
+db,
+"approvedPages",
+businessId
+);
 
 
-if(!docSnap.exists()){
+const businessSnap =
+await getDoc(
+businessRef
+);
 
-businessName.innerText =
-"Business Not Found";
+
+if(!businessSnap.exists()){
+
+
+loading.innerText =
+"Business Not Found.";
+
 
 }else{
 
+
 const data =
-docSnap.data();
+businessSnap.data();
 
 
 /* BUSINESS NAME */
 
 businessName.innerText =
-data.pageName || "";
+data.pageName || "Business";
 
 
-/* BUSINESS INFORMATION */
+/* CATEGORY */
 
-document.getElementById("category").innerText =
-data.category || "";
+document.getElementById(
+"businessCategory"
+).innerText =
+data.category
+?
+"Category: " + data.category
+:
+"";
 
 
-document.getElementById("description").innerText =
-data.description || "";
+/* LOCATION */
+
+document.getElementById(
+"businessLocation"
+).innerText =
+data.location
+?
+"📍 " + data.location
+:
+"";
 
 
-document.getElementById("location").innerText =
+/* DESCRIPTION */
+
+document.getElementById(
+"description"
+).innerText =
+data.description || "No description available.";
+
+
+/* LOCATION */
+
+document.getElementById(
+"location"
+).innerText =
 data.location || "";
 
 
-document.getElementById("phone").innerText =
+/* PHONE */
+
+document.getElementById(
+"phone"
+).innerText =
 data.phone || "";
 
 
-document.getElementById("email").innerText =
+/* EMAIL */
+
+document.getElementById(
+"email"
+).innerText =
 data.email || "";
 
 
-document.getElementById("address").innerText =
+/* ADDRESS */
+
+document.getElementById(
+"address"
+).innerText =
 data.address || "";
 
 
-/* BUSINESS LOGO */
+/* LOGO */
 
 if(data.logoURL){
 
-logo.src =
+businessLogo.src =
 data.logoURL;
 
 }
@@ -353,106 +671,266 @@ data.logoURL;
 
 if(data.phone){
 
-document.getElementById("whatsappBtn").href =
+const phoneNumber =
+data.phone.replace(
+/\D/g,
+""
+);
+
+
+document.getElementById(
+"whatsappBtn"
+).href =
 "https://wa.me/" +
-data.phone.replace(/\D/g,"");
+phoneNumber;
+
+}else{
+
+document.getElementById(
+"whatsappBtn"
+).style.display =
+"none";
 
 }
 
 
 /* BUSINESS PHOTOS */
 
-if(data.photos && Array.isArray(data.photos)){
-
 const gallery =
-document.getElementById("photoGallery");
+document.getElementById(
+"photoGallery"
+);
 
-data.photos.forEach(function(photo){
+
+if(
+Array.isArray(data.photos) &&
+data.photos.length > 0
+){
+
+
+document.getElementById(
+"noPhotos"
+).style.display =
+"none";
+
+
+data.photos.forEach(
+(photoURL)=>{
+
 
 const image =
 document.createElement("img");
 
+
 image.src =
-photo;
+photoURL;
+
 
 image.alt =
 "Business Photo";
 
-gallery.appendChild(image);
+
+image.onclick =
+function(){
+
+openImageViewer(
+photoURL
+);
+
+};
+
+
+gallery.appendChild(
+image
+);
 
 });
 
-}
 
 }
+
+
+/* SHOW PAGE */
+
+loading.style.display =
+"none";
+
+
+businessContent.style.display =
+"block";
+
+
+}
+
 
 }catch(error){
+
 
 console.error(
 "Business loading error:",
 error
 );
 
-businessName.innerText =
-"Error loading business";
+
+loading.innerText =
+"Error loading business.";
 
 }
 
 }
 
 
-/* FULL SIZE LOGO */
+/* =========================
+   LOGO FULL SIZE
+========================= */
 
-logo.addEventListener(
+businessLogo.addEventListener(
 "click",
 function(){
 
-const viewer =
-document.getElementById("logoViewer");
+openImageViewer(
+businessLogo.src
+);
 
-const fullLogo =
-document.getElementById("fullLogo");
-
-
-fullLogo.src =
-logo.src;
+});
 
 
-viewer.style.display =
+/* =========================
+   OPEN IMAGE
+========================= */
+
+function openImageViewer(
+imageURL
+){
+
+document.getElementById(
+"fullSizeImage"
+).src =
+imageURL;
+
+
+document.getElementById(
+"imageViewer"
+).style.display =
 "flex";
 
 }
-);
 
 
-/* CLOSE LOGO */
+/* =========================
+   CLOSE IMAGE
+========================= */
 
-function closeLogoViewer(){
+function closeImageViewer(){
 
-const viewer =
-document.getElementById("logoViewer");
-
-const fullLogo =
-document.getElementById("fullLogo");
-
-
-viewer.style.display =
+document.getElementById(
+"imageViewer"
+).style.display =
 "none";
 
-fullLogo.src =
+
+document.getElementById(
+"fullSizeImage"
+).src =
 "";
 
 }
 
 
-/* MAKE FUNCTION AVAILABLE */
+window.closeImageViewer =
+closeImageViewer;
 
-window.closeLogoViewer =
-closeLogoViewer;
+
+/* =========================
+   LIKE
+========================= */
+
+function likeBusiness(){
+
+alert(
+"Thanks for liking this business!"
+);
+
+}
+
+window.likeBusiness =
+likeBusiness;
+
+
+/* =========================
+   REVIEW
+========================= */
+
+function reviewBusiness(){
+
+alert(
+"Review feature coming soon."
+);
+
+}
+
+window.reviewBusiness =
+reviewBusiness;
+
+
+/* =========================
+   SHARE
+========================= */
+
+async function shareBusiness(){
+
+const shareData = {
+
+title:
+document.title,
+
+text:
+"Check out this business on Logical World.",
+
+url:
+window.location.href
+
+};
+
+
+try{
+
+if(
+navigator.share
+){
+
+await navigator.share(
+shareData
+);
+
+}else{
+
+await navigator.clipboard.writeText(
+window.location.href
+);
+
+alert(
+"Business page link copied!"
+);
+
+}
+
+}catch(error){
+
+console.log(
+"Share cancelled."
+);
+
+}
+
+}
+
+window.shareBusiness =
+shareBusiness;
+
 
 </script>
 
 
 </body>
-
-</html>
+  </html>
