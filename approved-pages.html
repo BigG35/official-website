@@ -3,7 +3,7 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Approved Business Pages - Logical World</title>
 
@@ -23,125 +23,90 @@ padding:20px;
 h1{
 text-align:center;
 color:#0a4ea3;
-margin-bottom:10px;
+margin-bottom:30px;
 }
-
-.subtitle{
-text-align:center;
-color:#555;
-margin-bottom:25px;
-}
-
-
-/* BUSINESS LIST */
 
 #approvedPagesList{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:20px;
-max-width:1100px;
+max-width:900px;
 margin:auto;
 }
 
 
-/* FACEBOOK STYLE BUSINESS CARD */
+/* BUSINESS CARD */
 
-.card{
+.business-card{
 background:white;
 border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,.18);
-overflow:hidden;
+padding:20px;
 text-align:center;
-transition:transform .2s,box-shadow .2s;
-}
-
-.card:hover{
-transform:translateY(-3px);
-box-shadow:0 5px 18px rgba(0,0,0,.22);
+box-shadow:0 2px 10px rgba(0,0,0,.18);
 }
 
 
-/* CLICKABLE BUSINESS AREA */
+/* CLICKABLE AREA */
 
-.businessLink{
+.business-link{
 display:block;
 text-decoration:none;
 color:inherit;
-padding:20px 20px 10px;
 cursor:pointer;
 }
 
 
-/* BUSINESS PROFILE IMAGE */
+/* BUSINESS LOGO */
 
-.page-logo{
-width:130px;
-height:130px;
-display:block;
-margin:0 auto 15px;
+.business-logo{
+width:140px;
+height:140px;
 border-radius:50%;
 object-fit:cover;
+display:block;
+margin:0 auto 15px;
 border:3px solid #0a4ea3;
 background:#eee;
+transition:transform .2s;
+}
+
+.business-logo:hover{
+transform:scale(1.04);
 }
 
 
 /* BUSINESS NAME */
 
-.page-name{
-font-size:22px;
+.business-name{
+font-size:21px;
+font-weight:bold;
 color:#0a4ea3;
-margin:10px 0;
+margin:0;
 }
 
 
-/* INFORMATION */
+/* MOBILE */
 
-.category{
-font-weight:bold;
-color:#333;
-margin:8px 0;
+@media(max-width:500px){
+
+#approvedPagesList{
+grid-template-columns:repeat(2,1fr);
+gap:12px;
 }
 
-.description{
-color:#555;
-line-height:1.5;
+.business-card{
+padding:12px;
 }
 
-.location{
-color:#555;
-margin-top:10px;
+.business-logo{
+width:110px;
+height:110px;
 }
 
-
-/* VIEW BUTTON */
-
-.view{
-display:inline-block;
-padding:12px 22px;
-margin:15px 5px 20px;
-border:none;
-border-radius:6px;
-background:#0a4ea3;
-color:white;
-font-size:16px;
-font-weight:bold;
-text-decoration:none;
-cursor:pointer;
+.business-name{
+font-size:17px;
 }
 
-.view:hover{
-background:#083d82;
-}
-
-
-/* EMPTY MESSAGE */
-
-.empty{
-text-align:center;
-font-size:18px;
-color:#666;
-padding:30px;
 }
 
 </style>
@@ -152,10 +117,6 @@ padding:30px;
 
 
 <h1>Approved Business Pages</h1>
-
-<p class="subtitle">
-Discover businesses and services on Logical World
-</p>
 
 
 <div id="approvedPagesList"></div>
@@ -176,10 +137,6 @@ const approvedPagesList =
 document.getElementById("approvedPagesList");
 
 
-/* =========================
-   LOAD APPROVED PAGES
-========================= */
-
 try{
 
 const snapshot =
@@ -188,92 +145,48 @@ collection(db,"approvedPages")
 );
 
 
-if(snapshot.empty){
-
-approvedPagesList.innerHTML = `
-<div class="empty">
-No approved business pages yet.
-</div>
-`;
-
-}else{
-
-
 snapshot.forEach((page)=>{
 
 const data =
 page.data();
 
 
-/* BUSINESS ID */
+const businessName =
+data.pageName || "Business";
+
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
 
 const businessURL =
 "business.html?id=" +
 encodeURIComponent(page.id);
 
 
-/* LOGO */
-
-const logo =
-data.logoURL
-?
-data.logoURL
-:
-"images/default-logo.png";
-
-
-/* BUSINESS NAME */
-
-const name =
-data.pageName ||
-"Business";
-
-
-/* CARD */
+/* BUSINESS CARD */
 
 approvedPagesList.innerHTML += `
 
-<div class="card">
+<div class="business-card">
 
 <a
 href="${businessURL}"
-class="businessLink"
+class="business-link"
 >
 
 <img
-src="${logo}"
-class="page-logo"
-alt="${name}"
+src="${logoURL}"
+class="business-logo"
+alt="${businessName}"
 >
 
-<h2 class="page-name">
-${name}
-</h2>
-
-<p class="category">
-Category:
-${data.category || "Other"}
-</p>
-
-<p class="description">
-${data.description || ""}
-</p>
-
-<p class="location">
-<strong>Location:</strong>
-${data.location || ""}
+<p class="business-name">
+${businessName}
 </p>
 
 </a>
-
-
-<a
-href="${businessURL}"
-class="view"
->
-👁 View Business
-</a>
-
 
 </div>
 
@@ -281,21 +194,26 @@ class="view"
 
 });
 
-}
 
 }catch(error){
 
 console.error(
-"Error loading approved pages:",
+"Error loading approved businesses:",
 error
 );
 
 approvedPagesList.innerHTML = `
-<div class="empty">
-Unable to load business pages.
-<br><br>
-Please try again.
-</div>
+
+<p style="
+text-align:center;
+color:#666;
+grid-column:1/-1;
+">
+
+Unable to load approved business pages.
+
+</p>
+
 `;
 
 }
@@ -304,4 +222,4 @@ Please try again.
 
 
 </body>
-   </html>
+</html>
