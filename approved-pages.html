@@ -257,60 +257,7 @@ data-id="${page.id}"
 
 `;
 
-});
-
-
-/* =========================
-   TAP LOGO
-========================= */
-
-document.addEventListener(
-"touchend",
-async(e)=>{
-
-
-/* OPEN FULL LOGO */
-
-if (e.target.classList.contains("page-logo")) {
-
-  fullLogo.src = e.target.src;
-
-  logoModal.style.display = "flex";
-
-   }
-
-
-/* DELETE */
-
-if(
-e.target.classList.contains("delete")
-){
-
-const id =
-e.target.dataset.id;
-
-
-if(
-confirm(
-"Delete this approved page?"
-)
-){
-
-await deleteDoc(
-doc(db,"approvedPages",id)
-);
-
-alert(
-"Approved page deleted."
-);
-
-location.reload();
-
-}
-
-}
-
-});
+})
 
 
 /* =========================
