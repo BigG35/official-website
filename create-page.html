@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -103,6 +104,10 @@ padding:15px;
 margin-top:20px;
 border-radius:8px;
 border:1px solid #ddd;
+}
+
+.contact-field{
+display:none;
 }
 
 </style>
@@ -231,17 +236,6 @@ placeholder="Describe your page"
 
 
 <label>
-Phone Number
-</label>
-
-<input
-type="tel"
-id="phone"
-placeholder="Enter phone number"
->
-
-
-<label>
 Email
 </label>
 
@@ -273,12 +267,12 @@ placeholder="Enter your full business address"
 ></textarea>
 
 
-<!-- CONTACT OPTIONS -->
+<!-- CONTACT -->
 
 <div class="contact-box">
 
 <h3>
-Contact Options
+Contact
 </h3>
 
 <label>
@@ -286,6 +280,10 @@ Contact Method
 </label>
 
 <select id="contactMethod">
+
+<option value="">
+Select Contact Method
+</option>
 
 <option value="whatsapp">
 WhatsApp
@@ -295,12 +293,13 @@ WhatsApp
 Zangi
 </option>
 
-<option value="both">
-WhatsApp + Zangi
-</option>
-
 </select>
 
+
+<div
+id="whatsappField"
+class="contact-field"
+>
 
 <label>
 WhatsApp Number
@@ -312,6 +311,13 @@ id="whatsapp"
 placeholder="Enter WhatsApp number"
 >
 
+</div>
+
+
+<div
+id="zangiField"
+class="contact-field"
+>
 
 <label>
 Zangi Number / ID
@@ -325,8 +331,10 @@ placeholder="Enter Zangi number or ID"
 
 </div>
 
+</div>
 
-<!-- PHOTOS ARE ONLY FOR THE PAGE CREATION -->
+
+<!-- PAGE PHOTOS -->
 
 <label>
 Upload Photos
@@ -454,8 +462,71 @@ document.getElementById("createPageForm");
 const submitButton =
 document.getElementById("submitButton");
 
+const contactMethod =
+document.getElementById("contactMethod");
+
+const whatsappField =
+document.getElementById("whatsappField");
+
+const zangiField =
+document.getElementById("zangiField");
+
 
 let currentUser = null;
+
+
+/* CONTACT METHOD */
+
+contactMethod.addEventListener(
+"change",
+()=>{
+
+whatsappField.style.display =
+"none";
+
+zangiField.style.display =
+"none";
+
+
+document.getElementById(
+"whatsapp"
+).required = false;
+
+
+document.getElementById(
+"zangi"
+).required = false;
+
+
+if(
+contactMethod.value === "whatsapp"
+){
+
+whatsappField.style.display =
+"block";
+
+document.getElementById(
+"whatsapp"
+).required = true;
+
+}
+
+
+if(
+contactMethod.value === "zangi"
+){
+
+zangiField.style.display =
+"block";
+
+document.getElementById(
+"zangi"
+).required = true;
+
+}
+
+}
+);
 
 
 /* CHECK LOGIN */
@@ -544,9 +615,6 @@ document.getElementById("category").value,
 description:
 document.getElementById("description").value.trim(),
 
-phone:
-document.getElementById("phone").value.trim(),
-
 email:
 document.getElementById("email").value.trim(),
 
@@ -557,7 +625,7 @@ address:
 document.getElementById("address").value.trim(),
 
 contactMethod:
-document.getElementById("contactMethod").value,
+contactMethod.value,
 
 whatsapp:
 document.getElementById("whatsapp").value.trim(),
@@ -657,7 +725,7 @@ result.secure_url
 }
 
 
-/* UPLOAD PHOTOS */
+/* UPLOAD PAGE PHOTOS */
 
 const galleryFiles =
 document.getElementById(
@@ -749,6 +817,7 @@ document.getElementById(
 ).style.display =
 "block";
 
+
 alert(
 "Page submitted successfully!"
 );
@@ -779,4 +848,5 @@ submitButton.innerText =
 </script>
 
 </body>
-   </html>
+
+</html>
