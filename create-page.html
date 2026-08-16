@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -56,6 +57,7 @@ padding:12px;
 margin-top:5px;
 border:1px solid #ccc;
 border-radius:5px;
+font-size:16px;
 }
 
 textarea{
@@ -79,10 +81,13 @@ button:hover{
 background:#083d82;
 }
 
-.loginMessage{
-display:none;
-text-align:center;
-padding:25px;
+.password-info{
+background:#eef5ff;
+border-left:4px solid #0a4ea3;
+padding:12px;
+margin-top:10px;
+font-size:14px;
+color:#444;
 }
 
 .successBox{
@@ -106,40 +111,16 @@ text-align:center;
 
 <header>
 
-<h1>Create Your Own Page</h1>
+<h1>🌍 Logical World</h1>
 
 <p>
-All pages must be approved by the Logical World Admin.
+Create Your Own Page
 </p>
 
 </header>
 
 
-<div
-id="loginMessage"
-class="container loginMessage"
->
-
-<h2>Login Required</h2>
-
-<p>
-You must login before creating a page.
-</p>
-
-<button
-onclick="location.href='login.html'"
->
-Go To Login
-</button>
-
-</div>
-
-
-<div
-id="formContainer"
-class="container"
-style="display:none;"
->
+<div class="container">
 
 <h2>
 Page Information
@@ -209,33 +190,36 @@ required
 Category
 </label>
 
-<select id="category">
+<select
+id="category"
+required
+>
 
-<option>
+<option value="Snails">
 Snails
 </option>
 
-<option>
+<option value="Cars">
 Cars
 </option>
 
-<option>
+<option value="Electronics">
 Electronics
 </option>
 
-<option>
+<option value="Fashion">
 Fashion
 </option>
 
-<option>
+<option value="Home Services">
 Home Services
 </option>
 
-<option>
+<option value="Food">
 Food
 </option>
 
-<option>
+<option value="Other">
 Other
 </option>
 
@@ -248,7 +232,7 @@ Description
 
 <textarea
 id="description"
-placeholder="Describe your business"
+placeholder="Describe your page or business"
 ></textarea>
 
 
@@ -259,6 +243,7 @@ Phone Number
 <input
 type="tel"
 id="phone"
+placeholder="Enter phone number"
 >
 
 
@@ -269,6 +254,7 @@ Email
 <input
 type="email"
 id="email"
+placeholder="Enter email address"
 >
 
 
@@ -279,6 +265,7 @@ Location
 <input
 type="text"
 id="location"
+placeholder="Enter your location"
 >
 
 
@@ -288,40 +275,42 @@ Business Address
 
 <textarea
 id="address"
-placeholder="Enter your full business address"
+placeholder="Enter your full address"
 ></textarea>
 
 
+<!-- PRIVATE PAGE PASSWORD -->
+
 <label>
-Upload Photos
+Private Page Password
 </label>
 
 <input
-type="file"
-id="galleryPhotos"
-accept="image/*"
-multiple
+type="password"
+id="pagePassword"
+placeholder="Create a password for managing your page"
+required
+minlength="6"
 >
 
+<div class="password-info">
 
-<label>
-Upload Videos
-</label>
+🔐 This password is for the page owner.
+It will be used to access the page management area
+after the page has been approved.
 
-<input
-type="file"
-id="pageVideos"
-accept="video/*"
-multiple
->
+Do not share your password with other people.
+
+</div>
 
 
 <label
 style="
 display:flex;
-align-items:center;
+align-items:flex-start;
 gap:10px;
 margin-top:20px;
+font-weight:normal;
 "
 >
 
@@ -329,13 +318,17 @@ margin-top:20px;
 type="checkbox"
 id="terms"
 required
+style="
+width:auto;
+margin-top:3px;
+"
 >
 
 <span>
 
 I agree to the Logical World Terms & Conditions
 and understand that my page will be reviewed
-before it becomes public.
+by the Logical World Admin before it becomes public.
 
 </span>
 
@@ -372,6 +365,13 @@ Your page has been sent to the Logical World Admin.
 
 <p>
 It will remain hidden until it is approved.
+</p>
+
+<br>
+
+<p>
+After approval, you can use your page password
+to manage your page and create posts.
 </p>
 
 </div>
@@ -417,18 +417,8 @@ const CLOUDINARY_UPLOAD_PRESET =
 
 
 /* =========================
-   ELEMENTS
+   FORM
 ========================= */
-
-const formContainer =
-document.getElementById(
-"formContainer"
-);
-
-const loginMessage =
-document.getElementById(
-"loginMessage"
-);
 
 const form =
 document.getElementById(
@@ -442,7 +432,7 @@ document.getElementById(
 
 
 /* =========================
-   CHECK LOGIN
+   CURRENT USER
 ========================= */
 
 let currentUser = null;
@@ -452,27 +442,7 @@ onAuthStateChanged(
 auth,
 (user)=>{
 
-if(user){
-
-currentUser = user;
-
-loginMessage.style.display =
-"none";
-
-formContainer.style.display =
-"block";
-
-}else{
-
-currentUser = null;
-
-formContainer.style.display =
-"none";
-
-loginMessage.style.display =
-"block";
-
-}
+currentUser = user || null;
 
 }
 );
@@ -489,20 +459,6 @@ async(e)=>{
 e.preventDefault();
 
 
-if(!currentUser){
-
-alert(
-"Please login first."
-);
-
-location.href =
-"login.html";
-
-return;
-
-}
-
-
 try{
 
 
@@ -514,16 +470,43 @@ submitButton.innerText =
 
 
 /* =========================
-   BASIC PAGE DATA
+   GET PASSWORD
+========================= */
+
+const pagePassword =
+document.getElementById(
+"pagePassword"
+).value;
+
+
+if(pagePassword.length < 6){
+
+throw new Error(
+"Page password must contain at least 6 characters."
+);
+
+}
+
+
+/* =========================
+   PAGE DATA
 ========================= */
 
 const pageData = {
 
 ownerId:
-currentUser.uid,
+currentUser
+?
+currentUser.uid
+:
+"",
 
 ownerEmail:
-currentUser.email || "",
+currentUser
+?
+currentUser.email || ""
+:
+"",
 
 pageType:
 document.getElementById(
@@ -564,6 +547,14 @@ address:
 document.getElementById(
 "address"
 ).value.trim(),
+
+/*
+This password will be used
+for page management.
+*/
+
+pagePassword:
+pagePassword,
 
 status:
 "Pending",
@@ -662,102 +653,13 @@ result.secure_url
 
 );
 
-}
-
-
-/* =========================
-   UPLOAD GALLERY PHOTOS
-========================= */
-
-const galleryFiles =
-document.getElementById(
-"galleryPhotos"
-).files;
-
-
-const photoURLs = [];
-
-
-for(
-const photoFile of galleryFiles
-){
-
-const photoData =
-new FormData();
-
-
-photoData.append(
-"file",
-photoFile
-);
-
-
-photoData.append(
-"upload_preset",
-CLOUDINARY_UPLOAD_PRESET
-);
-
-
-const photoResponse =
-await fetch(
-
-`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
-
-{
-method:"POST",
-body:photoData
-}
-
-);
-
-
-if(!photoResponse.ok){
-
-throw new Error(
-"Photo upload failed."
-);
-
-}
-
-
-const photoResult =
-await photoResponse.json();
-
-
-photoURLs.push(
-photoResult.secure_url
-);
-
-}
-
-
-/* SAVE PHOTO URLS */
-
-if(photoURLs.length > 0){
-
-await updateDoc(
-
-doc(
-db,
-"pendingPages",
-pageRef.id
-),
-
-{
-
-photos:
-photoURLs
-
-}
-
-);
-
-}
-
 
 /* =========================
    SUCCESS
 ========================= */
+
+}
+
 
 form.style.display =
 "none";
@@ -767,11 +669,6 @@ document.getElementById(
 "submitMessage"
 ).style.display =
 "block";
-
-
-alert(
-"Page submitted successfully!"
-);
 
 
 }catch(error){
@@ -803,4 +700,5 @@ submitButton.innerText =
 
 
 </body>
-  </html>
+
+</html>
