@@ -81,7 +81,7 @@ button:hover{
 background:#083d82;
 }
 
-.password-info{
+.info{
 background:#eef5ff;
 border-left:4px solid #0a4ea3;
 padding:12px;
@@ -105,7 +105,6 @@ text-align:center;
 
 </head>
 
-
 <body>
 
 
@@ -123,7 +122,7 @@ Create Your Own Page
 <div class="container">
 
 <h2>
-Page Information
+Create Your Page
 </h2>
 
 
@@ -134,10 +133,7 @@ Page Information
 Page Type
 </label>
 
-<select
-id="pageType"
-required
->
+<select id="pageType" required>
 
 <option value="">
 Select Page Type
@@ -190,10 +186,7 @@ required
 Category
 </label>
 
-<select
-id="category"
-required
->
+<select id="category" required>
 
 <option value="Snails">
 Snails
@@ -248,13 +241,14 @@ placeholder="Enter phone number"
 
 
 <label>
-Email
+Email Address
 </label>
 
 <input
 type="email"
 id="email"
-placeholder="Enter email address"
+placeholder="Enter the email you will use to manage this page"
+required
 >
 
 
@@ -279,27 +273,41 @@ placeholder="Enter your full address"
 ></textarea>
 
 
-<!-- PRIVATE PAGE PASSWORD -->
+<!-- ACCOUNT PASSWORD -->
 
 <label>
-Private Page Password
+Create Page Password
 </label>
 
 <input
 type="password"
 id="pagePassword"
-placeholder="Create a password for managing your page"
+placeholder="Create a password"
 required
 minlength="6"
 >
 
-<div class="password-info">
 
-🔐 This password is for the page owner.
-It will be used to access the page management area
-after the page has been approved.
+<label>
+Confirm Page Password
+</label>
 
-Do not share your password with other people.
+<input
+type="password"
+id="confirmPassword"
+placeholder="Enter password again"
+required
+minlength="6"
+>
+
+
+<div class="info">
+
+🔐 This email and password will be used to
+log in and manage your Logical World page.
+
+You will be able to change your logo and create
+new posts after your page is approved.
 
 </div>
 
@@ -328,7 +336,7 @@ margin-top:3px;
 
 I agree to the Logical World Terms & Conditions
 and understand that my page will be reviewed
-by the Logical World Admin before it becomes public.
+by the Logical World Admin before becoming public.
 
 </span>
 
@@ -340,7 +348,7 @@ type="submit"
 id="submitButton"
 >
 
-Submit For Approval
+Create Page & Submit For Approval
 
 </button>
 
@@ -370,8 +378,9 @@ It will remain hidden until it is approved.
 <br>
 
 <p>
-After approval, you can use your page password
-to manage your page and create posts.
+After approval, use your email and password
+to log in and manage your page.
+
 </p>
 
 </div>
@@ -388,7 +397,7 @@ from "./firebase.js";
 
 
 import {
-onAuthStateChanged
+createUserWithEmailAndPassword
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
@@ -432,24 +441,7 @@ document.getElementById(
 
 
 /* =========================
-   CURRENT USER
-========================= */
-
-let currentUser = null;
-
-
-onAuthStateChanged(
-auth,
-(user)=>{
-
-currentUser = user || null;
-
-}
-);
-
-
-/* =========================
-   CREATE PAGE
+   SUBMIT
 ========================= */
 
 form.addEventListener(
@@ -459,6 +451,46 @@ async(e)=>{
 e.preventDefault();
 
 
+const email =
+document.getElementById(
+"email"
+).value.trim();
+
+
+const password =
+document.getElementById(
+"pagePassword"
+).value;
+
+
+const confirmPassword =
+document.getElementById(
+"confirmPassword"
+).value;
+
+
+if(password !== confirmPassword){
+
+alert(
+"Passwords do not match."
+);
+
+return;
+
+}
+
+
+if(password.length < 6){
+
+alert(
+"Password must contain at least 6 characters."
+);
+
+return;
+
+}
+
+
 try{
 
 
@@ -466,26 +498,23 @@ submitButton.disabled =
 true;
 
 submitButton.innerText =
-"Submitting...";
+"Creating Account...";
 
 
 /* =========================
-   GET PASSWORD
+   CREATE FIREBASE ACCOUNT
 ========================= */
 
-const pagePassword =
-document.getElementById(
-"pagePassword"
-).value;
-
-
-if(pagePassword.length < 6){
-
-throw new Error(
-"Page password must contain at least 6 characters."
+const userCredential =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
 );
 
-}
+
+const user =
+userCredential.user;
 
 
 /* =========================
@@ -495,18 +524,10 @@ throw new Error(
 const pageData = {
 
 ownerId:
-currentUser
-?
-currentUser.uid
-:
-"",
+user.uid,
 
 ownerEmail:
-currentUser
-?
-currentUser.email || ""
-:
-"",
+email,
 
 pageType:
 document.getElementById(
@@ -534,9 +555,7 @@ document.getElementById(
 ).value.trim(),
 
 email:
-document.getElementById(
-"email"
-).value.trim(),
+email,
 
 location:
 document.getElementById(
@@ -548,14 +567,6 @@ document.getElementById(
 "address"
 ).value.trim(),
 
-/*
-This password will be used
-for page management.
-*/
-
-pagePassword:
-pagePassword,
-
 status:
 "Pending",
 
@@ -566,7 +577,7 @@ serverTimestamp()
 
 
 /* =========================
-   CREATE PENDING PAGE
+   SAVE PAGE
 ========================= */
 
 const pageRef =
@@ -674,13 +685,13 @@ document.getElementById(
 }catch(error){
 
 console.error(
-"Page submission error:",
+"Create page error:",
 error
 );
 
 
 alert(
-"Submission error: " +
+"Error: " +
 error.message
 );
 
@@ -689,12 +700,11 @@ submitButton.disabled =
 false;
 
 submitButton.innerText =
-"Submit For Approval";
+"Create Page & Submit For Approval";
 
 }
 
 });
-
 
 </script>
 
