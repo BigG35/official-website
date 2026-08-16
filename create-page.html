@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
@@ -81,13 +80,10 @@ button:hover{
 background:#083d82;
 }
 
-.info{
-background:#eef5ff;
-border-left:4px solid #0a4ea3;
-padding:12px;
-margin-top:10px;
-font-size:14px;
-color:#444;
+.loginMessage{
+display:none;
+text-align:center;
+padding:25px;
 }
 
 .successBox{
@@ -101,29 +97,54 @@ border-radius:8px;
 text-align:center;
 }
 
+.contact-box{
+background:#f5f8fc;
+padding:15px;
+margin-top:20px;
+border-radius:8px;
+border:1px solid #ddd;
+}
+
 </style>
 
 </head>
 
 <body>
 
-
 <header>
 
 <h1>🌍 Logical World</h1>
 
-<p>
-Create Your Own Page
-</p>
+<p>Create Your Own Page</p>
 
 </header>
 
 
-<div class="container">
+<div
+id="loginMessage"
+class="container loginMessage"
+>
 
-<h2>
-Create Your Page
-</h2>
+<h2>Login Required</h2>
+
+<p>
+Please login before creating your page.
+</p>
+
+<button onclick="location.href='login.html'">
+🔐 Login
+</button>
+
+</div>
+
+
+<div
+id="formContainer"
+class="container"
+style="display:none;"
+>
+
+<h2>Page Information</h2>
 
 
 <form id="createPageForm">
@@ -186,35 +207,15 @@ required
 Category
 </label>
 
-<select id="category" required>
+<select id="category">
 
-<option value="Snails">
-Snails
-</option>
-
-<option value="Cars">
-Cars
-</option>
-
-<option value="Electronics">
-Electronics
-</option>
-
-<option value="Fashion">
-Fashion
-</option>
-
-<option value="Home Services">
-Home Services
-</option>
-
-<option value="Food">
-Food
-</option>
-
-<option value="Other">
-Other
-</option>
+<option>Snails</option>
+<option>Cars</option>
+<option>Electronics</option>
+<option>Fashion</option>
+<option>Home Services</option>
+<option>Food</option>
+<option>Other</option>
 
 </select>
 
@@ -225,7 +226,7 @@ Description
 
 <textarea
 id="description"
-placeholder="Describe your page or business"
+placeholder="Describe your page"
 ></textarea>
 
 
@@ -241,14 +242,13 @@ placeholder="Enter phone number"
 
 
 <label>
-Email Address
+Email
 </label>
 
 <input
 type="email"
 id="email"
-placeholder="Enter the email you will use to manage this page"
-required
+placeholder="Enter email address"
 >
 
 
@@ -259,7 +259,7 @@ Location
 <input
 type="text"
 id="location"
-placeholder="Enter your location"
+placeholder="Enter location"
 >
 
 
@@ -269,48 +269,78 @@ Business Address
 
 <textarea
 id="address"
-placeholder="Enter your full address"
+placeholder="Enter your full business address"
 ></textarea>
 
 
-<!-- ACCOUNT PASSWORD -->
+<!-- CONTACT OPTIONS -->
+
+<div class="contact-box">
+
+<h3>
+Contact Options
+</h3>
 
 <label>
-Create Page Password
+Contact Method
+</label>
+
+<select id="contactMethod">
+
+<option value="whatsapp">
+WhatsApp
+</option>
+
+<option value="zangi">
+Zangi
+</option>
+
+<option value="both">
+WhatsApp + Zangi
+</option>
+
+</select>
+
+
+<label>
+WhatsApp Number
 </label>
 
 <input
-type="password"
-id="pagePassword"
-placeholder="Create a password"
-required
-minlength="6"
+type="tel"
+id="whatsapp"
+placeholder="Enter WhatsApp number"
 >
 
 
 <label>
-Confirm Page Password
+Zangi Number / ID
 </label>
 
 <input
-type="password"
-id="confirmPassword"
-placeholder="Enter password again"
-required
-minlength="6"
+type="text"
+id="zangi"
+placeholder="Enter Zangi number or ID"
 >
-
-
-<div class="info">
-
-🔐 This email and password will be used to
-log in and manage your Logical World page.
-
-You will be able to change your logo and create
-new posts after your page is approved.
 
 </div>
 
+
+<!-- PHOTOS ARE ONLY FOR THE PAGE CREATION -->
+
+<label>
+Upload Photos
+</label>
+
+<input
+type="file"
+id="galleryPhotos"
+accept="image/*"
+multiple
+>
+
+
+<!-- TERMS -->
 
 <label
 style="
@@ -318,7 +348,6 @@ display:flex;
 align-items:flex-start;
 gap:10px;
 margin-top:20px;
-font-weight:normal;
 "
 >
 
@@ -326,17 +355,14 @@ font-weight:normal;
 type="checkbox"
 id="terms"
 required
-style="
-width:auto;
-margin-top:3px;
-"
+style="width:auto;margin-top:4px;"
 >
 
 <span>
 
 I agree to the Logical World Terms & Conditions
 and understand that my page will be reviewed
-by the Logical World Admin before becoming public.
+before it becomes public.
 
 </span>
 
@@ -348,7 +374,7 @@ type="submit"
 id="submitButton"
 >
 
-Create Page & Submit For Approval
+Submit For Approval
 
 </button>
 
@@ -375,19 +401,10 @@ Your page has been sent to the Logical World Admin.
 It will remain hidden until it is approved.
 </p>
 
-<br>
-
-<p>
-After approval, use your email and password
-to log in and manage your page.
-
-</p>
-
 </div>
 
 
 <script type="module">
-
 
 import {
 auth,
@@ -397,7 +414,7 @@ from "./firebase.js";
 
 
 import {
-createUserWithEmailAndPassword
+onAuthStateChanged
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
@@ -414,9 +431,7 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================
-   CLOUDINARY
-========================= */
+/* CLOUDINARY */
 
 const CLOUDINARY_CLOUD_NAME =
 "rkcnhhdb";
@@ -425,24 +440,57 @@ const CLOUDINARY_UPLOAD_PRESET =
 "logicalworld_pages";
 
 
-/* =========================
-   FORM
-========================= */
+/* ELEMENTS */
+
+const formContainer =
+document.getElementById("formContainer");
+
+const loginMessage =
+document.getElementById("loginMessage");
 
 const form =
-document.getElementById(
-"createPageForm"
-);
+document.getElementById("createPageForm");
 
 const submitButton =
-document.getElementById(
-"submitButton"
+document.getElementById("submitButton");
+
+
+let currentUser = null;
+
+
+/* CHECK LOGIN */
+
+onAuthStateChanged(
+auth,
+(user)=>{
+
+if(user){
+
+currentUser = user;
+
+loginMessage.style.display =
+"none";
+
+formContainer.style.display =
+"block";
+
+}else{
+
+currentUser = null;
+
+formContainer.style.display =
+"none";
+
+loginMessage.style.display =
+"block";
+
+}
+
+}
 );
 
 
-/* =========================
-   SUBMIT
-========================= */
+/* SUBMIT PAGE */
 
 form.addEventListener(
 "submit",
@@ -451,40 +499,14 @@ async(e)=>{
 e.preventDefault();
 
 
-const email =
-document.getElementById(
-"email"
-).value.trim();
-
-
-const password =
-document.getElementById(
-"pagePassword"
-).value;
-
-
-const confirmPassword =
-document.getElementById(
-"confirmPassword"
-).value;
-
-
-if(password !== confirmPassword){
+if(!currentUser){
 
 alert(
-"Passwords do not match."
+"Please login first."
 );
 
-return;
-
-}
-
-
-if(password.length < 6){
-
-alert(
-"Password must contain at least 6 characters."
-);
+location.href =
+"login.html";
 
 return;
 
@@ -493,79 +515,55 @@ return;
 
 try{
 
-
 submitButton.disabled =
 true;
 
 submitButton.innerText =
-"Creating Account...";
+"Submitting...";
 
 
-/* =========================
-   CREATE FIREBASE ACCOUNT
-========================= */
-
-const userCredential =
-await createUserWithEmailAndPassword(
-auth,
-email,
-password
-);
-
-
-const user =
-userCredential.user;
-
-
-/* =========================
-   PAGE DATA
-========================= */
+/* PAGE DATA */
 
 const pageData = {
 
 ownerId:
-user.uid,
+currentUser.uid,
 
 ownerEmail:
-email,
+currentUser.email || "",
 
 pageType:
-document.getElementById(
-"pageType"
-).value,
+document.getElementById("pageType").value,
 
 pageName:
-document.getElementById(
-"pageName"
-).value.trim(),
+document.getElementById("pageName").value.trim(),
 
 category:
-document.getElementById(
-"category"
-).value,
+document.getElementById("category").value,
 
 description:
-document.getElementById(
-"description"
-).value.trim(),
+document.getElementById("description").value.trim(),
 
 phone:
-document.getElementById(
-"phone"
-).value.trim(),
+document.getElementById("phone").value.trim(),
 
 email:
-email,
+document.getElementById("email").value.trim(),
 
 location:
-document.getElementById(
-"location"
-).value.trim(),
+document.getElementById("location").value.trim(),
 
 address:
-document.getElementById(
-"address"
-).value.trim(),
+document.getElementById("address").value.trim(),
+
+contactMethod:
+document.getElementById("contactMethod").value,
+
+whatsapp:
+document.getElementById("whatsapp").value.trim(),
+
+zangi:
+document.getElementById("zangi").value.trim(),
 
 status:
 "Pending",
@@ -576,9 +574,7 @@ serverTimestamp()
 };
 
 
-/* =========================
-   SAVE PAGE
-========================= */
+/* CREATE PENDING PAGE */
 
 const pageRef =
 await addDoc(
@@ -593,9 +589,7 @@ pageData
 );
 
 
-/* =========================
-   UPLOAD LOGO
-========================= */
+/* UPLOAD LOGO */
 
 const logoFile =
 document.getElementById(
@@ -608,12 +602,10 @@ if(logoFile){
 const uploadData =
 new FormData();
 
-
 uploadData.append(
 "file",
 logoFile
 );
-
 
 uploadData.append(
 "upload_preset",
@@ -656,51 +648,129 @@ pageRef.id
 ),
 
 {
-
 logoURL:
 result.secure_url
+}
 
+);
+
+}
+
+
+/* UPLOAD PHOTOS */
+
+const galleryFiles =
+document.getElementById(
+"galleryPhotos"
+).files;
+
+
+const photoURLs = [];
+
+
+for(
+const photoFile of galleryFiles
+){
+
+const photoData =
+new FormData();
+
+photoData.append(
+"file",
+photoFile
+);
+
+photoData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+const photoResponse =
+await fetch(
+
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+
+{
+method:"POST",
+body:photoData
 }
 
 );
 
 
-/* =========================
-   SUCCESS
-========================= */
+if(!photoResponse.ok){
+
+throw new Error(
+"Photo upload failed."
+);
 
 }
 
 
+const photoResult =
+await photoResponse.json();
+
+
+photoURLs.push(
+photoResult.secure_url
+);
+
+}
+
+
+if(photoURLs.length > 0){
+
+await updateDoc(
+
+doc(
+db,
+"pendingPages",
+pageRef.id
+),
+
+{
+photos:
+photoURLs
+}
+
+);
+
+}
+
+
+/* SUCCESS */
+
 form.style.display =
 "none";
-
 
 document.getElementById(
 "submitMessage"
 ).style.display =
 "block";
 
+alert(
+"Page submitted successfully!"
+);
+
 
 }catch(error){
 
 console.error(
-"Create page error:",
+"Page submission error:",
 error
 );
 
-
 alert(
-"Error: " +
+"Submission error: " +
 error.message
 );
-
 
 submitButton.disabled =
 false;
 
 submitButton.innerText =
-"Create Page & Submit For Approval";
+"Submit For Approval";
 
 }
 
@@ -708,7 +778,5 @@ submitButton.innerText =
 
 </script>
 
-
 </body>
-
-</html>
+   </html>
