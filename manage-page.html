@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Manage My Page - Logical World</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+background:#f0f2f5;
+color:#222;
+}
+
+header{
+background:#0a4ea3;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+.container{
+max-width:800px;
+margin:20px auto;
+padding:20px;
+}
+
+.card{
+background:white;
+padding:20px;
+border-radius:12px;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+.page-logo{
+width:130px;
+height:130px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:0 auto 15px;
+border:4px solid #eee;
+}
+
+h2{
+color:#0a4ea3;
+margin-bottom:15px;
+text-align:center;
+}
+
+h3{
+color:#0a4ea3;
+margin-bottom:10px;
+}
+
+input,
+textarea{
+width:100%;
+padding:12px;
+margin-top:8px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
+
+textarea{
+height:110px;
+resize:vertical;
+}
+
+button{
+width:100%;
+padding:13px;
+margin-top:12px;
+border:none;
+border-radius:7px;
+background:#0a4ea3;
+color:white;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+background:#083d82;
+}
+
+.post{
+border-top:1px solid #ddd;
+padding-top:20px;
+margin-top:20px;
+}
+
+.post img,
+.post video{
+width:100%;
+max-height:500px;
+object-fit:contain;
+border-radius:10px;
+margin-top:12px;
+background:#000;
+}
+
+.post-text{
+font-size:17px;
+margin-top:12px;
+line-height:1.5;
+}
+
+.post-date{
+font-size:13px;
+color:#777;
+margin-top:8px;
+}
+
+.logout{
+background:#555;
+}
+
+.loading{
+text-align:center;
+padding:30px;
+}
+
+.hidden{
+display:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌍 Logical World</h1>
+
+<p>Manage Your Page</p>
+
+</header>
+
+
+<div class="container">
+
+<div id="loading" class="card loading">
+Checking your account...
+</div>
+
+
+<div id="loginRequired" class="card hidden">
+
+<h2>Login Required</h2>
+
+<p style="text-align:center;">
+Please login to manage your page.
+</p>
+
+<button onclick="location.href='login.html'">
+🔐 Login
+</button>
+
+</div>
+
+
+<div id="noPage" class="card hidden">
+
+<h2>No Page Found</h2>
+
+<p style="text-align:center;">
+You do not have an approved page yet.
+</p>
+
+<button onclick="location.href='create-page.html'">
+➕ Create Your Page
+</button>
+
+</div>
+
+
+<div id="manageArea" class="hidden">
+
+
+<!-- PAGE INFORMATION -->
+
+<div class="card">
+
+<h2 id="pageName">
+My Page
+</h2>
+
+<img
+id="pageLogo"
+class="page-logo"
+src="images/default-logo.png"
+alt="Page Logo"
+>
+
+<label>
+Change Logo
+</label>
+
+<input
+type="file"
+id="logoFile"
+accept="image/*"
+>
+
+<button id="changeLogoBtn">
+🖼️ Change Logo
+</button>
+
+</div>
+
+
+<!-- CREATE POST -->
+
+<div class="card">
+
+<h2>📝 Create New Post</h2>
+
+<label>
+Write about your post
+</label>
+
+<textarea
+id="postText"
+placeholder="Write something about your photo or video..."
+></textarea>
+
+
+<label>
+Choose Photo or Video
+</label>
+
+<input
+type="file"
+id="postFile"
+accept="image/*,video/*"
+>
+
+
+<button id="publishBtn">
+📤 Publish Post
+</button>
+
+</div>
+
+
+<!-- POSTS -->
+
+<div class="card">
+
+<h2>📱 My Posts</h2>
+
+<div id="postsList">
+
+<p style="text-align:center;color:#777;">
+No posts yet.
+</p>
+
+</div>
+
+</div>
+
+
+<button
+class="logout"
+id="logoutBtn"
+>
+🚪 Logout
+</button>
+
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+collection,
+query,
+where,
+getDocs,
+doc,
+updateDoc,
+addDoc,
+serverTimestamp,
+orderBy,
+deleteDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   CLOUDINARY
+========================= */
+
+const CLOUDINARY_CLOUD_NAME =
+"rkcnhhdb";
+
+const CLOUDINARY_UPLOAD_PRESET =
+"logicalworld_pages";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const loading =
+document.getElementById("loading");
+
+const loginRequired =
+document.getElementById("loginRequired");
+
+const noPage =
+document.getElementById("noPage");
+
+const manageArea =
+document.getElementById("manageArea");
+
+const pageName =
+document.getElementById("pageName");
+
+const pageLogo =
+document.getElementById("pageLogo");
+
+const logoFile =
+document.getElementById("logoFile");
+
+const changeLogoBtn =
+document.getElementById("changeLogoBtn");
+
+const postText =
+document.getElementById("postText");
+
+const postFile =
+document.getElementById("postFile");
+
+const publishBtn =
+document.getElementById("publishBtn");
+
+const postsList =
+document.getElementById("postsList");
+
+const logoutBtn =
+document.getElementById("logoutBtn");
+
+
+let currentUser = null;
+let currentPage = null;
+
+
+/* =========================
+   CHECK LOGIN
+========================= */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+loading.style.display = "none";
+
+if(!user){
+
+loginRequired.classList.remove("hidden");
+
+return;
+
+}
+
+currentUser = user;
+
+await loadMyPage();
+
+});
+
+
+/* =========================
+   FIND OWNER PAGE
+========================= */
+
+async function loadMyPage(){
+
+try{
+
+const pagesRef =
+collection(db,"approvedPages");
+
+const q =
+query(
+pagesRef,
+where(
+"ownerId",
+"==",
+currentUser.uid
+)
+);
+
+const snapshot =
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+noPage.classList.remove("hidden");
+
+return;
+
+}
+
+
+/* FIRST APPROVED PAGE */
+
+const pageDoc =
+snapshot.docs[0];
+
+currentPage = {
+
+id:pageDoc.id,
+
+data:pageDoc.data()
+
+};
+
+
+const data =
+currentPage.data;
+
+
+/* PAGE NAME */
+
+pageName.innerText =
+data.pageName || "My Page";
+
+
+/* LOGO */
+
+if(data.logoURL){
+
+pageLogo.src =
+data.logoURL;
+
+}
+
+
+/* SHOW MANAGEMENT */
+
+manageArea.classList.remove(
+"hidden"
+);
+
+
+/* LOAD POSTS */
+
+await loadPosts();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Could not load your page: "
++
+error.message
+);
+
+}
+
+}
+
+
+/* =========================
+   CHANGE LOGO
+========================= */
+
+changeLogoBtn.addEventListener(
+"click",
+async()=>{
+
+if(!logoFile.files.length){
+
+alert(
+"Please select a new logo first."
+);
+
+return;
+
+}
+
+
+try{
+
+changeLogoBtn.disabled =
+true;
+
+changeLogoBtn.innerText =
+"Uploading...";
+
+
+const file =
+logoFile.files[0];
+
+
+const formData =
+new FormData();
+
+
+formData.append(
+"file",
+file
+);
+
+
+formData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+const response =
+await fetch(
+
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+
+{
+method:"POST",
+body:formData
+}
+
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Logo upload failed."
+);
+
+}
+
+
+const result =
+await response.json();
+
+
+await updateDoc(
+
+doc(
+db,
+"approvedPages",
+currentPage.id
+),
+
+{
+
+logoURL:
+result.secure_url
+
+}
+
+);
+
+
+pageLogo.src =
+result.secure_url;
+
+
+alert(
+"Logo changed successfully!"
+);
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Logo change failed: "
++
+error.message
+);
+
+}
+
+
+changeLogoBtn.disabled =
+false;
+
+changeLogoBtn.innerText =
+"🖼️ Change Logo";
+
+});
+
+
+/* =========================
+   PUBLISH POST
+========================= */
+
+publishBtn.addEventListener(
+"click",
+async()=>{
+
+const text =
+postText.value.trim();
+
+const file =
+postFile.files[0];
+
+
+if(!text && !file){
+
+alert(
+"Write something or select a photo/video."
+);
+
+return;
+
+}
+
+
+try{
+
+publishBtn.disabled =
+true;
+
+publishBtn.innerText =
+"Publishing...";
+
+
+let mediaURL = "";
+let mediaType = "";
+
+
+/* UPLOAD MEDIA */
+
+if(file){
+
+const formData =
+new FormData();
+
+
+formData.append(
+"file",
+file
+);
+
+
+formData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+const resourceType =
+file.type.startsWith("video/")
+?
+"video"
+:
+"image";
+
+
+const response =
+await fetch(
+
+`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+
+{
+method:"POST",
+body:formData
+}
+
+);
+
+
+if(!response.ok){
+
+throw new Error(
+"Media upload failed."
+);
+
+}
+
+
+const result =
+await response.json();
+
+
+mediaURL =
+result.secure_url;
+
+
+mediaType =
+resourceType;
+
+}
+
+
+/* CREATE POST */
+
+await addDoc(
+
+collection(
+db,
+"posts"
+),
+
+{
+
+pageId:
+currentPage.id,
+
+ownerId:
+currentUser.uid,
+
+pageName:
+currentPage.data.pageName || "",
+
+logoURL:
+currentPage.data.logoURL || "",
+
+text:
+text,
+
+mediaURL:
+mediaURL,
+
+mediaType:
+mediaType,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+/* CLEAR FORM */
+
+postText.value =
+"";
+
+postFile.value =
+"";
+
+
+alert(
+"Post published successfully!"
+);
+
+
+await loadPosts();
+
+
+}catch(error){
+
+console.error(error);
+
+alert(
+"Post failed: "
++
+error.message
+);
+
+}
+
+
+publishBtn.disabled =
+false;
+
+publishBtn.innerText =
+"📤 Publish Post";
+
+});
+
+
+/* =========================
+   LOAD POSTS
+========================= */
+
+async function loadPosts(){
+
+postsList.innerHTML =
+"Loading posts...";
+
+
+try{
+
+const postsRef =
+collection(db,"posts");
+
+
+const q =
+query(
+
+postsRef,
+
+where(
+"pageId",
+"==",
+currentPage.id
+)
+
+);
+
+
+const snapshot =
+await getDocs(q);
+
+
+postsList.innerHTML =
+"";
+
+
+if(snapshot.empty){
+
+postsList.innerHTML = `
+
+<p style="
+text-align:center;
+color:#777;
+">
+
+No posts yet.
+
+</p>
+
+`;
+
+return;
+
+}
+
+
+/* SORT NEWEST FIRST */
+
+const posts =
+snapshot.docs.map(
+post=>({
+
+id:post.id,
+data:post.data()
+
+})
+);
+
+
+posts.sort(
+(a,b)=>
+getTime(b.data.createdAt)
+-
+getTime(a.data.createdAt)
+);
+
+
+posts.forEach(
+(post)=>{
+
+const data =
+post.data;
+
+
+const postDiv =
+document.createElement(
+"div"
+);
+
+postDiv.className =
+"post";
+
+
+let mediaHTML = "";
+
+
+if(
+data.mediaURL &&
+data.mediaType === "image"
+){
+
+mediaHTML = `
+
+<img
+src="${data.mediaURL}"
+alt="Post image"
+>
+
+`;
+
+}
+
+
+if(
+data.mediaURL &&
+data.mediaType === "video"
+){
+
+mediaHTML = `
+
+<video
+src="${data.mediaURL}"
+controls
+>
+
+</video>
+
+`;
+
+}
+
+
+postDiv.innerHTML = `
+
+<h3>
+${escapeHTML(
+data.pageName || "My Page"
+)}
+</h3>
+
+${
+data.text
+?
+`
+<p class="post-text">
+${escapeHTML(data.text)}
+</p>
+`
+:
+""
+}
+
+${mediaHTML}
+
+<p class="post-date">
+${formatDate(data.createdAt)}
+</p>
+
+<button
+class="deletePost"
+data-id="${post.id}"
+style="
+background:#d32f2f;
+"
+>
+🗑️ Delete Post
+</button>
+
+`;
+
+
+postsList.appendChild(
+postDiv
+);
+
+});
+
+}catch(error){
+
+console.error(error);
+
+postsList.innerHTML =
+"Could not load posts.";
+
+}
+
+}
+
+
+/* =========================
+   DELETE POST
+========================= */
+
+document.addEventListener(
+"click",
+async(e)=>{
+
+if(
+!e.target.classList.contains(
+"deletePost"
+)
+){
+
+return;
+
+}
+
+
+const postId =
+e.target.dataset.id;
+
+
+if(
+!confirm(
+"Delete this post?"
+)
+){
+
+return;
+
+}
+
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"posts",
+postId
+)
+
+);
+
+
+alert(
+"Post deleted."
+);
+
+
+await loadPosts();
+
+
+}catch(error){
+
+alert(
+"Delete failed: "
++
+error.message
+);
+
+}
+
+});
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+logoutBtn.addEventListener(
+"click",
+async()=>{
+
+await signOut(auth);
+
+location.href =
+"login.html";
+
+});
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function getTime(timestamp){
+
+if(
+timestamp &&
+typeof timestamp.toMillis ===
+"function"
+){
+
+return timestamp.toMillis();
+
+}
+
+return 0;
+
+}
+
+
+function formatDate(timestamp){
+
+if(
+!timestamp ||
+typeof timestamp.toDate !==
+"function"
+){
+
+return "";
+
+}
+
+return timestamp
+.toDate()
+.toLocaleString();
+
+}
+
+
+function escapeHTML(value){
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;");
+
+}
+
+</script>
+
+</body>
+
+</html>
