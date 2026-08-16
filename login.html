@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -21,7 +22,8 @@ background:#f5f5f5;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+min-height:100vh;
+padding:20px;
 }
 
 .container{
@@ -36,13 +38,19 @@ box-shadow:0 0 10px rgba(0,0,0,.2);
 h1{
 text-align:center;
 color:#0a4ea3;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
 margin-bottom:20px;
 }
 
 input{
 width:100%;
 padding:12px;
-margin:10px 0;
+margin:8px 0;
 border:1px solid #ccc;
 border-radius:5px;
 font-size:16px;
@@ -64,6 +72,17 @@ button:hover{
 background:#083d82;
 }
 
+.create-link{
+text-align:center;
+margin-top:20px;
+}
+
+.create-link a{
+color:#0a4ea3;
+font-weight:bold;
+text-decoration:none;
+}
+
 </style>
 
 </head>
@@ -72,75 +91,294 @@ background:#083d82;
 
 <div class="container">
 
-<h1>Login</h1>
+<h1>🔐 Login</h1>
+
+<p class="subtitle">
+Login to manage your Logical World page
+</p>
+
 
 <input
 type="email"
 id="email"
 placeholder="Email Address"
-required>
+autocomplete="email"
+>
+
 
 <input
 type="password"
 id="password"
 placeholder="Password"
-required>
+autocomplete="current-password"
+>
+
 
 <button id="loginBtn">
 Login
-  </button>
-  </div>
+</button>
+
+
+<div class="create-link">
+
+<p>
+Don't have a page yet?
+</p>
+
+<a href="create-page.html">
+➕ Create Your Page
+</a>
+
+</div>
+
+</div>
+
 
 <script type="module">
 
-import { auth } from "./firebase.js";
+import {
+auth,
+db
+}
+from "./firebase.js";
+
 
 import {
 signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-const loginBtn = document.getElementById("loginBtn");
 
-loginBtn.addEventListener("click", async()=>{
+import {
+collection,
+query,
+where,
+getDocs
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+const loginBtn =
+document.getElementById(
+"loginBtn"
+);
+
+
+/* =========================
+   LOGIN
+========================= */
+
+loginBtn.addEventListener(
+"click",
+async()=>{
 
 const email =
-document.getElementById("email").value;
+document.getElementById(
+"email"
+).value.trim();
 
 const password =
-document.getElementById("password").value;
+document.getElementById(
+"password"
+).value;
 
-if(email==="" || password===""){
 
-alert("Please enter your email and password.");
+if(
+email === "" ||
+password === ""
+){
+
+alert(
+"Please enter your email and password."
+);
 
 return;
 
 }
 
+
 try{
 
-await signInWithEmailAndPassword(auth,email,password);
+loginBtn.disabled =
+true;
 
-alert("Login Successful!");
+loginBtn.innerText =
+"Logging in...";
 
-if(email==="alagoagodstime@gmail.com"){
 
-location.href="admin.html";
+/* =========================
+   FIREBASE LOGIN
+========================= */
 
-}else{
+const credential =
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
 
-location.href="index.html";
+
+const user =
+credential.user;
+
+
+/* =========================
+   CHECK ADMIN
+========================= */
+
+if(
+user.email ===
+"alagoagodstime@gmail.com"
+){
+
+alert(
+"Admin login successful!"
+);
+
+location.href =
+"admin.html";
+
+return;
 
 }
 
+
+/* =========================
+   CHECK OWNER PAGE
+========================= */
+
+const pagesRef =
+collection(
+db,
+"approvedPages"
+);
+
+
+const q =
+query(
+
+pagesRef,
+
+where(
+"ownerId",
+"==",
+user.uid
+)
+
+);
+
+
+const snapshot =
+await getDocs(q);
+
+
+/* =========================
+   OWNER HAS APPROVED PAGE
+========================= */
+
+if(
+!snapshot.empty
+){
+
+alert(
+"Login successful!"
+);
+
+location.href =
+"manage-page.html";
+
+return;
+
+}
+
+
+/* =========================
+   PAGE STILL PENDING
+========================= */
+
+const pendingRef =
+collection(
+db,
+"pendingPages"
+);
+
+
+const pendingQuery =
+query(
+
+pendingRef,
+
+where(
+"ownerId",
+"==",
+user.uid
+)
+
+);
+
+
+const pendingSnapshot =
+await getDocs(
+pendingQuery
+);
+
+
+if(
+!pendingSnapshot.empty
+){
+
+alert(
+"Your page is still waiting for admin approval."
+);
+
+location.href =
+"index.html";
+
+return;
+
+}
+
+
+/* =========================
+   NO PAGE
+========================= */
+
+alert(
+"Your account does not have a page yet."
+);
+
+location.href =
+"create-page.html";
+
+
 }catch(error){
 
-alert(error.message);
+console.error(
+"Login error:",
+error
+);
+
+
+alert(
+"Login failed: " +
+error.message
+);
+
+
+loginBtn.disabled =
+false;
+
+loginBtn.innerText =
+"Login";
 
 }
 
 });
 
-  </script>
-  </body>
-  </html>
+</script>
+
+</body>
+
+</html>
