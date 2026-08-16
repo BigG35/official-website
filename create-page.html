@@ -98,7 +98,8 @@ border-radius:8px;
 text-align:center;
 }
 
-.contact-box{
+.contact-box,
+.account-box{
 background:#f5f8fc;
 padding:15px;
 margin-top:20px;
@@ -108,6 +109,12 @@ border:1px solid #ddd;
 
 .contact-field{
 display:none;
+}
+
+.password-note{
+font-size:13px;
+color:#666;
+margin-top:5px;
 }
 
 </style>
@@ -146,14 +153,64 @@ Please login before creating your page.
 <div
 id="formContainer"
 class="container"
-style="display:none;"
 >
 
 <h2>Page Information</h2>
 
-
 <form id="createPageForm">
 
+
+<!-- ACCOUNT -->
+
+<div class="account-box">
+
+<h3>
+🔐 Create Your Owner Account
+</h3>
+
+<label>
+Email
+</label>
+
+<input
+type="email"
+id="email"
+placeholder="Enter your email address"
+required
+>
+
+
+<label>
+Password
+</label>
+
+<input
+type="password"
+id="password"
+placeholder="Create a password"
+required
+>
+
+<p class="password-note">
+Use at least 6 characters.
+</p>
+
+
+<label>
+Confirm Password
+</label>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Enter password again"
+required
+>
+
+</div>
+
+
+<!-- PAGE TYPE -->
 
 <label>
 Page Type
@@ -184,6 +241,8 @@ Community
 </select>
 
 
+<!-- PAGE NAME -->
+
 <label>
 Page Name
 </label>
@@ -196,6 +255,8 @@ required
 >
 
 
+<!-- LOGO -->
+
 <label>
 Page Logo / Profile Picture
 </label>
@@ -207,6 +268,8 @@ accept="image/*"
 required
 >
 
+
+<!-- CATEGORY -->
 
 <label>
 Category
@@ -225,6 +288,8 @@ Category
 </select>
 
 
+<!-- DESCRIPTION -->
+
 <label>
 Description
 </label>
@@ -235,16 +300,7 @@ placeholder="Describe your page"
 ></textarea>
 
 
-<label>
-Email
-</label>
-
-<input
-type="email"
-id="email"
-placeholder="Enter email address"
->
-
+<!-- LOCATION -->
 
 <label>
 Location
@@ -256,6 +312,8 @@ id="location"
 placeholder="Enter location"
 >
 
+
+<!-- ADDRESS -->
 
 <label>
 Business Address
@@ -272,14 +330,14 @@ placeholder="Enter your full business address"
 <div class="contact-box">
 
 <h3>
-Contact
+📞 Contact
 </h3>
 
 <label>
 Contact Method
 </label>
 
-<select id="contactMethod">
+<select id="contactMethod" required>
 
 <option value="">
 Select Contact Method
@@ -382,7 +440,7 @@ type="submit"
 id="submitButton"
 >
 
-Submit For Approval
+Create Page & Submit For Approval
 
 </button>
 
@@ -402,11 +460,11 @@ class="successBox"
 </h3>
 
 <p>
-Your page has been sent to the Logical World Admin.
+Your page has been submitted to the Logical World Admin.
 </p>
 
 <p>
-It will remain hidden until it is approved.
+Your email and password will be used to manage your page.
 </p>
 
 </div>
@@ -422,7 +480,7 @@ from "./firebase.js";
 
 
 import {
-onAuthStateChanged
+createUserWithEmailAndPassword
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
@@ -439,7 +497,9 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* CLOUDINARY */
+/* =========================
+   CLOUDINARY
+========================= */
 
 const CLOUDINARY_CLOUD_NAME =
 "rkcnhhdb";
@@ -448,34 +508,39 @@ const CLOUDINARY_UPLOAD_PRESET =
 "logicalworld_pages";
 
 
-/* ELEMENTS */
-
-const formContainer =
-document.getElementById("formContainer");
-
-const loginMessage =
-document.getElementById("loginMessage");
+/* =========================
+   ELEMENTS
+========================= */
 
 const form =
-document.getElementById("createPageForm");
+document.getElementById(
+"createPageForm"
+);
 
 const submitButton =
-document.getElementById("submitButton");
+document.getElementById(
+"submitButton"
+);
 
 const contactMethod =
-document.getElementById("contactMethod");
+document.getElementById(
+"contactMethod"
+);
 
 const whatsappField =
-document.getElementById("whatsappField");
+document.getElementById(
+"whatsappField"
+);
 
 const zangiField =
-document.getElementById("zangiField");
+document.getElementById(
+"zangiField"
+);
 
 
-let currentUser = null;
-
-
-/* CONTACT METHOD */
+/* =========================
+   CONTACT METHOD
+========================= */
 
 contactMethod.addEventListener(
 "change",
@@ -487,11 +552,9 @@ whatsappField.style.display =
 zangiField.style.display =
 "none";
 
-
 document.getElementById(
 "whatsapp"
 ).required = false;
-
 
 document.getElementById(
 "zangi"
@@ -529,39 +592,9 @@ document.getElementById(
 );
 
 
-/* CHECK LOGIN */
-
-onAuthStateChanged(
-auth,
-(user)=>{
-
-if(user){
-
-currentUser = user;
-
-loginMessage.style.display =
-"none";
-
-formContainer.style.display =
-"block";
-
-}else{
-
-currentUser = null;
-
-formContainer.style.display =
-"none";
-
-loginMessage.style.display =
-"block";
-
-}
-
-}
-);
-
-
-/* SUBMIT PAGE */
+/* =========================
+   CREATE ACCOUNT + PAGE
+========================= */
 
 form.addEventListener(
 "submit",
@@ -570,14 +603,40 @@ async(e)=>{
 e.preventDefault();
 
 
-if(!currentUser){
+const email =
+document.getElementById(
+"email"
+).value.trim();
+
+const password =
+document.getElementById(
+"password"
+).value;
+
+const confirmPassword =
+document.getElementById(
+"confirmPassword"
+).value;
+
+
+/* PASSWORD CHECK */
+
+if(password.length < 6){
 
 alert(
-"Please login first."
+"Password must contain at least 6 characters."
 );
 
-location.href =
-"login.html";
+return;
+
+}
+
+
+if(password !== confirmPassword){
+
+alert(
+"Passwords do not match."
+);
 
 return;
 
@@ -590,48 +649,81 @@ submitButton.disabled =
 true;
 
 submitButton.innerText =
-"Submitting...";
+"Creating Account...";
 
 
-/* PAGE DATA */
+/* =========================
+   CREATE FIREBASE ACCOUNT
+========================= */
+
+const userCredential =
+await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+const user =
+userCredential.user;
+
+
+/* =========================
+   PAGE DATA
+========================= */
 
 const pageData = {
 
 ownerId:
-currentUser.uid,
+user.uid,
 
 ownerEmail:
-currentUser.email || "",
+user.email || "",
 
 pageType:
-document.getElementById("pageType").value,
+document.getElementById(
+"pageType"
+).value,
 
 pageName:
-document.getElementById("pageName").value.trim(),
+document.getElementById(
+"pageName"
+).value.trim(),
 
 category:
-document.getElementById("category").value,
+document.getElementById(
+"category"
+).value,
 
 description:
-document.getElementById("description").value.trim(),
+document.getElementById(
+"description"
+).value.trim(),
 
 email:
-document.getElementById("email").value.trim(),
+email,
 
 location:
-document.getElementById("location").value.trim(),
+document.getElementById(
+"location"
+).value.trim(),
 
 address:
-document.getElementById("address").value.trim(),
+document.getElementById(
+"address"
+).value.trim(),
 
 contactMethod:
 contactMethod.value,
 
 whatsapp:
-document.getElementById("whatsapp").value.trim(),
+document.getElementById(
+"whatsapp"
+).value.trim(),
 
 zangi:
-document.getElementById("zangi").value.trim(),
+document.getElementById(
+"zangi"
+).value.trim(),
 
 status:
 "Pending",
@@ -642,7 +734,9 @@ serverTimestamp()
 };
 
 
-/* CREATE PENDING PAGE */
+/* =========================
+   CREATE PENDING PAGE
+========================= */
 
 const pageRef =
 await addDoc(
@@ -657,7 +751,9 @@ pageData
 );
 
 
-/* UPLOAD LOGO */
+/* =========================
+   UPLOAD LOGO
+========================= */
 
 const logoFile =
 document.getElementById(
@@ -725,7 +821,9 @@ result.secure_url
 }
 
 
-/* UPLOAD PAGE PHOTOS */
+/* =========================
+   UPLOAD PAGE PHOTOS
+========================= */
 
 const galleryFiles =
 document.getElementById(
@@ -807,7 +905,9 @@ photoURLs
 }
 
 
-/* SUCCESS */
+/* =========================
+   SUCCESS
+========================= */
 
 form.style.display =
 "none";
@@ -817,21 +917,20 @@ document.getElementById(
 ).style.display =
 "block";
 
-
 alert(
-"Page submitted successfully!"
+"Account and page created successfully!"
 );
 
 
 }catch(error){
 
 console.error(
-"Page submission error:",
+"Create page error:",
 error
 );
 
 alert(
-"Submission error: " +
+"Error: " +
 error.message
 );
 
@@ -839,7 +938,7 @@ submitButton.disabled =
 false;
 
 submitButton.innerText =
-"Submit For Approval";
+"Create Page & Submit For Approval";
 
 }
 
