@@ -94,6 +94,10 @@ background:#555;
 background:#1976d2;
 }
 
+.delete-post{
+background:#d32f2f;
+}
+
 .post{
 border-top:1px solid #ddd;
 padding-top:20px;
@@ -108,6 +112,7 @@ object-fit:contain;
 border-radius:10px;
 margin-top:12px;
 background:#000;
+cursor:pointer;
 }
 
 .post-text{
@@ -122,13 +127,9 @@ color:#777;
 margin-top:8px;
 }
 
-.delete-post{
-background:#d32f2f;
-}
-
 .page-logo{
-width:130px;
-height:130px;
+width:140px;
+height:140px;
 border-radius:50%;
 object-fit:cover;
 display:block;
@@ -142,21 +143,21 @@ display:none;
 
 .message{
 text-align:center;
-padding:20px;
+padding:30px;
 }
 
-.password-info{
-background:#eef5ff;
-border-left:4px solid #0a4ea3;
+.status{
+text-align:center;
 padding:12px;
-margin-top:12px;
-font-size:14px;
+background:#eef5ff;
+border-radius:8px;
+margin-bottom:20px;
+color:#0a4ea3;
 }
 
 </style>
 
 </head>
-
 
 <body>
 
@@ -173,84 +174,68 @@ font-size:14px;
 <div class="container">
 
 
-<!-- =========================
-     PAGE OWNER LOGIN
-========================= -->
+<!-- LOADING -->
 
 <div
-id="pageLogin"
-class="card"
+id="loading"
+class="card message"
+>
+
+Checking your account...
+
+</div>
+
+
+<!-- LOGIN REQUIRED -->
+
+<div
+id="loginRequired"
+class="card message hidden"
 >
 
 <h2>
-🔐 Page Owner Login
+🔐 Login Required
 </h2>
 
-<p
-style="
-text-align:center;
-margin-bottom:15px;
-"
->
-
-Enter the page name and the private
-password you created when creating the page.
-
+<p>
+Please login to manage your page.
 </p>
 
-
-<label>
-Page Name
-</label>
-
-<input
-type="text"
-id="loginPageName"
-placeholder="Enter your page name"
+<button
+onclick="location.href='login.html'"
 >
-
-
-<label>
-Private Page Password
-</label>
-
-<input
-type="password"
-id="loginPagePassword"
-placeholder="Enter your page password"
->
-
-
-<div class="password-info">
-
-Your page password is different from the
-Logical World Admin password.
-
-</div>
-
-
-<button id="pageLoginBtn">
-
-🔓 Manage My Page
-
+Login
 </button>
 
+</div>
 
-<p
-id="loginError"
-style="
-color:red;
-text-align:center;
-margin-top:12px;
-"
-></p>
+
+<!-- NO APPROVED PAGE -->
+
+<div
+id="noPage"
+class="card message hidden"
+>
+
+<h2>
+📄 No Approved Page
+</h2>
+
+<p>
+Your page has not been approved yet,
+or you do not have an approved page.
+</p>
+
+<button
+onclick="location.href='index.html'"
+>
+Go To Logical World
+</button>
 
 </div>
 
 
-<!-- =========================
-     MANAGEMENT AREA
-========================= -->
+<!-- MANAGEMENT AREA -->
 
 <div
 id="manageArea"
@@ -262,13 +247,16 @@ class="hidden"
 
 <div class="card">
 
+<div class="status">
+You are logged in as the page owner.
+</div>
+
 <img
 id="pageLogo"
 class="page-logo"
 src="images/default-logo.png"
 alt="Page Logo"
 >
-
 
 <h2 id="pageName">
 My Page
@@ -290,24 +278,19 @@ accept="image/*"
 class="change-logo"
 id="changeLogoBtn"
 >
-
 🖼️ Change Logo
-
 </button>
 
 </div>
 
 
-<!-- =========================
-     NEW POST
-========================= -->
+<!-- NEW POST -->
 
 <div class="card">
 
 <h2>
-📝 New Post
+📝 Create New Post
 </h2>
-
 
 <label>
 Write about your post
@@ -333,17 +316,13 @@ accept="image/*,video/*"
 <button
 id="publishBtn"
 >
-
 📤 Publish Post
-
 </button>
 
 </div>
 
 
-<!-- =========================
-     OLD POSTS
-========================= -->
+<!-- MY POSTS -->
 
 <div class="card">
 
@@ -351,18 +330,10 @@ id="publishBtn"
 📱 My Posts
 </h2>
 
-
 <div id="postsList">
 
-<p
-style="
-text-align:center;
-color:#777;
-"
->
-
+<p style="text-align:center;color:#777;">
 No posts yet.
-
 </p>
 
 </div>
@@ -374,9 +345,7 @@ No posts yet.
 class="logout"
 id="logoutBtn"
 >
-
-🚪 Exit Page Management
-
+🚪 Logout
 </button>
 
 
@@ -388,8 +357,19 @@ id="logoutBtn"
 <script type="module">
 
 
-import { db }
+import {
+auth,
+db
+}
 from "./firebase.js";
+
+
+import {
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
 import {
@@ -422,123 +402,86 @@ const CLOUDINARY_UPLOAD_PRESET =
    ELEMENTS
 ========================= */
 
-const pageLogin =
-document.getElementById(
-"pageLogin"
-);
+const loading =
+document.getElementById("loading");
+
+const loginRequired =
+document.getElementById("loginRequired");
+
+const noPage =
+document.getElementById("noPage");
 
 const manageArea =
-document.getElementById(
-"manageArea"
-);
-
-const loginPageName =
-document.getElementById(
-"loginPageName"
-);
-
-const loginPagePassword =
-document.getElementById(
-"loginPagePassword"
-);
-
-const pageLoginBtn =
-document.getElementById(
-"pageLoginBtn"
-);
-
-const loginError =
-document.getElementById(
-"loginError"
-);
+document.getElementById("manageArea");
 
 const pageName =
-document.getElementById(
-"pageName"
-);
+document.getElementById("pageName");
 
 const pageLogo =
-document.getElementById(
-"pageLogo"
-);
+document.getElementById("pageLogo");
 
 const logoFile =
-document.getElementById(
-"logoFile"
-);
+document.getElementById("logoFile");
 
 const changeLogoBtn =
-document.getElementById(
-"changeLogoBtn"
-);
+document.getElementById("changeLogoBtn");
 
 const postText =
-document.getElementById(
-"postText"
-);
+document.getElementById("postText");
 
 const postFile =
-document.getElementById(
-"postFile"
-);
+document.getElementById("postFile");
 
 const publishBtn =
-document.getElementById(
-"publishBtn"
-);
+document.getElementById("publishBtn");
 
 const postsList =
-document.getElementById(
-"postsList"
-);
+document.getElementById("postsList");
 
 const logoutBtn =
-document.getElementById(
-"logoutBtn"
-);
+document.getElementById("logoutBtn");
 
 
+let currentUser = null;
 let currentPage = null;
 
 
 /* =========================
-   PAGE OWNER LOGIN
+   CHECK LOGIN
 ========================= */
 
-pageLoginBtn.addEventListener(
-"click",
-async()=>{
+onAuthStateChanged(
+auth,
+async(user)=>{
 
-const name =
-loginPageName.value.trim();
-
-const password =
-loginPagePassword.value;
+loading.classList.add("hidden");
 
 
-loginError.innerText = "";
+if(!user){
 
-
-if(!name || !password){
-
-loginError.innerText =
-"Please enter your page name and password.";
+loginRequired.classList.remove(
+"hidden"
+);
 
 return;
 
 }
 
 
+currentUser = user;
+
+await findMyPage();
+
+});
+
+
+/* =========================
+   FIND APPROVED PAGE
+========================= */
+
+async function findMyPage(){
+
 try{
-
-pageLoginBtn.disabled =
-true;
-
-pageLoginBtn.innerText =
-"Checking...";
-
-
-/* FIND APPROVED PAGE */
 
 const pagesRef =
 collection(
@@ -553,9 +496,9 @@ query(
 pagesRef,
 
 where(
-"pageName",
+"ownerId",
 "==",
-name
+currentUser.uid
 )
 
 );
@@ -567,77 +510,26 @@ await getDocs(q);
 
 if(snapshot.empty){
 
-loginError.innerText =
-"Page not found or not approved.";
-
-pageLoginBtn.disabled =
-false;
-
-pageLoginBtn.innerText =
-"🔓 Manage My Page";
+noPage.classList.remove(
+"hidden"
+);
 
 return;
 
 }
 
 
-let foundPage = null;
+const pageDoc =
+snapshot.docs[0];
 
 
-snapshot.forEach(
-(pageDoc)=>{
-
-const data =
-pageDoc.data();
-
-
-if(
-data.pagePassword ===
-password
-){
-
-foundPage = {
+currentPage = {
 
 id:pageDoc.id,
 
-data:data
+data:pageDoc.data()
 
 };
-
-}
-
-});
-
-
-if(!foundPage){
-
-loginError.innerText =
-"Incorrect page password.";
-
-pageLoginBtn.disabled =
-false;
-
-pageLoginBtn.innerText =
-"🔓 Manage My Page";
-
-return;
-
-}
-
-
-currentPage =
-foundPage;
-
-
-/* SHOW PAGE */
-
-pageLogin.classList.add(
-"hidden"
-);
-
-manageArea.classList.remove(
-"hidden"
-);
 
 
 /* PAGE NAME */
@@ -659,6 +551,13 @@ currentPage.data.logoURL;
 }
 
 
+/* SHOW MANAGEMENT */
+
+manageArea.classList.remove(
+"hidden"
+);
+
+
 /* LOAD POSTS */
 
 await loadPosts();
@@ -666,22 +565,19 @@ await loadPosts();
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Page loading error:",
+error
+);
 
-loginError.innerText =
-"Login error: " +
-error.message;
+alert(
+"Could not load your page: " +
+error.message
+);
 
 }
 
-
-pageLoginBtn.disabled =
-false;
-
-pageLoginBtn.innerText =
-"🔓 Manage My Page";
-
-});
+}
 
 
 /* =========================
@@ -731,7 +627,6 @@ formData.append(
 "file",
 file
 );
-
 
 formData.append(
 "upload_preset",
@@ -783,7 +678,7 @@ result.secure_url
 );
 
 
-/* UPDATE LOCAL DATA */
+/* UPDATE CURRENT DATA */
 
 currentPage.data.logoURL =
 result.secure_url;
@@ -820,7 +715,7 @@ changeLogoBtn.innerText =
 
 
 /* =========================
-   PUBLISH NEW POST
+   PUBLISH POST
 ========================= */
 
 publishBtn.addEventListener(
@@ -866,9 +761,7 @@ let mediaURL = "";
 let mediaType = "";
 
 
-/* =========================
-   UPLOAD MEDIA
-========================= */
+/* UPLOAD MEDIA */
 
 if(file){
 
@@ -880,7 +773,6 @@ formData.append(
 "file",
 file
 );
-
 
 formData.append(
 "upload_preset",
@@ -931,9 +823,7 @@ resourceType;
 }
 
 
-/* =========================
-   SAVE POST
-========================= */
+/* SAVE POST */
 
 await addDoc(
 
@@ -946,6 +836,9 @@ db,
 
 pageId:
 currentPage.id,
+
+ownerId:
+currentUser.uid,
 
 pageName:
 currentPage.data.pageName ||
@@ -974,9 +867,11 @@ serverTimestamp()
 
 /* CLEAR */
 
-postText.value = "";
+postText.value =
+"";
 
-postFile.value = "";
+postFile.value =
+"";
 
 
 alert(
@@ -989,7 +884,10 @@ await loadPosts();
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Post error:",
+error
+);
 
 alert(
 "Post failed: " +
@@ -1009,7 +907,7 @@ publishBtn.innerText =
 
 
 /* =========================
-   LOAD OLD POSTS
+   LOAD POSTS
 ========================= */
 
 async function loadPosts(){
@@ -1045,19 +943,18 @@ const snapshot =
 await getDocs(q);
 
 
-postsList.innerHTML = "";
+postsList.innerHTML =
+"";
 
 
 if(snapshot.empty){
 
 postsList.innerHTML = `
 
-<p
-style="
+<p style="
 text-align:center;
 color:#777;
-"
->
+">
 
 No posts yet.
 
@@ -1082,17 +979,11 @@ data:post.data()
 );
 
 
-/* NEWEST FIRST */
-
 posts.sort(
 (a,b)=>
-getTime(
-b.data.createdAt
-)
+getTime(b.data.createdAt)
 -
-getTime(
-a.data.createdAt
-)
+getTime(a.data.createdAt)
 );
 
 
@@ -1117,15 +1008,15 @@ let mediaHTML = "";
 
 if(
 data.mediaURL &&
-data.mediaType ===
-"image"
+data.mediaType === "image"
 ){
 
 mediaHTML = `
 
 <img
-src="${data.mediaURL}"
+src="${escapeAttribute(data.mediaURL)}"
 alt="Post Image"
+onclick="openMedia('${escapeAttribute(data.mediaURL)}','image')"
 >
 
 `;
@@ -1135,15 +1026,15 @@ alt="Post Image"
 
 if(
 data.mediaURL &&
-data.mediaType ===
-"video"
+data.mediaType === "video"
 ){
 
 mediaHTML = `
 
 <video
-src="${data.mediaURL}"
+src="${escapeAttribute(data.mediaURL)}"
 controls
+playsinline
 ></video>
 
 `;
@@ -1183,9 +1074,7 @@ ${formatDate(data.createdAt)}
 class="delete-post"
 data-id="${post.id}"
 >
-
 🗑️ Delete Post
-
 </button>
 
 `;
@@ -1200,7 +1089,10 @@ postDiv
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Posts loading error:",
+error
+);
 
 postsList.innerHTML =
 "Could not load posts.";
@@ -1267,6 +1159,8 @@ await loadPosts();
 
 }catch(error){
 
+console.error(error);
+
 alert(
 "Delete failed: " +
 error.message
@@ -1278,28 +1172,28 @@ error.message
 
 
 /* =========================
-   EXIT MANAGEMENT
+   LOGOUT
 ========================= */
 
 logoutBtn.addEventListener(
 "click",
-()=>{
+async()=>{
 
-currentPage = null;
+try{
 
-manageArea.classList.add(
-"hidden"
+await signOut(auth);
+
+location.href =
+"login.html";
+
+}catch(error){
+
+alert(
+"Logout failed: " +
+error.message
 );
 
-pageLogin.classList.remove(
-"hidden"
-);
-
-loginPageName.value = "";
-
-loginPagePassword.value = "";
-
-loginError.innerText = "";
+}
 
 });
 
@@ -1360,8 +1254,49 @@ return String(value)
 
 }
 
+
+function escapeAttribute(value){
+
+return String(value)
+
+.replace(/&/g,"&amp;")
+
+.replace(/"/g,"&quot;")
+
+.replace(/'/g,"&#039;")
+
+.replace(/</g,"&lt;")
+
+.replace(/>/g,"&gt;");
+
+}
+
+
+/* =========================
+   IMAGE VIEW
+========================= */
+
+function openMedia(url,type){
+
+if(type !== "image"){
+
+return;
+
+}
+
+window.open(
+url,
+"_blank"
+);
+
+}
+
+window.openMedia =
+openMedia;
+
+
 </script>
 
 </body>
 
-</html>
+     </html>
