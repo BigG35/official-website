@@ -76,6 +76,15 @@ border-radius:6px;
 font-size:16px;
 }
 
+.search-box button{
+padding:12px 18px;
+border:none;
+background:#0a4ea3;
+color:white;
+border-radius:6px;
+cursor:pointer;
+}
+
 .hero{
 background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5));
 height:420px;
@@ -201,7 +210,9 @@ margin:0;
 }
 
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
@@ -523,7 +534,9 @@ Your WhatsApp contact will appear here.
 </section>
 
 
-<!-- APPROVED BUSINESSES -->
+<!-- =========================
+     APPROVED BUSINESSES
+========================= -->
 
 <section>
 
@@ -600,6 +613,27 @@ approvedRef
 approvedPagesList.innerHTML = "";
 
 
+if(snapshot.empty){
+
+approvedPagesList.innerHTML = `
+
+<p
+style="
+text-align:center;
+color:#666;
+grid-column:1/-1;
+"
+>
+
+No approved business pages yet.
+
+</p>
+
+`;
+
+}else{
+
+
 snapshot.forEach(
 (page)=>{
 
@@ -625,7 +659,10 @@ page.id
 );
 
 
-/* BUSINESS CARD */
+/* =========================
+   BUSINESS CARD
+   ONLY LOGO + NAME
+========================= */
 
 approvedPagesList.innerHTML += `
 
@@ -654,6 +691,7 @@ ${businessName}
 
 });
 
+}
 
 }catch(error){
 
