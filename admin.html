@@ -1,14 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Logical World Admin Dashboard</title>
-
-<style>
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Logical World Admin Dashboard</title><style>
 
 *{
 margin:0;
@@ -46,7 +37,7 @@ border-radius:5px;
 }
 
 nav a:hover{
-background:#083d82;
+background:#062f63;
 }
 
 .container{
@@ -75,7 +66,7 @@ margin-bottom:10px;
 
 .stats{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
 gap:20px;
 }
 
@@ -98,6 +89,7 @@ border:none;
 border-radius:5px;
 cursor:pointer;
 margin:5px;
+font-weight:bold;
 }
 
 .approve{
@@ -121,6 +113,11 @@ color:white;
 padding:12px 20px;
 }
 
+.approved-delete{
+background:#d32f2f;
+color:white;
+}
+
 footer{
 text-align:center;
 padding:20px;
@@ -135,25 +132,48 @@ height:100px;
 object-fit:cover;
 border-radius:50%;
 margin-bottom:10px;
+border:3px solid #eee;
 }
 
-</style>
+.page-photo{
+width:100%;
+max-width:300px;
+max-height:250px;
+object-fit:contain;
+margin:10px 0;
+border-radius:8px;
+background:#111;
+}
 
-</head>
+.search{
+width:100%;
+padding:12px;
+margin:15px 0;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:16px;
+}
 
-<body>
+.sort{
+width:100%;
+padding:12px;
+margin:15px 0;
+border:1px solid #ccc;
+border-radius:5px;
+font-size:16px;
+}
 
-<header>
+.section-title{
+margin-top:30px;
+}
 
-<h1>Logical World Admin Dashboard</h1>
+.empty{
+text-align:center;
+padding:20px;
+color:#777;
+}
 
-<p>Manage Pages, Users and Website</p>
-
-</header>
-
-<nav>
-
-<a href="admin.html">🏠 Dashboard</a>
+</style></head><body><header><h1>Logical World Admin Dashboard</h1><p>Manage Pages, Users and Website</p></header><nav><a href="admin.html">🏠 Dashboard</a>
 
 <a href="admin.html">📋 Pending Pages</a>
 
@@ -165,140 +185,78 @@ margin-bottom:10px;
 
 <a href="settings.html">⚙️ Settings</a>
 
-<a href="login.html">🚪 Logout</a>
+<a href="login.html">🚪 Login</a>
 
-</nav>
-
-<div class="container">
-
-<div class="stats">
-
-<div class="stat-box">
-
-<h2 id="pendingCount">0</h2>
-
-<p>Pending Pages</p>
-
-</div>
-
-<div class="stat-box">
-
-<h2 id="approvedCount">0</h2>
-
-<p>Approved Pages</p>
-
-</div>
-
-<div class="stat-box">
-
-<h2 id="usersCount">0</h2>
-
-<p>Users</p>
-
-</div>
-
-<div class="stat-box">
-
-<h2 id="reportsCount">0</h2>
-
-<p>Reports</p>
-
-</div>
-
-<div class="stat-box">
-
-<h2 id="totalPagesCount">0</h2>
-
-<p>Total Pages</p>
-
-</div>
-
-</div>
-
-<div style="text-align:right;margin:20px 0;">
-
-<button
+</nav><div class="container"><!-- =========================
+     STATISTICS
+========================= --><div class="stats"><div class="stat-box"><h2 id="pendingCount">0</h2><p>Pending Pages</p></div><div class="stat-box"><h2 id="approvedCount">0</h2><p>Approved Pages</p></div><div class="stat-box"><h2 id="usersCount">0</h2><p>Users</p></div><div class="stat-box"><h2 id="reportsCount">0</h2><p>Reports</p></div><div class="stat-box"><h2 id="totalPagesCount">0</h2><p>Total Pages</p></div></div><div style="text-align:right;margin:20px 0;"><button
 class="refresh"
 id="refreshButton"
->
+
+«»
+
 🔄 Refresh Dashboard
-</button>
 
-</div>
-
-<div class="card">
-
-<h2>Pending Approval</h2>
-
-<input
+</button></div><!-- =========================
+     PENDING PAGES
+========================= --><div class="card"><h2>
+📋 Pending Approval
+</h2><input
 type="text"
 id="searchPages"
-placeholder="🔍 Search pages..."
-style="
-width:100%;
-padding:12px;
-margin:15px 0;
-border:1px solid #ccc;
-border-radius:5px;
-">
+class="search"
+placeholder="🔍 Search pending pages..."
+
+«»
 
 <label>
 <strong>Sort By</strong>
-</label>
-
-<select
+</label><select
 id="sortPages"
-style="
-width:100%;
-padding:12px;
-margin:15px 0;
-border:1px solid #ccc;
-border-radius:5px;
-">
+class="sort"
+
+«»
 
 <option value="newest">
 Newest First
-</option>
-
-<option value="oldest">
+</option><option value="oldest">
 Oldest First
-</option>
-
-<option value="az">
-Business Name (A-Z)
-</option>
-
-<option value="za">
-Business Name (Z-A)
-</option>
-
-<option value="location">
+</option><option value="az">
+Page Name (A-Z)
+</option><option value="za">
+Page Name (Z-A)
+</option><option value="location">
 Location
-</option>
+</option></select><div id="pendingPagesList"></div></div><!-- =========================
+     APPROVED PAGES
+========================= --><div class="card"><h2>
+✅ Approved Pages
+</h2><input
+type="text"
+id="searchApproved"
+class="search"
+placeholder="🔍 Search approved pages..."
 
-</select>
+«»
 
-<div id="pendingPagesList"></div>
+<div id="approvedPagesList"></div></div></div><footer>© 2026 Logical World Admin Panel
 
-</div>
+</footer><script type="module">
 
-<footer>
 
-© 2026 Logical World Admin Panel
+import {
+auth,
+db
+}
+from "./firebase.js";
 
-</footer>
-
-</div>
-
-<script type="module">
-
-import { auth } from "./firebase.js";
-
-import { db } from "./firebase.js";
 
 import {
 onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
 collection,
@@ -307,32 +265,17 @@ addDoc,
 deleteDoc,
 doc,
 getCountFromServer
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 /* =========================
-   ADMIN LOGIN PROTECTION
+   ADMIN EMAIL
 ========================= */
 
-onAuthStateChanged(auth,(user)=>{
-
-if(!user){
-
-location.href="login.html";
-
-return;
-
-}
-
-if(user.email!=="alagoagodstime@gmail.com"){
-
-alert("Access Denied!");
-
-location.href="index.html";
-
-}
-
-});
+const ADMIN_EMAIL =
+"alagoagodstime@gmail.com";
 
 
 /* =========================
@@ -340,16 +283,86 @@ location.href="index.html";
 ========================= */
 
 const pendingPagesList =
-document.getElementById("pendingPagesList");
+document.getElementById(
+"pendingPagesList"
+);
+
+const approvedPagesList =
+document.getElementById(
+"approvedPagesList"
+);
 
 const searchPages =
-document.getElementById("searchPages");
+document.getElementById(
+"searchPages"
+);
+
+const searchApproved =
+document.getElementById(
+"searchApproved"
+);
 
 const sortPages =
-document.getElementById("sortPages");
+document.getElementById(
+"sortPages"
+);
 
 const refreshButton =
-document.getElementById("refreshButton");
+document.getElementById(
+"refreshButton"
+);
+
+
+/* =========================
+   ADMIN LOGIN PROTECTION
+========================= */
+
+onAuthStateChanged(
+auth,
+(user)=>{
+
+if(!user){
+
+location.href =
+"login.html";
+
+return;
+
+}
+
+
+if(
+user.email !==
+ADMIN_EMAIL
+){
+
+alert(
+"Access Denied!"
+);
+
+location.href =
+"index.html";
+
+return;
+
+}
+
+
+/* ADMIN IS LOGGED IN */
+
+loadDashboard();
+
+}
+);
+
+
+/* =========================
+   DATA
+========================= */
+
+let pendingPages = [];
+
+let approvedPages = [];
 
 
 /* =========================
@@ -360,295 +373,102 @@ async function loadDashboard(){
 
 try{
 
-const pendingRef =
-collection(db,"pendingPages");
-
-const snapshot =
-await getDocs(pendingRef);
-
-let pages = [];
-
-snapshot.forEach((page)=>{
-
-pages.push({
-
-id:page.id,
-
-data:page.data()
-
-});
-
-});
-
 
 /* =========================
-   SEARCH
+   LOAD PENDING
 ========================= */
 
-const searchText =
-searchPages.value
-.toLowerCase()
-.trim();
-
-if(searchText){
-
-pages = pages.filter((page)=>{
-
-const data = page.data;
-
-return (
-
-(data.pageName || "")
-.toLowerCase()
-.includes(searchText)
-
-||
-
-(data.category || "")
-.toLowerCase()
-.includes(searchText)
-
-||
-
-(data.location || "")
-.toLowerCase()
-.includes(searchText)
-
+const pendingSnapshot =
+await getDocs(
+collection(
+db,
+"pendingPages"
+)
 );
 
-});
 
-}
+pendingPages =
+pendingSnapshot.docs.map(
+(item)=>({
 
+id:item.id,
 
-/* =========================
-   SORT
-========================= */
+data:item.data()
 
-const sortValue =
-sortPages.value;
-
-pages.sort((a,b)=>{
-
-const dataA = a.data;
-const dataB = b.data;
-
-if(sortValue === "az"){
-
-return (dataA.pageName || "")
-.localeCompare(dataB.pageName || "");
-
-}
-
-if(sortValue === "za"){
-
-return (dataB.pageName || "")
-.localeCompare(dataA.pageName || "");
-
-}
-
-if(sortValue === "location"){
-
-return (dataA.location || "")
-.localeCompare(dataB.location || "");
-
-}
-
-if(sortValue === "oldest"){
-
-return getTime(dataA.createdAt)
--
-getTime(dataB.createdAt);
-
-}
-
-return getTime(dataB.createdAt)
--
-getTime(dataA.createdAt);
-
-});
+})
+);
 
 
 /* =========================
-   DISPLAY PENDING PAGES
+   LOAD APPROVED
 ========================= */
 
-pendingPagesList.innerHTML = "";
+const approvedSnapshot =
+await getDocs(
+collection(
+db,
+"approvedPages"
+)
+);
 
 
-if(pages.length === 0){
+approvedPages =
+approvedSnapshot.docs.map(
+(item)=>({
 
-pendingPagesList.innerHTML = `
+id:item.id,
 
-<p style="
-text-align:center;
-padding:20px;
-">
+data:item.data()
 
-No pending pages found.
-
-</p>
-
-`;
-
-}else{
-
-pages.forEach((page)=>{
-
-const data = page.data;
+})
+);
 
 
-/* Logo */
+/* =========================
+   DISPLAY
+========================= */
 
-const logoHTML =
-data.logoURL
+displayPendingPages();
 
-?
-
-`
-
-<img
-src="${data.logoURL}"
-class="page-logo"
-alt="Page Logo"
->
-
-`
-
-:
-
-"";
-
-
-pendingPagesList.innerHTML += `
-
-<div class="card">
-
-${logoHTML}
-
-<h3>
-${escapeHTML(data.pageName || "")}
-</h3>
-
-<p>
-<strong>Page Type:</strong>
-${escapeHTML(data.pageType || "")}
-</p>
-
-<p>
-<strong>Category:</strong>
-${escapeHTML(data.category || "")}
-</p>
-
-<p>
-<strong>Description:</strong>
-${escapeHTML(data.description || "")}
-</p>
-
-<p>
-<strong>Phone:</strong>
-${escapeHTML(data.phone || "")}
-</p>
-
-<p>
-<strong>Email:</strong>
-${escapeHTML(data.email || "")}
-</p>
-
-<p>
-<strong>Location:</strong>
-${escapeHTML(data.location || "")}
-</p>
-
-<p>
-<strong>Address:</strong>
-${escapeHTML(data.address || "")}
-</p>
-
-<p>
-<strong>Status:</strong>
-${escapeHTML(data.status || "Pending")}
-</p>
-
-<button
-class="approve"
-data-id="${page.id}"
->
-✅ Approve
-</button>
-
-<button
-class="reject"
-data-id="${page.id}"
->
-❌ Reject
-</button>
-
-<button
-class="delete"
-data-id="${page.id}"
->
-🗑 Delete
-</button>
-
-</div>
-
-`;
-
-});
-
-}
+displayApprovedPages();
 
 
 /* =========================
    COUNTERS
 ========================= */
 
-const pendingCount =
-await getCountFromServer(
-collection(db,"pendingPages")
-);
-
 document.getElementById(
 "pendingCount"
 ).innerText =
-pendingCount.data().count;
+pendingPages.length;
 
-
-const approvedCount =
-await getCountFromServer(
-collection(db,"approvedPages")
-);
 
 document.getElementById(
 "approvedCount"
 ).innerText =
-approvedCount.data().count;
+approvedPages.length;
 
 
 document.getElementById(
 "totalPagesCount"
 ).innerText =
 
-pendingCount.data().count
-+
-approvedCount.data().count;
+pendingPages.length +
+approvedPages.length;
 
 
-/*
-
-Users and reports can be connected
-later when those collections exist.
-
-*/
+/* USERS / REPORTS */
 
 document.getElementById(
 "usersCount"
-).innerText = "0";
+).innerText =
+"0";
+
 
 document.getElementById(
 "reportsCount"
-).innerText = "0";
+).innerText =
+"0";
 
 
 }catch(error){
@@ -658,9 +478,9 @@ console.error(
 error
 );
 
+
 alert(
-"Dashboard error: "
-+
+"Dashboard error: " +
 error.message
 );
 
@@ -670,17 +490,596 @@ error.message
 
 
 /* =========================
-   APPROVE / REJECT / DELETE
+   DISPLAY PENDING
+========================= */
+
+function displayPendingPages(){
+
+let pages =
+[...pendingPages];
+
+
+/* SEARCH */
+
+const search =
+searchPages.value
+.toLowerCase()
+.trim();
+
+
+if(search){
+
+pages =
+pages.filter(
+(page)=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.category || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.location || ""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+}
+);
+
+}
+
+
+/* SORT */
+
+pages.sort(
+(a,b)=>{
+
+const A =
+a.data;
+
+const B =
+b.data;
+
+
+if(
+sortPages.value ===
+"az"
+){
+
+return String(
+A.pageName || ""
+)
+.localeCompare(
+String(
+B.pageName || ""
+)
+);
+
+}
+
+
+if(
+sortPages.value ===
+"za"
+){
+
+return String(
+B.pageName || ""
+)
+.localeCompare(
+String(
+A.pageName || ""
+)
+);
+
+}
+
+
+if(
+sortPages.value ===
+"location"
+){
+
+return String(
+A.location || ""
+)
+.localeCompare(
+String(
+B.location || ""
+)
+);
+
+}
+
+
+if(
+sortPages.value ===
+"oldest"
+){
+
+return getTime(
+A.createdAt
+)
+-
+getTime(
+B.createdAt
+);
+
+}
+
+
+return getTime(
+B.createdAt
+)
+-
+getTime(
+A.createdAt
+);
+
+}
+);
+
+
+pendingPagesList.innerHTML =
+"";
+
+
+if(
+pages.length ===
+0
+){
+
+pendingPagesList.innerHTML = `
+
+<div class="empty">
+
+No pending pages found.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* DISPLAY */
+
+pages.forEach(
+(page)=>{
+
+const data =
+page.data;
+
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"card";
+
+
+let logoHTML =
+"";
+
+
+if(data.logoURL){
+
+logoHTML = `
+
+<img
+src="${escapeAttribute(
+data.logoURL
+)}"
+class="page-logo"
+alt="Page Logo"
+>
+
+`;
+
+}
+
+
+card.innerHTML = `
+
+${logoHTML}
+
+<h3>
+
+${escapeHTML(
+data.pageName ||
+"Unnamed Page"
+)}
+
+</h3>
+
+
+<p>
+<strong>Page Type:</strong>
+${escapeHTML(
+data.pageType || ""
+)}
+</p>
+
+
+<p>
+<strong>Category:</strong>
+${escapeHTML(
+data.category || ""
+)}
+</p>
+
+
+<p>
+<strong>Description:</strong>
+${escapeHTML(
+data.description || ""
+)}
+</p>
+
+
+<p>
+<strong>Phone:</strong>
+${escapeHTML(
+data.phone || ""
+)}
+</p>
+
+
+<p>
+<strong>Email:</strong>
+${escapeHTML(
+data.email || ""
+)}
+</p>
+
+
+<p>
+<strong>Location:</strong>
+${escapeHTML(
+data.location || ""
+)}
+</p>
+
+
+<p>
+<strong>Address:</strong>
+${escapeHTML(
+data.address || ""
+)}
+</p>
+
+
+<p>
+<strong>Owner ID:</strong>
+${escapeHTML(
+data.ownerId || ""
+)}
+</p>
+
+
+<p>
+<strong>Status:</strong>
+${escapeHTML(
+data.status || "Pending"
+)}
+</p>
+
+
+<button
+class="approve"
+data-action="approve"
+data-id="${page.id}"
+>
+
+✅ Approve
+
+</button>
+
+
+<button
+class="reject"
+data-action="reject"
+data-id="${page.id}"
+>
+
+❌ Reject
+
+</button>
+
+
+<button
+class="delete"
+data-action="deletePending"
+data-id="${page.id}"
+>
+
+🗑 Delete
+
+</button>
+
+`;
+
+
+pendingPagesList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   DISPLAY APPROVED PAGES
+========================= */
+
+function displayApprovedPages(){
+
+let pages =
+[...approvedPages];
+
+
+/* SEARCH */
+
+const search =
+searchApproved.value
+.toLowerCase()
+.trim();
+
+
+if(search){
+
+pages =
+pages.filter(
+(page)=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.category || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.location || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.ownerEmail || ""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+}
+);
+
+}
+
+
+/* CLEAR */
+
+approvedPagesList.innerHTML =
+"";
+
+
+if(
+pages.length ===
+0
+){
+
+approvedPagesList.innerHTML = `
+
+<div class="empty">
+
+No approved pages found.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* DISPLAY */
+
+pages.forEach(
+(page)=>{
+
+const data =
+page.data;
+
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"card";
+
+
+let logoHTML =
+"";
+
+
+if(data.logoURL){
+
+logoHTML = `
+
+<img
+src="${escapeAttribute(
+data.logoURL
+)}"
+class="page-logo"
+alt="Page Logo"
+>
+
+`;
+
+}
+
+
+const businessURL =
+"business.html?id=" +
+encodeURIComponent(
+page.id
+);
+
+
+card.innerHTML = `
+
+${logoHTML}
+
+
+<h3>
+
+${escapeHTML(
+data.pageName ||
+"Unnamed Page"
+)}
+
+</h3>
+
+
+<p>
+<strong>Category:</strong>
+${escapeHTML(
+data.category || ""
+)}
+</p>
+
+
+<p>
+<strong>Location:</strong>
+${escapeHTML(
+data.location || ""
+)}
+</p>
+
+
+<p>
+<strong>Owner Email:</strong>
+${escapeHTML(
+data.ownerEmail || ""
+)}
+</p>
+
+
+<p>
+<strong>Owner ID:</strong>
+${escapeHTML(
+data.ownerId || ""
+)}
+</p>
+
+
+<p>
+<strong>Status:</strong>
+${escapeHTML(
+data.status || "Approved"
+)}
+</p>
+
+
+<p style="margin-top:10px;">
+
+<a
+href="${businessURL}"
+target="_blank"
+>
+
+👁️ View Public Page
+
+</a>
+
+</p>
+
+
+<button
+class="approved-delete"
+data-action="deleteApproved"
+data-id="${page.id}"
+>
+
+🗑️ Delete Approved Page
+
+</button>
+
+`;
+
+
+approvedPagesList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   BUTTON ACTIONS
 ========================= */
 
 document.addEventListener(
 "click",
 async(e)=>{
 
+const action =
+e.target.dataset.action;
+
 const id =
 e.target.dataset.id;
 
-if(!id){
+
+if(!action || !id){
 
 return;
 
@@ -689,31 +1088,42 @@ return;
 
 try{
 
-/* Get current pending document */
 
-const pageRef =
-doc(db,"pendingPages",id);
+/* =========================
+   FIND PAGE
+========================= */
 
-const pageSnap =
-await getDocs(
-collection(db,"pendingPages")
+let selectedPage =
+null;
+
+
+if(
+action ===
+"approve" ||
+action ===
+"reject" ||
+action ===
+"deletePending"
+){
+
+selectedPage =
+pendingPages.find(
+(page)=>
+page.id === id
 );
 
-let selectedData = null;
+}else{
 
-pageSnap.forEach((item)=>{
-
-if(item.id === id){
-
-selectedData =
-item.data();
+selectedPage =
+approvedPages.find(
+(page)=>
+page.id === id
+);
 
 }
 
-});
 
-
-if(!selectedData){
+if(!selectedPage){
 
 alert(
 "Page could not be found."
@@ -729,35 +1139,22 @@ return;
 ========================= */
 
 if(
-e.target.classList.contains("approve")
+action ===
+"approve"
 ){
 
 const approvedData = {
 
-...selectedData,
+...selectedPage.data,
 
-status:"Approved",
+status:
+"Approved",
 
-approvedAt:new Date()
+approvedAt:
+new Date()
 
 };
 
-
-/*
-
-This keeps everything from the
-pending page, including:
-
-logoURL
-pageName
-category
-description
-phone
-email
-location
-address
-
-*/
 
 await addDoc(
 
@@ -771,17 +1168,21 @@ approvedData
 );
 
 
-/* Remove from pending */
-
 await deleteDoc(
 
-pageRef
+doc(
+db,
+"pendingPages",
+id
+)
 
 );
+
 
 alert(
-"Approved Successfully"
+"Page approved successfully!"
 );
+
 
 await loadDashboard();
 
@@ -795,16 +1196,19 @@ return;
 ========================= */
 
 if(
-e.target.classList.contains("reject")
+action ===
+"reject"
 ){
 
 const rejectedData = {
 
-...selectedData,
+...selectedPage.data,
 
-status:"Rejected",
+status:
+"Rejected",
 
-rejectedAt:new Date()
+rejectedAt:
+new Date()
 
 };
 
@@ -823,13 +1227,19 @@ rejectedData
 
 await deleteDoc(
 
-pageRef
+doc(
+db,
+"pendingPages",
+id
+)
 
 );
+
 
 alert(
-"Rejected Successfully"
+"Page rejected successfully!"
 );
+
 
 await loadDashboard();
 
@@ -839,32 +1249,98 @@ return;
 
 
 /* =========================
-   DELETE
+   DELETE PENDING
 ========================= */
 
 if(
-e.target.classList.contains("delete")
+action ===
+"deletePending"
 ){
 
-if(
+const confirmed =
 confirm(
-"Delete this page permanently?"
-)
-){
+"Delete this pending page permanently?"
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
 
 await deleteDoc(
-pageRef
+
+doc(
+db,
+"pendingPages",
+id
+)
+
 );
 
+
 alert(
-"Deleted Successfully"
+"Pending page deleted."
 );
+
 
 await loadDashboard();
 
-}
+return;
 
 }
+
+
+/* =========================
+   DELETE APPROVED
+========================= */
+
+if(
+action ===
+"deleteApproved"
+){
+
+const confirmed =
+confirm(
+
+"Delete this approved page permanently?\n\n" +
+
+"This will remove the page from the public website."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+await deleteDoc(
+
+doc(
+db,
+"approvedPages",
+id
+)
+
+);
+
+
+alert(
+"Approved page deleted successfully."
+);
+
+
+await loadDashboard();
+
+return;
+
+}
+
 
 }catch(error){
 
@@ -873,9 +1349,9 @@ console.error(
 error
 );
 
+
 alert(
-"Action failed: "
-+
+"Action failed: " +
 error.message
 );
 
@@ -895,17 +1371,28 @@ loadDashboard
 
 
 /* =========================
-   SEARCH + SORT
+   SEARCH
 ========================= */
 
 searchPages.addEventListener(
 "input",
-loadDashboard
+displayPendingPages
 );
+
+
+searchApproved.addEventListener(
+"input",
+displayApprovedPages
+);
+
+
+/* =========================
+   SORT
+========================= */
 
 sortPages.addEventListener(
 "change",
-loadDashboard
+displayPendingPages
 );
 
 
@@ -913,52 +1400,80 @@ loadDashboard
    HELPERS
 ========================= */
 
-function getTime(timestamp){
-
-if(!timestamp){
-
-return 0;
-
-}
+function getTime(
+timestamp
+){
 
 if(
-typeof timestamp.toMillis === "function"
+timestamp &&
+typeof timestamp.toMillis ===
+"function"
 ){
 
 return timestamp.toMillis();
 
 }
 
+
+if(
+timestamp &&
+typeof timestamp.toDate ===
+"function"
+){
+
+return timestamp.toDate().getTime();
+
+}
+
+
 return 0;
 
 }
 
 
-function escapeHTML(value){
+function escapeHTML(
+value
+){
 
 return String(value)
 
-.replace(/&/g,"&amp;")
+.replace(
+/&/g,
+"&amp;"
+)
 
-.replace(/</g,"&lt;")
+.replace(
+/</g,
+"&lt;"
+)
 
-.replace(/>/g,"&gt;")
+.replace(
+/>/g,
+"&gt;"
+)
 
-.replace(/"/g,"&quot;")
+.replace(
+/"/g,
+"&quot;"
+)
 
-.replace(/'/g,"&#039;");
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
 
-/* =========================
-   START
-========================= */
+function escapeAttribute(
+value
+){
 
-loadDashboard();
+return escapeHTML(
+value
+);
 
-</script>
+}
 
-</body>
 
-</html>
+</script></body></html>
