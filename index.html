@@ -27,9 +27,6 @@ background:#0a4ea3;
 color:white;
 padding:20px;
 text-align:center;
-position:sticky;
-top:0;
-z-index:1000;
 }
 
 header h1{
@@ -39,6 +36,31 @@ font-size:40px;
 header p{
 font-size:18px;
 margin-top:8px;
+}
+
+.search-box{
+text-align:center;
+padding:15px;
+background:white;
+}
+
+.search-box input{
+width:70%;
+max-width:500px;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
+
+.search-box button{
+padding:12px 18px;
+border:none;
+border-radius:6px;
+background:#0a4ea3;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
 nav{
@@ -61,39 +83,15 @@ background:#0a4ea3;
 border-radius:5px;
 }
 
-.search-box{
-text-align:center;
-padding:15px;
-background:white;
-}
-
-.search-box input{
-width:80%;
-max-width:500px;
-padding:12px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
-}
-
-.search-box button{
-padding:12px 18px;
-border:none;
-background:#0a4ea3;
-color:white;
-border-radius:6px;
-cursor:pointer;
-}
-
 .hero{
-background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5));
-height:420px;
+background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55));
+min-height:400px;
 display:flex;
 justify-content:center;
 align-items:center;
 text-align:center;
 color:white;
-padding:20px;
+padding:30px 20px;
 }
 
 .hero-content{
@@ -126,7 +124,7 @@ background:#083b7a;
 }
 
 section{
-padding:60px 20px;
+padding:50px 20px;
 max-width:1200px;
 margin:auto;
 }
@@ -135,8 +133,109 @@ margin:auto;
 text-align:center;
 font-size:34px;
 color:#0a4ea3;
-margin-bottom:40px;
+margin-bottom:35px;
 }
+
+
+/* =========================
+   APPROVED PAGES
+========================= */
+
+.approved-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.page-card{
+background:white;
+border-radius:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.15);
+overflow:hidden;
+}
+
+.page-header{
+padding:18px;
+text-align:center;
+border-bottom:1px solid #eee;
+}
+
+.page-link{
+text-decoration:none;
+color:inherit;
+}
+
+.business-logo{
+width:110px;
+height:110px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:0 auto 12px;
+border:4px solid #0a4ea3;
+background:#eee;
+}
+
+.business-name{
+font-size:21px;
+font-weight:bold;
+color:#0a4ea3;
+}
+
+.latest-label{
+font-size:14px;
+font-weight:bold;
+color:#777;
+margin-top:4px;
+}
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+.latest-post{
+padding:18px;
+}
+
+.latest-post h4{
+font-size:18px;
+color:#0a4ea3;
+margin-bottom:8px;
+}
+
+.latest-post-text{
+font-size:16px;
+margin-bottom:12px;
+white-space:pre-wrap;
+}
+
+.latest-media{
+width:100%;
+max-height:400px;
+object-fit:contain;
+border-radius:10px;
+background:#111;
+display:block;
+}
+
+.post-date{
+font-size:13px;
+color:#777;
+margin-top:10px;
+}
+
+.no-post{
+text-align:center;
+color:#777;
+font-size:15px;
+padding:10px 0;
+}
+
+
+/* =========================
+   OTHER CARDS
+========================= */
 
 .cards{
 display:grid;
@@ -169,44 +268,27 @@ font-size:15px;
 
 
 /* =========================
-   APPROVED BUSINESS PAGES
+   LOADING
 ========================= */
 
-.business-card{
-background:white;
-padding:20px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.15);
+.loading{
 text-align:center;
+padding:30px;
+color:#666;
+font-size:17px;
 }
 
-.business-link{
-display:block;
-text-decoration:none;
-color:inherit;
-}
 
-.business-logo{
-width:130px;
-height:130px;
-border-radius:50%;
-object-fit:cover;
-display:block;
-margin:0 auto 15px;
-border:3px solid #0a4ea3;
-background:#eee;
-transition:transform .2s;
-}
+/* =========================
+   FOOTER
+========================= */
 
-.business-logo:hover{
-transform:scale(1.05);
-}
-
-.business-name{
-color:#0a4ea3;
-font-size:22px;
-font-weight:bold;
-margin:0;
+footer{
+background:#0a4ea3;
+color:white;
+text-align:center;
+padding:25px;
+margin-top:50px;
 }
 
 
@@ -216,33 +298,39 @@ margin:0;
 
 @media(max-width:600px){
 
-#approvedPagesList{
-grid-template-columns:repeat(2,1fr);
-gap:12px;
+header h1{
+font-size:30px;
 }
 
-.business-card{
-padding:12px;
+.hero h2{
+font-size:32px;
 }
 
-.business-logo{
-width:110px;
-height:110px;
-}
-
-.business-name{
+.hero p{
 font-size:17px;
 }
 
+.search-box input{
+width:65%;
 }
 
+.search-box button{
+padding:12px;
+}
 
-footer{
-background:#0a4ea3;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:50px;
+.approved-grid{
+grid-template-columns:1fr;
+}
+
+.business-logo{
+width:100px;
+height:100px;
+}
+
+.latest-media{
+max-height:350px;
+}
+
 }
 
 </style>
@@ -253,9 +341,11 @@ margin-top:50px;
 <body>
 
 
-<header>
+<!-- =========================
+     HEADER
+========================= -->
 
-<div class="logo">
+<header>
 
 <h1>🌍 Logical World</h1>
 
@@ -263,24 +353,31 @@ margin-top:50px;
 Connecting People, Products & Services.
 </p>
 
-</div>
+</header>
 
+
+<!-- =========================
+     SEARCH
+========================= -->
 
 <div class="search-box">
 
 <input
 type="text"
-placeholder="Search photos, videos, products, services..."
+id="searchInput"
+placeholder="Search pages and posts..."
 >
 
-<button>
+<button id="searchBtn">
 Search
 </button>
 
 </div>
 
-</header>
 
+<!-- =========================
+     NAVIGATION
+========================= -->
 
 <nav>
 
@@ -296,12 +393,12 @@ Search
 
 <a href="contact.html">📞 Contact</a>
 
-<a href="login.html">👤 Login</a>
-
-<a href="register.html">📝 Register</a>
-
 </nav>
 
+
+<!-- =========================
+     HERO
+========================= -->
 
 <div class="hero">
 
@@ -312,23 +409,8 @@ Welcome to Logical World
 </h2>
 
 <p>
-
-Explore amazing photos, premium videos, quality products,
-and trusted home services—all in one place.
-
+Explore photos, videos, products and trusted services from different pages all in one place.
 </p>
-
-
-<a
-href="gallery.html"
-class="button"
->
-Explore Now
-</a>
-
-
-<br><br>
-
 
 <a
 href="create-page.html"
@@ -337,94 +419,42 @@ class="button"
 ➕ Create Your Own Page
 </a>
 
-
-<p
-style="margin-top:15px;font-size:16px;"
->
-
-All new pages are reviewed by the Logical World Admin before they become public.
-
+<p style="margin-top:15px;font-size:15px;">
+All submitted pages are reviewed by the Logical World Admin before becoming public.
 </p>
 
 </div>
 
 </div>
 
+
+<!-- =========================
+     APPROVED PAGES + POSTS
+========================= -->
 
 <section>
 
 <h2 class="section-title">
-Latest Posts
+🌍 Pages & Latest Posts
 </h2>
 
-
-<div class="cards">
-
-
-<div class="card">
-
-<img
-src="images/post1.jpg"
-alt="Latest Post"
+<div
+id="approvedPagesList"
+class="approved-grid"
 >
 
-<h3>
-Latest Post
-</h3>
-
-<p>
-
-Every photo, video, product or service you publish will appear here with its own description.
-
-</p>
-
+<div class="loading">
+Loading pages and latest posts...
 </div>
-
-
-<div class="card">
-
-<img
-src="images/post2.jpg"
-alt="Premium Videos"
->
-
-<h3>
-Premium Videos
-</h3>
-
-<p>
-
-Watch exclusive premium videos by becoming a member of Logical World.
-
-</p>
-
-</div>
-
-
-<div class="card">
-
-<img
-src="images/post3.jpg"
-alt="Marketplace"
->
-
-<h3>
-Marketplace
-</h3>
-
-<p>
-
-Buy and sell products from different categories in one marketplace.
-
-</p>
-
-</div>
-
 
 </div>
 
 </section>
 
+
+<!-- =========================
+     HOME SERVICES
+========================= -->
 
 <section>
 
@@ -432,9 +462,7 @@ Buy and sell products from different categories in one marketplace.
 Home Services
 </h2>
 
-
 <div class="cards">
-
 
 <div class="card">
 
@@ -474,11 +502,14 @@ Fast and secure delivery services.
 
 </div>
 
-
 </div>
 
 </section>
 
+
+<!-- =========================
+     CONTACT
+========================= -->
 
 <section>
 
@@ -486,9 +517,7 @@ Fast and secure delivery services.
 Contact Us
 </h2>
 
-
 <div class="cards">
-
 
 <div class="card">
 
@@ -519,15 +548,14 @@ Your email address will appear here.
 <div class="card">
 
 <h3>
-💬 WhatsApp
+💬 WhatsApp / Zangi
 </h3>
 
 <p>
-Your WhatsApp contact will appear here.
+Contact options will appear on each business page.
 </p>
 
 </div>
-
 
 </div>
 
@@ -535,24 +563,8 @@ Your WhatsApp contact will appear here.
 
 
 <!-- =========================
-     APPROVED BUSINESSES
+     FOOTER
 ========================= -->
-
-<section>
-
-<h2 class="section-title">
-Approved Business Pages
-</h2>
-
-
-<div
-id="approvedPagesList"
-class="cards"
->
-</div>
-
-</section>
-
 
 <footer>
 
@@ -573,8 +585,11 @@ Connecting People, Products & Services.
 </footer>
 
 
-<script type="module">
+<!-- =========================
+     FIREBASE
+========================= -->
 
+<script type="module">
 
 import { db }
 from "./firebase.js";
@@ -588,61 +603,182 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
+/* =========================
+   ELEMENTS
+========================= */
+
 const approvedPagesList =
 document.getElementById(
 "approvedPagesList"
 );
 
+const searchInput =
+document.getElementById(
+"searchInput"
+);
+
+const searchBtn =
+document.getElementById(
+"searchBtn"
+);
+
+
+/* =========================
+   DATA
+========================= */
+
+let allPages = [];
+let allPosts = [];
+
+
+/* =========================
+   LOAD DATA
+========================= */
+
+async function loadWebsite(){
 
 try{
 
+approvedPagesList.innerHTML = `
+<div class="loading">
+Loading pages and latest posts...
+</div>
+`;
 
-const approvedRef =
+
+/* LOAD APPROVED PAGES */
+
+const pagesSnapshot =
+await getDocs(
 collection(
 db,
 "approvedPages"
+)
 );
 
 
-const snapshot =
+/* LOAD POSTS */
+
+const postsSnapshot =
 await getDocs(
-approvedRef
+collection(
+db,
+"posts"
+)
 );
 
+
+allPages =
+pagesSnapshot.docs.map(
+docSnap => ({
+
+id:docSnap.id,
+
+data:docSnap.data()
+
+})
+);
+
+
+allPosts =
+postsSnapshot.docs.map(
+docSnap => ({
+
+id:docSnap.id,
+
+data:docSnap.data()
+
+})
+);
+
+
+/* SORT POSTS NEWEST FIRST */
+
+allPosts.sort(
+(a,b)=>
+getTime(
+b.data.createdAt
+)
+-
+getTime(
+a.data.createdAt
+)
+);
+
+
+/* DISPLAY */
+
+displayPages(
+allPages
+);
+
+
+}catch(error){
+
+console.error(
+"Website loading error:",
+error
+);
+
+approvedPagesList.innerHTML = `
+
+<div class="loading">
+
+Unable to load pages and posts.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   DISPLAY PAGES
+========================= */
+
+function displayPages(
+pages
+){
 
 approvedPagesList.innerHTML = "";
 
 
-if(snapshot.empty){
+if(pages.length === 0){
 
 approvedPagesList.innerHTML = `
 
-<p
-style="
-text-align:center;
-color:#666;
-grid-column:1/-1;
-"
->
+<div class="loading">
 
-No approved business pages yet.
+No approved pages yet.
 
-</p>
+</div>
 
 `;
 
-}else{
+return;
+
+}
 
 
-snapshot.forEach(
+/* EACH PAGE */
+
+pages.forEach(
 (page)=>{
 
-
 const data =
-page.data();
+page.data;
 
 
-const businessName =
+const pageName =
 data.pageName ||
 "Business";
 
@@ -659,60 +795,128 @@ page.id
 );
 
 
-/* =========================
-   BUSINESS CARD
-   ONLY LOGO + NAME
-========================= */
+/* FIND NEWEST POST FOR THIS PAGE */
 
-approvedPagesList.innerHTML += `
-
-<div class="business-card">
-
-<a
-href="${businessURL}"
-class="business-link"
->
-
-<img
-src="${logoURL}"
-class="business-logo"
-alt="${businessName}"
->
-
-<h3 class="business-name">
-${businessName}
-</h3>
-
-</a>
-
-</div>
-
-`;
-
-});
-
-}
-
-}catch(error){
-
-
-console.error(
-"Error loading approved business pages:",
-error
+const pagePosts =
+allPosts.filter(
+post =>
+post.data.pageId ===
+page.id
 );
 
 
-approvedPagesList.innerHTML = `
+/* NEWEST POST */
 
-<p
-style="
-text-align:center;
-color:#666;
-grid-column:1/-1;
-"
+const latestPost =
+pagePosts.length > 0
+?
+pagePosts[0]
+:
+null;
+
+
+/* CREATE CARD */
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"page-card";
+
+
+/* PAGE HEADER */
+
+const pageHeader =
+document.createElement(
+"div"
+);
+
+pageHeader.className =
+"page-header";
+
+
+pageHeader.innerHTML = `
+
+<a
+href="${businessURL}"
+class="page-link"
 >
 
-Unable to load approved business pages.
+<img
+src="${escapeAttribute(
+logoURL
+)}"
+class="business-logo"
+alt="${escapeAttribute(
+pageName
+)}"
+>
+
+<div class="business-name">
+
+${escapeHTML(
+pageName
+)}
+
+</div>
+
+<div class="latest-label">
+
+Tap page to see all posts
+
+</div>
+
+</a>
+
+`;
+
+
+card.appendChild(
+pageHeader
+);
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+const latestPostDiv =
+document.createElement(
+"div"
+);
+
+latestPostDiv.className =
+"latest-post";
+
+
+if(latestPost){
+
+const postData =
+latestPost.data;
+
+
+/* POST TEXT */
+
+let html = `
+
+<h4>
+🆕 Latest Post
+</h4>
+
+`;
+
+
+if(postData.text){
+
+html += `
+
+<p class="latest-post-text">
+
+${escapeHTML(
+postData.text
+)}
 
 </p>
 
@@ -720,9 +924,304 @@ Unable to load approved business pages.
 
 }
 
+
+/* IMAGE */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"image"
+){
+
+html += `
+
+<img
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+class="latest-media"
+alt="Latest post"
+>
+
+`;
+
+}
+
+
+/* VIDEO */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"video"
+){
+
+html += `
+
+<video
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+class="latest-media"
+controls
+playsinline
+>
+
+</video>
+
+`;
+
+}
+
+
+/* DATE */
+
+html += `
+
+<div class="post-date">
+
+${formatDate(
+postData.createdAt
+)}
+
+</div>
+
+`;
+
+
+latestPostDiv.innerHTML =
+html;
+
+
+}else{
+
+latestPostDiv.innerHTML = `
+
+<p class="no-post">
+
+No posts yet.
+
+</p>
+
+`;
+
+}
+
+
+card.appendChild(
+latestPostDiv
+);
+
+
+approvedPagesList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchPages(){
+
+const search =
+searchInput.value
+.trim()
+.toLowerCase();
+
+
+if(!search){
+
+displayPages(
+allPages
+);
+
+return;
+
+}
+
+
+const filtered =
+allPages.filter(
+page => {
+
+const data =
+page.data;
+
+
+const pageName =
+String(
+data.pageName || ""
+).toLowerCase();
+
+
+const category =
+String(
+data.category || ""
+).toLowerCase();
+
+
+const description =
+String(
+data.description || ""
+).toLowerCase();
+
+
+const matchingPosts =
+allPosts.some(
+post =>
+
+post.data.pageId ===
+page.id &&
+
+String(
+post.data.text || ""
+)
+.toLowerCase()
+.includes(search)
+);
+
+
+return (
+
+pageName.includes(search) ||
+
+category.includes(search) ||
+
+description.includes(search) ||
+
+matchingPosts
+
+);
+
+});
+
+
+displayPages(
+filtered
+);
+
+}
+
+
+/* =========================
+   SEARCH BUTTON
+========================= */
+
+searchBtn.addEventListener(
+"click",
+searchPages
+);
+
+
+searchInput.addEventListener(
+"input",
+searchPages
+);
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function getTime(
+timestamp
+){
+
+if(
+timestamp &&
+typeof timestamp.toMillis ===
+"function"
+){
+
+return timestamp.toMillis();
+
+}
+
+return 0;
+
+}
+
+
+function formatDate(
+timestamp
+){
+
+if(
+!timestamp ||
+typeof timestamp.toDate !==
+"function"
+){
+
+return "";
+
+}
+
+return timestamp
+.toDate()
+.toLocaleString();
+
+}
+
+
+function escapeHTML(
+value
+){
+
+return String(value)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+
+function escapeAttribute(
+value
+){
+
+return escapeHTML(
+value
+);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadWebsite();
+
 </script>
 
 
 </body>
 
-   </html>
+</html>
