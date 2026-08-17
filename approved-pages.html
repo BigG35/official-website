@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Approved Business Pages - Logical World</title>
+<title>Approved Pages - Logical World</title>
 
 <style>
 
@@ -18,24 +19,68 @@ font-family:Arial,sans-serif;
 background:#f5f5f5;
 margin:0;
 padding:20px;
+color:#222;
 }
 
-h1{
+header{
+background:#0a4ea3;
+color:white;
+padding:20px;
 text-align:center;
-color:#0a4ea3;
-margin-bottom:30px;
+margin:-20px -20px 25px;
+}
+
+header h1{
+margin:0 0 8px;
+}
+
+header p{
+margin:0;
+}
+
+.top-buttons{
+text-align:center;
+margin-bottom:25px;
+}
+
+.top-buttons a{
+display:inline-block;
+text-decoration:none;
+background:#0a4ea3;
+color:white;
+padding:11px 18px;
+border-radius:6px;
+margin:5px;
+font-weight:bold;
+}
+
+.top-buttons a:hover{
+background:#083d82;
+}
+
+#searchApproved{
+display:block;
+width:100%;
+max-width:700px;
+margin:0 auto 25px;
+padding:13px;
+border:1px solid #ccc;
+border-radius:7px;
+font-size:16px;
 }
 
 #approvedPagesList{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
 gap:20px;
-max-width:900px;
+max-width:1100px;
 margin:auto;
 }
 
 
-/* BUSINESS CARD */
+/* =========================
+   BUSINESS CARD
+========================= */
 
 .business-card{
 background:white;
@@ -46,7 +91,9 @@ box-shadow:0 2px 10px rgba(0,0,0,.18);
 }
 
 
-/* CLICKABLE AREA */
+/* =========================
+   CLICKABLE PAGE
+========================= */
 
 .business-link{
 display:block;
@@ -56,7 +103,9 @@ cursor:pointer;
 }
 
 
-/* BUSINESS LOGO */
+/* =========================
+   BUSINESS LOGO
+========================= */
 
 .business-logo{
 width:140px;
@@ -75,7 +124,9 @@ transform:scale(1.04);
 }
 
 
-/* BUSINESS NAME */
+/* =========================
+   BUSINESS NAME
+========================= */
 
 .business-name{
 font-size:21px;
@@ -85,7 +136,79 @@ margin:0;
 }
 
 
-/* MOBILE */
+/* =========================
+   DETAILS
+========================= */
+
+.page-details{
+text-align:left;
+margin-top:15px;
+padding-top:15px;
+border-top:1px solid #ddd;
+}
+
+.page-details p{
+margin:7px 0;
+font-size:14px;
+}
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+.delete-approved{
+width:100%;
+padding:12px;
+margin-top:15px;
+border:none;
+border-radius:7px;
+background:#b00020;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.delete-approved:hover{
+background:#850018;
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+.admin-label{
+display:none;
+background:#fff3cd;
+color:#856404;
+padding:10px;
+border-radius:6px;
+margin:0 auto 20px;
+max-width:700px;
+text-align:center;
+font-weight:bold;
+}
+
+
+/* =========================
+   EMPTY / LOADING
+========================= */
+
+.message{
+text-align:center;
+color:#666;
+padding:30px;
+grid-column:1/-1;
+background:white;
+border-radius:10px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:500px){
 
@@ -107,52 +230,304 @@ height:110px;
 font-size:17px;
 }
 
+.page-details p{
+font-size:12px;
+}
+
+.delete-approved{
+font-size:13px;
+padding:10px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
 
 
-<h1>Approved Business Pages</h1>
+<header>
+
+<h1>
+🌍 Logical World
+</h1>
+
+<p>
+Approved Pages
+</p>
+
+</header>
 
 
-<div id="approvedPagesList"></div>
+<!-- =========================
+     NAVIGATION
+========================= -->
+
+<div class="top-buttons">
+
+<a href="admin.html">
+🏠 Admin Dashboard
+</a>
+
+<a href="index.html">
+🌍 Website Home
+</a>
+
+</div>
+
+
+<!-- =========================
+     ADMIN MESSAGE
+========================= -->
+
+<div
+id="adminLabel"
+class="admin-label"
+>
+
+🔐 Admin Mode — You can delete approved pages.
+
+</div>
+
+
+<!-- =========================
+     SEARCH
+========================= -->
+
+<input
+type="text"
+id="searchApproved"
+placeholder="🔍 Search approved pages..."
+>
+
+
+<!-- =========================
+     APPROVED PAGES
+========================= -->
+
+<div id="approvedPagesList">
+
+<div class="message">
+
+Loading approved pages...
+
+</div>
+
+</div>
 
 
 <script type="module">
 
-import { db } from "./firebase.js";
+
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
 collection,
-getDocs
+getDocs,
+deleteDoc,
+doc,
+query,
+where
 }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
+
+/* =========================
+   ADMIN EMAIL
+========================= */
+
+const ADMIN_EMAIL =
+"alagoagodstime@gmail.com";
+
+
+/* =========================
+   ELEMENTS
+========================= */
 
 const approvedPagesList =
-document.getElementById("approvedPagesList");
+document.getElementById(
+"approvedPagesList"
+);
+
+const searchApproved =
+document.getElementById(
+"searchApproved"
+);
+
+const adminLabel =
+document.getElementById(
+"adminLabel"
+);
+
+
+/* =========================
+   DATA
+========================= */
+
+let allPages = [];
+
+let isAdmin = false;
+
+
+/* =========================
+   CHECK LOGIN
+========================= */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+isAdmin =
+!!user &&
+user.email ===
+ADMIN_EMAIL;
+
+
+if(isAdmin){
+
+adminLabel.style.display =
+"block";
+
+}
+
+
+await loadApprovedPages();
+
+}
+);
+
+
+/* =========================
+   LOAD APPROVED PAGES
+========================= */
+
+async function loadApprovedPages(){
+
+approvedPagesList.innerHTML = `
+
+<div class="message">
+
+Loading approved pages...
+
+</div>
+
+`;
 
 
 try{
 
 const snapshot =
 await getDocs(
-collection(db,"approvedPages")
+collection(
+db,
+"approvedPages"
+)
 );
 
 
-snapshot.forEach((page)=>{
+allPages =
+snapshot.docs.map(
+page=>({
+
+id:page.id,
+
+data:page.data()
+
+})
+);
+
+
+displayPages(
+allPages
+);
+
+
+}catch(error){
+
+console.error(
+"Approved pages error:",
+error
+);
+
+approvedPagesList.innerHTML = `
+
+<div class="message">
+
+Unable to load approved pages.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   DISPLAY PAGES
+========================= */
+
+function displayPages(
+pages
+){
+
+approvedPagesList.innerHTML = "";
+
+
+if(pages.length === 0){
+
+approvedPagesList.innerHTML = `
+
+<div class="message">
+
+No approved pages found.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+pages.forEach(
+(page)=>{
 
 const data =
-page.data();
+page.data;
 
 
 const businessName =
-data.pageName || "Business";
+data.pageName ||
+"Business";
 
 
 const logoURL =
@@ -162,14 +537,25 @@ data.logoURL ||
 
 const businessURL =
 "business.html?id=" +
-encodeURIComponent(page.id);
+encodeURIComponent(
+page.id
+);
 
 
-/* BUSINESS CARD */
+const card =
+document.createElement(
+"div"
+);
 
-approvedPagesList.innerHTML += `
+card.className =
+"business-card";
 
-<div class="business-card">
+
+/* =========================
+   PAGE CONTENT
+========================= */
+
+let html = `
 
 <a
 href="${businessURL}"
@@ -177,44 +563,394 @@ class="business-link"
 >
 
 <img
-src="${logoURL}"
+src="${escapeAttribute(logoURL)}"
 class="business-logo"
-alt="${businessName}"
+alt="${escapeAttribute(businessName)}"
 >
 
 <p class="business-name">
-${businessName}
+
+${escapeHTML(
+businessName
+)}
+
 </p>
 
 </a>
+
+
+<div class="page-details">
+
+${
+data.category
+?
+`
+<p>
+<strong>Category:</strong>
+${escapeHTML(data.category)}
+</p>
+`
+:
+""
+}
+
+
+${
+data.location
+?
+`
+<p>
+<strong>Location:</strong>
+${escapeHTML(data.location)}
+</p>
+`
+:
+""
+}
+
+
+${
+data.description
+?
+`
+<p>
+${escapeHTML(data.description)}
+</p>
+`
+:
+""
+}
 
 </div>
 
 `;
 
+
+/* =========================
+   ADMIN DELETE BUTTON
+========================= */
+
+if(isAdmin){
+
+html += `
+
+<button
+class="delete-approved"
+data-id="${page.id}"
+>
+
+🗑️ Delete Approved Page
+
+</button>
+
+`;
+
+}
+
+
+card.innerHTML =
+html;
+
+
+approvedPagesList.appendChild(
+card
+);
+
 });
+
+}
+
+
+/* =========================
+   DELETE APPROVED PAGE
+========================= */
+
+document.addEventListener(
+"click",
+async(e)=>{
+
+if(
+!e.target.classList.contains(
+"delete-approved"
+)
+){
+
+return;
+
+}
+
+
+/* EXTRA ADMIN CHECK */
+
+const user =
+auth.currentUser;
+
+
+if(
+!user ||
+user.email !==
+ADMIN_EMAIL
+){
+
+alert(
+"Only the Logical World Admin can delete approved pages."
+);
+
+return;
+
+}
+
+
+const pageId =
+e.target.dataset.id;
+
+
+if(!pageId){
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+
+"Delete this approved page?\n\n" +
+"This will also delete all posts belonging to this page."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+e.target.disabled =
+true;
+
+e.target.innerText =
+"Deleting...";
+
+
+/* =========================
+   DELETE POSTS
+========================= */
+
+const postsQuery =
+query(
+
+collection(
+db,
+"posts"
+),
+
+where(
+"pageId",
+"==",
+pageId
+)
+
+);
+
+
+const postsSnapshot =
+await getDocs(
+postsQuery
+);
+
+
+for(
+const post of postsSnapshot.docs
+){
+
+await deleteDoc(
+doc(
+db,
+"posts",
+post.id
+)
+);
+
+}
+
+
+/* =========================
+   DELETE APPROVED PAGE
+========================= */
+
+await deleteDoc(
+
+doc(
+db,
+"approvedPages",
+pageId
+)
+
+);
+
+
+alert(
+"Approved page deleted successfully."
+);
+
+
+/* RELOAD */
+
+await loadApprovedPages();
 
 
 }catch(error){
 
 console.error(
-"Error loading approved businesses:",
+"Delete approved page error:",
 error
 );
 
-approvedPagesList.innerHTML = `
+alert(
+"Delete failed: " +
+error.message
+);
 
-<p style="
-text-align:center;
-color:#666;
-grid-column:1/-1;
-">
 
-Unable to load approved business pages.
+e.target.disabled =
+false;
 
-</p>
+e.target.innerText =
+"🗑️ Delete Approved Page";
 
-`;
+}
+
+});
+
+
+/* =========================
+   SEARCH
+========================= */
+
+searchApproved.addEventListener(
+"input",
+()=>{
+
+const search =
+searchApproved.value
+.trim()
+.toLowerCase();
+
+
+if(!search){
+
+displayPages(
+allPages
+);
+
+return;
+
+}
+
+
+const filtered =
+allPages.filter(
+page=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.category || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.location || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.description || ""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+}
+);
+
+
+displayPages(
+filtered
+);
+
+});
+
+
+/* =========================
+   HELPERS
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(value)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+
+function escapeAttribute(
+value
+){
+
+return escapeHTML(
+value
+);
 
 }
 
@@ -222,4 +958,5 @@ Unable to load approved business pages.
 
 
 </body>
-</html>
+
+  </html>
