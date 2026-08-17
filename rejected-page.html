@@ -4,7 +4,8 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
 
 <title>Rejected Pages - Logical World</title>
 
@@ -107,15 +108,8 @@ margin-top:15px;
 border-radius:5px;
 }
 
-.appeal-box textarea{
-width:100%;
-height:100px;
-padding:10px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:15px;
-resize:vertical;
-margin-top:8px;
+.appeal-box p{
+line-height:1.5;
 }
 
 button{
@@ -128,6 +122,11 @@ font-weight:bold;
 font-size:15px;
 cursor:pointer;
 margin-top:10px;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
 }
 
 .appeal-btn{
@@ -162,6 +161,26 @@ border-radius:6px;
 margin-top:15px;
 background:#fff3cd;
 color:#856404;
+}
+
+.status-pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.status-under-review{
+background:#cfe8ff;
+color:#084298;
+}
+
+.status-accepted{
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.status-rejected{
+background:#f8d7da;
+color:#842029;
 }
 
 .admin-controls{
@@ -236,6 +255,26 @@ margin:0 auto 20px;
 font-weight:bold;
 }
 
+.login-warning{
+background:#fff3cd;
+border-left:5px solid #ff9800;
+padding:15px;
+border-radius:6px;
+margin-bottom:20px;
+text-align:center;
+}
+
+.login-warning a{
+display:inline-block;
+margin-top:10px;
+background:#0a4ea3;
+color:white;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
+}
+
 @media(max-width:600px){
 
 #rejectedPagesList{
@@ -284,6 +323,23 @@ id="adminBadge"
 class="admin-badge"
 >
 🔐 Admin Mode — Restore and Delete controls enabled
+</div>
+
+
+<div
+id="loginWarning"
+class="login-warning"
+style="display:none;"
+>
+
+You must be logged in to submit an appeal.
+
+<br>
+
+<a href="login.html">
+🔐 Login
+</a>
+
 </div>
 
 
@@ -347,10 +403,9 @@ from
 import {
 collection,
 getDocs,
-addDoc,
-deleteDoc,
+getDoc,
 doc,
-serverTimestamp
+deleteDoc
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -383,6 +438,11 @@ document.getElementById(
 "adminBadge"
 );
 
+const loginWarning =
+document.getElementById(
+"loginWarning"
+);
+
 const imageViewer =
 document.getElementById(
 "imageViewer"
@@ -400,8 +460,10 @@ document.getElementById(
 
 
 /* =========================
-   ADMIN STATE
+   STATE
 ========================= */
+
+let currentUser = null;
 
 let isAdmin = false;
 
@@ -469,41 +531,58 @@ closeImage();
 
 
 /* =========================
-   CHECK LOGIN
+   AUTH
 ========================= */
 
 onAuthStateChanged(
 auth,
-(user)=>{
+async(user)=>{
 
-if(
+currentUser = user || null;
+
+isAdmin =
+!!(
 user &&
-user.email ===
-ADMIN_EMAIL
-){
+(user.email || "").toLowerCase() ===
+ADMIN_EMAIL.toLowerCase()
+);
 
-isAdmin = true;
+
+if(isAdmin){
 
 adminDashboardLink.style.display =
 "block";
 
 adminBadge.style.display =
+"block";
+
+loginWarning.style.display =
+"none";
+
+}else{
+
+adminDashboardLink.style.display =
+"none";
+
+adminBadge.style.display =
+"none";
+
+if(!user){
+
+loginWarning.style.display =
 "block";
 
 }else{
 
-isAdmin = false;
-
-adminDashboardLink.style.display =
-"none";
-
-adminBadge.style.display =
+loginWarning.style.display =
 "none";
 
 }
 
+}
 
-loadRejectedPages();
+
+await loadRejectedPages();
 
 }
 );
@@ -568,13 +647,29 @@ page.data();
 const pageId =
 page.id;
 
+
 const pageName =
 data.pageName ||
 "Unnamed Page";
 
+
 const logoURL =
 data.logoURL ||
 "images/default-logo.png";
+
+
+const ownerId =
+data.ownerId ||
+"";
+
+
+const ownerEmail =
+(
+data.ownerEmail ||
+data.email ||
+""
+)
+.toLowerCase();
 
 
 /* =========================
@@ -646,7 +741,7 @@ name
 
 
 /* =========================
-   PAGE INFORMATION
+   INFORMATION
 ========================= */
 
 const info =
@@ -742,7 +837,10 @@ document.createElement(
 );
 
 status.className =
-"status";
+"status " +
+getStatusClass(
+data.appealStatus
+);
 
 status.textContent =
 "Appeal Status: " +
@@ -759,7 +857,36 @@ status
    OWNER APPEAL
 ========================= */
 
-if(!isAdmin){
+
+/*
+Only the actual page owner can
+submit an appeal.
+
+Admin does not use this button.
+*/
+
+const isOwner =
+!!(
+currentUser &&
+(
+(
+ownerId &&
+currentUser.uid === ownerId
+)
+||
+(
+ownerEmail &&
+(currentUser.email || "").toLowerCase() ===
+ownerEmail
+)
+)
+);
+
+
+if(
+isOwner &&
+!isAdmin
+){
 
 const appealBox =
 document.createElement(
@@ -769,6 +896,51 @@ document.createElement(
 appealBox.className =
 "appeal-box";
 
+
+const appealStatus =
+(
+data.appealStatus ||
+""
+).toLowerCase();
+
+
+/*
+If an appeal is already pending
+or under review, don't create
+another one.
+*/
+
+if(
+appealStatus === "pending" ||
+appealStatus === "under review"
+){
+
+appealBox.innerHTML = `
+
+<strong>
+📩 Appeal Already Submitted
+</strong>
+
+<p>
+Your appeal is currently
+<strong>
+${escapeHTML(
+data.appealStatus
+)}
+</strong>.
+</p>
+
+<button
+class="appeal-btn"
+disabled
+>
+📩 Appeal Under Review
+</button>
+
+`;
+
+}else{
+
 appealBox.innerHTML = `
 
 <strong>
@@ -776,30 +948,18 @@ appealBox.innerHTML = `
 </strong>
 
 <p>
-If you believe your page was rejected by mistake,
-explain why the admin should review it again.
+If you believe your page was
+rejected by mistake, you can
+submit an appeal to the admin.
 </p>
-
-<textarea
-id="appeal-${pageId}"
-placeholder="Write your appeal here..."
-></textarea>
 
 <button
 class="appeal-btn"
-id="appealBtn-${pageId}"
 >
-📩 Submit Appeal
+📩 Open Appeal
 </button>
 
 `;
-
-card.appendChild(
-appealBox
-);
-
-
-/* APPEAL BUTTON */
 
 const appealButton =
 appealBox.querySelector(
@@ -809,122 +969,27 @@ appealBox.querySelector(
 
 appealButton.addEventListener(
 "click",
-async()=>{
+()=>{
 
-const textarea =
-document.getElementById(
-"appeal-" +
+/*
+The appeal page receives
+the rejected page ID.
+*/
+
+location.href =
+"appeal.html?pageId=" +
+encodeURIComponent(
 pageId
 );
 
-const appealText =
-textarea.value.trim();
-
-
-if(!appealText){
-
-alert(
-"Please write your appeal first."
-);
-
-return;
-
-}
-
-
-if(
-data.appealStatus ===
-"Pending"
-){
-
-alert(
-"An appeal has already been submitted for this page."
-);
-
-return;
-
-}
-
-
-try{
-
-appealButton.disabled =
-true;
-
-appealButton.textContent =
-"Submitting...";
-
-
-await addDoc(
-
-collection(
-db,
-"appeals"
-),
-
-{
-
-pageId:
-pageId,
-
-pageName:
-pageName,
-
-ownerId:
-data.ownerId ||
-"",
-
-ownerEmail:
-data.ownerEmail ||
-data.email ||
-"",
-
-appealText:
-appealText,
-
-status:
-"Pending",
-
-createdAt:
-serverTimestamp()
-
-}
-
-);
-
-
-alert(
-"Your appeal has been submitted to the admin."
-);
-
-
-textarea.value = "";
-
-appealButton.textContent =
-"Appeal Submitted";
-
-}catch(error){
-
-console.error(
-"Appeal error:",
-error
-);
-
-
-alert(
-"Appeal failed: " +
-error.message
-);
-
-appealButton.disabled =
-false;
-
-appealButton.textContent =
-"📩 Submit Appeal";
-
-}
-
 });
+
+}
+
+
+card.appendChild(
+appealBox
+);
 
 }
 
@@ -943,17 +1008,25 @@ document.createElement(
 controls.className =
 "admin-controls";
 
-controls.innerHTML = `
 
-<div class="admin-label">
-🔐 Admin Controls
-</div>
+const adminLabel =
+document.createElement(
+"div"
+);
 
-`;
+adminLabel.className =
+"admin-label";
+
+adminLabel.textContent =
+"🔐 Admin Controls";
+
+controls.appendChild(
+adminLabel
+);
 
 
 /* =========================
-   RESTORE BUTTON
+   RESTORE / UN-REJECT
 ========================= */
 
 const restoreButton =
@@ -998,9 +1071,58 @@ restoreButton.textContent =
 "Restoring...";
 
 
-/* =========================
-   RESTORE PAGE
-========================= */
+/*
+IMPORTANT:
+
+This version expects the
+admin to restore the rejected
+page using the existing
+approvedPages document.
+*/
+
+
+const approvedRef =
+doc(
+db,
+"approvedPages",
+pageId
+);
+
+
+/*
+If approvedPages already has
+this page, simply report that.
+*/
+
+const approvedSnap =
+await getDoc(
+approvedRef
+);
+
+
+if(
+approvedSnap.exists()
+){
+
+alert(
+"This page is already in Approved Pages."
+);
+
+restoreButton.disabled =
+false;
+
+restoreButton.textContent =
+"✅ Restore / Un-Reject Page";
+
+return;
+
+}
+
+
+/*
+Copy the rejected page data
+into Approved Pages.
+*/
 
 const approvedData = {
 
@@ -1010,33 +1132,40 @@ status:
 "Approved",
 
 restoredAt:
-serverTimestamp()
+new Date()
 
 };
 
 
 /*
-Remove rejection-only
-fields where possible.
+Remove rejection-only fields.
 */
 
 delete approvedData.rejectionReason;
 delete approvedData.rejectedAt;
 
 
-await addDoc(
+/*
+Use the SAME page ID.
+*/
 
-collection(
-db,
-"approvedPages"
-),
-
-approvedData
-
+const {
+setDoc
+} =
+await import(
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
 );
 
 
-/* REMOVE FROM REJECTED */
+await setDoc(
+approvedRef,
+approvedData
+);
+
+
+/*
+Remove rejected version.
+*/
 
 await deleteDoc(
 
@@ -1050,7 +1179,7 @@ pageId
 
 
 alert(
-"Page restored successfully."
+"Page restored / un-rejected successfully."
 );
 
 
@@ -1087,7 +1216,7 @@ restoreButton
 
 
 /* =========================
-   DELETE BUTTON
+   DELETE
 ========================= */
 
 const deleteButton =
@@ -1133,7 +1262,9 @@ deleteButton.textContent =
 "Deleting...";
 
 
-/* DELETE REJECTED PAGE */
+/*
+DELETE REJECTED PAGE
+*/
 
 await deleteDoc(
 
@@ -1146,7 +1277,10 @@ pageId
 );
 
 
-/* DELETE PAGE POSTS */
+/*
+DELETE POSTS BELONGING
+TO THIS PAGE
+*/
 
 const postsSnapshot =
 await getDocs(
@@ -1224,6 +1358,7 @@ controls.appendChild(
 deleteButton
 );
 
+
 card.appendChild(
 controls
 );
@@ -1268,7 +1403,59 @@ error.message
 
 
 /* =========================
-   HELPER
+   STATUS CLASS
+========================= */
+
+function getStatusClass(
+status
+){
+
+const value =
+String(
+status || ""
+)
+.toLowerCase();
+
+
+if(
+value === "pending"
+){
+
+return "status-pending";
+
+}
+
+if(
+value === "under review"
+){
+
+return "status-under-review";
+
+}
+
+if(
+value === "accepted"
+){
+
+return "status-accepted";
+
+}
+
+if(
+value === "rejected"
+){
+
+return "status-rejected";
+
+}
+
+return "";
+
+}
+
+
+/* =========================
+   HTML ESCAPE
 ========================= */
 
 function escapeHTML(
@@ -1308,4 +1495,4 @@ return String(value)
 
 </body>
 
-  </html>
+     </html>
