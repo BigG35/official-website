@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rejected Pages - Logical World</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+margin:0;
+padding:20px;
+color:#222;
+}
+
+h1{
+text-align:center;
+color:#0a4ea3;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:25px;
+}
+
+.top-link{
+display:block;
+width:max-content;
+margin:0 auto 25px;
+background:#0a4ea3;
+color:white;
+padding:10px 18px;
+border-radius:6px;
+text-decoration:none;
+font-weight:bold;
+}
+
+#rejectedPagesList{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+max-width:1100px;
+margin:auto;
+}
+
+.page-card{
+background:white;
+border-radius:12px;
+padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,.18);
+}
+
+.page-logo{
+width:120px;
+height:120px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:0 auto 15px;
+border:3px solid #d32f2f;
+background:#eee;
+cursor:zoom-in;
+}
+
+.page-name{
+text-align:center;
+font-size:22px;
+font-weight:bold;
+color:#0a4ea3;
+margin-bottom:15px;
+}
+
+.info{
+margin-top:8px;
+line-height:1.5;
+}
+
+.reason{
+background:#ffebee;
+border-left:5px solid #d32f2f;
+padding:12px;
+margin-top:15px;
+border-radius:5px;
+}
+
+.reason strong{
+color:#b71c1c;
+}
+
+.appeal-box{
+background:#eef5ff;
+border-left:5px solid #0a4ea3;
+padding:15px;
+margin-top:15px;
+border-radius:5px;
+}
+
+.appeal-box textarea{
+width:100%;
+height:100px;
+padding:10px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+resize:vertical;
+margin-top:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+border-radius:6px;
+color:white;
+font-weight:bold;
+font-size:15px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.appeal-btn{
+background:#0a4ea3;
+}
+
+.appeal-btn:hover{
+background:#083d82;
+}
+
+.restore-btn{
+background:green;
+}
+
+.restore-btn:hover{
+background:#006400;
+}
+
+.delete-btn{
+background:#d32f2f;
+}
+
+.delete-btn:hover{
+background:#a91f1f;
+}
+
+.status{
+text-align:center;
+font-weight:bold;
+padding:9px;
+border-radius:6px;
+margin-top:15px;
+background:#fff3cd;
+color:#856404;
+}
+
+.admin-controls{
+margin-top:20px;
+padding-top:15px;
+border-top:1px solid #ddd;
+}
+
+.admin-label{
+font-weight:bold;
+color:#0a4ea3;
+margin-bottom:5px;
+}
+
+.loading,
+.empty,
+.error{
+text-align:center;
+grid-column:1/-1;
+padding:30px;
+color:#666;
+}
+
+.error{
+color:#b71c1c;
+}
+
+.image-viewer{
+display:none;
+position:fixed;
+z-index:9999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.92);
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.image-viewer img{
+max-width:95%;
+max-height:90%;
+object-fit:contain;
+border-radius:8px;
+}
+
+.close-viewer{
+position:absolute;
+top:15px;
+right:20px;
+color:white;
+font-size:40px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.close-viewer:hover{
+color:#ccc;
+}
+
+.admin-badge{
+display:none;
+text-align:center;
+background:#e8f5e9;
+color:#18752a;
+padding:10px;
+border-radius:6px;
+max-width:500px;
+margin:0 auto 20px;
+font-weight:bold;
+}
+
+@media(max-width:600px){
+
+#rejectedPagesList{
+grid-template-columns:1fr;
+}
+
+.page-card{
+padding:15px;
+}
+
+.page-logo{
+width:110px;
+height:110px;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<h1>
+🚫 Rejected Pages
+</h1>
+
+<p class="subtitle">
+Pages rejected by Logical World Admin
+</p>
+
+
+<a
+href="admin.html"
+id="adminDashboardLink"
+class="top-link"
+style="display:none;"
+>
+⚙️ Admin Dashboard
+</a>
+
+
+<div
+id="adminBadge"
+class="admin-badge"
+>
+🔐 Admin Mode — Restore and Delete controls enabled
+</div>
+
+
+<div
+id="rejectedPagesList"
+>
+
+<div class="loading">
+Loading rejected pages...
+</div>
+
+</div>
+
+
+<!-- =========================
+     FULL SIZE IMAGE VIEWER
+========================= -->
+
+<div
+id="imageViewer"
+class="image-viewer"
+>
+
+<span
+id="closeViewer"
+class="close-viewer"
+>
+&times;
+</span>
+
+<img
+id="fullSizeImage"
+src=""
+alt="Full Size Logo"
+>
+
+</div>
+
+
+<script type="module">
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+collection,
+getDocs,
+addDoc,
+deleteDoc,
+doc,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   ADMIN EMAIL
+========================= */
+
+const ADMIN_EMAIL =
+"alagoagodstime@gmail.com";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const rejectedPagesList =
+document.getElementById(
+"rejectedPagesList"
+);
+
+const adminDashboardLink =
+document.getElementById(
+"adminDashboardLink"
+);
+
+const adminBadge =
+document.getElementById(
+"adminBadge"
+);
+
+const imageViewer =
+document.getElementById(
+"imageViewer"
+);
+
+const fullSizeImage =
+document.getElementById(
+"fullSizeImage"
+);
+
+const closeViewer =
+document.getElementById(
+"closeViewer"
+);
+
+
+/* =========================
+   ADMIN STATE
+========================= */
+
+let isAdmin = false;
+
+
+/* =========================
+   IMAGE VIEWER
+========================= */
+
+function openImage(url){
+
+fullSizeImage.src =
+url;
+
+imageViewer.style.display =
+"flex";
+
+}
+
+
+function closeImage(){
+
+imageViewer.style.display =
+"none";
+
+fullSizeImage.src =
+"";
+
+}
+
+
+closeViewer.addEventListener(
+"click",
+closeImage
+);
+
+
+imageViewer.addEventListener(
+"click",
+(event)=>{
+
+if(
+event.target === imageViewer
+){
+
+closeImage();
+
+}
+
+});
+
+
+document.addEventListener(
+"keydown",
+(event)=>{
+
+if(
+event.key === "Escape"
+){
+
+closeImage();
+
+}
+
+});
+
+
+/* =========================
+   CHECK LOGIN
+========================= */
+
+onAuthStateChanged(
+auth,
+(user)=>{
+
+if(
+user &&
+user.email ===
+ADMIN_EMAIL
+){
+
+isAdmin = true;
+
+adminDashboardLink.style.display =
+"block";
+
+adminBadge.style.display =
+"block";
+
+}else{
+
+isAdmin = false;
+
+adminDashboardLink.style.display =
+"none";
+
+adminBadge.style.display =
+"none";
+
+}
+
+
+loadRejectedPages();
+
+}
+);
+
+
+/* =========================
+   LOAD REJECTED PAGES
+========================= */
+
+async function loadRejectedPages(){
+
+rejectedPagesList.innerHTML = `
+
+<div class="loading">
+Loading rejected pages...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+await getDocs(
+
+collection(
+db,
+"rejectedPages"
+)
+
+);
+
+
+rejectedPagesList.innerHTML = "";
+
+
+if(
+snapshot.empty
+){
+
+rejectedPagesList.innerHTML = `
+
+<div class="empty">
+
+No rejected pages.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+snapshot.forEach(
+(page)=>{
+
+const data =
+page.data();
+
+const pageId =
+page.id;
+
+const pageName =
+data.pageName ||
+"Unnamed Page";
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
+
+/* =========================
+   CARD
+========================= */
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"page-card";
+
+
+/* =========================
+   LOGO
+========================= */
+
+const logo =
+document.createElement(
+"img"
+);
+
+logo.className =
+"page-logo";
+
+logo.src =
+logoURL;
+
+logo.alt =
+pageName;
+
+
+logo.addEventListener(
+"click",
+()=>{
+
+openImage(
+logoURL
+);
+
+});
+
+
+card.appendChild(
+logo
+);
+
+
+/* =========================
+   NAME
+========================= */
+
+const name =
+document.createElement(
+"div"
+);
+
+name.className =
+"page-name";
+
+name.textContent =
+pageName;
+
+card.appendChild(
+name
+);
+
+
+/* =========================
+   PAGE INFORMATION
+========================= */
+
+const info =
+document.createElement(
+"div"
+);
+
+info.className =
+"info";
+
+info.innerHTML = `
+
+<p>
+<strong>Page Type:</strong>
+${escapeHTML(
+data.pageType || ""
+)}
+</p>
+
+<p>
+<strong>Category:</strong>
+${escapeHTML(
+data.category || ""
+)}
+</p>
+
+<p>
+<strong>Location:</strong>
+${escapeHTML(
+data.location || ""
+)}
+</p>
+
+<p>
+<strong>Owner Email:</strong>
+${escapeHTML(
+data.ownerEmail ||
+data.email ||
+""
+)}
+</p>
+
+`;
+
+card.appendChild(
+info
+);
+
+
+/* =========================
+   REJECTION REASON
+========================= */
+
+const reason =
+document.createElement(
+"div"
+);
+
+reason.className =
+"reason";
+
+reason.innerHTML = `
+
+<strong>
+🚫 Rejection Reason
+</strong>
+
+<br><br>
+
+${escapeHTML(
+data.rejectionReason ||
+"No rejection reason was provided."
+)}
+
+`;
+
+card.appendChild(
+reason
+);
+
+
+/* =========================
+   APPEAL STATUS
+========================= */
+
+if(
+data.appealStatus
+){
+
+const status =
+document.createElement(
+"div"
+);
+
+status.className =
+"status";
+
+status.textContent =
+"Appeal Status: " +
+data.appealStatus;
+
+card.appendChild(
+status
+);
+
+}
+
+
+/* =========================
+   OWNER APPEAL
+========================= */
+
+if(!isAdmin){
+
+const appealBox =
+document.createElement(
+"div"
+);
+
+appealBox.className =
+"appeal-box";
+
+appealBox.innerHTML = `
+
+<strong>
+📩 Appeal This Rejection
+</strong>
+
+<p>
+If you believe your page was rejected by mistake,
+explain why the admin should review it again.
+</p>
+
+<textarea
+id="appeal-${pageId}"
+placeholder="Write your appeal here..."
+></textarea>
+
+<button
+class="appeal-btn"
+id="appealBtn-${pageId}"
+>
+📩 Submit Appeal
+</button>
+
+`;
+
+card.appendChild(
+appealBox
+);
+
+
+/* APPEAL BUTTON */
+
+const appealButton =
+appealBox.querySelector(
+".appeal-btn"
+);
+
+
+appealButton.addEventListener(
+"click",
+async()=>{
+
+const textarea =
+document.getElementById(
+"appeal-" +
+pageId
+);
+
+const appealText =
+textarea.value.trim();
+
+
+if(!appealText){
+
+alert(
+"Please write your appeal first."
+);
+
+return;
+
+}
+
+
+if(
+data.appealStatus ===
+"Pending"
+){
+
+alert(
+"An appeal has already been submitted for this page."
+);
+
+return;
+
+}
+
+
+try{
+
+appealButton.disabled =
+true;
+
+appealButton.textContent =
+"Submitting...";
+
+
+await addDoc(
+
+collection(
+db,
+"appeals"
+),
+
+{
+
+pageId:
+pageId,
+
+pageName:
+pageName,
+
+ownerId:
+data.ownerId ||
+"",
+
+ownerEmail:
+data.ownerEmail ||
+data.email ||
+"",
+
+appealText:
+appealText,
+
+status:
+"Pending",
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+alert(
+"Your appeal has been submitted to the admin."
+);
+
+
+textarea.value = "";
+
+appealButton.textContent =
+"Appeal Submitted";
+
+}catch(error){
+
+console.error(
+"Appeal error:",
+error
+);
+
+
+alert(
+"Appeal failed: " +
+error.message
+);
+
+appealButton.disabled =
+false;
+
+appealButton.textContent =
+"📩 Submit Appeal";
+
+}
+
+});
+
+}
+
+
+/* =========================
+   ADMIN CONTROLS
+========================= */
+
+if(isAdmin){
+
+const controls =
+document.createElement(
+"div"
+);
+
+controls.className =
+"admin-controls";
+
+controls.innerHTML = `
+
+<div class="admin-label">
+🔐 Admin Controls
+</div>
+
+`;
+
+
+/* =========================
+   RESTORE BUTTON
+========================= */
+
+const restoreButton =
+document.createElement(
+"button"
+);
+
+restoreButton.className =
+"restore-btn";
+
+restoreButton.textContent =
+"✅ Restore / Un-Reject Page";
+
+
+restoreButton.addEventListener(
+"click",
+async()=>{
+
+const confirmed =
+confirm(
+
+"Restore \"" +
+pageName +
+"\" back to Approved Pages?"
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+restoreButton.disabled =
+true;
+
+restoreButton.textContent =
+"Restoring...";
+
+
+/* =========================
+   RESTORE PAGE
+========================= */
+
+const approvedData = {
+
+...data,
+
+status:
+"Approved",
+
+restoredAt:
+serverTimestamp()
+
+};
+
+
+/*
+Remove rejection-only
+fields where possible.
+*/
+
+delete approvedData.rejectionReason;
+delete approvedData.rejectedAt;
+
+
+await addDoc(
+
+collection(
+db,
+"approvedPages"
+),
+
+approvedData
+
+);
+
+
+/* REMOVE FROM REJECTED */
+
+await deleteDoc(
+
+doc(
+db,
+"rejectedPages",
+pageId
+)
+
+);
+
+
+alert(
+"Page restored successfully."
+);
+
+
+await loadRejectedPages();
+
+
+}catch(error){
+
+console.error(
+"Restore error:",
+error
+);
+
+
+alert(
+"Restore failed: " +
+error.message
+);
+
+restoreButton.disabled =
+false;
+
+restoreButton.textContent =
+"✅ Restore / Un-Reject Page";
+
+}
+
+});
+
+
+controls.appendChild(
+restoreButton
+);
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
+const deleteButton =
+document.createElement(
+"button"
+);
+
+deleteButton.className =
+"delete-btn";
+
+deleteButton.textContent =
+"🗑 Permanently Delete Page";
+
+
+deleteButton.addEventListener(
+"click",
+async()=>{
+
+const confirmed =
+confirm(
+
+"PERMANENTLY DELETE \"" +
+pageName +
+"\"?\n\n" +
+"This cannot be undone."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+deleteButton.disabled =
+true;
+
+deleteButton.textContent =
+"Deleting...";
+
+
+/* DELETE REJECTED PAGE */
+
+await deleteDoc(
+
+doc(
+db,
+"rejectedPages",
+pageId
+)
+
+);
+
+
+/* DELETE PAGE POSTS */
+
+const postsSnapshot =
+await getDocs(
+
+collection(
+db,
+"posts"
+)
+
+);
+
+
+for(
+const post of
+postsSnapshot.docs
+){
+
+const postData =
+post.data();
+
+
+if(
+postData.pageId ===
+pageId
+){
+
+await deleteDoc(
+
+doc(
+db,
+"posts",
+post.id
+)
+
+);
+
+}
+
+}
+
+
+alert(
+"Page permanently deleted."
+);
+
+
+await loadRejectedPages();
+
+
+}catch(error){
+
+console.error(
+"Permanent delete error:",
+error
+);
+
+
+alert(
+"Delete failed: " +
+error.message
+);
+
+deleteButton.disabled =
+false;
+
+deleteButton.textContent =
+"🗑 Permanently Delete Page";
+
+}
+
+});
+
+
+controls.appendChild(
+deleteButton
+);
+
+card.appendChild(
+controls
+);
+
+}
+
+
+rejectedPagesList.appendChild(
+card
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Load rejected pages error:",
+error
+);
+
+
+rejectedPagesList.innerHTML = `
+
+<div class="error">
+
+Unable to load rejected pages.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   HELPER
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(value)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+</script>
+
+</body>
+
+  </html>
