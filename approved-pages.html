@@ -79,6 +79,7 @@ margin:0 auto 15px;
 border:3px solid #0a4ea3;
 background:#eee;
 transition:transform .2s;
+cursor:zoom-in;
 }
 
 .business-logo:hover{
@@ -104,15 +105,27 @@ padding-top:12px;
 border-top:1px solid #ddd;
 }
 
-.delete-btn{
+.admin-btn{
 width:100%;
 padding:11px;
 border:0;
 border-radius:6px;
-background:#d32f2f;
 color:white;
 font-weight:bold;
 cursor:pointer;
+margin-top:8px;
+}
+
+.reject-btn{
+background:#f57c00;
+}
+
+.reject-btn:hover{
+background:#c65f00;
+}
+
+.delete-btn{
+background:#d32f2f;
 }
 
 .delete-btn:hover{
@@ -145,6 +158,47 @@ margin:0 auto 20px;
 font-weight:bold;
 }
 
+
+/* =========================
+   FULL SIZE IMAGE VIEWER
+========================= */
+
+.image-viewer{
+display:none;
+position:fixed;
+z-index:9999;
+left:0;
+top:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,.92);
+justify-content:center;
+align-items:center;
+padding:20px;
+}
+
+.image-viewer img{
+max-width:95%;
+max-height:90%;
+object-fit:contain;
+border-radius:8px;
+}
+
+.close-viewer{
+position:absolute;
+top:15px;
+right:20px;
+color:white;
+font-size:40px;
+font-weight:bold;
+cursor:pointer;
+line-height:1;
+}
+
+.close-viewer:hover{
+color:#ccc;
+}
+
 @media(max-width:500px){
 
 #approvedPagesList{
@@ -170,6 +224,7 @@ font-size:17px;
 </style>
 
 </head>
+
 
 <body>
 
@@ -212,6 +267,31 @@ Loading approved pages...
 </div>
 
 
+<!-- =========================
+     FULL SIZE IMAGE VIEWER
+========================= -->
+
+<div
+id="imageViewer"
+class="image-viewer"
+>
+
+<span
+id="closeViewer"
+class="close-viewer"
+>
+&times;
+</span>
+
+<img
+id="fullSizeImage"
+src=""
+alt="Full Size Logo"
+>
+
+</div>
+
+
 <script type="module">
 
 
@@ -236,8 +316,10 @@ from
 import {
 collection,
 getDocs,
+addDoc,
 deleteDoc,
-doc
+doc,
+serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -270,12 +352,92 @@ document.getElementById(
 "adminBadge"
 );
 
+const imageViewer =
+document.getElementById(
+"imageViewer"
+);
+
+const fullSizeImage =
+document.getElementById(
+"fullSizeImage"
+);
+
+const closeViewer =
+document.getElementById(
+"closeViewer"
+);
+
 
 /* =========================
    ADMIN STATE
 ========================= */
 
 let isAdmin = false;
+
+
+/* =========================
+   IMAGE VIEWER
+========================= */
+
+function openFullSizeImage(
+imageURL
+){
+
+fullSizeImage.src =
+imageURL;
+
+imageViewer.style.display =
+"flex";
+
+}
+
+
+function closeFullSizeImage(){
+
+imageViewer.style.display =
+"none";
+
+fullSizeImage.src =
+"";
+
+}
+
+
+closeViewer.addEventListener(
+"click",
+closeFullSizeImage
+);
+
+
+imageViewer.addEventListener(
+"click",
+(event)=>{
+
+if(
+event.target ===
+imageViewer
+){
+
+closeFullSizeImage();
+
+}
+
+});
+
+
+document.addEventListener(
+"keydown",
+(event)=>{
+
+if(
+event.key === "Escape"
+){
+
+closeFullSizeImage();
+
+}
+
+});
 
 
 /* =========================
@@ -425,7 +587,9 @@ link.href =
 businessURL;
 
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
 
 const logo =
 document.createElement(
@@ -442,7 +606,29 @@ logo.alt =
 pageName;
 
 
-/* NAME */
+/*
+   Clicking the logo opens
+   the full-size image.
+*/
+
+logo.addEventListener(
+"click",
+(event)=>{
+
+event.preventDefault();
+event.stopPropagation();
+
+openFullSizeImage(
+logoURL
+);
+
+}
+);
+
+
+/* =========================
+   NAME
+========================= */
 
 const name =
 document.createElement(
@@ -456,7 +642,9 @@ name.textContent =
 pageName;
 
 
-/* TAP MESSAGE */
+/* =========================
+   TAP MESSAGE
+========================= */
 
 const tapText =
 document.createElement(
@@ -467,7 +655,7 @@ tapText.className =
 "tap-text";
 
 tapText.textContent =
-"Tap to view page and posts";
+"Tap page to view posts • Tap logo to enlarge";
 
 
 link.appendChild(
@@ -488,7 +676,7 @@ link
 
 
 /* =========================
-   ADMIN DELETE
+   ADMIN CONTROLS
 ========================= */
 
 if(isAdmin){
@@ -502,13 +690,185 @@ controls.className =
 "admin-controls";
 
 
+/* =========================
+   REJECT BUTTON
+========================= */
+
+const rejectButton =
+document.createElement(
+"button"
+);
+
+rejectButton.className =
+"admin-btn reject-btn";
+
+rejectButton.textContent =
+"🚫 Reject Approved Page";
+
+
+rejectButton.addEventListener(
+"click",
+async(event)=>{
+
+event.preventDefault();
+event.stopPropagation();
+
+
+const reason =
+prompt(
+"Enter the reason for rejecting this page:"
+);
+
+
+if(
+reason === null
+){
+
+return;
+
+}
+
+
+if(
+reason.trim() === ""
+){
+
+alert(
+"Please enter a rejection reason."
+);
+
+return;
+
+}
+
+
+const confirmed =
+confirm(
+
+"Reject \"" +
+pageName +
+"\"?\n\n" +
+"Reason: " +
+reason
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+rejectButton.disabled =
+true;
+
+rejectButton.textContent =
+"Rejecting...";
+
+
+/* =========================
+   SAVE TO REJECTED
+========================= */
+
+const rejectedData = {
+
+...data,
+
+status:
+"Rejected",
+
+rejectionReason:
+reason.trim(),
+
+rejectedAt:
+serverTimestamp(),
+
+previousApprovedPageId:
+pageId
+
+};
+
+
+await addDoc(
+
+collection(
+db,
+"rejectedPages"
+),
+
+rejectedData
+
+);
+
+
+/* =========================
+   DELETE FROM APPROVED
+========================= */
+
+await deleteDoc(
+
+doc(
+db,
+"approvedPages",
+pageId
+)
+
+);
+
+
+alert(
+"Page rejected successfully."
+);
+
+
+await loadApprovedPages();
+
+
+}catch(error){
+
+console.error(
+"Reject page error:",
+error
+);
+
+
+alert(
+"Reject failed: " +
+error.message
+);
+
+
+rejectButton.disabled =
+false;
+
+rejectButton.textContent =
+"🚫 Reject Approved Page";
+
+}
+
+});
+
+
+controls.appendChild(
+rejectButton
+);
+
+
+/* =========================
+   DELETE BUTTON
+========================= */
+
 const deleteButton =
 document.createElement(
 "button"
 );
 
 deleteButton.className =
-"delete-btn";
+"admin-btn delete-btn";
 
 deleteButton.textContent =
 "🗑 Delete Approved Page";
@@ -519,7 +879,6 @@ deleteButton.addEventListener(
 async(event)=>{
 
 event.preventDefault();
-
 event.stopPropagation();
 
 
@@ -728,6 +1087,6 @@ return String(value)
 
 </script>
 
-</body>
 
+</body>
    </html>
