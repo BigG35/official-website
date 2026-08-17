@@ -1,0 +1,2759 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Appeals - Logical World</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+margin:0;
+background:#f5f5f5;
+color:#222;
+}
+
+header{
+background:#0a4ea3;
+color:white;
+padding:20px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+}
+
+.container{
+max-width:900px;
+margin:20px auto;
+padding:15px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+padding:20px;
+margin-bottom:20px;
+box-shadow:0 2px 8px rgba(0,0,0,.15);
+}
+
+h2{
+color:#0a4ea3;
+margin-top:0;
+}
+
+h3{
+color:#0a4ea3;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-top:12px;
+}
+
+input,
+textarea,
+select{
+width:100%;
+padding:12px;
+margin-top:6px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
+
+textarea{
+height:130px;
+resize:vertical;
+}
+
+button{
+border:0;
+border-radius:6px;
+padding:12px 18px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+margin-top:12px;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.primary{
+background:#0a4ea3;
+color:white;
+}
+
+.primary:hover{
+background:#083d82;
+}
+
+.success{
+background:#188038;
+color:white;
+}
+
+.danger{
+background:#d32f2f;
+color:white;
+}
+
+.warning{
+background:#f39c12;
+color:white;
+}
+
+.secondary{
+background:#555;
+color:white;
+}
+
+.hidden{
+display:none;
+}
+
+.info{
+background:#eef5ff;
+border-left:4px solid #0a4ea3;
+padding:12px;
+margin-bottom:15px;
+}
+
+.warning-box{
+background:#fff3cd;
+border-left:5px solid #ff9800;
+padding:15px;
+margin-bottom:15px;
+}
+
+.success-box{
+background:#d1e7dd;
+border-left:5px solid #188038;
+padding:15px;
+margin-bottom:15px;
+}
+
+.error-box{
+background:#f8d7da;
+border-left:5px solid #d32f2f;
+padding:15px;
+margin-bottom:15px;
+}
+
+.status{
+display:inline-block;
+padding:7px 12px;
+border-radius:6px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.status-pending{
+background:#fff3cd;
+color:#856404;
+}
+
+.status-review{
+background:#cfe8ff;
+color:#084298;
+}
+
+.status-accepted{
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.status-rejected{
+background:#f8d7da;
+color:#842029;
+}
+
+.status-reopened{
+background:#e2e3e5;
+color:#41464b;
+}
+
+.appeal-item{
+border:1px solid #ddd;
+border-radius:8px;
+padding:15px;
+margin-top:15px;
+background:#fafafa;
+}
+
+.appeal-actions{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+}
+
+.appeal-actions button{
+flex:1;
+min-width:130px;
+}
+
+.small{
+font-size:13px;
+color:#666;
+}
+
+.empty{
+text-align:center;
+color:#777;
+padding:30px;
+}
+
+.chat-box{
+height:350px;
+overflow-y:auto;
+background:#f1f3f5;
+border:1px solid #ddd;
+border-radius:8px;
+padding:15px;
+margin-top:15px;
+}
+
+.message{
+max-width:80%;
+padding:10px 13px;
+margin:8px 0;
+border-radius:12px;
+word-wrap:break-word;
+white-space:pre-wrap;
+}
+
+.message.mine{
+margin-left:auto;
+background:#0a4ea3;
+color:white;
+}
+
+.message.theirs{
+margin-right:auto;
+background:white;
+border:1px solid #ddd;
+}
+
+.message-meta{
+font-size:11px;
+opacity:.7;
+margin-top:5px;
+}
+
+@media(max-width:500px){
+
+.container{
+padding:10px;
+}
+
+.card{
+padding:15px;
+}
+
+.message{
+max-width:90%;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<header>
+
+<h1>🌍 Logical World</h1>
+
+<p>📩 Page Appeals</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- LOGIN -->
+
+<div
+id="loginMessage"
+class="card hidden"
+>
+
+<h2>🔐 Login Required</h2>
+
+<p>
+You must login before using the appeal system.
+</p>
+
+<button
+class="primary"
+onclick="location.href='login.html'"
+>
+Login
+</button>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div
+id="mainArea"
+class="hidden"
+>
+
+
+<!-- USER -->
+
+<div class="card">
+
+<h2>
+👤 My Account
+</h2>
+
+<p>
+
+<strong>Email:</strong>
+
+<span id="userEmail"></span>
+
+</p>
+
+</div>
+
+
+<!-- SUBMIT APPEAL -->
+
+<div
+id="submitArea"
+class="card"
+>
+
+<h2>
+📩 Submit an Appeal
+</h2>
+
+<div class="info">
+
+If your Logical World page was rejected,
+you can explain why the decision should
+be reconsidered.
+
+</div>
+
+
+<label>
+Page ID
+</label>
+
+<input
+type="text"
+id="pageId"
+placeholder="Enter rejected page ID"
+>
+
+
+<label>
+Page Name
+</label>
+
+<input
+type="text"
+id="pageName"
+placeholder="Enter page name"
+>
+
+
+<label>
+Reason for Appeal
+</label>
+
+<textarea
+id="appealText"
+placeholder="Explain why your page should be reconsidered..."
+></textarea>
+
+
+<button
+class="primary"
+id="submitAppealBtn"
+>
+📩 Submit Appeal
+</button>
+
+</div>
+
+
+<!-- MY APPEALS -->
+
+<div class="card">
+
+<h2>
+📋 My Appeals
+</h2>
+
+<div id="myAppeals">
+
+<div class="empty">
+Loading your appeals...
+</div>
+
+</div>
+
+</div>
+
+
+<!-- APPEAL CHAT -->
+
+<div
+id="appealChatArea"
+class="card hidden"
+>
+
+<h2>
+💬 Appeal Conversation
+</h2>
+
+<div
+id="appealChatInfo"
+class="warning-box"
+>
+Appeal conversation
+</div>
+
+
+<div
+id="appealChatBox"
+class="chat-box"
+>
+
+<div class="empty">
+No messages yet.
+</div>
+
+</div>
+
+
+<label>
+Reply
+</label>
+
+<textarea
+id="appealMessage"
+placeholder="Write your message to the administrator..."
+></textarea>
+
+
+<button
+class="primary"
+id="sendAppealMessageBtn"
+>
+📤 Send Message
+</button>
+
+
+<button
+class="secondary"
+id="closeAppealChatBtn"
+>
+Close Conversation
+</button>
+
+</div>
+
+
+<!-- ADMIN -->
+
+<div
+id="adminArea"
+class="card hidden"
+>
+
+<h2>
+👑 Admin Appeal Management
+</h2>
+
+<div class="info">
+
+As administrator you can review appeals,
+accept them, reject them again, or reopen
+a rejected appeal.
+
+</div>
+
+
+<div id="adminAppeals">
+
+<div class="empty">
+Loading appeals...
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+collection,
+query,
+where,
+getDocs,
+addDoc,
+doc,
+getDoc,
+updateDoc,
+deleteDoc,
+serverTimestamp,
+orderBy
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   ADMIN
+========================= */
+
+const ADMIN_EMAIL =
+"alagoagodstime@gmail.com";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const loginMessage =
+document.getElementById(
+"loginMessage"
+);
+
+const mainArea =
+document.getElementById(
+"mainArea"
+);
+
+const userEmail =
+document.getElementById(
+"userEmail"
+);
+
+const pageIdInput =
+document.getElementById(
+"pageId"
+);
+
+const pageNameInput =
+document.getElementById(
+"pageName"
+);
+
+const appealText =
+document.getElementById(
+"appealText"
+);
+
+const submitAppealBtn =
+document.getElementById(
+"submitAppealBtn"
+);
+
+const myAppeals =
+document.getElementById(
+"myAppeals"
+);
+
+const adminArea =
+document.getElementById(
+"adminArea"
+);
+
+const adminAppeals =
+document.getElementById(
+"adminAppeals"
+);
+
+const appealChatArea =
+document.getElementById(
+"appealChatArea"
+);
+
+const appealChatInfo =
+document.getElementById(
+"appealChatInfo"
+);
+
+const appealChatBox =
+document.getElementById(
+"appealChatBox"
+);
+
+const appealMessage =
+document.getElementById(
+"appealMessage"
+);
+
+const sendAppealMessageBtn =
+document.getElementById(
+"sendAppealMessageBtn"
+);
+
+const closeAppealChatBtn =
+document.getElementById(
+"closeAppealChatBtn"
+);
+
+
+/* =========================
+   VARIABLES
+========================= */
+
+let currentUser = null;
+
+let currentAppealId = null;
+
+let currentConversationId = null;
+
+
+/* =========================
+   AUTH
+========================= */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+if(!user){
+
+currentUser = null;
+
+loginMessage.classList.remove(
+"hidden"
+);
+
+mainArea.classList.add(
+"hidden"
+);
+
+return;
+
+}
+
+
+currentUser = user;
+
+loginMessage.classList.add(
+"hidden"
+);
+
+mainArea.classList.remove(
+"hidden"
+);
+
+userEmail.textContent =
+user.email || "";
+
+
+/* ADMIN */
+
+if(
+(user.email || "").toLowerCase()
+===
+ADMIN_EMAIL.toLowerCase()
+){
+
+adminArea.classList.remove(
+"hidden"
+);
+
+await loadAdminAppeals();
+
+}
+
+
+/* LOAD USER APPEALS */
+
+await loadMyAppeals();
+
+
+/* CHECK URL */
+
+checkPageFromURL();
+
+}
+);
+
+
+/* =========================
+   CHECK PAGE URL
+========================= */
+
+async function checkPageFromURL(){
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+const id =
+params.get("pageId");
+
+
+if(!id){
+
+return;
+
+}
+
+
+pageIdInput.value =
+id;
+
+
+/*
+Try to load the rejected
+page information.
+*/
+
+try{
+
+const rejectedPage =
+await getDoc(
+
+doc(
+db,
+"rejectedPages",
+id
+)
+
+);
+
+
+if(
+rejectedPage.exists()
+){
+
+const data =
+rejectedPage.data();
+
+pageNameInput.value =
+data.pageName || "";
+
+}
+
+}catch(error){
+
+console.error(
+"Page loading error:",
+error
+);
+
+}
+
+}
+
+
+/* =========================
+   SUBMIT APPEAL
+========================= */
+
+submitAppealBtn.addEventListener(
+"click",
+async()=>{
+
+const pageId =
+pageIdInput.value.trim();
+
+const pageName =
+pageNameInput.value.trim();
+
+const text =
+appealText.value.trim();
+
+
+if(!pageId){
+
+alert(
+"Enter the rejected page ID."
+);
+
+return;
+
+}
+
+
+if(!pageName){
+
+alert(
+"Enter the page name."
+);
+
+return;
+
+}
+
+
+if(!text){
+
+alert(
+"Explain why you are appealing."
+);
+
+return;
+
+}
+
+
+try{
+
+submitAppealBtn.disabled =
+true;
+
+submitAppealBtn.textContent =
+"Submitting...";
+
+
+/*
+Check whether the page exists
+in rejectedPages.
+*/
+
+let pageData = {};
+
+
+try{
+
+const pageSnap =
+await getDoc(
+
+doc(
+db,
+"rejectedPages",
+pageId
+)
+
+);
+
+
+if(
+pageSnap.exists()
+){
+
+pageData =
+pageSnap.data();
+
+}
+
+}catch(error){
+
+console.log(
+"Rejected page lookup:",
+error
+);
+
+}
+
+
+/*
+Prevent duplicate pending appeals.
+*/
+
+const existingSnapshot =
+await getDocs(
+
+query(
+
+collection(
+db,
+"appeals"
+),
+
+where(
+"pageId",
+"==",
+pageId
+),
+
+where(
+"ownerId",
+"==",
+currentUser.uid
+)
+
+)
+
+);
+
+
+let activeAppealExists =
+false;
+
+
+existingSnapshot.forEach(
+(appealDoc)=>{
+
+const data =
+appealDoc.data();
+
+const status =
+(data.status || "")
+.toLowerCase();
+
+
+if(
+status === "pending" ||
+status === "under review"
+){
+
+activeAppealExists =
+true;
+
+}
+
+});
+
+
+if(
+activeAppealExists
+){
+
+alert(
+"You already have an active appeal for this page."
+);
+
+return;
+
+}
+
+
+/*
+Create appeal.
+*/
+
+const appealRef =
+await addDoc(
+
+collection(
+db,
+"appeals"
+),
+
+{
+
+pageId:
+pageId,
+
+pageName:
+pageName,
+
+ownerId:
+currentUser.uid,
+
+ownerEmail:
+currentUser.email || "",
+
+appealText:
+text,
+
+status:
+"Pending",
+
+createdAt:
+serverTimestamp(),
+
+updatedAt:
+serverTimestamp(),
+
+conversationId:
+"",
+
+adminId:
+"",
+
+pageData:
+pageData
+
+}
+
+);
+
+
+alert(
+"Appeal submitted successfully."
+);
+
+
+/*
+Clear form.
+*/
+
+pageIdInput.value = "";
+
+pageNameInput.value = "";
+
+appealText.value = "";
+
+
+/*
+Reload.
+*/
+
+await loadMyAppeals();
+
+
+/*
+If admin is logged in,
+reload admin list.
+*/
+
+if(
+(currentUser.email || "").toLowerCase()
+===
+ADMIN_EMAIL.toLowerCase()
+){
+
+await loadAdminAppeals();
+
+}
+
+
+}catch(error){
+
+console.error(
+"Submit appeal error:",
+error
+);
+
+alert(
+"Appeal submission failed: " +
+error.message
+);
+
+}finally{
+
+submitAppealBtn.disabled =
+false;
+
+submitAppealBtn.textContent =
+"📩 Submit Appeal";
+
+}
+
+});
+
+
+/* =========================
+   LOAD MY APPEALS
+========================= */
+
+async function loadMyAppeals(){
+
+myAppeals.innerHTML = `
+
+<div class="empty">
+Loading appeals...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+await getDocs(
+
+query(
+
+collection(
+db,
+"appeals"
+),
+
+where(
+"ownerId",
+"==",
+currentUser.uid
+)
+
+)
+
+);
+
+
+myAppeals.innerHTML = "";
+
+
+if(
+snapshot.empty
+){
+
+myAppeals.innerHTML = `
+
+<div class="empty">
+You have not submitted any appeals.
+</div>
+
+`;
+
+return;
+
+}
+
+
+/*
+Sort newest first in JavaScript.
+*/
+
+const appeals =
+snapshot.docs
+.map(
+item=>({
+
+id:item.id,
+data:item.data()
+
+})
+)
+.sort(
+(a,b)=>{
+
+const aTime =
+a.data.createdAt?.seconds || 0;
+
+const bTime =
+b.data.createdAt?.seconds || 0;
+
+return bTime - aTime;
+
+}
+);
+
+
+appeals.forEach(
+(item)=>{
+
+const box =
+createAppealBox(
+item.id,
+item.data,
+false
+);
+
+myAppeals.appendChild(
+box
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Load my appeals error:",
+error
+);
+
+myAppeals.innerHTML = `
+
+<div class="empty error-box">
+
+Could not load appeals.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   CREATE USER APPEAL BOX
+========================= */
+
+function createAppealBox(
+id,
+data,
+adminMode
+){
+
+const box =
+document.createElement(
+"div"
+);
+
+box.className =
+"appeal-item";
+
+
+const statusClass =
+getStatusClass(
+data.status
+);
+
+
+box.innerHTML = `
+
+<h3>
+📄 ${escapeHTML(
+data.pageName || "Page"
+)}
+</h3>
+
+<p>
+<strong>Status:</strong><br>
+
+<span class="status ${statusClass}">
+${escapeHTML(
+data.status || "Pending"
+)}
+</span>
+
+</p>
+
+<p>
+<strong>Appeal:</strong><br>
+${escapeHTML(
+data.appealText || ""
+)}
+</p>
+
+<p class="small">
+Submitted:
+${formatDate(
+data.createdAt
+)}
+</p>
+
+`;
+
+
+if(!adminMode){
+
+const openButton =
+document.createElement(
+"button"
+);
+
+openButton.className =
+"primary";
+
+openButton.textContent =
+"💬 Open Appeal Conversation";
+
+openButton.onclick =
+()=>{
+
+openAppealConversation(
+id,
+data
+);
+
+};
+
+box.appendChild(
+openButton
+);
+
+}
+
+
+/*
+Admin buttons.
+*/
+
+if(adminMode){
+
+const actions =
+document.createElement(
+"div"
+);
+
+actions.className =
+"appeal-actions";
+
+
+/* OPEN CHAT */
+
+const chatButton =
+document.createElement(
+"button"
+);
+
+chatButton.className =
+"primary";
+
+chatButton.textContent =
+"💬 Open Conversation";
+
+chatButton.onclick =
+()=>{
+
+openAppealConversation(
+id,
+data
+);
+
+};
+
+
+/* UNDER REVIEW */
+
+const reviewButton =
+document.createElement(
+"button"
+);
+
+reviewButton.className =
+"warning";
+
+reviewButton.textContent =
+"🔎 Under Review";
+
+reviewButton.onclick =
+()=>{
+
+changeAppealStatus(
+id,
+"Under Review"
+);
+
+};
+
+
+/* ACCEPT */
+
+const acceptButton =
+document.createElement(
+"button"
+);
+
+acceptButton.className =
+"success";
+
+acceptButton.textContent =
+"✅ Accept Appeal";
+
+acceptButton.onclick =
+()=>{
+
+acceptAppeal(
+id,
+data
+);
+
+};
+
+
+/* REJECT AGAIN */
+
+const rejectButton =
+document.createElement(
+"button"
+);
+
+rejectButton.className =
+"danger";
+
+rejectButton.textContent =
+"❌ Reject Appeal";
+
+rejectButton.onclick =
+()=>{
+
+changeAppealStatus(
+id,
+"Rejected"
+);
+
+};
+
+
+/* REOPEN */
+
+const reopenButton =
+document.createElement(
+"button"
+);
+
+reopenButton.className =
+"secondary";
+
+reopenButton.textContent =
+"🔄 Reopen / Un-Reject";
+
+reopenButton.onclick =
+()=>{
+
+reopenPage(
+id,
+data
+);
+
+};
+
+
+actions.appendChild(
+chatButton
+);
+
+actions.appendChild(
+reviewButton
+);
+
+actions.appendChild(
+acceptButton
+);
+
+actions.appendChild(
+rejectButton
+);
+
+actions.appendChild(
+reopenButton
+);
+
+box.appendChild(
+actions
+);
+
+}
+
+
+return box;
+
+}
+
+
+/* =========================
+   ADMIN LOAD APPEALS
+========================= */
+
+async function loadAdminAppeals(){
+
+if(
+(currentUser.email || "").toLowerCase()
+!==
+ADMIN_EMAIL.toLowerCase()
+){
+
+return;
+
+}
+
+
+adminAppeals.innerHTML = `
+
+<div class="empty">
+Loading appeals...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+await getDocs(
+
+collection(
+db,
+"appeals"
+)
+
+);
+
+
+adminAppeals.innerHTML = "";
+
+
+if(
+snapshot.empty
+){
+
+adminAppeals.innerHTML = `
+
+<div class="empty">
+No appeals have been submitted.
+</div>
+
+`;
+
+return;
+
+}
+
+
+const appeals =
+snapshot.docs
+.map(
+item=>({
+
+id:item.id,
+data:item.data()
+
+})
+)
+.sort(
+(a,b)=>{
+
+const aTime =
+a.data.createdAt?.seconds || 0;
+
+const bTime =
+b.data.createdAt?.seconds || 0;
+
+return bTime - aTime;
+
+}
+);
+
+
+appeals.forEach(
+(item)=>{
+
+adminAppeals.appendChild(
+
+createAppealBox(
+item.id,
+item.data,
+true
+)
+
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Admin appeals error:",
+error
+);
+
+adminAppeals.innerHTML = `
+
+<div class="error-box">
+
+Could not load admin appeals.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   CHANGE STATUS
+========================= */
+
+async function changeAppealStatus(
+appealId,
+newStatus
+){
+
+try{
+
+await updateDoc(
+
+doc(
+db,
+"appeals",
+appealId
+),
+
+{
+
+status:
+newStatus,
+
+updatedAt:
+serverTimestamp(),
+
+adminId:
+currentUser.uid
+
+}
+
+);
+
+
+alert(
+"Appeal status changed to " +
+newStatus
+);
+
+
+await loadAdminAppeals();
+
+await loadMyAppeals();
+
+
+}catch(error){
+
+console.error(
+"Status update error:",
+error
+);
+
+alert(
+"Could not update appeal: " +
+error.message
+);
+
+}
+
+}
+
+
+/* =========================
+   ACCEPT APPEAL
+========================= */
+
+async function acceptAppeal(
+appealId,
+data
+){
+
+const confirmed =
+confirm(
+
+"Accept this appeal?\n\n" +
+
+"The page will be restored to approved pages."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+/*
+Restore the page.
+
+First check whether the original
+page data was saved with the appeal.
+*/
+
+let pageData =
+data.pageData || {};
+
+
+/*
+If pageData is empty, try the
+rejectedPages collection.
+*/
+
+if(
+Object.keys(pageData).length === 0
+&&
+data.pageId
+){
+
+const rejectedSnap =
+await getDoc(
+
+doc(
+db,
+"rejectedPages",
+data.pageId
+)
+
+);
+
+
+if(
+rejectedSnap.exists()
+){
+
+pageData =
+rejectedSnap.data();
+
+}
+
+}
+
+
+/*
+Make sure important values exist.
+*/
+
+pageData.pageName =
+pageData.pageName ||
+data.pageName ||
+"Business";
+
+
+/*
+Restore to approvedPages.
+*/
+
+await updateDoc(
+
+doc(
+db,
+"appeals",
+appealId
+),
+
+{
+
+status:
+"Accepted",
+
+updatedAt:
+serverTimestamp(),
+
+adminId:
+currentUser.uid,
+
+decision:
+"Accepted"
+
+}
+
+);
+
+
+/*
+If the rejected page already exists,
+copy it to approvedPages by using
+setDoc.
+
+*/
+
+const approvedPageRef =
+doc(
+db,
+"approvedPages",
+data.pageId
+);
+
+
+/*
+Import setDoc dynamically.
+*/
+
+const {
+setDoc
+} =
+await import(
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
+);
+
+
+await setDoc(
+approvedPageRef,
+pageData,
+{merge:true}
+);
+
+
+/*
+Remove rejected copy if it exists.
+*/
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"rejectedPages",
+data.pageId
+)
+
+);
+
+}catch(error){
+
+console.log(
+"Rejected page removal:",
+error
+);
+
+}
+
+
+alert(
+"Appeal accepted. The page has been restored."
+);
+
+
+await loadAdminAppeals();
+
+await loadMyAppeals();
+
+
+}catch(error){
+
+console.error(
+"Accept appeal error:",
+error
+);
+
+alert(
+"Could not accept appeal: " +
+error.message
+);
+
+}
+
+}
+
+
+/* =========================
+   REOPEN / UN-REJECT
+========================= */
+
+async function reopenPage(
+appealId,
+data
+){
+
+const confirmed =
+confirm(
+
+"Reopen / un-reject this page?\n\n" +
+
+"The page will be returned to approved pages."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+let pageData =
+data.pageData || {};
+
+
+if(
+Object.keys(pageData).length === 0
+&&
+data.pageId
+){
+
+const rejectedSnap =
+await getDoc(
+
+doc(
+db,
+"rejectedPages",
+data.pageId
+)
+
+);
+
+
+if(
+rejectedSnap.exists()
+){
+
+pageData =
+rejectedSnap.data();
+
+}
+
+}
+
+
+pageData.pageName =
+pageData.pageName ||
+data.pageName ||
+"Business";
+
+
+const {
+setDoc
+} =
+await import(
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
+);
+
+
+await setDoc(
+
+doc(
+db,
+"approvedPages",
+data.pageId
+),
+
+pageData,
+
+{merge:true}
+
+);
+
+
+/*
+Update appeal status.
+*/
+
+await updateDoc(
+
+doc(
+db,
+"appeals",
+appealId
+),
+
+{
+
+status:
+"Reopened",
+
+updatedAt:
+serverTimestamp(),
+
+adminId:
+currentUser.uid,
+
+decision:
+"Reopened / Un-Rejected"
+
+}
+
+);
+
+
+/*
+Remove from rejected pages.
+*/
+
+try{
+
+await deleteDoc(
+
+doc(
+db,
+"rejectedPages",
+data.pageId
+)
+
+);
+
+}catch(error){
+
+console.log(
+"Rejected page deletion:",
+error
+);
+
+}
+
+
+alert(
+"Page has been reopened and restored to approved pages."
+);
+
+
+await loadAdminAppeals();
+
+await loadMyAppeals();
+
+
+}catch(error){
+
+console.error(
+"Reopen page error:",
+error
+);
+
+alert(
+"Could not reopen page: " +
+error.message
+);
+
+}
+
+}
+
+
+/* =========================
+   OPEN APPEAL CHAT
+========================= */
+
+async function openAppealConversation(
+appealId,
+data
+){
+
+currentAppealId =
+appealId;
+
+
+/*
+Only owner or admin.
+*/
+
+const isAdmin =
+
+(currentUser.email || "").toLowerCase()
+===
+ADMIN_EMAIL.toLowerCase();
+
+
+if(
+!isAdmin &&
+data.ownerId !== currentUser.uid
+){
+
+alert(
+"You are not allowed to open this appeal."
+);
+
+return;
+
+}
+
+
+try{
+
+currentConversationId =
+data.conversationId || "";
+
+
+/*
+Create conversation if it does
+not exist.
+*/
+
+if(
+!currentConversationId
+){
+
+const members = [];
+
+
+if(data.ownerId){
+
+members.push(
+data.ownerId
+);
+
+}
+
+
+if(
+!isAdmin &&
+!members.includes(
+currentUser.uid
+)
+){
+
+members.push(
+currentUser.uid
+);
+
+}
+
+
+if(
+isAdmin &&
+!members.includes(
+currentUser.uid
+)
+){
+
+members.push(
+currentUser.uid
+);
+
+}
+
+
+const conversationRef =
+await addDoc(
+
+collection(
+db,
+"conversations"
+),
+
+{
+
+type:
+"appeal",
+
+appealId:
+appealId,
+
+pageId:
+data.pageId || "",
+
+pageName:
+data.pageName || "",
+
+members:
+members,
+
+createdAt:
+serverTimestamp(),
+
+lastMessageAt:
+serverTimestamp(),
+
+lastMessage:"",
+
+lastSenderId:""
+
+}
+
+);
+
+
+currentConversationId =
+conversationRef.id;
+
+
+await updateDoc(
+
+doc(
+db,
+"appeals",
+appealId
+),
+
+{
+
+conversationId:
+currentConversationId,
+
+adminId:
+isAdmin
+?
+currentUser.uid
+:
+(data.adminId || "")
+
+}
+
+);
+
+}
+
+
+/*
+Show chat.
+*/
+
+appealChatArea.classList.remove(
+"hidden"
+);
+
+
+appealChatInfo.innerHTML =
+
+"<strong>Page:</strong> " +
+
+escapeHTML(
+data.pageName || "Page"
+) +
+
+"<br><br>" +
+
+"<strong>Status:</strong> " +
+
+escapeHTML(
+data.status || "Pending"
+);
+
+
+await loadAppealMessages();
+
+
+appealChatArea.scrollIntoView({
+behavior:"smooth"
+});
+
+
+}catch(error){
+
+console.error(
+"Open appeal conversation error:",
+error
+);
+
+alert(
+"Could not open appeal conversation: " +
+error.message
+);
+
+}
+
+}
+
+
+/* =========================
+   LOAD APPEAL MESSAGES
+========================= */
+
+async function loadAppealMessages(){
+
+if(
+!currentConversationId
+){
+
+return;
+
+}
+
+
+appealChatBox.innerHTML = `
+
+<div class="empty">
+Loading conversation...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+await getDocs(
+
+query(
+
+collection(
+db,
+"messages"
+),
+
+where(
+"conversationId",
+"==",
+currentConversationId
+),
+
+orderBy(
+"createdAt",
+"asc"
+)
+
+)
+
+);
+
+
+appealChatBox.innerHTML =
+"";
+
+
+if(
+snapshot.empty
+){
+
+appealChatBox.innerHTML = `
+
+<div class="empty">
+No messages yet.
+</div>
+
+`;
+
+return;
+
+}
+
+
+snapshot.forEach(
+(messageDoc)=>{
+
+const data =
+messageDoc.data();
+
+
+const message =
+document.createElement(
+"div"
+);
+
+
+const mine =
+data.senderId ===
+currentUser.uid;
+
+
+message.className =
+
+"message " +
+
+(
+mine
+?
+"mine"
+:
+"theirs"
+);
+
+
+const text =
+document.createElement(
+"div"
+);
+
+text.textContent =
+data.text || "";
+
+
+const meta =
+document.createElement(
+"div"
+);
+
+meta.className =
+"message-meta";
+
+
+meta.textContent =
+
+mine
+?
+"You"
+:
+(
+data.senderEmail ||
+"User"
+);
+
+
+if(
+data.createdAt &&
+data.createdAt.toDate
+){
+
+meta.textContent +=
+
+" • " +
+
+data.createdAt
+.toDate()
+.toLocaleString();
+
+}
+
+
+message.appendChild(
+text
+);
+
+message.appendChild(
+meta
+);
+
+appealChatBox.appendChild(
+message
+);
+
+});
+
+
+appealChatBox.scrollTop =
+appealChatBox.scrollHeight;
+
+
+}catch(error){
+
+console.error(
+"Load appeal messages error:",
+error
+);
+
+appealChatBox.innerHTML = `
+
+<div class="error-box">
+
+Could not load messages.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   SEND APPEAL MESSAGE
+========================= */
+
+sendAppealMessageBtn.addEventListener(
+"click",
+async()=>{
+
+if(
+!currentConversationId ||
+!currentAppealId
+){
+
+return;
+
+}
+
+
+const text =
+appealMessage.value.trim();
+
+
+if(!text){
+
+alert(
+"Write a message first."
+);
+
+return;
+
+}
+
+
+try{
+
+sendAppealMessageBtn.disabled =
+true;
+
+sendAppealMessageBtn.textContent =
+"Sending...";
+
+
+await addDoc(
+
+collection(
+db,
+"messages"
+),
+
+{
+
+conversationId:
+currentConversationId,
+
+appealId:
+currentAppealId,
+
+type:
+"appeal",
+
+senderId:
+currentUser.uid,
+
+senderEmail:
+currentUser.email || "",
+
+text:
+text,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+await updateDoc(
+
+doc(
+db,
+"conversations",
+currentConversationId
+),
+
+{
+
+lastMessage:
+text,
+
+lastSenderId:
+currentUser.uid,
+
+lastMessageAt:
+serverTimestamp()
+
+}
+
+);
+
+
+await updateDoc(
+
+doc(
+db,
+"appeals",
+currentAppealId
+),
+
+{
+
+lastMessage:
+text,
+
+lastSenderId:
+currentUser.uid,
+
+lastMessageAt:
+serverTimestamp()
+
+}
+
+);
+
+
+appealMessage.value =
+"";
+
+
+await loadAppealMessages();
+
+
+}catch(error){
+
+console.error(
+"Send appeal message error:",
+error
+);
+
+alert(
+"Message failed: " +
+error.message
+);
+
+}finally{
+
+sendAppealMessageBtn.disabled =
+false;
+
+sendAppealMessageBtn.textContent =
+"📤 Send Message";
+
+}
+
+});
+
+
+/* =========================
+   CLOSE CHAT
+========================= */
+
+closeAppealChatBtn.addEventListener(
+"click",
+()=>{
+
+appealChatArea.classList.add(
+"hidden"
+);
+
+currentAppealId =
+null;
+
+currentConversationId =
+null;
+
+appealMessage.value =
+"";
+
+});
+
+
+/* =========================
+   STATUS CLASS
+========================= */
+
+function getStatusClass(
+status
+){
+
+const value =
+String(
+status || "Pending"
+)
+.toLowerCase();
+
+
+if(
+value === "accepted"
+){
+
+return "status-accepted";
+
+}
+
+if(
+value === "rejected"
+){
+
+return "status-rejected";
+
+}
+
+if(
+value === "under review"
+){
+
+return "status-review";
+
+}
+
+if(
+value === "reopened"
+){
+
+return "status-reopened";
+
+}
+
+return "status-pending";
+
+}
+
+
+/* =========================
+   FORMAT DATE
+========================= */
+
+function formatDate(
+timestamp
+){
+
+if(
+!timestamp ||
+!timestamp.toDate
+){
+
+return "Not available";
+
+}
+
+
+return timestamp
+.toDate()
+.toLocaleString();
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(value)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
