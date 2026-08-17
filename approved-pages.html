@@ -19,68 +19,40 @@ font-family:Arial,sans-serif;
 background:#f5f5f5;
 margin:0;
 padding:20px;
-color:#222;
 }
 
-header{
-background:#0a4ea3;
-color:white;
-padding:20px;
+h1{
 text-align:center;
-margin:-20px -20px 25px;
+color:#0a4ea3;
+margin-bottom:10px;
 }
 
-header h1{
-margin:0 0 8px;
-}
-
-header p{
-margin:0;
-}
-
-.top-buttons{
+.subtitle{
 text-align:center;
+color:#666;
 margin-bottom:25px;
 }
 
-.top-buttons a{
-display:inline-block;
-text-decoration:none;
+.top-link{
+display:block;
+width:max-content;
+margin:0 auto 25px;
 background:#0a4ea3;
 color:white;
-padding:11px 18px;
+padding:10px 18px;
 border-radius:6px;
-margin:5px;
+text-decoration:none;
 font-weight:bold;
-}
-
-.top-buttons a:hover{
-background:#083d82;
-}
-
-#searchApproved{
-display:block;
-width:100%;
-max-width:700px;
-margin:0 auto 25px;
-padding:13px;
-border:1px solid #ccc;
-border-radius:7px;
-font-size:16px;
 }
 
 #approvedPagesList{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(180px,1fr));
 gap:20px;
-max-width:1100px;
+max-width:1000px;
 margin:auto;
 }
-
-
-/* =========================
-   BUSINESS CARD
-========================= */
 
 .business-card{
 background:white;
@@ -90,22 +62,12 @@ text-align:center;
 box-shadow:0 2px 10px rgba(0,0,0,.18);
 }
 
-
-/* =========================
-   CLICKABLE PAGE
-========================= */
-
 .business-link{
 display:block;
 text-decoration:none;
 color:inherit;
 cursor:pointer;
 }
-
-
-/* =========================
-   BUSINESS LOGO
-========================= */
 
 .business-logo{
 width:140px;
@@ -123,11 +85,6 @@ transition:transform .2s;
 transform:scale(1.04);
 }
 
-
-/* =========================
-   BUSINESS NAME
-========================= */
-
 .business-name{
 font-size:21px;
 font-weight:bold;
@@ -135,80 +92,58 @@ color:#0a4ea3;
 margin:0;
 }
 
+.tap-text{
+font-size:13px;
+color:#777;
+margin-top:7px;
+}
 
-/* =========================
-   DETAILS
-========================= */
-
-.page-details{
-text-align:left;
+.admin-controls{
 margin-top:15px;
-padding-top:15px;
+padding-top:12px;
 border-top:1px solid #ddd;
 }
 
-.page-details p{
-margin:7px 0;
-font-size:14px;
-}
-
-
-/* =========================
-   DELETE BUTTON
-========================= */
-
-.delete-approved{
+.delete-btn{
 width:100%;
-padding:12px;
-margin-top:15px;
-border:none;
-border-radius:7px;
-background:#b00020;
+padding:11px;
+border:0;
+border-radius:6px;
+background:#d32f2f;
 color:white;
-font-size:15px;
 font-weight:bold;
 cursor:pointer;
 }
 
-.delete-approved:hover{
-background:#850018;
+.delete-btn:hover{
+background:#a91f1f;
 }
 
-
-/* =========================
-   STATUS
-========================= */
-
-.admin-label{
-display:none;
-background:#fff3cd;
-color:#856404;
-padding:10px;
-border-radius:6px;
-margin:0 auto 20px;
-max-width:700px;
-text-align:center;
-font-weight:bold;
-}
-
-
-/* =========================
-   EMPTY / LOADING
-========================= */
-
-.message{
+.loading{
 text-align:center;
 color:#666;
-padding:30px;
 grid-column:1/-1;
-background:white;
-border-radius:10px;
+padding:30px;
 }
 
+.empty{
+text-align:center;
+color:#666;
+grid-column:1/-1;
+padding:30px;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.admin-badge{
+display:none;
+text-align:center;
+background:#e8f5e9;
+color:#18752a;
+padding:10px;
+border-radius:6px;
+max-width:500px;
+margin:0 auto 20px;
+font-weight:bold;
+}
 
 @media(max-width:500px){
 
@@ -230,90 +165,48 @@ height:110px;
 font-size:17px;
 }
 
-.page-details p{
-font-size:12px;
-}
-
-.delete-approved{
-font-size:13px;
-padding:10px;
-}
-
 }
 
 </style>
 
 </head>
 
-
 <body>
 
 
-<header>
-
 <h1>
-🌍 Logical World
+✅ Approved Pages
 </h1>
 
-<p>
-Approved Pages
+<p class="subtitle">
+Explore approved pages on Logical World
 </p>
 
-</header>
 
-
-<!-- =========================
-     NAVIGATION
-========================= -->
-
-<div class="top-buttons">
-
-<a href="admin.html">
-🏠 Admin Dashboard
+<a
+href="admin.html"
+id="adminDashboardLink"
+class="top-link"
+style="display:none;"
+>
+⚙️ Admin Dashboard
 </a>
 
-<a href="index.html">
-🌍 Website Home
-</a>
-
-</div>
-
-
-<!-- =========================
-     ADMIN MESSAGE
-========================= -->
 
 <div
-id="adminLabel"
-class="admin-label"
+id="adminBadge"
+class="admin-badge"
 >
-
-🔐 Admin Mode — You can delete approved pages.
-
+🔐 Admin Mode — Page management enabled
 </div>
 
 
-<!-- =========================
-     SEARCH
-========================= -->
-
-<input
-type="text"
-id="searchApproved"
-placeholder="🔍 Search approved pages..."
+<div
+id="approvedPagesList"
 >
 
-
-<!-- =========================
-     APPROVED PAGES
-========================= -->
-
-<div id="approvedPagesList">
-
-<div class="message">
-
+<div class="loading">
 Loading approved pages...
-
 </div>
 
 </div>
@@ -344,9 +237,7 @@ import {
 collection,
 getDocs,
 deleteDoc,
-doc,
-query,
-where
+doc
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -369,22 +260,20 @@ document.getElementById(
 "approvedPagesList"
 );
 
-const searchApproved =
+const adminDashboardLink =
 document.getElementById(
-"searchApproved"
+"adminDashboardLink"
 );
 
-const adminLabel =
+const adminBadge =
 document.getElementById(
-"adminLabel"
+"adminBadge"
 );
 
 
 /* =========================
-   DATA
+   ADMIN STATE
 ========================= */
-
-let allPages = [];
 
 let isAdmin = false;
 
@@ -395,23 +284,36 @@ let isAdmin = false;
 
 onAuthStateChanged(
 auth,
-async(user)=>{
+(user)=>{
 
-isAdmin =
-!!user &&
+if(
+user &&
 user.email ===
-ADMIN_EMAIL;
+ADMIN_EMAIL
+){
 
+isAdmin = true;
 
-if(isAdmin){
-
-adminLabel.style.display =
+adminDashboardLink.style.display =
 "block";
+
+adminBadge.style.display =
+"block";
+
+}else{
+
+isAdmin = false;
+
+adminDashboardLink.style.display =
+"none";
+
+adminBadge.style.display =
+"none";
 
 }
 
 
-await loadApprovedPages();
+loadApprovedPages();
 
 }
 );
@@ -425,10 +327,8 @@ async function loadApprovedPages(){
 
 approvedPagesList.innerHTML = `
 
-<div class="message">
-
+<div class="loading">
 Loading approved pages...
-
 </div>
 
 `;
@@ -438,40 +338,339 @@ try{
 
 const snapshot =
 await getDocs(
+
 collection(
 db,
 "approvedPages"
 )
+
 );
 
 
-allPages =
-snapshot.docs.map(
-page=>({
+approvedPagesList.innerHTML = "";
 
-id:page.id,
 
-data:page.data()
+if(
+snapshot.empty
+){
 
-})
+approvedPagesList.innerHTML = `
+
+<div class="empty">
+
+No approved pages yet.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+snapshot.forEach(
+(page)=>{
+
+const data =
+page.data();
+
+const pageId =
+page.id;
+
+
+const pageName =
+data.pageName ||
+"Business";
+
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
+
+const businessURL =
+"business.html?id=" +
+encodeURIComponent(
+pageId
 );
 
 
-displayPages(
-allPages
+/* =========================
+   CARD
+========================= */
+
+const card =
+document.createElement(
+"div"
 );
+
+card.className =
+"business-card";
+
+
+/* =========================
+   PUBLIC PAGE LINK
+========================= */
+
+const link =
+document.createElement(
+"a"
+);
+
+link.className =
+"business-link";
+
+link.href =
+businessURL;
+
+
+/* LOGO */
+
+const logo =
+document.createElement(
+"img"
+);
+
+logo.className =
+"business-logo";
+
+logo.src =
+logoURL;
+
+logo.alt =
+pageName;
+
+
+/* NAME */
+
+const name =
+document.createElement(
+"p"
+);
+
+name.className =
+"business-name";
+
+name.textContent =
+pageName;
+
+
+/* TAP MESSAGE */
+
+const tapText =
+document.createElement(
+"div"
+);
+
+tapText.className =
+"tap-text";
+
+tapText.textContent =
+"Tap to view page and posts";
+
+
+link.appendChild(
+logo
+);
+
+link.appendChild(
+name
+);
+
+link.appendChild(
+tapText
+);
+
+card.appendChild(
+link
+);
+
+
+/* =========================
+   ADMIN DELETE
+========================= */
+
+if(isAdmin){
+
+const controls =
+document.createElement(
+"div"
+);
+
+controls.className =
+"admin-controls";
+
+
+const deleteButton =
+document.createElement(
+"button"
+);
+
+deleteButton.className =
+"delete-btn";
+
+deleteButton.textContent =
+"🗑 Delete Approved Page";
+
+
+deleteButton.addEventListener(
+"click",
+async(event)=>{
+
+event.preventDefault();
+
+event.stopPropagation();
+
+
+const confirmed =
+confirm(
+
+"Delete \"" +
+pageName +
+"\" permanently?\n\n" +
+"This will remove the approved page and its posts from Logical World."
+
+);
+
+
+if(!confirmed){
+
+return;
+
+}
+
+
+try{
+
+deleteButton.disabled =
+true;
+
+deleteButton.textContent =
+"Deleting...";
+
+
+/* =========================
+   DELETE PAGE
+========================= */
+
+await deleteDoc(
+
+doc(
+db,
+"approvedPages",
+pageId
+)
+
+);
+
+
+/* =========================
+   DELETE POSTS
+========================= */
+
+const postsSnapshot =
+await getDocs(
+
+collection(
+db,
+"posts"
+)
+
+);
+
+
+for(
+const post of
+postsSnapshot.docs
+){
+
+const postData =
+post.data();
+
+
+if(
+postData.pageId ===
+pageId
+){
+
+await deleteDoc(
+
+doc(
+db,
+"posts",
+post.id
+)
+
+);
+
+}
+
+}
+
+
+alert(
+"Approved page deleted successfully."
+);
+
+
+await loadApprovedPages();
 
 
 }catch(error){
 
 console.error(
-"Approved pages error:",
+"Delete approved page error:",
 error
 );
 
+
+alert(
+"Delete failed: " +
+error.message
+);
+
+
+deleteButton.disabled =
+false;
+
+deleteButton.textContent =
+"🗑 Delete Approved Page";
+
+}
+
+});
+
+
+controls.appendChild(
+deleteButton
+);
+
+card.appendChild(
+controls
+);
+
+}
+
+
+approvedPagesList.appendChild(
+card
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Error loading approved pages:",
+error
+);
+
+
 approvedPagesList.innerHTML = `
 
-<div class="message">
+<div class="empty">
 
 Unable to load approved pages.
 
@@ -491,423 +690,7 @@ error.message
 
 
 /* =========================
-   DISPLAY PAGES
-========================= */
-
-function displayPages(
-pages
-){
-
-approvedPagesList.innerHTML = "";
-
-
-if(pages.length === 0){
-
-approvedPagesList.innerHTML = `
-
-<div class="message">
-
-No approved pages found.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-pages.forEach(
-(page)=>{
-
-const data =
-page.data;
-
-
-const businessName =
-data.pageName ||
-"Business";
-
-
-const logoURL =
-data.logoURL ||
-"images/default-logo.png";
-
-
-const businessURL =
-"business.html?id=" +
-encodeURIComponent(
-page.id
-);
-
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"business-card";
-
-
-/* =========================
-   PAGE CONTENT
-========================= */
-
-let html = `
-
-<a
-href="${businessURL}"
-class="business-link"
->
-
-<img
-src="${escapeAttribute(logoURL)}"
-class="business-logo"
-alt="${escapeAttribute(businessName)}"
->
-
-<p class="business-name">
-
-${escapeHTML(
-businessName
-)}
-
-</p>
-
-</a>
-
-
-<div class="page-details">
-
-${
-data.category
-?
-`
-<p>
-<strong>Category:</strong>
-${escapeHTML(data.category)}
-</p>
-`
-:
-""
-}
-
-
-${
-data.location
-?
-`
-<p>
-<strong>Location:</strong>
-${escapeHTML(data.location)}
-</p>
-`
-:
-""
-}
-
-
-${
-data.description
-?
-`
-<p>
-${escapeHTML(data.description)}
-</p>
-`
-:
-""
-}
-
-</div>
-
-`;
-
-
-/* =========================
-   ADMIN DELETE BUTTON
-========================= */
-
-if(isAdmin){
-
-html += `
-
-<button
-class="delete-approved"
-data-id="${page.id}"
->
-
-🗑️ Delete Approved Page
-
-</button>
-
-`;
-
-}
-
-
-card.innerHTML =
-html;
-
-
-approvedPagesList.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =========================
-   DELETE APPROVED PAGE
-========================= */
-
-document.addEventListener(
-"click",
-async(e)=>{
-
-if(
-!e.target.classList.contains(
-"delete-approved"
-)
-){
-
-return;
-
-}
-
-
-/* EXTRA ADMIN CHECK */
-
-const user =
-auth.currentUser;
-
-
-if(
-!user ||
-user.email !==
-ADMIN_EMAIL
-){
-
-alert(
-"Only the Logical World Admin can delete approved pages."
-);
-
-return;
-
-}
-
-
-const pageId =
-e.target.dataset.id;
-
-
-if(!pageId){
-
-return;
-
-}
-
-
-const confirmed =
-confirm(
-
-"Delete this approved page?\n\n" +
-"This will also delete all posts belonging to this page."
-
-);
-
-
-if(!confirmed){
-
-return;
-
-}
-
-
-try{
-
-e.target.disabled =
-true;
-
-e.target.innerText =
-"Deleting...";
-
-
-/* =========================
-   DELETE POSTS
-========================= */
-
-const postsQuery =
-query(
-
-collection(
-db,
-"posts"
-),
-
-where(
-"pageId",
-"==",
-pageId
-)
-
-);
-
-
-const postsSnapshot =
-await getDocs(
-postsQuery
-);
-
-
-for(
-const post of postsSnapshot.docs
-){
-
-await deleteDoc(
-doc(
-db,
-"posts",
-post.id
-)
-);
-
-}
-
-
-/* =========================
-   DELETE APPROVED PAGE
-========================= */
-
-await deleteDoc(
-
-doc(
-db,
-"approvedPages",
-pageId
-)
-
-);
-
-
-alert(
-"Approved page deleted successfully."
-);
-
-
-/* RELOAD */
-
-await loadApprovedPages();
-
-
-}catch(error){
-
-console.error(
-"Delete approved page error:",
-error
-);
-
-alert(
-"Delete failed: " +
-error.message
-);
-
-
-e.target.disabled =
-false;
-
-e.target.innerText =
-"🗑️ Delete Approved Page";
-
-}
-
-});
-
-
-/* =========================
-   SEARCH
-========================= */
-
-searchApproved.addEventListener(
-"input",
-()=>{
-
-const search =
-searchApproved.value
-.trim()
-.toLowerCase();
-
-
-if(!search){
-
-displayPages(
-allPages
-);
-
-return;
-
-}
-
-
-const filtered =
-allPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.category || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.location || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.description || ""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-}
-);
-
-
-displayPages(
-filtered
-);
-
-});
-
-
-/* =========================
-   HELPERS
+   HELPER
 ========================= */
 
 function escapeHTML(
@@ -943,20 +726,8 @@ return String(value)
 
 }
 
-
-function escapeAttribute(
-value
-){
-
-return escapeHTML(
-value
-);
-
-}
-
 </script>
-
 
 </body>
 
-  </html>
+   </html>
