@@ -99,6 +99,40 @@ color:#777;
 margin-top:7px;
 }
 
+
+/* =========================
+   CHAT BUTTON
+========================= */
+
+.chat-btn{
+display:block;
+width:100%;
+margin-top:14px;
+padding:11px;
+border:0;
+border-radius:7px;
+background:#0a4ea3;
+color:white;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+text-decoration:none;
+transition:background .2s,transform .1s;
+}
+
+.chat-btn:hover{
+background:#083b7d;
+}
+
+.chat-btn:active{
+transform:scale(.98);
+}
+
+
+/* =========================
+   ADMIN CONTROLS
+========================= */
+
 .admin-controls{
 margin-top:15px;
 padding-top:12px;
@@ -199,6 +233,11 @@ line-height:1;
 color:#ccc;
 }
 
+
+/* =========================
+   MOBILE
+========================= */
+
 @media(max-width:500px){
 
 #approvedPagesList{
@@ -219,7 +258,13 @@ height:110px;
 font-size:17px;
 }
 
+.chat-btn{
+font-size:14px;
+padding:10px 5px;
 }
+
+}
+
 
 </style>
 
@@ -232,6 +277,7 @@ font-size:17px;
 <h1>
 ✅ Approved Pages
 </h1>
+
 
 <p class="subtitle">
 Explore approved pages on Logical World
@@ -676,6 +722,50 @@ link
 
 
 /* =========================
+   CHAT BUTTON
+========================= */
+
+const chatButton =
+document.createElement(
+"a"
+);
+
+chatButton.className =
+"chat-btn";
+
+
+/*
+   Send the approved page ID
+   to chat.html.
+*/
+
+chatButton.href =
+"chat.html?pageId=" +
+encodeURIComponent(
+pageId
+);
+
+
+chatButton.textContent =
+"💬 Chat";
+
+
+chatButton.addEventListener(
+"click",
+(event)=>{
+
+event.stopPropagation();
+
+}
+);
+
+
+card.appendChild(
+chatButton
+);
+
+
+/* =========================
    ADMIN CONTROLS
 ========================= */
 
@@ -1012,6 +1102,10 @@ controls
 }
 
 
+/* =========================
+   ADD CARD TO PAGE
+========================= */
+
 approvedPagesList.appendChild(
 card
 );
@@ -1085,8 +1179,10 @@ return String(value)
 
 }
 
+
 </script>
 
 
 </body>
-   </html>
+
+</html>
