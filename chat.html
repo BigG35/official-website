@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Chat - Logical World</title>
 
@@ -52,12 +49,6 @@ box-shadow:0 2px 8px rgba(0,0,0,.15);
 h2{
 color:#0a4ea3;
 margin-top:0;
-}
-
-label{
-display:block;
-font-weight:bold;
-margin-top:12px;
 }
 
 input,
@@ -109,7 +100,12 @@ color:white;
 }
 
 .hidden{
-display:none !important;
+display:none;
+}
+
+.limit{
+font-weight:bold;
+color:#0a4ea3;
 }
 
 .info{
@@ -119,18 +115,13 @@ padding:12px;
 margin-bottom:15px;
 }
 
-.limit{
-font-weight:bold;
-color:#0a4ea3;
+.small{
+font-size:13px;
+color:#666;
 }
 
 .error{
 color:#b71c1c;
-}
-
-.small{
-font-size:13px;
-color:#666;
 }
 
 .empty{
@@ -139,16 +130,47 @@ color:#777;
 padding:30px;
 }
 
-.top-buttons{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
+.user-search{
 margin-bottom:15px;
 }
 
-.top-buttons button{
-flex:1;
-min-width:130px;
+.user-list{
+display:flex;
+flex-direction:column;
+gap:10px;
+}
+
+.user-card{
+display:flex;
+align-items:center;
+justify-content:space-between;
+gap:15px;
+padding:14px;
+border:1px solid #ddd;
+border-radius:8px;
+background:#fafafa;
+}
+
+.user-info{
+min-width:0;
+}
+
+.user-name{
+font-weight:bold;
+font-size:17px;
+color:#0a4ea3;
+word-break:break-word;
+}
+
+.user-email{
+font-size:13px;
+color:#777;
+word-break:break-word;
+margin-top:4px;
+}
+
+.user-card button{
+flex-shrink:0;
 }
 
 .chat-box{
@@ -189,22 +211,16 @@ opacity:.7;
 margin-top:5px;
 }
 
-.status{
-padding:10px;
-border-radius:6px;
-margin-top:10px;
-display:none;
+.top-buttons{
+display:flex;
+gap:10px;
+flex-wrap:wrap;
+margin-bottom:15px;
 }
 
-.status.error{
-display:block;
-background:#f8d7da;
-}
-
-.status.success{
-display:block;
-background:#d1e7dd;
-color:#0f5132;
+.top-buttons button{
+flex:1;
+min-width:130px;
 }
 
 @media(max-width:500px){
@@ -215,6 +231,14 @@ padding:10px;
 
 .card{
 padding:15px;
+}
+
+.user-card{
+align-items:flex-start;
+}
+
+.user-card button{
+padding:10px 12px;
 }
 
 .chat-box{
@@ -232,7 +256,6 @@ max-width:90%;
 </head>
 
 <body>
-
 
 <header>
 
@@ -261,7 +284,7 @@ Please login to use Logical World Chat.
 
 <button
 class="primary"
-id="loginBtn"
+onclick="location.href='login.html'"
 >
 Login
 </button>
@@ -281,19 +304,31 @@ class="hidden"
 
 <div class="card">
 
-<h2>👤 My Account</h2>
+<h2>
+👤 My Account
+</h2>
 
 <p>
 
-<strong>Email:</strong>
+<strong>Name:</strong>
 
-<span id="currentUserEmail"></span>
+<span id="currentUserName">
+</span>
 
 </p>
 
 <p>
 
-<strong>Daily chat allowance:</strong>
+<strong>Email:</strong>
+
+<span id="currentUserEmail">
+</span>
+
+</p>
+
+<p>
+
+Daily chat allowance:
 
 <span
 id="wordCounter"
@@ -309,54 +344,48 @@ class="limit"
 You can send a maximum of 200 words
 in normal chats each day.
 
-Your allowance resets automatically
-on a new calendar day.
-
 </p>
 
 </div>
 
 
-<!-- START CHAT -->
+<!-- USER LIST -->
 
 <div
-id="startArea"
+id="userListArea"
 class="card"
 >
 
-<h2>💬 Start a Chat</h2>
+<h2>
+👥 Find Users
+</h2>
 
 <div class="info">
 
-Enter the email address of another
-registered Logical World user.
+Search for another registered Logical World
+user by name and tap <strong>💬 Chat</strong>
+to start a conversation.
 
 </div>
 
-<label
-for="recipientEmail"
->
-Recipient Email
-</label>
 
 <input
-type="email"
-id="recipientEmail"
-placeholder="Enter recipient email"
+type="text"
+id="userSearch"
+class="user-search"
+placeholder="🔎 Search user by name..."
 >
 
-<button
-class="primary"
-id="startChatBtn"
-style="margin-top:15px"
->
-Start Chat
-</button>
 
 <div
-id="startStatus"
-class="status"
+id="userList"
+class="user-list"
 >
+
+<div class="empty">
+Loading users...
+</div>
+
 </div>
 
 </div>
@@ -375,7 +404,7 @@ class="card hidden"
 class="secondary"
 id="backBtn"
 >
-← Back
+← Back to Users
 </button>
 
 <button
@@ -407,6 +436,7 @@ No messages yet.
 
 <label
 for="messageInput"
+style="display:block;font-weight:bold;margin-top:12px;"
 >
 Message
 </label>
@@ -434,13 +464,6 @@ id="sendBtn"
 >
 📤 Send Message
 </button>
-
-
-<div
-id="messageStatus"
-class="status"
->
-</div>
 
 </div>
 
@@ -479,7 +502,8 @@ getDocs,
 addDoc,
 doc,
 updateDoc,
-serverTimestamp
+serverTimestamp,
+orderBy
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -501,14 +525,14 @@ document.getElementById(
 "loginMessage"
 );
 
-const loginBtn =
-document.getElementById(
-"loginBtn"
-);
-
 const mainArea =
 document.getElementById(
 "mainArea"
+);
+
+const currentUserName =
+document.getElementById(
+"currentUserName"
 );
 
 const currentUserEmail =
@@ -526,24 +550,14 @@ document.getElementById(
 "remainingWords"
 );
 
-const startArea =
+const userSearch =
 document.getElementById(
-"startArea"
+"userSearch"
 );
 
-const recipientEmail =
+const userList =
 document.getElementById(
-"recipientEmail"
-);
-
-const startChatBtn =
-document.getElementById(
-"startChatBtn"
-);
-
-const startStatus =
-document.getElementById(
-"startStatus"
+"userList"
 );
 
 const chatArea =
@@ -571,11 +585,6 @@ document.getElementById(
 "sendBtn"
 );
 
-const messageStatus =
-document.getElementById(
-"messageStatus"
-);
-
 const backBtn =
 document.getElementById(
 "backBtn"
@@ -597,21 +606,11 @@ let currentConversationId = null;
 
 let currentOtherUserId = null;
 
+let currentOtherName = "";
+
 let currentOtherEmail = "";
 
-
-/* =========================
-   LOGIN BUTTON
-========================= */
-
-loginBtn.addEventListener(
-"click",
-()=>{
-
-window.location.href =
-"login.html";
-
-});
+let allUsers = [];
 
 
 /* =========================
@@ -647,9 +646,7 @@ now.getDate()
    COUNT WORDS
 ========================= */
 
-function countWords(
-text
-){
+function countWords(text){
 
 return text
 .trim()
@@ -698,9 +695,7 @@ key
    SAVE USED WORDS
 ========================= */
 
-function setUsedWords(
-amount
-){
+function setUsedWords(amount){
 
 if(!currentUser){
 
@@ -736,14 +731,18 @@ function updateWordCounter(){
 const used =
 getUsedWords();
 
+
 const remaining =
+
 Math.max(
 0,
 DAILY_LIMIT - used
 );
 
+
 remainingWords.textContent =
 remaining;
+
 
 wordCounter.textContent =
 
@@ -751,6 +750,7 @@ remaining +
 " / " +
 DAILY_LIMIT +
 " words remaining";
+
 
 if(
 remaining === 0
@@ -772,36 +772,17 @@ wordCounter.classList.remove(
 
 
 /* =========================
-   STATUS MESSAGE
-========================= */
-
-function showStatus(
-element,
-message,
-type
-){
-
-element.textContent =
-message;
-
-element.className =
-"status " +
-type;
-
-}
-
-
-/* =========================
-   AUTHENTICATION
+   AUTH
 ========================= */
 
 onAuthStateChanged(
 auth,
-(user)=>{
+async(user)=>{
 
 if(!user){
 
-currentUser = null;
+currentUser =
+null;
 
 loginMessage.classList.remove(
 "hidden"
@@ -828,10 +809,314 @@ mainArea.classList.remove(
 "hidden"
 );
 
+
+currentUserName.textContent =
+
+user.displayName ||
+"User";
+
+
 currentUserEmail.textContent =
-user.email || "";
+
+user.email ||
+"";
+
 
 updateWordCounter();
+
+
+await loadUsers();
+
+}
+);
+
+
+/* =========================
+   LOAD USERS
+========================= */
+
+async function loadUsers(){
+
+userList.innerHTML = `
+
+<div class="empty">
+Loading users...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+
+await getDocs(
+collection(
+db,
+"users"
+)
+);
+
+
+allUsers = [];
+
+
+snapshot.forEach(
+(userDoc)=>{
+
+const data =
+userDoc.data();
+
+
+/*
+Do not show the current user.
+*/
+
+if(
+userDoc.id ===
+currentUser.uid
+){
+
+return;
+
+}
+
+
+/*
+Use name from Firestore.
+*/
+
+allUsers.push({
+
+id:
+userDoc.id,
+
+name:
+data.name ||
+"User",
+
+email:
+data.email ||
+""
+
+});
+
+});
+
+
+allUsers.sort(
+(a,b)=>
+
+a.name.localeCompare(
+b.name
+)
+
+);
+
+
+renderUsers(
+allUsers
+);
+
+
+}catch(error){
+
+console.error(
+"Load users error:",
+error
+);
+
+
+userList.innerHTML = `
+
+<div class="empty error">
+
+Could not load users.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =========================
+   RENDER USERS
+========================= */
+
+function renderUsers(users){
+
+userList.innerHTML = "";
+
+
+if(
+users.length === 0
+){
+
+userList.innerHTML = `
+
+<div class="empty">
+
+No other registered users found.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+users.forEach(
+(user)=>{
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"user-card";
+
+
+const info =
+document.createElement(
+"div"
+);
+
+info.className =
+"user-info";
+
+
+const name =
+document.createElement(
+"div"
+);
+
+name.className =
+"user-name";
+
+name.textContent =
+user.name;
+
+
+const email =
+document.createElement(
+"div"
+);
+
+email.className =
+"user-email";
+
+email.textContent =
+user.email;
+
+
+info.appendChild(
+name
+);
+
+info.appendChild(
+email
+);
+
+
+/*
+Chat button.
+*/
+
+const chatButton =
+document.createElement(
+"button"
+);
+
+chatButton.className =
+"primary";
+
+chatButton.textContent =
+"💬 Chat";
+
+
+chatButton.addEventListener(
+"click",
+()=>{
+
+startChatWithUser(
+user
+);
+
+});
+
+
+card.appendChild(
+info
+);
+
+card.appendChild(
+chatButton
+);
+
+userList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   SEARCH USERS
+========================= */
+
+userSearch.addEventListener(
+"input",
+()=>{
+
+const search =
+
+userSearch.value
+.trim()
+.toLowerCase();
+
+
+if(!search){
+
+renderUsers(
+allUsers
+);
+
+return;
+
+}
+
+
+const filtered =
+
+allUsers.filter(
+(user)=>
+
+user.name
+.toLowerCase()
+.includes(
+search
+)
+
+);
+
+
+renderUsers(
+filtered
+);
 
 });
 
@@ -840,131 +1125,24 @@ updateWordCounter();
    START CHAT
 ========================= */
 
-startChatBtn.addEventListener(
-"click",
-async()=>{
-
-if(!currentUser){
-
-showStatus(
-startStatus,
-"Please login first.",
-"error"
-);
-
-return;
-
-}
-
-
-const email =
-recipientEmail.value
-.trim()
-.toLowerCase();
-
-
-if(!email){
-
-showStatus(
-startStatus,
-"Enter the recipient email.",
-"error"
-);
-
-return;
-
-}
-
-
-if(
-email ===
-(currentUser.email || "")
-.toLowerCase()
+async function startChatWithUser(
+user
 ){
 
-showStatus(
-startStatus,
-"You cannot chat with yourself.",
-"error"
-);
+currentOtherUserId =
+user.id;
 
-return;
+currentOtherName =
+user.name;
 
-}
+currentOtherEmail =
+user.email;
 
 
 try{
 
-startChatBtn.disabled =
-true;
-
-startChatBtn.textContent =
-"Finding user...";
-
-startStatus.className =
-"status";
-
-
-/* =========================
-   FIND USER
-========================= */
-
-const usersSnapshot =
-await getDocs(
-
-query(
-
-collection(
-db,
-"users"
-),
-
-where(
-"email",
-"==",
-email
-)
-
-)
-
-);
-
-
-if(
-usersSnapshot.empty
-){
-
-showStatus(
-startStatus,
-"User account not found. Make sure the user has registered.",
-"error"
-);
-
-return;
-
-}
-
-
-const recipientDoc =
-usersSnapshot.docs[0];
-
-const recipientData =
-recipientDoc.data();
-
-
-currentOtherUserId =
-recipientDoc.id;
-
-currentOtherEmail =
-recipientData.email ||
-email;
-
-
-/* =========================
-   FIND EXISTING CHAT
-========================= */
-
 const conversationsSnapshot =
+
 await getDocs(
 
 query(
@@ -998,7 +1176,8 @@ conversationDoc.data();
 
 if(
 
-data.type === "normal"
+data.type ===
+"normal"
 
 &&
 
@@ -1022,10 +1201,6 @@ conversationDoc;
 });
 
 
-/* =========================
-   USE EXISTING CHAT
-========================= */
-
 if(
 existingConversation
 ){
@@ -1035,12 +1210,8 @@ existingConversation.id;
 
 }else{
 
-
-/* =========================
-   CREATE NEW CHAT
-========================= */
-
 const conversationRef =
+
 await addDoc(
 
 collection(
@@ -1063,7 +1234,8 @@ currentOtherUserId
 
 memberEmails:[
 
-currentUser.email || "",
+currentUser.email ||
+"",
 
 currentOtherEmail
 
@@ -1075,11 +1247,9 @@ serverTimestamp(),
 lastMessageAt:
 serverTimestamp(),
 
-lastMessage:
-"",
+lastMessage:"",
 
-lastSenderId:
-""
+lastSenderId:""
 
 }
 
@@ -1092,14 +1262,30 @@ conversationRef.id;
 }
 
 
-/* =========================
-   OPEN CHAT
-========================= */
+chatTitle.textContent =
 
-recipientEmail.value =
-"";
+"💬 " +
+currentOtherName;
 
-openChat();
+
+chatArea.classList.remove(
+"hidden"
+);
+
+userList.parentElement.classList.add(
+"hidden"
+);
+
+
+messageInput.value = "";
+
+
+await loadMessages();
+
+
+chatArea.scrollIntoView({
+behavior:"smooth"
+});
 
 
 }catch(error){
@@ -1109,53 +1295,14 @@ console.error(
 error
 );
 
-showStatus(
-startStatus,
+alert(
+
 "Could not start chat: " +
-error.message,
-"error"
+error.message
+
 );
-
-}finally{
-
-startChatBtn.disabled =
-false;
-
-startChatBtn.textContent =
-"Start Chat";
 
 }
-
-});
-
-
-/* =========================
-   OPEN CHAT
-========================= */
-
-function openChat(){
-
-chatTitle.textContent =
-
-"💬 " +
-currentOtherEmail;
-
-
-startArea.classList.add(
-"hidden"
-);
-
-chatArea.classList.remove(
-"hidden"
-);
-
-messageInput.value =
-"";
-
-messageStatus.className =
-"status";
-
-loadMessages();
 
 }
 
@@ -1175,16 +1322,19 @@ return;
 }
 
 
-chatBox.innerHTML =
+chatBox.innerHTML = `
 
-'<div class="empty">' +
-'Loading messages...' +
-'</div>';
+<div class="empty">
+Loading messages...
+</div>
+
+`;
 
 
 try{
 
 const messagesSnapshot =
+
 await getDocs(
 
 query(
@@ -1198,6 +1348,11 @@ where(
 "conversationId",
 "==",
 currentConversationId
+),
+
+orderBy(
+"createdAt",
+"asc"
 )
 
 )
@@ -1205,64 +1360,31 @@ currentConversationId
 );
 
 
-chatBox.innerHTML =
-"";
+chatBox.innerHTML = "";
 
 
 if(
 messagesSnapshot.empty
 ){
 
-chatBox.innerHTML =
+chatBox.innerHTML = `
 
-'<div class="empty">' +
-'No messages yet.' +
-'</div>';
+<div class="empty">
+No messages yet.
+</div>
+
+`;
 
 return;
 
 }
 
 
-/*
-Sort messages in JavaScript.
-This avoids requiring a Firestore
-composite index.
-*/
-
-const messages =
-messagesSnapshot.docs
-.map(
-(messageDoc)=>({
-
-id:
-messageDoc.id,
-
-data:
-messageDoc.data()
-
-})
-)
-.sort(
-(a,b)=>{
-
-const aSeconds =
-a.data.createdAt?.seconds || 0;
-
-const bSeconds =
-b.data.createdAt?.seconds || 0;
-
-return aSeconds - bSeconds;
-
-}
-);
-
-
-messages.forEach(
-(item)=>{
+messagesSnapshot.forEach(
+(messageDoc)=>{
 
 const data =
-item.data;
+messageDoc.data();
 
 
 const message =
@@ -1272,6 +1394,7 @@ document.createElement(
 
 
 const mine =
+
 data.senderId ===
 currentUser.uid;
 
@@ -1289,8 +1412,6 @@ mine
 );
 
 
-/* TEXT */
-
 const text =
 document.createElement(
 "div"
@@ -1299,8 +1420,6 @@ document.createElement(
 text.textContent =
 data.text || "";
 
-
-/* META */
 
 const meta =
 document.createElement(
@@ -1365,19 +1484,22 @@ console.error(
 error
 );
 
-chatBox.innerHTML =
 
-'<div class="empty error">' +
+chatBox.innerHTML = `
 
-'Could not load messages.' +
+<div class="empty error">
 
-'<br><br>' +
+Could not load messages.
 
-escapeHTML(
+<br><br>
+
+${escapeHTML(
 error.message
-) +
+)}
 
-'</div>';
+</div>
+
+`;
 
 }
 
@@ -1393,22 +1515,11 @@ sendBtn.addEventListener(
 async()=>{
 
 if(
-!currentUser
-){
-
-return;
-
-}
-
-
-if(
 !currentConversationId
 ){
 
-showStatus(
-messageStatus,
-"Open a chat first.",
-"error"
+alert(
+"Open a chat first."
 );
 
 return;
@@ -1422,10 +1533,8 @@ messageInput.value.trim();
 
 if(!text){
 
-showStatus(
-messageStatus,
-"Write a message first.",
-"error"
+alert(
+"Write a message first."
 );
 
 return;
@@ -1434,7 +1543,9 @@ return;
 
 
 const words =
-countWords(text);
+countWords(
+text
+);
 
 
 const used =
@@ -1449,15 +1560,11 @@ if(
 words > remaining
 ){
 
-showStatus(
-
-messageStatus,
+alert(
 
 "You only have " +
 remaining +
-" words remaining today.",
-
-"error"
+" words remaining today."
 
 );
 
@@ -1474,13 +1581,6 @@ true;
 sendBtn.textContent =
 "Sending...";
 
-messageStatus.className =
-"status";
-
-
-/* =========================
-   SAVE MESSAGE
-========================= */
 
 await addDoc(
 
@@ -1501,13 +1601,21 @@ senderId:
 currentUser.uid,
 
 senderEmail:
-currentUser.email || "",
+currentUser.email ||
+"",
+
+senderName:
+currentUser.displayName ||
+"User",
 
 receiverId:
 currentOtherUserId,
 
 receiverEmail:
 currentOtherEmail,
+
+receiverName:
+currentOtherName,
 
 text:
 text,
@@ -1523,20 +1631,12 @@ serverTimestamp()
 );
 
 
-/* =========================
-   UPDATE WORD COUNT
-========================= */
-
 setUsedWords(
 used + words
 );
 
 updateWordCounter();
 
-
-/* =========================
-   UPDATE CONVERSATION
-========================= */
 
 await updateDoc(
 
@@ -1562,17 +1662,8 @@ serverTimestamp()
 );
 
 
-/* =========================
-   CLEAR INPUT
-========================= */
+messageInput.value = "";
 
-messageInput.value =
-"";
-
-
-/* =========================
-   RELOAD
-========================= */
 
 await loadMessages();
 
@@ -1584,11 +1675,11 @@ console.error(
 error
 );
 
-showStatus(
-messageStatus,
+alert(
+
 "Message failed: " +
-error.message,
-"error"
+error.message
+
 );
 
 }finally{
@@ -1605,14 +1696,34 @@ sendBtn.textContent =
 
 
 /* =========================
-   BACK
+   BACK TO USERS
 ========================= */
 
 backBtn.addEventListener(
 "click",
 ()=>{
 
-closeCurrentChat();
+chatArea.classList.add(
+"hidden"
+);
+
+userList.parentElement.classList.remove(
+"hidden"
+);
+
+currentConversationId =
+null;
+
+currentOtherUserId =
+null;
+
+currentOtherName =
+"";
+
+currentOtherEmail =
+"";
+
+messageInput.value = "";
 
 });
 
@@ -1625,22 +1736,11 @@ closeChatBtn.addEventListener(
 "click",
 ()=>{
 
-closeCurrentChat();
-
-});
-
-
-/* =========================
-   CLOSE CURRENT CHAT
-========================= */
-
-function closeCurrentChat(){
-
 chatArea.classList.add(
 "hidden"
 );
 
-startArea.classList.remove(
+userList.parentElement.classList.remove(
 "hidden"
 );
 
@@ -1650,48 +1750,13 @@ null;
 currentOtherUserId =
 null;
 
+currentOtherName =
+"";
+
 currentOtherEmail =
 "";
 
-messageInput.value =
-"";
-
-messageStatus.className =
-"status";
-
-chatBox.innerHTML =
-
-'<div class="empty">' +
-'No messages yet.' +
-'</div>';
-
-}
-
-
-/* =========================
-   ENTER KEY
-========================= */
-
-messageInput.addEventListener(
-"keydown",
-(event)=>{
-
-/*
-Enter sends the message.
-Shift + Enter creates a new line.
-*/
-
-if(
-event.key === "Enter"
-&&
-!event.shiftKey
-){
-
-event.preventDefault();
-
-sendBtn.click();
-
-}
+messageInput.value = "";
 
 });
 
@@ -1736,4 +1801,4 @@ return String(value)
 </script>
 
 </body>
-   </html>
+</html>
