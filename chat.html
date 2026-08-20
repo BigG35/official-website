@@ -223,6 +223,41 @@ flex:1;
 min-width:130px;
 }
 
+.page-info{
+display:flex;
+align-items:center;
+gap:15px;
+background:#eef5ff;
+border-radius:8px;
+padding:12px;
+margin-bottom:15px;
+}
+
+.page-info img{
+width:65px;
+height:65px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #0a4ea3;
+}
+
+.page-info-text{
+min-width:0;
+}
+
+.page-info-name{
+font-size:18px;
+font-weight:bold;
+color:#0a4ea3;
+word-break:break-word;
+}
+
+.page-info-status{
+font-size:13px;
+color:#18752a;
+margin-top:4px;
+}
+
 @media(max-width:500px){
 
 .container{
@@ -249,13 +284,20 @@ height:400px;
 max-width:90%;
 }
 
+.page-info img{
+width:55px;
+height:55px;
+}
+
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <header>
 
@@ -269,7 +311,9 @@ max-width:90%;
 <div class="container">
 
 
-<!-- LOGIN -->
+<!-- =========================
+     LOGIN
+========================= -->
 
 <div
 id="loginMessage"
@@ -292,7 +336,9 @@ Login
 </div>
 
 
-<!-- MAIN -->
+<!-- =========================
+     MAIN
+========================= -->
 
 <div
 id="mainArea"
@@ -300,7 +346,9 @@ class="hidden"
 >
 
 
-<!-- ACCOUNT -->
+<!-- =========================
+     ACCOUNT
+========================= -->
 
 <div class="card">
 
@@ -349,7 +397,52 @@ in normal chats each day.
 </div>
 
 
-<!-- USER LIST -->
+<!-- =========================
+     APPROVED PAGE CHAT INFO
+========================= -->
+
+<div
+id="pageChatInfo"
+class="card hidden"
+>
+
+<div class="page-info">
+
+<img
+id="pageLogo"
+src=""
+alt="Page Logo"
+>
+
+<div class="page-info-text">
+
+<div
+id="pageName"
+class="page-info-name"
+>
+Approved Page
+</div>
+
+<div class="page-info-status">
+✅ Approved Page
+</div>
+
+</div>
+
+</div>
+
+<div class="info">
+
+You are chatting with the owner of this approved page.
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     USER LIST
+========================= -->
 
 <div
 id="userListArea"
@@ -391,7 +484,9 @@ Loading users...
 </div>
 
 
-<!-- CHAT AREA -->
+<!-- =========================
+     CHAT AREA
+========================= -->
 
 <div
 id="chatArea"
@@ -499,6 +594,7 @@ collection,
 query,
 where,
 getDocs,
+getDoc,
 addDoc,
 doc,
 updateDoc,
@@ -514,6 +610,21 @@ from
 ========================= */
 
 const DAILY_LIMIT = 200;
+
+
+/* =========================
+   URL PAGE ID
+========================= */
+
+const urlParams =
+new URLSearchParams(
+window.location.search
+);
+
+const approvedPageId =
+urlParams.get(
+"pageId"
+);
 
 
 /* =========================
@@ -560,6 +671,11 @@ document.getElementById(
 "userList"
 );
 
+const userListArea =
+document.getElementById(
+"userListArea"
+);
+
 const chatArea =
 document.getElementById(
 "chatArea"
@@ -595,6 +711,21 @@ document.getElementById(
 "closeChatBtn"
 );
 
+const pageChatInfo =
+document.getElementById(
+"pageChatInfo"
+);
+
+const pageLogo =
+document.getElementById(
+"pageLogo"
+);
+
+const pageNameElement =
+document.getElementById(
+"pageName"
+);
+
 
 /* =========================
    VARIABLES
@@ -611,6 +742,10 @@ let currentOtherName = "";
 let currentOtherEmail = "";
 
 let allUsers = [];
+
+let pageChatMode = false;
+
+let currentPageId = null;
 
 
 /* =========================
@@ -825,10 +960,390 @@ user.email ||
 updateWordCounter();
 
 
+/*
+If pageId exists,
+open the approved page chat.
+*/
+
+if(
+approvedPageId
+){
+
+await startApprovedPageChat(
+approvedPageId
+);
+
+}else{
+
 await loadUsers();
 
 }
+
+}
 );
+
+
+/* =========================
+   APPROVED PAGE CHAT
+========================= */
+
+async function startApprovedPageChat(
+pageId
+){
+
+pageChatMode = true;
+
+currentPageId =
+pageId;
+
+
+/*
+Hide normal user list.
+*/
+
+userListArea.classList.add(
+"hidden"
+);
+
+
+pageChatInfo.classList.remove(
+"hidden"
+);
+
+
+chatArea.classList.remove(
+"hidden"
+);
+
+
+try{
+
+/*
+Load approved page.
+*/
+
+const pageRef =
+doc(
+db,
+"approvedPages",
+pageId
+);
+
+
+const pageSnapshot =
+await getDoc(
+pageRef
+);
+
+
+if(
+!pageSnapshot.exists()
+){
+
+throw new Error(
+"Approved page was not found."
+);
+
+}
+
+
+const pageData =
+pageSnapshot.data();
+
+
+/*
+Make sure the page is approved.
+*/
+
+if(
+pageData.status !==
+"Approved"
+){
+
+throw new Error(
+"This page is not approved."
+);
+
+}
+
+
+const ownerId =
+pageData.ownerId ||
+"";
+
+
+const ownerEmail =
+pageData.ownerEmail ||
+pageData.email ||
+"";
+
+
+const businessName =
+pageData.pageName ||
+"Approved Page";
+
+
+const logoURL =
+pageData.logoURL ||
+"images/default-logo.png";
+
+
+if(
+!ownerId
+){
+
+throw new Error(
+"This approved page does not have an owner ID."
+);
+
+}
+
+
+/*
+Save page information.
+*/
+
+pageNameElement.textContent =
+businessName;
+
+pageLogo.src =
+logoURL;
+
+pageLogo.alt =
+businessName;
+
+
+currentOtherUserId =
+ownerId;
+
+currentOtherName =
+businessName;
+
+currentOtherEmail =
+ownerEmail;
+
+
+chatTitle.textContent =
+
+"💬 Chat with " +
+businessName;
+
+
+/*
+Find existing page conversation.
+*/
+
+const conversationsSnapshot =
+
+await getDocs(
+
+query(
+
+collection(
+db,
+"conversations"
+),
+
+where(
+"members",
+"array-contains",
+currentUser.uid
+)
+
+)
+
+);
+
+
+let existingConversation =
+null;
+
+
+conversationsSnapshot.forEach(
+(conversationDoc)=>{
+
+const data =
+conversationDoc.data();
+
+
+if(
+
+data.type ===
+"page"
+
+&&
+
+data.pageId ===
+pageId
+
+&&
+
+Array.isArray(
+data.members
+)
+
+&&
+
+data.members.includes(
+ownerId
+)
+
+){
+
+existingConversation =
+conversationDoc;
+
+}
+
+});
+
+
+/*
+Use existing conversation
+or create a new one.
+*/
+
+if(
+existingConversation
+){
+
+currentConversationId =
+existingConversation.id;
+
+}else{
+
+const conversationRef =
+
+await addDoc(
+
+collection(
+db,
+"conversations"
+),
+
+{
+
+type:
+"page",
+
+pageId:
+pageId,
+
+pageName:
+businessName,
+
+pageOwnerId:
+ownerId,
+
+pageOwnerEmail:
+ownerEmail,
+
+members:[
+
+currentUser.uid,
+
+ownerId
+
+],
+
+memberEmails:[
+
+currentUser.email ||
+"",
+
+ownerEmail
+
+],
+
+createdAt:
+serverTimestamp(),
+
+lastMessageAt:
+serverTimestamp(),
+
+lastMessage:"",
+
+lastSenderId:""
+
+}
+
+);
+
+
+currentConversationId =
+conversationRef.id;
+
+}
+
+
+/*
+Load messages.
+*/
+
+await loadMessages();
+
+
+chatArea.scrollIntoView({
+behavior:"smooth"
+});
+
+
+}catch(error){
+
+console.error(
+"Approved page chat error:",
+error
+);
+
+
+chatArea.classList.add(
+"hidden"
+);
+
+
+pageChatInfo.classList.add(
+"hidden"
+);
+
+
+const errorArea =
+document.createElement(
+"div"
+);
+
+errorArea.className =
+"card";
+
+
+errorArea.innerHTML = `
+
+<h2>❌ Chat Unavailable</h2>
+
+<p class="error">
+
+${escapeHTML(
+error.message
+)}
+
+</p>
+
+<button
+class="secondary"
+onclick="history.back()"
+>
+← Go Back
+</button>
+
+`;
+
+
+mainArea.prepend(
+errorArea
+);
+
+}
+
+}
 
 
 /* =========================
@@ -869,7 +1384,7 @@ userDoc.data();
 
 
 /*
-Do not show the current user.
+Do not show current user.
 */
 
 if(
@@ -881,10 +1396,6 @@ return;
 
 }
 
-
-/*
-Use name from Firestore.
-*/
 
 allUsers.push({
 
@@ -1122,12 +1633,14 @@ filtered
 
 
 /* =========================
-   START CHAT
+   START NORMAL USER CHAT
 ========================= */
 
 async function startChatWithUser(
 user
 ){
+
+pageChatMode = false;
 
 currentOtherUserId =
 user.id;
@@ -1272,7 +1785,7 @@ chatArea.classList.remove(
 "hidden"
 );
 
-userList.parentElement.classList.add(
+userListArea.classList.add(
 "hidden"
 );
 
@@ -1437,6 +1950,7 @@ mine
 "You"
 :
 (
+data.senderName ||
 data.senderEmail ||
 "User"
 );
@@ -1595,7 +2109,18 @@ conversationId:
 currentConversationId,
 
 type:
+pageChatMode
+?
+"page"
+:
 "normal",
+
+pageId:
+pageChatMode
+?
+currentPageId
+:
+null,
 
 senderId:
 currentUser.uid,
@@ -1703,11 +2228,27 @@ backBtn.addEventListener(
 "click",
 ()=>{
 
+/*
+If this is an approved-page chat,
+go back to the previous page.
+*/
+
+if(
+pageChatMode
+){
+
+history.back();
+
+return;
+
+}
+
+
 chatArea.classList.add(
 "hidden"
 );
 
-userList.parentElement.classList.remove(
+userListArea.classList.remove(
 "hidden"
 );
 
@@ -1736,11 +2277,22 @@ closeChatBtn.addEventListener(
 "click",
 ()=>{
 
+if(
+pageChatMode
+){
+
+history.back();
+
+return;
+
+}
+
+
 chatArea.classList.add(
 "hidden"
 );
 
-userList.parentElement.classList.remove(
+userListArea.classList.remove(
 "hidden"
 );
 
@@ -1801,4 +2353,5 @@ return String(value)
 </script>
 
 </body>
+
 </html>
