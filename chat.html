@@ -1,1941 +1,618 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Chat - Logical World</title>
 
 <style>
-
-*{
-box-sizing:border-box;
-font-family:Arial,sans-serif;
-}
-
-body{
-margin:0;
-background:#f5f5f5;
-color:#222;
-}
-
-header{
-background:#0a4ea3;
-color:white;
-padding:18px;
-text-align:center;
-}
-
-header h1{
-margin:0;
-}
-
-header p{
-margin:6px 0 0;
-}
-
-.container{
-max-width:900px;
-margin:20px auto;
-padding:15px;
-}
-
-.card{
-background:white;
-border-radius:10px;
-padding:20px;
-margin-bottom:20px;
-box-shadow:0 2px 8px rgba(0,0,0,.15);
-}
-
-h2{
-color:#0a4ea3;
-margin-top:0;
-}
-
-input,
-textarea{
-width:100%;
-padding:12px;
-margin-top:6px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
-}
-
-textarea{
-height:100px;
-resize:vertical;
-}
-
-button{
-border:0;
-border-radius:6px;
-padding:12px 18px;
-font-size:15px;
-font-weight:bold;
-cursor:pointer;
-}
-
-button:disabled{
-opacity:.6;
-cursor:not-allowed;
-}
-
-.primary{
-background:#0a4ea3;
-color:white;
-}
-
-.primary:hover{
-background:#083d82;
-}
-
-.danger{
-background:#d32f2f;
-color:white;
-}
-
-.secondary{
-background:#555;
-color:white;
-}
-
-.hidden{
-display:none !important;
-}
-
-.limit{
-font-weight:bold;
-color:#0a4ea3;
-}
-
-.info{
-background:#eef5ff;
-border-left:4px solid #0a4ea3;
-padding:12px;
-margin-bottom:15px;
-}
-
-.small{
-font-size:13px;
-color:#666;
-}
-
-.error{
-color:#b71c1c;
-}
-
-.empty{
-text-align:center;
-color:#777;
-padding:30px;
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-.search-area{
-margin-bottom:20px;
-}
-
-.search-label{
-display:block;
-font-weight:bold;
-margin-bottom:5px;
-}
-
-.search-row{
-display:flex;
-gap:8px;
-}
-
-.search-row input{
-margin:0;
-flex:1;
-}
-
-.search-row button{
-flex-shrink:0;
-}
-
-
-/* =========================
-   USERS
-========================= */
-
-.user-list{
-display:flex;
-flex-direction:column;
-gap:10px;
-}
-
-.user-card{
-display:flex;
-align-items:center;
-justify-content:space-between;
-gap:15px;
-padding:14px;
-border:1px solid #ddd;
-border-radius:8px;
-background:#fafafa;
-}
-
-.user-info{
-min-width:0;
-}
-
-.user-name{
-font-weight:bold;
-font-size:17px;
-color:#0a4ea3;
-word-break:break-word;
-}
-
-.user-email{
-font-size:13px;
-color:#777;
-word-break:break-word;
-margin-top:4px;
-}
-
-.user-card button{
-flex-shrink:0;
-}
-
-
-/* =========================
-   CHAT
-========================= */
-
-.chat-box{
-height:450px;
-overflow-y:auto;
-background:#f1f3f5;
-border:1px solid #ddd;
-border-radius:8px;
-padding:15px;
-}
-
-.message{
-max-width:80%;
-padding:10px 13px;
-margin:8px 0;
-border-radius:12px;
-word-wrap:break-word;
-white-space:pre-wrap;
-}
-
-.message.mine{
-margin-left:auto;
-background:#0a4ea3;
-color:white;
-border-bottom-right-radius:3px;
-}
-
-.message.theirs{
-margin-right:auto;
-background:white;
-border:1px solid #ddd;
-border-bottom-left-radius:3px;
-}
-
-.message-meta{
-font-size:11px;
-opacity:.7;
-margin-top:5px;
-}
-
-.top-buttons{
-display:flex;
-gap:10px;
-flex-wrap:wrap;
-margin-bottom:15px;
-}
-
-.top-buttons button{
-flex:1;
-min-width:130px;
-}
-
-@media(max-width:500px){
-
-.container{
-padding:10px;
-}
-
-.card{
-padding:15px;
-}
-
-.search-row{
-flex-direction:column;
-}
-
-.search-row button{
-width:100%;
-}
-
-.user-card{
-align-items:flex-start;
-}
-
-.user-card button{
-padding:10px 12px;
-}
-
-.chat-box{
-height:400px;
-}
-
-.message{
-max-width:90%;
-}
-
-}
-
+*{box-sizing:border-box;font-family:Arial}
+body{margin:0;background:#f5f5f5;color:#222}
+header{background:#0a4ea3;color:#fff;padding:18px;text-align:center}
+header h1{margin:0}
+.container{max-width:900px;margin:20px auto;padding:15px}
+.card{background:#fff;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 2px 8px #0002}
+h2{color:#0a4ea3;margin-top:0}
+input,textarea{width:100%;padding:12px;margin-top:6px;border:1px solid #ccc;border-radius:6px;font-size:16px}
+textarea{height:100px;resize:vertical}
+button{border:0;border-radius:6px;padding:12px 18px;font-weight:bold;cursor:pointer}
+button:disabled{opacity:.6}
+.primary{background:#0a4ea3;color:white}
+.secondary{background:#555;color:white}
+.danger{background:#d32f2f;color:white}
+.hidden{display:none!important}
+.info{background:#eef5ff;border-left:4px solid #0a4ea3;padding:12px;margin-bottom:15px}
+.small{font-size:13px;color:#666}
+.error{color:#b71c1c}
+.empty{text-align:center;color:#777;padding:30px}
+.search-row,.top-buttons{display:flex;gap:8px}
+.search-row input{margin:0;flex:1}
+.user-list{display:flex;flex-direction:column;gap:10px}
+.user-card{display:flex;align-items:center;justify-content:space-between;gap:15px;padding:14px;border:1px solid #ddd;border-radius:8px}
+.user-name{font-weight:bold;color:#0a4ea3}
+.user-email{font-size:13px;color:#777;margin-top:4px}
+.chat-box{height:450px;overflow-y:auto;background:#f1f3f5;border:1px solid #ddd;border-radius:8px;padding:15px}
+.message{max-width:80%;padding:10px 13px;margin:8px 0;border-radius:12px;white-space:pre-wrap}
+.mine{margin-left:auto;background:#0a4ea3;color:#fff;border-bottom-right-radius:3px}
+.theirs{background:#fff;border:1px solid #ddd;border-bottom-left-radius:3px}
+.message-meta{font-size:11px;opacity:.7;margin-top:5px}
+@media(max-width:500px){.container{padding:10px}.card{padding:15px}.search-row{flex-direction:column}.search-row button{width:100%}.chat-box{height:400px}}
 </style>
-
 </head>
-
 
 <body>
 
-
 <header>
-
 <h1>🌍 Logical World</h1>
-
 <p>💬 Chat</p>
-
 </header>
-
 
 <div class="container">
 
-
-<!-- =========================
-     LOGIN
-========================= -->
-
-<div
-id="loginMessage"
-class="card hidden"
->
-
+<div id="loginMessage" class="card hidden">
 <h2>🔐 Login Required</h2>
-
-<p>
-Please login to use Logical World Chat.
-</p>
-
-<button
-class="primary"
-onclick="location.href='login.html'"
->
-Login
-</button>
-
+<p>Please login to use Logical World Chat.</p>
+<button class="primary" onclick="location.href='login.html'">Login</button>
 </div>
 
-
-<!-- =========================
-     MAIN
-========================= -->
-
-<div
-id="mainArea"
-class="hidden"
->
-
-
-<!-- =========================
-     ACCOUNT
-========================= -->
+<div id="mainArea" class="hidden">
 
 <div class="card">
-
-<h2>
-👤 My Account
-</h2>
-
-<p>
-
-<strong>Name:</strong>
-
-<span id="currentUserName">
-</span>
-
-</p>
-
-<p>
-
-<strong>Email:</strong>
-
-<span id="currentUserEmail">
-</span>
-
-</p>
-
-<p>
-
-Daily chat allowance:
-
-<span
-id="wordCounter"
-class="limit"
->
-200 / 200 words remaining
-</span>
-
-</p>
-
-<p class="small">
-
-You can send a maximum of 200 words
-in normal chats each day.
-
-</p>
-
+<h2>👤 My Account</h2>
+<p><b>Name:</b> <span id="currentUserName"></span></p>
+<p><b>Email:</b> <span id="currentUserEmail"></span></p>
+<p>Daily chat allowance:
+<b id="wordCounter">200 / 200 words remaining</b></p>
 </div>
 
+<div id="userListArea" class="card">
+<h2 id="peopleTitle">👥 People on Logical World</h2>
 
-<!-- =========================
-     USERS
-========================= -->
-
-<div
-id="userListArea"
-class="card"
->
-
-<h2>
-👥 People on Logical World
-</h2>
-
-
-<div class="info">
-
-Choose a registered user below to start
-a private chat.
-
+<div class="info" id="peopleInfo">
+Choose a registered user below to start a private chat.
 </div>
 
-
-<!-- SEARCH AT TOP -->
-
-<div class="search-area">
-
-<label
-class="search-label"
-for="userSearch"
->
-🔎 Search users
-</label>
-
-
+<div>
+<label><b>🔎 Search users</b></label>
 <div class="search-row">
-
-<input
-type="text"
-id="userSearch"
-placeholder="Search by name..."
-autocomplete="off"
->
-
-
-<button
-class="primary"
-id="searchBtn"
->
-Search
-</button>
-
+<input id="userSearch" placeholder="Search by name..." autocomplete="off">
+<button class="primary" id="searchBtn">Search</button>
+</div>
 </div>
 
+<div id="userList" class="user-list" style="margin-top:15px">
+<div class="empty">Loading users...</div>
+</div>
 </div>
 
-
-<!-- USER LIST -->
-
-<div
-id="userList"
-class="user-list"
->
-
-<div class="empty">
-Loading users...
-</div>
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     CHAT AREA
-========================= -->
-
-<div
-id="chatArea"
-class="card hidden"
->
+<div id="chatArea" class="card hidden">
 
 <div class="top-buttons">
-
-<button
-class="secondary"
-id="backBtn"
->
-← Back to Users
-</button>
-
-<button
-class="danger"
-id="closeChatBtn"
->
-Close Chat
-</button>
-
+<button class="secondary" id="backBtn">← Back</button>
+<button class="danger" id="closeChatBtn">Close Chat</button>
 </div>
 
+<h2 id="chatTitle">💬 Chat</h2>
 
-<h2 id="chatTitle">
-💬 Chat
-</h2>
-
-
-<div
-id="chatBox"
-class="chat-box"
->
-
-<div class="empty">
-No messages yet.
+<div id="chatBox" class="chat-box">
+<div class="empty">No messages yet.</div>
 </div>
 
-</div>
-
-
-<label
-for="messageInput"
-style="display:block;font-weight:bold;margin-top:12px;"
->
-Message
-</label>
-
-
-<textarea
-id="messageInput"
-placeholder="Write your message..."
-></textarea>
-
+<label><b>Message</b></label>
+<textarea id="messageInput" placeholder="Write your message..."></textarea>
 
 <p class="small">
-
-Words remaining today:
-
-<strong id="remainingWords">
-200
-</strong>
-
+Words remaining:
+<b id="remainingWords">200</b>
 </p>
 
-
-<button
-class="primary"
-id="sendBtn"
->
-📤 Send Message
-</button>
+<button class="primary" id="sendBtn">📤 Send Message</button>
 
 </div>
 
-
 </div>
-
 </div>
 
 
 <script type="module">
 
+import{auth,db}from"./firebase.js";
 
-/* =========================
-   FIREBASE
-========================= */
+import{onAuthStateChanged}
+from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-import {
-auth,
-db
+import{
+collection,query,where,getDocs,getDoc,addDoc,doc,
+updateDoc,serverTimestamp,orderBy
 }
-from "./firebase.js";
+from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-import {
-onAuthStateChanged
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+const LIMIT=200;
+const pageId=new URLSearchParams(location.search).get("pageId");
+
+let user=null,page=null,business=false;
+let users=[],conversationId=null,other=null;
 
 
-import {
-collection,
-query,
-where,
-getDocs,
-addDoc,
-doc,
-updateDoc,
-serverTimestamp,
-orderBy
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+const $=id=>document.getElementById(id);
 
 
-/* =========================
-   DAILY LIMIT
-========================= */
+function today(){
 
-const DAILY_LIMIT = 200;
+const d=new Date();
 
-
-/* =========================
-   ELEMENTS
-========================= */
-
-const loginMessage =
-document.getElementById(
-"loginMessage"
-);
-
-const mainArea =
-document.getElementById(
-"mainArea"
-);
-
-const currentUserName =
-document.getElementById(
-"currentUserName"
-);
-
-const currentUserEmail =
-document.getElementById(
-"currentUserEmail"
-);
-
-const wordCounter =
-document.getElementById(
-"wordCounter"
-);
-
-const remainingWords =
-document.getElementById(
-"remainingWords"
-);
-
-const userSearch =
-document.getElementById(
-"userSearch"
-);
-
-const searchBtn =
-document.getElementById(
-"searchBtn"
-);
-
-const userList =
-document.getElementById(
-"userList"
-);
-
-const userListArea =
-document.getElementById(
-"userListArea"
-);
-
-const chatArea =
-document.getElementById(
-"chatArea"
-);
-
-const chatTitle =
-document.getElementById(
-"chatTitle"
-);
-
-const chatBox =
-document.getElementById(
-"chatBox"
-);
-
-const messageInput =
-document.getElementById(
-"messageInput"
-);
-
-const sendBtn =
-document.getElementById(
-"sendBtn"
-);
-
-const backBtn =
-document.getElementById(
-"backBtn"
-);
-
-const closeChatBtn =
-document.getElementById(
-"closeChatBtn"
-);
-
-
-/* =========================
-   VARIABLES
-========================= */
-
-let currentUser = null;
-
-let currentConversationId = null;
-
-let currentOtherUserId = null;
-
-let currentOtherName = "";
-
-let currentOtherEmail = "";
-
-let allUsers = [];
-
-
-/* =========================
-   TODAY
-========================= */
-
-function getTodayKey(){
-
-const now =
-new Date();
-
-return (
-
-now.getFullYear() +
-"-" +
-
-String(
-now.getMonth()+1
-).padStart(2,"0") +
-
-"-" +
-
-String(
-now.getDate()
-).padStart(2,"0")
-
-);
+return d.getFullYear()+"-"+
+String(d.getMonth()+1).padStart(2,"0")+"-"+
+String(d.getDate()).padStart(2,"0");
 
 }
 
 
-/* =========================
-   COUNT WORDS
-========================= */
+function words(text){
 
-function countWords(text){
-
-return text
-.trim()
-.split(/\s+/)
-.filter(Boolean)
-.length;
+return text.trim()?text.trim().split(/\s+/).length:0;
 
 }
 
 
-/* =========================
-   USED WORDS
-========================= */
-
-function getUsedWords(){
-
-if(!currentUser){
-
-return 0;
-
-}
-
-const key =
-
-"logicalWorldChatWords_" +
-currentUser.uid +
-"_" +
-getTodayKey();
-
+function used(){
 
 return Number(
-
 localStorage.getItem(
-key
-) || 0
-
+"lw_"+user.uid+"_"+today()
+)||0
 );
 
 }
 
 
-/* =========================
-   SAVE WORDS
-========================= */
+function counter(){
 
-function setUsedWords(amount){
+const left=Math.max(0,LIMIT-used());
 
-if(!currentUser){
+$("remainingWords").textContent=left;
 
-return;
-
-}
-
-const key =
-
-"logicalWorldChatWords_" +
-currentUser.uid +
-"_" +
-getTodayKey();
-
-
-localStorage.setItem(
-key,
-String(amount)
-);
+$("wordCounter").textContent=
+left+" / "+LIMIT+" words remaining";
 
 }
 
 
-/* =========================
-   COUNTER
-========================= */
+async function findBusiness(){
 
-function updateWordCounter(){
+if(!pageId)return;
 
-const used =
-getUsedWords();
+try{
 
-
-const remaining =
-
-Math.max(
-0,
-DAILY_LIMIT - used
+let snap=await getDoc(
+doc(db,"approvedPages",pageId)
 );
-
-
-remainingWords.textContent =
-remaining;
-
-
-wordCounter.textContent =
-
-remaining +
-" / " +
-DAILY_LIMIT +
-" words remaining";
-
 
 if(
-remaining === 0
+snap.exists() &&
+snap.data().ownerId===user.uid
 ){
 
-wordCounter.classList.add(
-"error"
-);
+page=snap.data();
+business=true;
 
-}else{
+$("currentUserName").textContent=
+page.pageName||page.name||user.displayName||"Business";
 
-wordCounter.classList.remove(
-"error"
-);
+$("peopleTitle").textContent="👥 Customers / Users";
 
-}
-
-}
-
-
-/* =========================
-   AUTH
-========================= */
-
-onAuthStateChanged(
-auth,
-async(user)=>{
-
-if(!user){
-
-currentUser =
-null;
-
-loginMessage.classList.remove(
-"hidden"
-);
-
-mainArea.classList.add(
-"hidden"
-);
+$("peopleInfo").textContent=
+"Choose a registered user below to start a private chat.";
 
 return;
 
 }
 
 
-currentUser =
-user;
+/* Fallback: find business by owner */
 
-
-loginMessage.classList.add(
-"hidden"
+snap=await getDocs(
+query(
+collection(db,"approvedPages"),
+where("ownerId","==",user.uid)
+)
 );
 
-mainArea.classList.remove(
-"hidden"
-);
+if(!snap.empty){
 
+page=snap.docs[0].data();
+business=true;
 
-currentUserName.textContent =
+$("currentUserName").textContent=
+page.pageName||page.name||user.displayName||"Business";
 
-user.displayName ||
-"User";
-
-
-currentUserEmail.textContent =
-
-user.email ||
-"";
-
-
-updateWordCounter();
-
-
-await loadUsers();
+$("peopleTitle").textContent="👥 Customers / Users";
 
 }
-);
+
+}catch(e){
+
+console.error("Business check:",e);
+
+}
+
+}
 
 
-/* =========================
-   LOAD USERS
-========================= */
+onAuthStateChanged(auth,async u=>{
+
+if(!u){
+
+$("loginMessage").classList.remove("hidden");
+return;
+
+}
+
+user=u;
+
+$("mainArea").classList.remove("hidden");
+
+$("currentUserName").textContent=
+u.displayName||"User";
+
+$("currentUserEmail").textContent=
+u.email||"";
+
+counter();
+
+await findBusiness();
+await loadUsers();
+
+});
+
 
 async function loadUsers(){
 
-userList.innerHTML = `
-
-<div class="empty">
-Loading users...
-</div>
-
-`;
-
+$("userList").innerHTML=
+'<div class="empty">Loading users...</div>';
 
 try{
 
-const snapshot =
+const snap=await getDocs(collection(db,"users"));
 
-await getDocs(
-collection(
-db,
-"users"
-)
-);
+users=[];
+
+snap.forEach(d=>{
+
+if(d.id===user.uid)return;
+
+const x=d.data();
+
+users.push({
+id:d.id,
+name:x.name||x.displayName||"User",
+email:x.email||""
+});
+
+});
+
+users.sort((a,b)=>a.name.localeCompare(b.name));
+
+showUsers(users);
+
+}catch(e){
+
+console.error(e);
+
+$("userList").innerHTML=
+'<div class="empty error">Could not load users.<br><br>'+
+(e.code==="permission-denied"
+?"Firestore permission denied. Check your Firestore rules."
+:e.message)+
+'</div>';
+
+}
+
+}
 
 
-allUsers = [];
+function showUsers(list){
 
+$("userList").innerHTML="";
 
-snapshot.forEach(
-(userDoc)=>{
+if(!list.length){
 
-const data =
-userDoc.data();
-
-
-/*
-Do not show current user.
-*/
-
-if(
-userDoc.id ===
-currentUser.uid
-){
+$("userList").innerHTML=
+'<div class="empty">No registered users found.</div>';
 
 return;
 
 }
 
+list.forEach(x=>{
 
-allUsers.push({
+const card=document.createElement("div");
+card.className="user-card";
 
-id:
-userDoc.id,
+card.innerHTML=
+'<div><div class="user-name"></div>'+
+'<div class="user-email"></div></div>';
 
-name:
-data.name ||
-data.displayName ||
-"User",
+card.querySelector(".user-name").textContent=x.name;
+card.querySelector(".user-email").textContent=x.email;
 
-email:
-data.email ||
-""
+const btn=document.createElement("button");
+btn.className="primary";
+btn.textContent="💬 Chat";
+btn.onclick=()=>startChat(x);
 
-});
-
-});
-
-
-/*
-Sort alphabetically.
-*/
-
-allUsers.sort(
-(a,b)=>
-
-a.name.localeCompare(
-b.name
-)
-
-);
-
-
-/*
-Show users immediately.
-*/
-
-renderUsers(
-allUsers
-);
-
-
-}catch(error){
-
-console.error(
-"Load users error:",
-error
-);
-
-
-userList.innerHTML = `
-
-<div class="empty error">
-
-Could not load users.
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =========================
-   RENDER USERS
-========================= */
-
-function renderUsers(users){
-
-userList.innerHTML = "";
-
-
-if(
-users.length === 0
-){
-
-userList.innerHTML = `
-
-<div class="empty">
-
-No other registered users found.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-users.forEach(
-(user)=>{
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"user-card";
-
-
-const info =
-document.createElement(
-"div"
-);
-
-info.className =
-"user-info";
-
-
-const name =
-document.createElement(
-"div"
-);
-
-name.className =
-"user-name";
-
-name.textContent =
-user.name;
-
-
-const email =
-document.createElement(
-"div"
-);
-
-email.className =
-"user-email";
-
-email.textContent =
-user.email;
-
-
-info.appendChild(
-name
-);
-
-info.appendChild(
-email
-);
-
-
-/* CHAT BUTTON */
-
-const chatButton =
-document.createElement(
-"button"
-);
-
-chatButton.className =
-"primary";
-
-chatButton.textContent =
-"💬 Chat";
-
-
-chatButton.addEventListener(
-"click",
-()=>{
-
-startChatWithUser(
-user
-);
-
-});
-
-
-card.appendChild(
-info
-);
-
-card.appendChild(
-chatButton
-);
-
-userList.appendChild(
-card
-);
+card.appendChild(btn);
+$("userList").appendChild(card);
 
 });
 
 }
 
 
-/* =========================
-   SEARCH
-========================= */
+function search(){
 
-function performSearch(){
+const s=$("userSearch").value.toLowerCase().trim();
 
-const search =
-
-userSearch.value
-.trim()
-.toLowerCase();
-
-
-if(!search){
-
-renderUsers(
-allUsers
-);
-
-return;
-
-}
-
-
-const filtered =
-
-allUsers.filter(
-(user)=>
-
-user.name
-.toLowerCase()
-.includes(
-search
-)
-
-);
-
-
-renderUsers(
-filtered
+showUsers(
+s
+?users.filter(x=>
+x.name.toLowerCase().includes(s)||
+x.email.toLowerCase().includes(s))
+:users
 );
 
 }
 
 
-/*
-Search button.
-*/
-
-searchBtn.addEventListener(
-"click",
-performSearch
-);
+$("searchBtn").onclick=search;
+$("userSearch").oninput=search;
 
 
-/*
-Also search while typing.
-*/
+async function startChat(x){
 
-userSearch.addEventListener(
-"input",
-performSearch
-);
-
-
-/*
-Press Enter to search.
-*/
-
-userSearch.addEventListener(
-"keydown",
-(event)=>{
-
-if(
-event.key === "Enter"
-){
-
-performSearch();
-
-}
-
-});
-
-
-/* =========================
-   START CHAT
-========================= */
-
-async function startChatWithUser(
-user
-){
-
-if(!currentUser){
-
-alert(
-"Please login first."
-);
-
-return;
-
-}
-
-
-currentOtherUserId =
-user.id;
-
-currentOtherName =
-user.name;
-
-currentOtherEmail =
-user.email;
-
+other=x;
 
 try{
 
-/*
-Find existing conversation.
-*/
-
-const conversationsSnapshot =
-
-await getDocs(
-
+const snap=await getDocs(
 query(
-
-collection(
-db,
-"conversations"
-),
-
-where(
-"members",
-"array-contains",
-currentUser.uid
+collection(db,"conversations"),
+where("members","array-contains",user.uid)
 )
-
-)
-
 );
 
+let found=null;
 
-let existingConversation =
-null;
+snap.forEach(d=>{
 
-
-conversationsSnapshot.forEach(
-(conversationDoc)=>{
-
-const data =
-conversationDoc.data();
-
+const x=d.data();
 
 if(
-
-data.type === "normal"
-
-&&
-
-Array.isArray(
-data.members
-)
-
-&&
-
-data.members.includes(
-currentOtherUserId
-)
-
-){
-
-existingConversation =
-conversationDoc;
-
-}
+x.type==="normal"&&
+x.members?.includes(other.id)&&
+(!business||x.pageId===pageId)
+)found=d;
 
 });
 
 
-/*
-Use existing conversation.
-*/
+if(found){
 
-if(
-existingConversation
-){
-
-currentConversationId =
-existingConversation.id;
+conversationId=found.id;
 
 }else{
 
-
-/*
-Create new conversation.
-*/
-
-const conversationRef =
-
-await addDoc(
-
-collection(
-db,
-"conversations"
-),
-
-{
-
-type:
-"normal",
-
-members:[
-
-currentUser.uid,
-
-currentOtherUserId
-
-],
-
-memberEmails:[
-
-currentUser.email ||
-"",
-
-currentOtherEmail
-
-],
-
-createdAt:
-serverTimestamp(),
-
-lastMessageAt:
-serverTimestamp(),
-
+const data={
+type:"normal",
+members:[user.uid,other.id],
+memberEmails:[user.email||"",other.email],
+createdAt:serverTimestamp(),
 lastMessage:"",
+lastSenderId:"",
+lastMessageAt:serverTimestamp()
+};
 
-lastSenderId:""
+if(business){
+
+data.pageId=pageId;
+data.pageName=
+page?.pageName||page?.name||"Business";
+data.businessOwnerId=user.uid;
 
 }
 
-);
-
-
-currentConversationId =
-conversationRef.id;
+conversationId=
+(await addDoc(collection(db,"conversations"),data)).id;
 
 }
 
 
-/*
-Show chat.
-*/
+$("chatTitle").textContent=
+"💬 Chat with "+other.name;
 
-chatTitle.textContent =
-
-"💬 Chat with " +
-currentOtherName;
-
-
-userListArea.classList.add(
-"hidden"
-);
-
-chatArea.classList.remove(
-"hidden"
-);
-
-
-messageInput.value = "";
-
+$("userListArea").classList.add("hidden");
+$("chatArea").classList.remove("hidden");
 
 await loadMessages();
 
+$("chatArea").scrollIntoView({behavior:"smooth"});
 
-chatArea.scrollIntoView({
-behavior:"smooth"
-});
+}catch(e){
 
-
-}catch(error){
-
-console.error(
-"Start chat error:",
-error
-);
-
-alert(
-
-"Could not start chat: " +
-error.message
-
-);
+alert("Could not start chat: "+e.message);
 
 }
 
 }
 
-
-/* =========================
-   LOAD MESSAGES
-========================= */
 
 async function loadMessages(){
 
-if(
-!currentConversationId
-){
-
-return;
-
-}
-
-
-chatBox.innerHTML = `
-
-<div class="empty">
-Loading messages...
-</div>
-
-`;
-
+$("chatBox").innerHTML=
+'<div class="empty">Loading messages...</div>';
 
 try{
 
-const messagesSnapshot =
-
-await getDocs(
-
+const snap=await getDocs(
 query(
-
-collection(
-db,
-"messages"
-),
-
-where(
-"conversationId",
-"==",
-currentConversationId
-),
-
-orderBy(
-"createdAt",
-"asc"
+collection(db,"messages"),
+where("conversationId","==",conversationId),
+orderBy("createdAt","asc")
 )
-
-)
-
 );
 
+$("chatBox").innerHTML="";
 
-chatBox.innerHTML = "";
+if(snap.empty){
 
-
-if(
-messagesSnapshot.empty
-){
-
-chatBox.innerHTML = `
-
-<div class="empty">
-No messages yet.
-</div>
-
-`;
+$("chatBox").innerHTML=
+'<div class="empty">No messages yet.</div>';
 
 return;
 
 }
 
+snap.forEach(d=>{
 
-messagesSnapshot.forEach(
-(messageDoc)=>{
+const x=d.data();
 
-const data =
-messageDoc.data();
+const box=document.createElement("div");
 
+box.className=
+"message "+(x.senderId===user.uid?"mine":"theirs");
 
-const message =
-document.createElement(
-"div"
-);
+const text=document.createElement("div");
+text.textContent=x.text||"";
 
+const meta=document.createElement("div");
+meta.className="message-meta";
 
-const mine =
+meta.textContent=
+x.senderId===user.uid
+?"You"
+:(x.senderName||x.senderEmail||"User");
 
-data.senderId ===
-currentUser.uid;
+if(x.createdAt?.toDate){
 
-
-message.className =
-
-"message " +
-(
-mine
-?
-"mine"
-:
-"theirs"
-);
-
-
-const text =
-document.createElement(
-"div"
-);
-
-text.textContent =
-data.text || "";
-
-
-const meta =
-document.createElement(
-"div"
-);
-
-meta.className =
-"message-meta";
-
-
-meta.textContent =
-
-mine
-?
-"You"
-:
-(
-data.senderName ||
-data.senderEmail ||
-"User"
-);
-
-
-if(
-data.createdAt &&
-data.createdAt.toDate
-){
-
-meta.textContent +=
-
-" • " +
-
-data.createdAt
-.toDate()
-.toLocaleString();
+meta.textContent+=" • "+
+x.createdAt.toDate().toLocaleString();
 
 }
 
-
-message.appendChild(
-text
-);
-
-message.appendChild(
-meta
-);
-
-chatBox.appendChild(
-message
-);
+box.append(text,meta);
+$("chatBox").appendChild(box);
 
 });
 
+$("chatBox").scrollTop=
+$("chatBox").scrollHeight;
 
-chatBox.scrollTop =
-chatBox.scrollHeight;
+}catch(e){
 
-
-}catch(error){
-
-console.error(
-"Load messages error:",
-error
-);
-
-
-chatBox.innerHTML = `
-
-<div class="empty error">
-
-Could not load messages.
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
+$("chatBox").innerHTML=
+'<div class="empty error">'+e.message+'</div>';
 
 }
 
 }
 
 
-/* =========================
-   SEND MESSAGE
-========================= */
+$("sendBtn").onclick=async()=>{
 
-sendBtn.addEventListener(
-"click",
-async()=>{
+const text=$("messageInput").value.trim();
 
-if(
-!currentConversationId
-){
+if(!conversationId||!text){
 
-alert(
-"Open a chat first."
-);
+alert(!conversationId?
+"Open a chat first.":"Write a message first.");
 
 return;
 
 }
 
+const n=words(text);
+const left=LIMIT-used();
 
-const text =
-messageInput.value.trim();
+if(n>left){
 
-
-if(!text){
-
-alert(
-"Write a message first."
-);
-
+alert("You only have "+left+" words remaining today.");
 return;
 
 }
 
-
-const words =
-countWords(
-text
-);
-
-
-const used =
-getUsedWords();
-
-
-const remaining =
-DAILY_LIMIT - used;
-
-
-if(
-words > remaining
-){
-
-alert(
-
-"You only have " +
-remaining +
-" words remaining today."
-
-);
-
-return;
-
-}
-
+$("sendBtn").disabled=true;
 
 try{
 
-sendBtn.disabled =
-true;
-
-sendBtn.textContent =
-"Sending...";
-
+const senderName=
+business
+?(page?.pageName||page?.name||"Business")
+:(user.displayName||"User");
 
 await addDoc(
-
-collection(
-db,
-"messages"
-),
-
+collection(db,"messages"),
 {
-
-conversationId:
-currentConversationId,
-
-type:
-"normal",
-
-senderId:
-currentUser.uid,
-
-senderEmail:
-currentUser.email ||
-"",
-
-senderName:
-currentUser.displayName ||
-"User",
-
-receiverId:
-currentOtherUserId,
-
-receiverEmail:
-currentOtherEmail,
-
-receiverName:
-currentOtherName,
-
-text:
+conversationId,
+type:"normal",
+senderId:user.uid,
+senderEmail:user.email||"",
+senderName,
+receiverId:other.id,
+receiverEmail:other.email,
+receiverName:other.name,
 text,
-
-wordCount:
-words,
-
-createdAt:
-serverTimestamp()
-
+wordCount:n,
+createdAt:serverTimestamp()
 }
-
 );
 
-
-setUsedWords(
-used + words
+localStorage.setItem(
+"lw_"+user.uid+"_"+today(),
+used()+n
 );
 
-updateWordCounter();
-
+counter();
 
 await updateDoc(
-
-doc(
-db,
-"conversations",
-currentConversationId
-),
-
+doc(db,"conversations",conversationId),
 {
-
-lastMessage:
-text,
-
-lastSenderId:
-currentUser.uid,
-
-lastMessageAt:
-serverTimestamp()
-
+lastMessage:text,
+lastSenderId:user.uid,
+lastMessageAt:serverTimestamp()
 }
-
 );
 
-
-messageInput.value = "";
-
-
+$("messageInput").value="";
 await loadMessages();
 
+}catch(e){
 
-}catch(error){
-
-console.error(
-"Send message error:",
-error
-);
-
-alert(
-
-"Message failed: " +
-error.message
-
-);
-
-}finally{
-
-sendBtn.disabled =
-false;
-
-sendBtn.textContent =
-"📤 Send Message";
+alert("Message failed: "+e.message);
 
 }
 
-});
+$("sendBtn").disabled=false;
+
+};
 
 
-/* =========================
-   BACK
-========================= */
+function back(){
 
-function backToUsers(){
+$("chatArea").classList.add("hidden");
+$("userListArea").classList.remove("hidden");
 
-chatArea.classList.add(
-"hidden"
-);
-
-userListArea.classList.remove(
-"hidden"
-);
-
-currentConversationId =
-null;
-
-currentOtherUserId =
-null;
-
-currentOtherName =
-"";
-
-currentOtherEmail =
-"";
-
-messageInput.value = "";
+conversationId=null;
+other=null;
+$("messageInput").value="";
 
 }
 
 
-backBtn.addEventListener(
-"click",
-backToUsers
-);
-
-
-closeChatBtn.addEventListener(
-"click",
-backToUsers
-);
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(
-value
-){
-
-return String(value)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
+$("backBtn").onclick=back;
+$("closeChatBtn").onclick=back;
 
 </script>
 
 </body>
-
-   </html>
+</html>
