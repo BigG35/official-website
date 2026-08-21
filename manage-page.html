@@ -57,21 +57,6 @@ margin-bottom:15px;
 text-align:center;
 }
 
-input,
-textarea{
-width:100%;
-padding:12px;
-margin-top:8px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
-}
-
-textarea{
-height:110px;
-resize:vertical;
-}
-
 button{
 width:100%;
 padding:13px;
@@ -97,7 +82,6 @@ object-fit:cover;
 display:block;
 margin:0 auto 15px;
 border:4px solid #eee;
-cursor:pointer;
 }
 
 .profile-actions{
@@ -113,11 +97,11 @@ min-width:150px;
 margin-top:0;
 }
 
-.upload-profile{
+.upload-pictures{
 background:#1976d2;
 }
 
-.upload-profile:hover{
+.upload-pictures:hover{
 background:#125ca8;
 }
 
@@ -159,6 +143,53 @@ margin-bottom:20px;
 color:#0a4ea3;
 }
 
+.progress-container{
+display:none;
+margin-top:15px;
+}
+
+.progress-text{
+text-align:center;
+font-size:14px;
+color:#555;
+margin-bottom:7px;
+}
+
+.progress-bar{
+width:100%;
+height:12px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:#1976d2;
+transition:width .2s ease;
+}
+
+.success-message{
+display:none;
+background:#e8f7ee;
+color:#146c43;
+padding:12px;
+border-radius:7px;
+margin-top:12px;
+text-align:center;
+}
+
+.error-message{
+display:none;
+background:#fdeaea;
+color:#b02a37;
+padding:12px;
+border-radius:7px;
+margin-top:12px;
+text-align:center;
+}
+
 .file-name{
 text-align:center;
 color:#666;
@@ -197,16 +228,33 @@ position:relative;
 box-shadow:0 5px 25px rgba(0,0,0,.3);
 }
 
+.post-modal-content textarea{
+width:100%;
+height:110px;
+resize:vertical;
+padding:12px;
+margin-top:8px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
+}
+
+.post-modal-content input[type="file"]{
+width:100%;
+padding:10px 0;
+margin-top:8px;
+}
+
 .close-post{
 position:absolute;
-right:15px;
-top:10px;
+right:12px;
+top:8px;
 width:auto;
 margin:0;
+padding:0 8px;
 background:transparent;
 color:#555;
-font-size:30px;
-padding:0 8px;
+font-size:32px;
 }
 
 .close-post:hover{
@@ -214,32 +262,12 @@ background:transparent;
 color:#000;
 }
 
-.publish-button{
-background:#0a4ea3;
-}
-
 .cancel-button{
 background:#777;
 }
 
-.success-message{
-display:none;
-background:#e8f7ee;
-color:#146c43;
-padding:12px;
-border-radius:7px;
-margin-top:12px;
-text-align:center;
-}
-
-.error-message{
-display:none;
-background:#fdeaea;
-color:#b02a37;
-padding:12px;
-border-radius:7px;
-margin-top:12px;
-text-align:center;
+.publish-button{
+background:#0a4ea3;
 }
 
 @media(max-width:600px){
@@ -384,7 +412,6 @@ id="pageLogo"
 class="profile-logo"
 src="images/default-logo.png"
 alt="Page Logo"
-title="Tap to upload profile picture"
 >
 
 
@@ -393,28 +420,27 @@ My Page
 </h2>
 
 
-<!-- Hidden profile image input -->
+<!-- =========================
+     PICTURE UPLOAD
+========================= -->
 
 <input
 type="file"
-id="logoFile"
+id="pictureFiles"
 accept="image/*"
+multiple
 style="display:none;"
 >
 
-
-<!-- =========================
-     ACTION BUTTONS
-========================= -->
 
 <div class="profile-actions">
 
 
 <button
-class="upload-profile"
-id="uploadProfileBtn"
+class="upload-pictures"
+id="uploadPicturesBtn"
 >
-🖼️ Upload Profile Pic
+📸 Upload Pictures
 </button>
 
 
@@ -437,18 +463,49 @@ id="postBtn"
 </div>
 
 
+<!-- =========================
+     PICTURE PROGRESS
+========================= -->
+
 <div
-id="profileSuccess"
+id="pictureProgress"
+class="progress-container"
+>
+
+<div
+id="pictureProgressText"
+class="progress-text"
+>
+Preparing upload...
+</div>
+
+
+<div class="progress-bar">
+
+<div
+id="pictureProgressFill"
+class="progress-fill"
+>
+</div>
+
+</div>
+
+</div>
+
+
+<div
+id="pictureSuccess"
 class="success-message"
 >
 </div>
 
 
 <div
-id="profileError"
+id="pictureError"
 class="error-message"
 >
 </div>
+
 
 </div>
 
@@ -488,7 +545,6 @@ class="post-modal-content"
 <button
 id="closePostBtn"
 class="close-post"
-title="Close"
 >
 &times;
 </button>
@@ -645,14 +701,14 @@ document.getElementById(
 "pageLogo"
 );
 
-const logoFile =
+const pictureFiles =
 document.getElementById(
-"logoFile"
+"pictureFiles"
 );
 
-const uploadProfileBtn =
+const uploadPicturesBtn =
 document.getElementById(
-"uploadProfileBtn"
+"uploadPicturesBtn"
 );
 
 const chatBtn =
@@ -671,7 +727,35 @@ document.getElementById(
 );
 
 
-/* POST MODAL */
+/* PICTURE PROGRESS */
+
+const pictureProgress =
+document.getElementById(
+"pictureProgress"
+);
+
+const pictureProgressText =
+document.getElementById(
+"pictureProgressText"
+);
+
+const pictureProgressFill =
+document.getElementById(
+"pictureProgressFill"
+);
+
+const pictureSuccess =
+document.getElementById(
+"pictureSuccess"
+);
+
+const pictureError =
+document.getElementById(
+"pictureError"
+);
+
+
+/* POST */
 
 const postModal =
 document.getElementById(
@@ -706,19 +790,6 @@ document.getElementById(
 const publishBtn =
 document.getElementById(
 "publishBtn"
-);
-
-
-/* MESSAGES */
-
-const profileSuccess =
-document.getElementById(
-"profileSuccess"
-);
-
-const profileError =
-document.getElementById(
-"profileError"
 );
 
 const postSuccess =
@@ -838,7 +909,7 @@ currentPage.data.pageName ||
 "My Page";
 
 
-/* PAGE LOGO */
+/* PROFILE PICTURE */
 
 if(
 currentPage.data.logoURL
@@ -876,58 +947,77 @@ error.message
 
 
 /* =========================
-   UPLOAD PROFILE BUTTON
+   UPLOAD PICTURES BUTTON
 ========================= */
 
-uploadProfileBtn.addEventListener(
+uploadPicturesBtn.addEventListener(
 "click",
 ()=>{
 
-logoFile.click();
+pictureFiles.click();
 
 });
 
 
 /* =========================
-   PROFILE IMAGE CLICK
+   SELECT PICTURES
 ========================= */
 
-pageLogo.addEventListener(
-"click",
-()=>{
-
-logoFile.click();
-
-});
-
-
-/* =========================
-   PROFILE FILE SELECTED
-========================= */
-
-logoFile.addEventListener(
+pictureFiles.addEventListener(
 "change",
 async()=>{
 
-if(
-!logoFile.files.length
-){
+const files =
+Array.from(
+pictureFiles.files
+);
+
+
+if(!files.length){
 
 return;
 
 }
 
 
-await uploadProfilePicture();
+/* =========================
+   MAX 200
+========================= */
+
+if(
+files.length > 200
+){
+
+alert(
+"You can upload a maximum of 200 pictures at a time."
+);
+
+pictureFiles.value =
+"";
+
+return;
+
+}
+
+
+/* =========================
+   UPLOAD
+========================= */
+
+await uploadPictures(
+files
+);
 
 });
 
 
 /* =========================
-   UPLOAD PROFILE PICTURE
+   UPLOAD PICTURES
 ========================= */
 
-async function uploadProfilePicture(){
+async function uploadPictures(
+files
+){
 
 if(!currentPage){
 
@@ -936,16 +1026,47 @@ return;
 }
 
 
+try{
+
+uploadPicturesBtn.disabled =
+true;
+
+uploadPicturesBtn.innerText =
+"Uploading...";
+
+
+pictureSuccess.style.display =
+"none";
+
+pictureError.style.display =
+"none";
+
+
+pictureProgress.style.display =
+"block";
+
+
+pictureProgressFill.style.width =
+"0%";
+
+
+const uploadedURLs =
+[];
+
+
+for(
+let i = 0;
+i < files.length;
+i++
+){
+
 const file =
-logoFile.files[0];
+files[i];
 
 
-if(!file){
-
-return;
-
-}
-
+/* =========================
+   CHECK IMAGE
+========================= */
 
 if(
 !file.type.startsWith(
@@ -953,26 +1074,29 @@ if(
 )
 ){
 
-showProfileError(
-"Please select an image file."
+throw new Error(
+file.name +
+" is not an image."
 );
-
-return;
 
 }
 
 
-try{
+/* =========================
+   UPDATE PROGRESS
+========================= */
 
-uploadProfileBtn.disabled =
-true;
+pictureProgressText.innerText =
+"Uploading picture " +
+(i + 1) +
+" of " +
+files.length +
+"...";
 
-uploadProfileBtn.innerText =
-"Uploading...";
 
-
-hideProfileMessages();
-
+/* =========================
+   CLOUDINARY FORM
+========================= */
 
 const formData =
 new FormData();
@@ -989,6 +1113,10 @@ formData.append(
 CLOUDINARY_UPLOAD_PRESET
 );
 
+
+/* =========================
+   CLOUDINARY UPLOAD
+========================= */
 
 const response =
 await fetch(
@@ -1011,7 +1139,8 @@ formData
 if(!response.ok){
 
 throw new Error(
-"Profile picture upload failed."
+"Upload failed for " +
+file.name
 );
 
 }
@@ -1021,11 +1150,58 @@ const result =
 await response.json();
 
 
-const imageURL =
-result.secure_url;
+uploadedURLs.push(
+result.secure_url
+);
 
 
-/* UPDATE FIRESTORE */
+/* =========================
+   PROGRESS BAR
+========================= */
+
+const percent =
+Math.round(
+((i + 1) / files.length) * 100
+);
+
+
+pictureProgressFill.style.width =
+percent + "%";
+
+}
+
+
+/* =========================
+   GET EXISTING PHOTOS
+========================= */
+
+const existingPhotos =
+Array.isArray(
+currentPage.data.photos
+)
+?
+currentPage.data.photos
+:
+[];
+
+
+/* =========================
+   ADD NEW PHOTOS
+========================= */
+
+const allPhotos =
+[
+
+...existingPhotos,
+
+...uploadedURLs
+
+];
+
+
+/* =========================
+   UPDATE FIRESTORE
+========================= */
 
 await updateDoc(
 
@@ -1037,54 +1213,76 @@ currentPage.id
 
 {
 
-logoURL:
-imageURL
+photos:
+allPhotos
 
 }
 
 );
 
 
-/* UPDATE LOCAL DATA */
+/* =========================
+   UPDATE LOCAL DATA
+========================= */
 
-currentPage.data.logoURL =
-imageURL;
-
-
-pageLogo.src =
-imageURL;
+currentPage.data.photos =
+allPhotos;
 
 
-showProfileSuccess(
-"Profile picture updated successfully!"
-);
+/* =========================
+   SUCCESS
+========================= */
+
+pictureProgressText.innerText =
+"Upload complete! " +
+uploadedURLs.length +
+" picture(s) added.";
 
 
-logoFile.value =
+pictureProgressFill.style.width =
+"100%";
+
+
+pictureSuccess.innerText =
+uploadedURLs.length +
+" picture(s) uploaded successfully.";
+
+pictureSuccess.style.display =
+"block";
+
+
+pictureFiles.value =
 "";
 
 
 }catch(error){
 
 console.error(
-"Profile picture error:",
+"Picture upload error:",
 error
 );
 
 
-showProfileError(
-"Profile picture upload failed: " +
-error.message
-);
+pictureError.innerText =
+"Picture upload failed: " +
+error.message;
 
-}
+pictureError.style.display =
+"block";
 
 
-uploadProfileBtn.disabled =
+pictureProgressText.innerText =
+"Upload stopped.";
+
+}finally{
+
+uploadPicturesBtn.disabled =
 false;
 
-uploadProfileBtn.innerText =
-"🖼️ Upload Profile Pic";
+uploadPicturesBtn.innerText =
+"📸 Upload Pictures";
+
+}
 
 }
 
@@ -1103,10 +1301,6 @@ return;
 
 }
 
-
-/*
-Pass the current page ID to chat.html.
-*/
 
 const chatURL =
 "chat.html?pageId=" +
@@ -1129,17 +1323,6 @@ postBtn.addEventListener(
 "click",
 ()=>{
 
-openPostModal();
-
-});
-
-
-/* =========================
-   OPEN POST MODAL
-========================= */
-
-function openPostModal(){
-
 postModal.classList.add(
 "show"
 );
@@ -1157,14 +1340,14 @@ postText.focus();
 100
 );
 
-}
+});
 
 
 /* =========================
-   CLOSE POST MODAL
+   CLOSE POST
 ========================= */
 
-function closePostModal(){
+function closePost(){
 
 postModal.classList.remove(
 "show"
@@ -1173,24 +1356,20 @@ postModal.classList.remove(
 }
 
 
-/* CLOSE BUTTON */
-
 closePostBtn.addEventListener(
 "click",
-closePostModal
+closePost
 );
 
 
-/* CANCEL BUTTON */
-
 cancelPostBtn.addEventListener(
 "click",
-closePostModal
+closePost
 );
 
 
 /* =========================
-   CLICK OUTSIDE MODAL
+   CLICK OUTSIDE
 ========================= */
 
 postModal.addEventListener(
@@ -1201,7 +1380,7 @@ if(
 e.target === postModal
 ){
 
-closePostModal();
+closePost();
 
 }
 
@@ -1209,7 +1388,7 @@ closePostModal();
 
 
 /* =========================
-   ESCAPE KEY
+   ESCAPE
 ========================= */
 
 document.addEventListener(
@@ -1217,13 +1396,10 @@ document.addEventListener(
 (e)=>{
 
 if(
-e.key === "Escape" &&
-postModal.classList.contains(
-"show"
-)
+e.key === "Escape"
 ){
 
-closePostModal();
+closePost();
 
 }
 
@@ -1231,7 +1407,7 @@ closePostModal();
 
 
 /* =========================
-   SELECT POST FILE
+   POST FILE
 ========================= */
 
 postFile.addEventListener(
@@ -1310,26 +1486,10 @@ let mediaType =
 
 
 /* =========================
-   UPLOAD MEDIA
+   UPLOAD POST MEDIA
 ========================= */
 
 if(file){
-
-if(
-!file.type.startsWith(
-"image/"
-) &&
-!file.type.startsWith(
-"video/"
-)
-){
-
-throw new Error(
-"Please select an image or video."
-);
-
-}
-
 
 const formData =
 new FormData();
@@ -1443,7 +1603,7 @@ serverTimestamp()
 
 
 /* =========================
-   CLEAR FORM
+   CLEAR
 ========================= */
 
 postText.value =
@@ -1461,14 +1621,12 @@ showPostSuccess(
 );
 
 
-/* =========================
-   CLOSE AFTER SUCCESS
-========================= */
+/* CLOSE */
 
 setTimeout(
 ()=>{
 
-closePostModal();
+closePost();
 
 hidePostMessages();
 
@@ -1534,53 +1692,6 @@ error.message
 
 
 /* =========================
-   PROFILE MESSAGES
-========================= */
-
-function hideProfileMessages(){
-
-profileSuccess.style.display =
-"none";
-
-profileError.style.display =
-"none";
-
-}
-
-
-function showProfileSuccess(
-message
-){
-
-profileSuccess.innerText =
-message;
-
-profileSuccess.style.display =
-"block";
-
-profileError.style.display =
-"none";
-
-}
-
-
-function showProfileError(
-message
-){
-
-profileError.innerText =
-message;
-
-profileError.style.display =
-"block";
-
-profileSuccess.style.display =
-"none";
-
-}
-
-
-/* =========================
    POST MESSAGES
 ========================= */
 
@@ -1630,4 +1741,4 @@ postSuccess.style.display =
 
 </body>
 
-     </html>
+   </html>
