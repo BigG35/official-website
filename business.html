@@ -111,6 +111,26 @@ color:white;
 background:#083d82;
 }
 
+
+/* =========================
+   LOGIN / CHAT BUTTON
+========================= */
+
+.chat-login-button{
+display:none;
+background:#198754;
+color:white;
+}
+
+.chat-login-button:hover{
+background:#146c43;
+}
+
+
+/* =========================
+   CONTENT
+========================= */
+
 .content{
 margin-top:20px;
 }
@@ -140,7 +160,9 @@ color:#333;
 }
 
 
-/* POSTS */
+/* =========================
+   POSTS
+========================= */
 
 .post{
 border-top:1px solid #ddd;
@@ -209,7 +231,9 @@ padding:20px;
 }
 
 
-/* PHOTOS */
+/* =========================
+   PHOTOS
+========================= */
 
 .photo-gallery{
 display:grid;
@@ -224,6 +248,11 @@ object-fit:cover;
 border-radius:10px;
 cursor:pointer;
 }
+
+
+/* =========================
+   IMAGE VIEWER
+========================= */
 
 .image-viewer{
 display:none;
@@ -254,12 +283,41 @@ cursor:pointer;
 line-height:1;
 }
 
+
+/* =========================
+   LOGIN MESSAGE
+========================= */
+
+.login-required{
+display:none;
+background:#eef5ff;
+border-left:4px solid #0a4ea3;
+padding:14px;
+margin-top:15px;
+border-radius:6px;
+}
+
+.login-required a{
+color:#0a4ea3;
+font-weight:bold;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
 .loading{
 text-align:center;
 padding:50px;
 font-size:20px;
 color:#666;
 }
+
+
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
@@ -364,9 +422,12 @@ class="business-location"
 </p>
 
 
-<!-- CONTACT -->
+<!-- =========================
+     ACTION BUTTONS
+========================= -->
 
 <div class="actions">
+
 
 <a
 id="whatsappBtn"
@@ -390,6 +451,17 @@ style="display:none;"
 </a>
 
 
+<!-- CHAT BUTTON -->
+
+<a
+id="chatBtn"
+class="action-button chat-login-button"
+href="chat.html"
+>
+💬 Chat
+</a>
+
+
 <button
 class="action-button"
 onclick="shareBusiness()"
@@ -397,7 +469,25 @@ onclick="shareBusiness()"
 📤 Share
 </button>
 
+
 </div>
+
+
+<!-- LOGIN MESSAGE -->
+
+<div
+id="loginRequired"
+class="login-required"
+>
+
+🔐 <strong>Login required</strong> to use Chat.
+
+<a href="login.html">
+Login here
+</a>
+
+</div>
+
 
 </div>
 
@@ -405,7 +495,9 @@ onclick="shareBusiness()"
 <div class="content">
 
 
-<!-- ALL POSTS -->
+<!-- =========================
+     POSTS
+========================= -->
 
 <div class="section">
 
@@ -425,7 +517,9 @@ Loading posts...
 </div>
 
 
-<!-- ABOUT -->
+<!-- =========================
+     ABOUT
+========================= -->
 
 <div class="section">
 
@@ -472,7 +566,9 @@ About This Page
 </div>
 
 
-<!-- PAGE PHOTOS -->
+<!-- =========================
+     PAGE PHOTOS
+========================= -->
 
 <div class="section">
 
@@ -505,7 +601,9 @@ No page photos available.
 </main>
 
 
-<!-- FULL SIZE IMAGE -->
+<!-- =========================
+     FULL SIZE IMAGE
+========================= -->
 
 <div
 id="imageViewer"
@@ -533,8 +631,22 @@ onclick="event.stopPropagation()"
 <script type="module">
 
 
-import { db }
+/* =========================
+   FIREBASE
+========================= */
+
+import {
+auth,
+db
+}
 from "./firebase.js";
+
+
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 
 import {
@@ -591,9 +703,58 @@ document.getElementById(
 "postsList"
 );
 
+const chatBtn =
+document.getElementById(
+"chatBtn"
+);
+
+const loginRequired =
+document.getElementById(
+"loginRequired"
+);
+
 
 /* =========================
-   CHECK ID
+   LOGIN / CHAT BUTTON
+========================= */
+
+onAuthStateChanged(
+auth,
+(user)=>{
+
+if(user){
+
+/*
+Logged in:
+show Chat button.
+*/
+
+chatBtn.style.display =
+"inline-block";
+
+loginRequired.style.display =
+"none";
+
+}else{
+
+/*
+Not logged in:
+hide Chat button.
+*/
+
+chatBtn.style.display =
+"none";
+
+loginRequired.style.display =
+"block";
+
+}
+
+});
+
+
+/* =========================
+   CHECK PAGE ID
 ========================= */
 
 if(!businessId){
@@ -635,14 +796,18 @@ const data =
 businessSnap.data();
 
 
-/* PAGE NAME */
+/* =========================
+   PAGE NAME
+========================= */
 
 businessName.innerText =
 data.pageName ||
 "Page";
 
 
-/* CATEGORY */
+/* =========================
+   CATEGORY
+========================= */
 
 document.getElementById(
 "businessCategory"
@@ -655,7 +820,9 @@ data.category
 "";
 
 
-/* LOCATION */
+/* =========================
+   LOCATION
+========================= */
 
 document.getElementById(
 "businessLocation"
@@ -668,7 +835,9 @@ data.location
 "";
 
 
-/* DESCRIPTION */
+/* =========================
+   DESCRIPTION
+========================= */
 
 document.getElementById(
 "description"
@@ -677,7 +846,9 @@ data.description ||
 "No description available.";
 
 
-/* LOCATION */
+/* =========================
+   LOCATION
+========================= */
 
 document.getElementById(
 "location"
@@ -686,7 +857,9 @@ data.location ||
 "";
 
 
-/* EMAIL */
+/* =========================
+   EMAIL
+========================= */
 
 document.getElementById(
 "email"
@@ -695,7 +868,9 @@ data.email ||
 "";
 
 
-/* ADDRESS */
+/* =========================
+   ADDRESS
+========================= */
 
 document.getElementById(
 "address"
@@ -704,7 +879,9 @@ data.address ||
 "";
 
 
-/* LOGO */
+/* =========================
+   LOGO
+========================= */
 
 if(data.logoURL){
 
@@ -760,12 +937,6 @@ if(
 data.contactMethod === "zangi" &&
 data.zangi
 ){
-
-/*
-Zangi links can vary depending
-on the account format, so we
-display the ID as a contact link.
-*/
 
 zangiBtn.href =
 "zangi://" +
@@ -833,7 +1004,7 @@ image
 
 
 /* =========================
-   LOAD ALL POSTS
+   LOAD POSTS
 ========================= */
 
 await loadPosts(
@@ -842,7 +1013,9 @@ data
 );
 
 
-/* SHOW PAGE */
+/* =========================
+   SHOW PAGE
+========================= */
 
 loading.style.display =
 "none";
@@ -868,7 +1041,7 @@ loading.innerText =
 
 
 /* =========================
-   LOAD ALL POSTS
+   LOAD POSTS
 ========================= */
 
 async function loadPosts(
@@ -929,21 +1102,27 @@ return;
 }
 
 
-/* CONVERT POSTS */
+/* =========================
+   CONVERT POSTS
+========================= */
 
 const posts =
 snapshot.docs.map(
 (postDoc)=>({
 
-id:postDoc.id,
+id:
+postDoc.id,
 
-data:postDoc.data()
+data:
+postDoc.data()
 
 })
 );
 
 
-/* NEWEST FIRST */
+/* =========================
+   NEWEST FIRST
+========================= */
 
 posts.sort(
 (a,b)=>{
@@ -963,7 +1142,9 @@ return timeB - timeA;
 });
 
 
-/* DISPLAY POSTS */
+/* =========================
+   DISPLAY POSTS
+========================= */
 
 posts.forEach(
 (post)=>{
@@ -981,10 +1162,10 @@ postDiv.className =
 "post";
 
 
-/* MEDIA */
-
 let mediaHTML = "";
 
+
+/* IMAGE */
 
 if(
 data.mediaURL &&
@@ -1008,6 +1189,8 @@ data.mediaURL
 }
 
 
+/* VIDEO */
+
 if(
 data.mediaURL &&
 data.mediaType === "video"
@@ -1030,7 +1213,7 @@ playsinline
 }
 
 
-/* POST */
+/* POST HTML */
 
 postDiv.innerHTML = `
 
@@ -1349,4 +1532,4 @@ shareBusiness;
 
 </body>
 
-</html>
+   </html>
