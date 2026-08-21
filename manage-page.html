@@ -29,6 +29,14 @@ padding:20px;
 text-align:center;
 }
 
+header h1{
+font-size:24px;
+}
+
+header p{
+margin-top:5px;
+}
+
 .container{
 max-width:800px;
 margin:20px auto;
@@ -86,45 +94,50 @@ button:hover{
 background:#083d82;
 }
 
+.profile-actions{
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+margin-top:18px;
+}
+
+.profile-actions button{
+width:auto;
+flex:1;
+min-width:150px;
+margin-top:0;
+}
+
+.upload-profile{
+background:#1976d2;
+}
+
+.upload-profile:hover{
+background:#125ca8;
+}
+
+.chat-button{
+background:#198754;
+}
+
+.chat-button:hover{
+background:#146c43;
+}
+
+.post-button{
+background:#0a4ea3;
+}
+
+.post-button:hover{
+background:#083d82;
+}
+
 .logout{
 background:#555;
 }
 
-.change-logo{
-background:#1976d2;
-}
-
-.delete-post{
-background:#d32f2f;
-}
-
-.post{
-border-top:1px solid #ddd;
-padding-top:20px;
-margin-top:20px;
-}
-
-.post img,
-.post video{
-width:100%;
-max-height:500px;
-object-fit:contain;
-border-radius:10px;
-margin-top:12px;
-background:#000;
-cursor:pointer;
-}
-
-.post-text{
-font-size:17px;
-margin-top:12px;
-line-height:1.5;
-}
-
-.post-date{
-font-size:13px;
-color:#777;
-margin-top:8px;
+.logout:hover{
+background:#333;
 }
 
 .page-logo{
@@ -135,6 +148,7 @@ object-fit:cover;
 display:block;
 margin:0 auto 15px;
 border:4px solid #eee;
+cursor:pointer;
 }
 
 .hidden{
@@ -153,6 +167,58 @@ background:#eef5ff;
 border-radius:8px;
 margin-bottom:20px;
 color:#0a4ea3;
+}
+
+.file-name{
+text-align:center;
+color:#666;
+font-size:14px;
+margin-top:8px;
+}
+
+.success-message{
+display:none;
+background:#e8f7ee;
+color:#146c43;
+padding:12px;
+border-radius:7px;
+margin-top:12px;
+text-align:center;
+}
+
+.error-message{
+display:none;
+background:#fdeaea;
+color:#b02a37;
+padding:12px;
+border-radius:7px;
+margin-top:12px;
+text-align:center;
+}
+
+@media(max-width:600px){
+
+.container{
+padding:10px;
+}
+
+.card{
+padding:16px;
+}
+
+.profile-actions{
+flex-direction:column;
+}
+
+.profile-actions button{
+width:100%;
+}
+
+.page-logo{
+width:130px;
+height:130px;
+}
+
 }
 
 </style>
@@ -174,7 +240,9 @@ color:#0a4ea3;
 <div class="container">
 
 
-<!-- LOADING -->
+<!-- =========================
+     LOADING
+========================= -->
 
 <div
 id="loading"
@@ -186,7 +254,9 @@ Checking your account...
 </div>
 
 
-<!-- LOGIN REQUIRED -->
+<!-- =========================
+     LOGIN REQUIRED
+========================= -->
 
 <div
 id="loginRequired"
@@ -210,7 +280,9 @@ Login
 </div>
 
 
-<!-- NO APPROVED PAGE -->
+<!-- =========================
+     NO APPROVED PAGE
+========================= -->
 
 <div
 id="noPage"
@@ -235,7 +307,9 @@ Go To Logical World
 </div>
 
 
-<!-- MANAGEMENT AREA -->
+<!-- =========================
+     MANAGEMENT AREA
+========================= -->
 
 <div
 id="manageArea"
@@ -243,58 +317,113 @@ class="hidden"
 >
 
 
-<!-- PAGE PROFILE -->
+<!-- =========================
+     PAGE PROFILE
+========================= -->
 
 <div class="card">
 
 <div class="status">
+
 You are logged in as the page owner.
+
 </div>
+
 
 <img
 id="pageLogo"
 class="page-logo"
 src="images/default-logo.png"
 alt="Page Logo"
+title="Tap to select a new profile picture"
 >
+
 
 <h2 id="pageName">
 My Page
 </h2>
 
 
-<label>
-Change Logo
-</label>
+<!-- HIDDEN PROFILE FILE INPUT -->
 
 <input
 type="file"
 id="logoFile"
 accept="image/*"
+style="display:none;"
 >
+
+
+<!-- =========================
+     ACTION BUTTONS
+========================= -->
+
+<div class="profile-actions">
 
 
 <button
-class="change-logo"
-id="changeLogoBtn"
+class="upload-profile"
+id="uploadProfileBtn"
 >
-🖼️ Change Logo
+🖼️ Upload Profile Pic
 </button>
+
+
+<button
+class="chat-button"
+id="chatBtn"
+>
+💬 Chat
+</button>
+
+
+<button
+class="post-button"
+id="postBtn"
+>
+📤 Post
+</button>
+
 
 </div>
 
 
-<!-- NEW POST -->
+<div
+id="profileSuccess"
+class="success-message"
+>
+Profile picture updated successfully!
+</div>
 
-<div class="card">
+
+<div
+id="profileError"
+class="error-message"
+>
+</div>
+
+
+</div>
+
+
+<!-- =========================
+     CREATE NEW POST
+========================= -->
+
+<div
+class="card"
+id="createPostCard"
+>
 
 <h2>
 📝 Create New Post
 </h2>
 
+
 <label>
 Write about your post
 </label>
+
 
 <textarea
 id="postText"
@@ -306,11 +435,19 @@ placeholder="Write something about your photo or video..."
 Choose Photo or Video
 </label>
 
+
 <input
 type="file"
 id="postFile"
 accept="image/*,video/*"
 >
+
+
+<p
+id="postFileName"
+class="file-name"
+>
+</p>
 
 
 <button
@@ -319,27 +456,28 @@ id="publishBtn"
 📤 Publish Post
 </button>
 
+
+<div
+id="postSuccess"
+class="success-message"
+>
+Post published successfully!
 </div>
 
 
-<!-- MY POSTS -->
+<div
+id="postError"
+class="error-message"
+>
+</div>
 
-<div class="card">
-
-<h2>
-📱 My Posts
-</h2>
-
-<div id="postsList">
-
-<p style="text-align:center;color:#777;">
-No posts yet.
-</p>
 
 </div>
 
-</div>
 
+<!-- =========================
+     LOGOUT
+========================= -->
 
 <button
 class="logout"
@@ -356,6 +494,10 @@ id="logoutBtn"
 
 <script type="module">
 
+
+/* =========================
+   FIREBASE
+========================= */
 
 import {
 auth,
@@ -380,8 +522,7 @@ getDocs,
 doc,
 updateDoc,
 addDoc,
-serverTimestamp,
-deleteDoc
+serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -403,47 +544,111 @@ const CLOUDINARY_UPLOAD_PRESET =
 ========================= */
 
 const loading =
-document.getElementById("loading");
+document.getElementById(
+"loading"
+);
 
 const loginRequired =
-document.getElementById("loginRequired");
+document.getElementById(
+"loginRequired"
+);
 
 const noPage =
-document.getElementById("noPage");
+document.getElementById(
+"noPage"
+);
 
 const manageArea =
-document.getElementById("manageArea");
+document.getElementById(
+"manageArea"
+);
 
 const pageName =
-document.getElementById("pageName");
+document.getElementById(
+"pageName"
+);
 
 const pageLogo =
-document.getElementById("pageLogo");
+document.getElementById(
+"pageLogo"
+);
 
 const logoFile =
-document.getElementById("logoFile");
+document.getElementById(
+"logoFile"
+);
 
-const changeLogoBtn =
-document.getElementById("changeLogoBtn");
+const uploadProfileBtn =
+document.getElementById(
+"uploadProfileBtn"
+);
+
+const chatBtn =
+document.getElementById(
+"chatBtn"
+);
+
+const postBtn =
+document.getElementById(
+"postBtn"
+);
+
+const createPostCard =
+document.getElementById(
+"createPostCard"
+);
 
 const postText =
-document.getElementById("postText");
+document.getElementById(
+"postText"
+);
 
 const postFile =
-document.getElementById("postFile");
+document.getElementById(
+"postFile"
+);
+
+const postFileName =
+document.getElementById(
+"postFileName"
+);
 
 const publishBtn =
-document.getElementById("publishBtn");
-
-const postsList =
-document.getElementById("postsList");
+document.getElementById(
+"publishBtn"
+);
 
 const logoutBtn =
-document.getElementById("logoutBtn");
+document.getElementById(
+"logoutBtn"
+);
+
+const profileSuccess =
+document.getElementById(
+"profileSuccess"
+);
+
+const profileError =
+document.getElementById(
+"profileError"
+);
+
+const postSuccess =
+document.getElementById(
+"postSuccess"
+);
+
+const postError =
+document.getElementById(
+"postError"
+);
 
 
-let currentUser = null;
-let currentPage = null;
+let currentUser =
+null;
+
+let currentPage =
+null;
 
 
 /* =========================
@@ -454,7 +659,9 @@ onAuthStateChanged(
 auth,
 async(user)=>{
 
-loading.classList.add("hidden");
+loading.classList.add(
+"hidden"
+);
 
 
 if(!user){
@@ -468,7 +675,9 @@ return;
 }
 
 
-currentUser = user;
+currentUser =
+user;
+
 
 await findMyPage();
 
@@ -476,7 +685,7 @@ await findMyPage();
 
 
 /* =========================
-   FIND APPROVED PAGE
+   FIND MY APPROVED PAGE
 ========================= */
 
 async function findMyPage(){
@@ -525,21 +734,27 @@ snapshot.docs[0];
 
 currentPage = {
 
-id:pageDoc.id,
+id:
+pageDoc.id,
 
-data:pageDoc.data()
+data:
+pageDoc.data()
 
 };
 
 
-/* PAGE NAME */
+/* =========================
+   PAGE NAME
+========================= */
 
 pageName.innerText =
 currentPage.data.pageName ||
 "My Page";
 
 
-/* PAGE LOGO */
+/* =========================
+   PAGE LOGO
+========================= */
 
 if(
 currentPage.data.logoURL
@@ -551,16 +766,13 @@ currentPage.data.logoURL;
 }
 
 
-/* SHOW MANAGEMENT */
+/* =========================
+   SHOW MANAGEMENT
+========================= */
 
 manageArea.classList.remove(
 "hidden"
 );
-
-
-/* LOAD POSTS */
-
-await loadPosts();
 
 
 }catch(error){
@@ -569,6 +781,7 @@ console.error(
 "Page loading error:",
 error
 );
+
 
 alert(
 "Could not load your page: " +
@@ -581,12 +794,58 @@ error.message
 
 
 /* =========================
-   CHANGE LOGO
+   PROFILE PICTURE BUTTON
 ========================= */
 
-changeLogoBtn.addEventListener(
+uploadProfileBtn.addEventListener(
 "click",
+()=>{
+
+logoFile.click();
+
+});
+
+
+/* =========================
+   PROFILE IMAGE CLICK
+========================= */
+
+pageLogo.addEventListener(
+"click",
+()=>{
+
+logoFile.click();
+
+});
+
+
+/* =========================
+   PROFILE FILE SELECTED
+========================= */
+
+logoFile.addEventListener(
+"change",
 async()=>{
+
+if(
+!logoFile.files.length
+){
+
+return;
+
+}
+
+
+await uploadProfilePicture();
+
+});
+
+
+/* =========================
+   UPLOAD PROFILE PICTURE
+========================= */
+
+async function uploadProfilePicture(){
 
 if(!currentPage){
 
@@ -595,10 +854,25 @@ return;
 }
 
 
-if(!logoFile.files.length){
+const file =
+logoFile.files[0];
 
-alert(
-"Please select a new logo first."
+
+if(!file){
+
+return;
+
+}
+
+
+if(
+!file.type.startsWith(
+"image/"
+)
+){
+
+showProfileError(
+"Please select an image file."
 );
 
 return;
@@ -608,15 +882,14 @@ return;
 
 try{
 
-changeLogoBtn.disabled =
+uploadProfileBtn.disabled =
 true;
 
-changeLogoBtn.innerText =
+uploadProfileBtn.innerText =
 "Uploading...";
 
 
-const file =
-logoFile.files[0];
+hideProfileMessages();
 
 
 const formData =
@@ -627,6 +900,7 @@ formData.append(
 "file",
 file
 );
+
 
 formData.append(
 "upload_preset",
@@ -640,8 +914,13 @@ await fetch(
 `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
 
 {
-method:"POST",
-body:formData
+
+method:
+"POST",
+
+body:
+formData
+
 }
 
 );
@@ -650,7 +929,7 @@ body:formData
 if(!response.ok){
 
 throw new Error(
-"Logo upload failed."
+"Profile picture upload failed."
 );
 
 }
@@ -659,6 +938,14 @@ throw new Error(
 const result =
 await response.json();
 
+
+const imageURL =
+result.secure_url;
+
+
+/* =========================
+   UPDATE FIRESTORE
+========================= */
 
 await updateDoc(
 
@@ -671,45 +958,155 @@ currentPage.id
 {
 
 logoURL:
-result.secure_url
+imageURL
 
 }
 
 );
 
 
-/* UPDATE CURRENT DATA */
+/* =========================
+   UPDATE CURRENT PAGE
+========================= */
 
 currentPage.data.logoURL =
-result.secure_url;
+imageURL;
 
 
 pageLogo.src =
-result.secure_url;
+imageURL;
 
 
-alert(
-"Logo changed successfully!"
+showProfileSuccess(
+"Profile picture updated successfully!"
 );
+
+
+logoFile.value =
+"";
 
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Profile picture error:",
+error
+);
 
-alert(
-"Logo change failed: " +
+
+showProfileError(
+"Profile picture upload failed: " +
 error.message
 );
 
 }
 
 
-changeLogoBtn.disabled =
+uploadProfileBtn.disabled =
 false;
 
-changeLogoBtn.innerText =
-"🖼️ Change Logo";
+uploadProfileBtn.innerText =
+"🖼️ Upload Profile Pic";
+
+}
+
+
+/* =========================
+   CHAT BUTTON
+========================= */
+
+chatBtn.addEventListener(
+"click",
+()=>{
+
+if(!currentPage){
+
+return;
+
+}
+
+
+/*
+The page ID is included so chat.html
+knows which Logical World page
+the owner is chatting about.
+*/
+
+const chatURL =
+"chat.html?pageId=" +
+encodeURIComponent(
+currentPage.id
+);
+
+
+window.location.href =
+chatURL;
+
+});
+
+
+/* =========================
+   POST BUTTON
+========================= */
+
+postBtn.addEventListener(
+"click",
+()=>{
+
+/*
+Use the EXISTING post creation
+system from this second code.
+
+The button simply takes the owner
+to the Create New Post area.
+*/
+
+createPostCard.scrollIntoView({
+
+behavior:
+"smooth",
+
+block:
+"start"
+
+});
+
+
+setTimeout(
+()=>{
+
+postText.focus();
+
+},
+500
+);
+
+});
+
+
+/* =========================
+   SHOW SELECTED POST FILE
+========================= */
+
+postFile.addEventListener(
+"change",
+()=>{
+
+if(
+!postFile.files.length
+){
+
+postFileName.innerText =
+"";
+
+return;
+
+}
+
+
+postFileName.innerText =
+"Selected: " +
+postFile.files[0].name;
 
 });
 
@@ -738,7 +1135,7 @@ postFile.files[0];
 
 if(!text && !file){
 
-alert(
+showPostError(
 "Write something or select a photo/video."
 );
 
@@ -756,14 +1153,37 @@ publishBtn.innerText =
 "Publishing...";
 
 
-let mediaURL = "";
-
-let mediaType = "";
+hidePostMessages();
 
 
-/* UPLOAD MEDIA */
+let mediaURL =
+"";
+
+let mediaType =
+"";
+
+
+/* =========================
+   UPLOAD MEDIA
+========================= */
 
 if(file){
+
+if(
+!file.type.startsWith(
+"image/"
+) &&
+!file.type.startsWith(
+"video/"
+)
+){
+
+throw new Error(
+"Please select an image or video."
+);
+
+}
+
 
 const formData =
 new FormData();
@@ -774,6 +1194,7 @@ formData.append(
 file
 );
 
+
 formData.append(
 "upload_preset",
 CLOUDINARY_UPLOAD_PRESET
@@ -781,7 +1202,9 @@ CLOUDINARY_UPLOAD_PRESET
 
 
 const resourceType =
-file.type.startsWith("video/")
+file.type.startsWith(
+"video/"
+)
 ?
 "video"
 :
@@ -794,8 +1217,13 @@ await fetch(
 `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
 
 {
-method:"POST",
-body:formData
+
+method:
+"POST",
+
+body:
+formData
+
 }
 
 );
@@ -817,13 +1245,16 @@ await response.json();
 mediaURL =
 result.secure_url;
 
+
 mediaType =
 resourceType;
 
 }
 
 
-/* SAVE POST */
+/* =========================
+   SAVE POST TO FIRESTORE
+========================= */
 
 await addDoc(
 
@@ -865,7 +1296,9 @@ serverTimestamp()
 );
 
 
-/* CLEAR */
+/* =========================
+   CLEAR POST FORM
+========================= */
 
 postText.value =
 "";
@@ -873,13 +1306,13 @@ postText.value =
 postFile.value =
 "";
 
+postFileName.innerText =
+"";
 
-alert(
+
+showPostSuccess(
 "Post published successfully!"
 );
-
-
-await loadPosts();
 
 
 }catch(error){
@@ -889,7 +1322,8 @@ console.error(
 error
 );
 
-alert(
+
+showPostError(
 "Post failed: " +
 error.message
 );
@@ -907,271 +1341,6 @@ publishBtn.innerText =
 
 
 /* =========================
-   LOAD POSTS
-========================= */
-
-async function loadPosts(){
-
-postsList.innerHTML =
-"Loading posts...";
-
-
-try{
-
-const postsRef =
-collection(
-db,
-"posts"
-);
-
-
-const q =
-query(
-
-postsRef,
-
-where(
-"pageId",
-"==",
-currentPage.id
-)
-
-);
-
-
-const snapshot =
-await getDocs(q);
-
-
-postsList.innerHTML =
-"";
-
-
-if(snapshot.empty){
-
-postsList.innerHTML = `
-
-<p style="
-text-align:center;
-color:#777;
-">
-
-No posts yet.
-
-</p>
-
-`;
-
-return;
-
-}
-
-
-const posts =
-snapshot.docs.map(
-post=>({
-
-id:post.id,
-
-data:post.data()
-
-})
-);
-
-
-posts.sort(
-(a,b)=>
-getTime(b.data.createdAt)
--
-getTime(a.data.createdAt)
-);
-
-
-posts.forEach(
-(post)=>{
-
-const data =
-post.data;
-
-
-const postDiv =
-document.createElement(
-"div"
-);
-
-postDiv.className =
-"post";
-
-
-let mediaHTML = "";
-
-
-if(
-data.mediaURL &&
-data.mediaType === "image"
-){
-
-mediaHTML = `
-
-<img
-src="${escapeAttribute(data.mediaURL)}"
-alt="Post Image"
-onclick="openMedia('${escapeAttribute(data.mediaURL)}','image')"
->
-
-`;
-
-}
-
-
-if(
-data.mediaURL &&
-data.mediaType === "video"
-){
-
-mediaHTML = `
-
-<video
-src="${escapeAttribute(data.mediaURL)}"
-controls
-playsinline
-></video>
-
-`;
-
-}
-
-
-postDiv.innerHTML = `
-
-<h3>
-${escapeHTML(
-data.pageName ||
-currentPage.data.pageName ||
-"My Page"
-)}
-</h3>
-
-${
-data.text
-?
-`
-<p class="post-text">
-${escapeHTML(data.text)}
-</p>
-`
-:
-""
-}
-
-${mediaHTML}
-
-<p class="post-date">
-${formatDate(data.createdAt)}
-</p>
-
-<button
-class="delete-post"
-data-id="${post.id}"
->
-🗑️ Delete Post
-</button>
-
-`;
-
-
-postsList.appendChild(
-postDiv
-);
-
-});
-
-
-}catch(error){
-
-console.error(
-"Posts loading error:",
-error
-);
-
-postsList.innerHTML =
-"Could not load posts.";
-
-}
-
-}
-
-
-/* =========================
-   DELETE POST
-========================= */
-
-document.addEventListener(
-"click",
-async(e)=>{
-
-if(
-!e.target.classList.contains(
-"delete-post"
-)
-){
-
-return;
-
-}
-
-
-const postId =
-e.target.dataset.id;
-
-
-if(
-!confirm(
-"Delete this post?"
-)
-){
-
-return;
-
-}
-
-
-try{
-
-await deleteDoc(
-
-doc(
-db,
-"posts",
-postId
-)
-
-);
-
-
-alert(
-"Post deleted."
-);
-
-
-await loadPosts();
-
-
-}catch(error){
-
-console.error(error);
-
-alert(
-"Delete failed: " +
-error.message
-);
-
-}
-
-});
-
-
-/* =========================
    LOGOUT
 ========================= */
 
@@ -1181,10 +1350,14 @@ async()=>{
 
 try{
 
-await signOut(auth);
+await signOut(
+auth
+);
+
 
 location.href =
 "login.html";
+
 
 }catch(error){
 
@@ -1199,104 +1372,101 @@ error.message
 
 
 /* =========================
-   HELPERS
+   PROFILE MESSAGES
 ========================= */
 
-function getTime(timestamp){
+function hideProfileMessages(){
 
-if(
-timestamp &&
-typeof timestamp.toMillis ===
-"function"
+profileSuccess.style.display =
+"none";
+
+profileError.style.display =
+"none";
+
+}
+
+
+function showProfileSuccess(
+message
 ){
 
-return timestamp.toMillis();
+profileSuccess.innerText =
+message;
+
+profileSuccess.style.display =
+"block";
+
+profileError.style.display =
+"none";
 
 }
 
-return 0;
 
-}
-
-
-function formatDate(timestamp){
-
-if(
-!timestamp ||
-typeof timestamp.toDate !==
-"function"
+function showProfileError(
+message
 ){
 
-return "";
+profileError.innerText =
+message;
 
-}
+profileError.style.display =
+"block";
 
-return timestamp
-.toDate()
-.toLocaleString();
-
-}
-
-
-function escapeHTML(value){
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;");
-
-}
-
-
-function escapeAttribute(value){
-
-return String(value)
-
-.replace(/&/g,"&amp;")
-
-.replace(/"/g,"&quot;")
-
-.replace(/'/g,"&#039;")
-
-.replace(/</g,"&lt;")
-
-.replace(/>/g,"&gt;");
+profileSuccess.style.display =
+"none";
 
 }
 
 
 /* =========================
-   IMAGE VIEW
+   POST MESSAGES
 ========================= */
 
-function openMedia(url,type){
+function hidePostMessages(){
 
-if(type !== "image"){
+postSuccess.style.display =
+"none";
 
-return;
-
-}
-
-window.open(
-url,
-"_blank"
-);
+postError.style.display =
+"none";
 
 }
 
-window.openMedia =
-openMedia;
 
+function showPostSuccess(
+message
+){
+
+postSuccess.innerText =
+message;
+
+postSuccess.style.display =
+"block";
+
+postError.style.display =
+"none";
+
+}
+
+
+function showPostError(
+message
+){
+
+postError.innerText =
+message;
+
+postError.style.display =
+"block";
+
+postSuccess.style.display =
+"none";
+
+}
 
 </script>
 
+
 </body>
 
-     </html>
+   </html>
