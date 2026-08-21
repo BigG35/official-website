@@ -57,11 +57,6 @@ margin-bottom:15px;
 text-align:center;
 }
 
-h3{
-color:#0a4ea3;
-margin-bottom:10px;
-}
-
 input,
 textarea{
 width:100%;
@@ -94,6 +89,17 @@ button:hover{
 background:#083d82;
 }
 
+.profile-logo{
+width:140px;
+height:140px;
+border-radius:50%;
+object-fit:cover;
+display:block;
+margin:0 auto 15px;
+border:4px solid #eee;
+cursor:pointer;
+}
+
 .profile-actions{
 display:flex;
 flex-wrap:wrap;
@@ -102,7 +108,6 @@ margin-top:18px;
 }
 
 .profile-actions button{
-width:auto;
 flex:1;
 min-width:150px;
 margin-top:0;
@@ -128,10 +133,6 @@ background:#146c43;
 background:#0a4ea3;
 }
 
-.post-button:hover{
-background:#083d82;
-}
-
 .logout{
 background:#555;
 }
@@ -140,19 +141,8 @@ background:#555;
 background:#333;
 }
 
-.page-logo{
-width:140px;
-height:140px;
-border-radius:50%;
-object-fit:cover;
-display:block;
-margin:0 auto 15px;
-border:4px solid #eee;
-cursor:pointer;
-}
-
 .hidden{
-display:none;
+display:none !important;
 }
 
 .message{
@@ -174,6 +164,62 @@ text-align:center;
 color:#666;
 font-size:14px;
 margin-top:8px;
+}
+
+/* =========================
+   POST MODAL
+========================= */
+
+.post-modal{
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:99999;
+align-items:center;
+justify-content:center;
+padding:20px;
+}
+
+.post-modal.show{
+display:flex;
+}
+
+.post-modal-content{
+background:white;
+width:100%;
+max-width:550px;
+max-height:90vh;
+overflow-y:auto;
+border-radius:14px;
+padding:22px;
+position:relative;
+box-shadow:0 5px 25px rgba(0,0,0,.3);
+}
+
+.close-post{
+position:absolute;
+right:15px;
+top:10px;
+width:auto;
+margin:0;
+background:transparent;
+color:#555;
+font-size:30px;
+padding:0 8px;
+}
+
+.close-post:hover{
+background:transparent;
+color:#000;
+}
+
+.publish-button{
+background:#0a4ea3;
+}
+
+.cancel-button{
+background:#777;
 }
 
 .success-message{
@@ -214,9 +260,12 @@ flex-direction:column;
 width:100%;
 }
 
-.page-logo{
-width:130px;
-height:130px;
+.post-modal{
+padding:10px;
+}
+
+.post-modal-content{
+padding:18px;
 }
 
 }
@@ -332,10 +381,10 @@ You are logged in as the page owner.
 
 <img
 id="pageLogo"
-class="page-logo"
+class="profile-logo"
 src="images/default-logo.png"
 alt="Page Logo"
-title="Tap to select a new profile picture"
+title="Tap to upload profile picture"
 >
 
 
@@ -344,7 +393,7 @@ My Page
 </h2>
 
 
-<!-- HIDDEN PROFILE FILE INPUT -->
+<!-- Hidden profile image input -->
 
 <input
 type="file"
@@ -392,7 +441,6 @@ id="postBtn"
 id="profileSuccess"
 class="success-message"
 >
-Profile picture updated successfully!
 </div>
 
 
@@ -402,18 +450,49 @@ class="error-message"
 >
 </div>
 
+</div>
+
+
+<!-- =========================
+     LOGOUT
+========================= -->
+
+<button
+class="logout"
+id="logoutBtn"
+>
+🚪 Logout
+</button>
+
+
+</div>
 
 </div>
 
 
 <!-- =========================
-     CREATE NEW POST
+     POST MODAL
 ========================= -->
 
 <div
-class="card"
-id="createPostCard"
+id="postModal"
+class="post-modal"
 >
+
+
+<div
+class="post-modal-content"
+>
+
+
+<button
+id="closePostBtn"
+class="close-post"
+title="Close"
+>
+&times;
+</button>
+
 
 <h2>
 📝 Create New Post
@@ -452,8 +531,17 @@ class="file-name"
 
 <button
 id="publishBtn"
+class="publish-button"
 >
 📤 Publish Post
+</button>
+
+
+<button
+id="cancelPostBtn"
+class="cancel-button"
+>
+Cancel
 </button>
 
 
@@ -461,7 +549,6 @@ id="publishBtn"
 id="postSuccess"
 class="success-message"
 >
-Post published successfully!
 </div>
 
 
@@ -470,21 +557,6 @@ id="postError"
 class="error-message"
 >
 </div>
-
-
-</div>
-
-
-<!-- =========================
-     LOGOUT
-========================= -->
-
-<button
-class="logout"
-id="logoutBtn"
->
-🚪 Logout
-</button>
 
 
 </div>
@@ -593,9 +665,27 @@ document.getElementById(
 "postBtn"
 );
 
-const createPostCard =
+const logoutBtn =
 document.getElementById(
-"createPostCard"
+"logoutBtn"
+);
+
+
+/* POST MODAL */
+
+const postModal =
+document.getElementById(
+"postModal"
+);
+
+const closePostBtn =
+document.getElementById(
+"closePostBtn"
+);
+
+const cancelPostBtn =
+document.getElementById(
+"cancelPostBtn"
 );
 
 const postText =
@@ -618,10 +708,8 @@ document.getElementById(
 "publishBtn"
 );
 
-const logoutBtn =
-document.getElementById(
-"logoutBtn"
-);
+
+/* MESSAGES */
 
 const profileSuccess =
 document.getElementById(
@@ -685,7 +773,7 @@ await findMyPage();
 
 
 /* =========================
-   FIND MY APPROVED PAGE
+   FIND APPROVED PAGE
 ========================= */
 
 async function findMyPage(){
@@ -743,18 +831,14 @@ pageDoc.data()
 };
 
 
-/* =========================
-   PAGE NAME
-========================= */
+/* PAGE NAME */
 
 pageName.innerText =
 currentPage.data.pageName ||
 "My Page";
 
 
-/* =========================
-   PAGE LOGO
-========================= */
+/* PAGE LOGO */
 
 if(
 currentPage.data.logoURL
@@ -766,9 +850,7 @@ currentPage.data.logoURL;
 }
 
 
-/* =========================
-   SHOW MANAGEMENT
-========================= */
+/* SHOW MANAGEMENT */
 
 manageArea.classList.remove(
 "hidden"
@@ -794,7 +876,7 @@ error.message
 
 
 /* =========================
-   PROFILE PICTURE BUTTON
+   UPLOAD PROFILE BUTTON
 ========================= */
 
 uploadProfileBtn.addEventListener(
@@ -943,9 +1025,7 @@ const imageURL =
 result.secure_url;
 
 
-/* =========================
-   UPDATE FIRESTORE
-========================= */
+/* UPDATE FIRESTORE */
 
 await updateDoc(
 
@@ -965,9 +1045,7 @@ imageURL
 );
 
 
-/* =========================
-   UPDATE CURRENT PAGE
-========================= */
+/* UPDATE LOCAL DATA */
 
 currentPage.data.logoURL =
 imageURL;
@@ -1012,7 +1090,7 @@ uploadProfileBtn.innerText =
 
 
 /* =========================
-   CHAT BUTTON
+   CHAT
 ========================= */
 
 chatBtn.addEventListener(
@@ -1027,9 +1105,7 @@ return;
 
 
 /*
-The page ID is included so chat.html
-knows which Logical World page
-the owner is chatting about.
+Pass the current page ID to chat.html.
 */
 
 const chatURL =
@@ -1046,30 +1122,30 @@ chatURL;
 
 
 /* =========================
-   POST BUTTON
+   OPEN POST
 ========================= */
 
 postBtn.addEventListener(
 "click",
 ()=>{
 
-/*
-Use the EXISTING post creation
-system from this second code.
-
-The button simply takes the owner
-to the Create New Post area.
-*/
-
-createPostCard.scrollIntoView({
-
-behavior:
-"smooth",
-
-block:
-"start"
+openPostModal();
 
 });
+
+
+/* =========================
+   OPEN POST MODAL
+========================= */
+
+function openPostModal(){
+
+postModal.classList.add(
+"show"
+);
+
+
+hidePostMessages();
 
 
 setTimeout(
@@ -1078,14 +1154,84 @@ setTimeout(
 postText.focus();
 
 },
-500
+100
 );
+
+}
+
+
+/* =========================
+   CLOSE POST MODAL
+========================= */
+
+function closePostModal(){
+
+postModal.classList.remove(
+"show"
+);
+
+}
+
+
+/* CLOSE BUTTON */
+
+closePostBtn.addEventListener(
+"click",
+closePostModal
+);
+
+
+/* CANCEL BUTTON */
+
+cancelPostBtn.addEventListener(
+"click",
+closePostModal
+);
+
+
+/* =========================
+   CLICK OUTSIDE MODAL
+========================= */
+
+postModal.addEventListener(
+"click",
+(e)=>{
+
+if(
+e.target === postModal
+){
+
+closePostModal();
+
+}
 
 });
 
 
 /* =========================
-   SHOW SELECTED POST FILE
+   ESCAPE KEY
+========================= */
+
+document.addEventListener(
+"keydown",
+(e)=>{
+
+if(
+e.key === "Escape" &&
+postModal.classList.contains(
+"show"
+)
+){
+
+closePostModal();
+
+}
+
+});
+
+
+/* =========================
+   SELECT POST FILE
 ========================= */
 
 postFile.addEventListener(
@@ -1253,7 +1399,7 @@ resourceType;
 
 
 /* =========================
-   SAVE POST TO FIRESTORE
+   SAVE POST
 ========================= */
 
 await addDoc(
@@ -1297,7 +1443,7 @@ serverTimestamp()
 
 
 /* =========================
-   CLEAR POST FORM
+   CLEAR FORM
 ========================= */
 
 postText.value =
@@ -1312,6 +1458,22 @@ postFileName.innerText =
 
 showPostSuccess(
 "Post published successfully!"
+);
+
+
+/* =========================
+   CLOSE AFTER SUCCESS
+========================= */
+
+setTimeout(
+()=>{
+
+closePostModal();
+
+hidePostMessages();
+
+},
+1200
 );
 
 
@@ -1466,7 +1628,6 @@ postSuccess.style.display =
 
 </script>
 
-
 </body>
 
-   </html>
+     </html>
