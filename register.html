@@ -1,123 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Register - Logical World</title>
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
+
+<title>Create Account - Logical World</title>
 
 <style>
 
 *{
+box-sizing:border-box;
 margin:0;
 padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
 }
 
 body{
+font-family:Arial,sans-serif;
 background:#f5f5f5;
+min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-height:100vh;
+padding:20px;
 }
 
 .container{
-background:white;
-padding:30px;
 width:100%;
 max-width:450px;
-border-radius:10px;
-box-shadow:0 0 10px rgba(0,0,0,.2);
+background:white;
+padding:30px;
+border-radius:12px;
+box-shadow:0 3px 15px rgba(0,0,0,.18);
 }
 
 h1{
 text-align:center;
 color:#0a4ea3;
-margin-bottom:20px;
+margin-bottom:10px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+margin-bottom:25px;
+}
+
+.form-group{
+margin-bottom:15px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-bottom:6px;
+color:#333;
 }
 
 input{
 width:100%;
-padding:12px;
-margin:10px 0;
+padding:13px;
 border:1px solid #ccc;
-border-radius:5px;
+border-radius:6px;
 font-size:16px;
+outline:none;
+}
+
+input:focus{
+border-color:#0a4ea3;
+box-shadow:0 0 0 2px rgba(10,78,163,.1);
 }
 
 button{
 width:100%;
 padding:14px;
+margin-top:10px;
 background:#0a4ea3;
 color:white;
 border:none;
-border-radius:5px;
+border-radius:6px;
 font-size:16px;
+font-weight:bold;
 cursor:pointer;
-margin-top:15px;
 }
 
 button:hover{
 background:#083d82;
 }
 
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
 #message{
+display:none;
 margin-top:15px;
+padding:12px;
+border-radius:6px;
 text-align:center;
 font-weight:bold;
-color:green;
-display:none;
+line-height:1.5;
+}
+
+.success{
+display:block !important;
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.error{
+display:block !important;
+background:#f8d7da;
+color:#842029;
+}
+
+.login-link{
+text-align:center;
+margin-top:20px;
+color:#666;
+}
+
+.login-link a{
+color:#0a4ea3;
+font-weight:bold;
+text-decoration:none;
+}
+
+.login-link a:hover{
+text-decoration:underline;
 }
 
 </style>
 
 </head>
 
+
 <body>
+
 
 <div class="container">
 
 <h1>Create Account</h1>
 
+<p class="subtitle">
+Join Logical World
+</p>
+
+
+<form id="registerForm">
+
+
+<div class="form-group">
+
+<label for="fullName">
+Full Name
+</label>
+
 <input
 type="text"
 id="fullName"
-placeholder="Full Name"
+placeholder="Enter your full name"
+autocomplete="name"
 required
 >
+
+</div>
+
+
+<div class="form-group">
+
+<label for="email">
+Email Address
+</label>
 
 <input
 type="email"
 id="email"
-placeholder="Email Address"
+placeholder="Enter your email"
+autocomplete="email"
 required
 >
+
+</div>
+
+
+<div class="form-group">
+
+<label for="password">
+Password
+</label>
 
 <input
 type="password"
 id="password"
-placeholder="Password"
+placeholder="Create a password"
+autocomplete="new-password"
 required
 >
 
-<button id="registerBtn">
-Create Account
-</button>
+</div>
 
-<p id="message">
-Registration Successful...
-</p>
+
+<div class="form-group">
+
+<label for="confirmPassword">
+Confirm Password
+</label>
+
+<input
+type="password"
+id="confirmPassword"
+placeholder="Confirm your password"
+autocomplete="new-password"
+required
+>
 
 </div>
 
+
+<button
+type="submit"
+id="registerBtn"
+>
+Create Account
+</button>
+
+
+</form>
+
+
+<div id="message"></div>
+
+
+<p class="login-link">
+
+Already have an account?
+
+<a href="login.html">
+Login
+</a>
+
+</p>
+
+
+</div>
+
+
 <script type="module">
 
-/* =========================
+
+/* =====================================================
    FIREBASE
-========================= */
+===================================================== */
 
 import {
 auth,
@@ -143,33 +283,117 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================
-   ELEMENT
-========================= */
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const registerForm =
+document.getElementById(
+"registerForm"
+);
 
 const registerBtn =
 document.getElementById(
 "registerBtn"
 );
 
+const message =
+document.getElementById(
+"message"
+);
 
-/* =========================
-   REGISTER
-========================= */
 
-registerBtn.addEventListener(
-"click",
-async()=>{
+/* =====================================================
+   SHOW MESSAGE
+===================================================== */
+
+function showMessage(
+text,
+type
+){
+
+message.textContent =
+text;
+
+message.className =
+type;
+
+}
+
+
+/* =====================================================
+   FIREBASE ERROR MESSAGE
+===================================================== */
+
+function getFirebaseErrorMessage(
+error
+){
+
+switch(
+error.code
+){
+
+case "auth/email-already-in-use":
+
+return "This email address is already registered. Please login instead.";
+
+case "auth/invalid-email":
+
+return "Please enter a valid email address.";
+
+case "auth/weak-password":
+
+return "Password is too weak. Please use a stronger password.";
+
+case "auth/network-request-failed":
+
+return "Network error. Please check your internet connection and try again.";
+
+case "auth/operation-not-allowed":
+
+return "Email/password registration is not enabled in Firebase Authentication.";
+
+case "permission-denied":
+
+return "Firestore permission denied. Please check your Firebase security rules.";
+
+default:
+
+return error.message ||
+"Registration failed. Please try again.";
+
+}
+
+}
+
+
+/* =====================================================
+   REGISTER USER
+===================================================== */
+
+registerForm.addEventListener(
+"submit",
+async(event)=>{
+
+event.preventDefault();
+
+
+/* ===================================================
+   GET FORM VALUES
+=================================================== */
 
 const fullName =
 document.getElementById(
 "fullName"
 ).value.trim();
 
+
 const email =
 document.getElementById(
 "email"
-).value.trim();
+).value.trim()
+.toLowerCase();
+
 
 const password =
 document.getElementById(
@@ -177,14 +401,34 @@ document.getElementById(
 ).value;
 
 
+const confirmPassword =
+document.getElementById(
+"confirmPassword"
+).value;
+
+
+/* ===================================================
+   CLEAR OLD MESSAGE
+=================================================== */
+
+message.className =
+"";
+
+message.textContent =
+"";
+
+
+/* ===================================================
+   VALIDATION
+=================================================== */
+
 if(
-fullName === "" ||
-email === "" ||
-password === ""
+fullName.length < 2
 ){
 
-alert(
-"Please fill all fields."
+showMessage(
+"Please enter your full name.",
+"error"
 );
 
 return;
@@ -192,7 +436,51 @@ return;
 }
 
 
-try{
+if(
+email === ""
+){
+
+showMessage(
+"Please enter your email address.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+password.length < 6
+){
+
+showMessage(
+"Password must contain at least 6 characters.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+password !== confirmPassword
+){
+
+showMessage(
+"Passwords do not match.",
+"error"
+);
+
+return;
+
+}
+
+
+/* ===================================================
+   DISABLE BUTTON
+=================================================== */
 
 registerBtn.disabled =
 true;
@@ -201,9 +489,13 @@ registerBtn.textContent =
 "Creating Account...";
 
 
-/* =========================
-   CREATE FIREBASE ACCOUNT
-========================= */
+try{
+
+
+/* =================================================
+   STEP 1
+   CREATE FIREBASE AUTH ACCOUNT
+================================================= */
 
 const userCredential =
 
@@ -218,9 +510,18 @@ const user =
 userCredential.user;
 
 
-/* =========================
-   SAVE NAME TO AUTH PROFILE
-========================= */
+console.log(
+"Firebase Authentication account created:",
+user.uid
+);
+
+
+/* =================================================
+   STEP 2
+   SAVE NAME TO FIREBASE AUTH PROFILE
+================================================= */
+
+try{
 
 await updateProfile(
 user,
@@ -232,19 +533,38 @@ fullName
 }
 );
 
+}catch(
+profileError
+){
 
-/* =========================
-   SAVE USER TO FIRESTORE
-========================= */
+console.warn(
+"Could not update Auth profile:",
+profileError
+);
 
-await setDoc(
+/*
+Do not stop registration if the
+profile name update fails.
+*/
 
+}
+
+
+/* =================================================
+   STEP 3
+   CREATE FIRESTORE USER DOCUMENT
+================================================= */
+
+const userRef =
 doc(
 db,
 "users",
 user.uid
-),
+);
 
+
+await setDoc(
+userRef,
 {
 
 uid:
@@ -257,36 +577,74 @@ email:
 email,
 
 createdAt:
-serverTimestamp()
+serverTimestamp(),
+
+accountStatus:
+"active",
+
+role:
+"user"
 
 }
-
 );
 
 
-/* =========================
+console.log(
+"Firestore user document created:",
+user.uid
+);
+
+
+/* =================================================
+   STEP 4
    SUCCESS
-========================= */
+================================================= */
 
-document.getElementById(
-"message"
-).style.display =
-"block";
+showMessage(
+"Account created successfully! Redirecting to login...",
+"success"
+);
 
+
+/*
+Give Firestore a moment to finish
+before leaving the page.
+*/
+
+setTimeout(
+()=>{
 
 location.href =
 "login.html";
+
+},
+1500
+);
 
 
 }catch(error){
 
 console.error(
-"Registration error:",
+"REGISTRATION ERROR:",
 error
 );
 
-alert(
-error.message
+
+/* =================================================
+   IMPORTANT
+=================================================
+
+If Firebase Authentication succeeded
+but Firestore failed, the Auth account
+already exists.
+
+The user can still be recovered by
+creating their users document later.
+================================================= */
+
+showMessage(
+getFirebaseErrorMessage(error),
+"error"
 );
 
 
@@ -300,7 +658,10 @@ registerBtn.textContent =
 
 });
 
+
 </script>
 
+
 </body>
-</html>
+
+   </html>
