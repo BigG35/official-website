@@ -120,7 +120,8 @@ font-size:16px;
 margin-bottom:15px;
 }
 
-.page-card{
+.page-card,
+.user-card{
 border:1px solid #ddd;
 border-radius:9px;
 padding:18px;
@@ -138,14 +139,63 @@ margin-bottom:12px;
 border:3px solid #eee;
 }
 
-.page-card h3{
+.page-card h3,
+.user-card h3{
 color:#0a4ea3;
 margin-bottom:10px;
 }
 
-.page-card p{
+.page-card p,
+.user-card p{
 margin:6px 0;
 word-break:break-word;
+}
+
+.user-card{
+border-left:5px solid #0a4ea3;
+}
+
+.user-email{
+color:#555;
+}
+
+.user-uid{
+font-size:12px;
+color:#777;
+background:#f5f5f5;
+padding:8px;
+border-radius:5px;
+margin-top:10px;
+word-break:break-all;
+}
+
+.user-role{
+display:inline-block;
+background:#e8f1ff;
+color:#0a4ea3;
+padding:5px 10px;
+border-radius:20px;
+font-size:13px;
+font-weight:bold;
+margin-top:8px;
+}
+
+.user-status{
+display:inline-block;
+background:#d1e7dd;
+color:#0f5132;
+padding:5px 10px;
+border-radius:20px;
+font-size:13px;
+font-weight:bold;
+margin-top:8px;
+margin-left:5px;
+}
+
+.user-date{
+font-size:13px;
+color:#777;
+margin-top:10px;
 }
 
 button.action{
@@ -184,10 +234,29 @@ font-weight:bold;
 cursor:pointer;
 }
 
+.refresh:hover{
+background:#083d82;
+}
+
 .empty{
 text-align:center;
 padding:30px;
 color:#777;
+}
+
+.loading{
+text-align:center;
+padding:30px;
+color:#0a4ea3;
+font-weight:bold;
+}
+
+.error{
+text-align:center;
+padding:20px;
+background:#f8d7da;
+color:#842029;
+border-radius:6px;
 }
 
 footer{
@@ -272,10 +341,6 @@ font-size:26px;
 </header>
 
 
-<!-- =========================
-     NAVIGATION
-========================= -->
-
 <nav>
 
 <button class="nav-btn active" data-section="dashboard">
@@ -316,14 +381,9 @@ font-size:26px;
 <div class="container">
 
 
-<!-- =========================
-     DASHBOARD
-========================= -->
+<!-- DASHBOARD -->
 
-<section
-id="dashboard"
-class="section active"
->
+<section id="dashboard" class="section active">
 
 <div class="card">
 
@@ -332,7 +392,7 @@ class="section active"
 </h2>
 
 <p>
-Use the menu above to manage each part of Logical World.
+Use the menu above to manage Logical World.
 </p>
 
 </div>
@@ -341,67 +401,28 @@ Use the menu above to manage each part of Logical World.
 <div class="stats">
 
 <div class="stat">
-
-<h2 id="pendingCount">
-0
-</h2>
-
-<p>
-Pending Pages
-</p>
-
+<h2 id="pendingCount">0</h2>
+<p>Pending Pages</p>
 </div>
 
-
 <div class="stat">
-
-<h2 id="approvedCount">
-0
-</h2>
-
-<p>
-Approved Pages
-</p>
-
+<h2 id="approvedCount">0</h2>
+<p>Approved Pages</p>
 </div>
 
-
 <div class="stat">
-
-<h2 id="usersCount">
-0
-</h2>
-
-<p>
-Users
-</p>
-
+<h2 id="usersCount">0</h2>
+<p>Users</p>
 </div>
 
-
 <div class="stat">
-
-<h2 id="reportsCount">
-0
-</h2>
-
-<p>
-Reports
-</p>
-
+<h2 id="reportsCount">0</h2>
+<p>Reports</p>
 </div>
 
-
 <div class="stat">
-
-<h2 id="totalCount">
-0
-</h2>
-
-<p>
-Total Pages
-</p>
-
+<h2 id="totalCount">0</h2>
+<p>Total Pages</p>
 </div>
 
 </div>
@@ -419,20 +440,13 @@ id="refreshDashboard"
 </section>
 
 
-<!-- =========================
-     PENDING
-========================= -->
+<!-- PENDING -->
 
-<section
-id="pending"
-class="section"
->
+<section id="pending" class="section">
 
 <div class="card">
 
-<h2>
-📋 Pending Pages
-</h2>
+<h2>📋 Pending Pages</h2>
 
 <input
 class="search"
@@ -442,7 +456,7 @@ placeholder="🔍 Search pending pages..."
 
 <div id="pendingList">
 
-<div class="empty">
+<div class="loading">
 Loading pending pages...
 </div>
 
@@ -453,20 +467,13 @@ Loading pending pages...
 </section>
 
 
-<!-- =========================
-     APPROVED
-========================= -->
+<!-- APPROVED -->
 
-<section
-id="approved"
-class="section"
->
+<section id="approved" class="section">
 
 <div class="card">
 
-<h2>
-✅ Approved Pages
-</h2>
+<h2>✅ Approved Pages</h2>
 
 <input
 class="search"
@@ -476,7 +483,7 @@ placeholder="🔍 Search approved pages..."
 
 <div id="approvedList">
 
-<div class="empty">
+<div class="loading">
 Loading approved pages...
 </div>
 
@@ -487,20 +494,13 @@ Loading approved pages...
 </section>
 
 
-<!-- =========================
-     REJECTED
-========================= -->
+<!-- REJECTED -->
 
-<section
-id="rejected"
-class="section"
->
+<section id="rejected" class="section">
 
 <div class="card">
 
-<h2>
-❌ Rejected Pages
-</h2>
+<h2>❌ Rejected Pages</h2>
 
 <input
 class="search"
@@ -510,7 +510,7 @@ placeholder="🔍 Search rejected pages..."
 
 <div id="rejectedList">
 
-<div class="empty">
+<div class="loading">
 Loading rejected pages...
 </div>
 
@@ -521,25 +521,33 @@ Loading rejected pages...
 </section>
 
 
-<!-- =========================
-     USERS
-========================= -->
+<!-- USERS -->
 
-<section
-id="users"
-class="section"
->
+<section id="users" class="section">
 
 <div class="card">
 
-<h2>
-👥 Users
-</h2>
+<h2>👥 Registered Users</h2>
+
+<input
+class="search"
+id="usersSearch"
+placeholder="🔍 Search by name, email or UID..."
+>
+
+<button
+class="refresh"
+id="refreshUsers"
+>
+🔄 Refresh Users
+</button>
+
+<br><br>
 
 <div id="usersList">
 
-<div class="empty">
-User management will appear here.
+<div class="loading">
+Loading registered users...
 </div>
 
 </div>
@@ -549,20 +557,13 @@ User management will appear here.
 </section>
 
 
-<!-- =========================
-     REPORTS
-========================= -->
+<!-- REPORTS -->
 
-<section
-id="reports"
-class="section"
->
+<section id="reports" class="section">
 
 <div class="card">
 
-<h2>
-🚨 Reports
-</h2>
+<h2>🚨 Reports</h2>
 
 <div id="reportsList">
 
@@ -577,31 +578,20 @@ No reports loaded yet.
 </section>
 
 
-<!-- =========================
-     SETTINGS
-========================= -->
+<!-- SETTINGS -->
 
-<section
-id="settings"
-class="section"
->
+<section id="settings" class="section">
 
 <div class="card">
 
-<h2>
-⚙️ Settings
-</h2>
-
-<p>
-Website settings can be added here.
-</p>
-
-<br>
+<h2>⚙️ Settings</h2>
 
 <p>
 <strong>Website:</strong>
 Logical World
 </p>
+
+<br>
 
 <p>
 <strong>Admin:</strong>
@@ -627,9 +617,7 @@ alagoagodstime@gmail.com
 </footer>
 
 
-<!-- =========================
-     VIEW MODAL
-========================= -->
+<!-- MODAL -->
 
 <div
 id="viewModal"
@@ -638,9 +626,7 @@ class="modal"
 
 <div class="modal-box">
 
-<h2>
-Page Details
-</h2>
+<h2>Page Details</h2>
 
 <div id="modalContent"></div>
 
@@ -658,6 +644,10 @@ Close
 
 <script type="module">
 
+
+/* =====================================================
+   FIREBASE
+===================================================== */
 
 import {
 auth,
@@ -687,17 +677,17 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================
+/* =====================================================
    ADMIN
-========================= */
+===================================================== */
 
 const ADMIN_EMAIL =
 "alagoagodstime@gmail.com";
 
 
-/* =========================
+/* =====================================================
    DATA
-========================= */
+===================================================== */
 
 let pendingPages = [];
 
@@ -705,10 +695,12 @@ let approvedPages = [];
 
 let rejectedPages = [];
 
+let registeredUsers = [];
 
-/* =========================
+
+/* =====================================================
    AUTH
-========================= */
+===================================================== */
 
 onAuthStateChanged(
 auth,
@@ -723,9 +715,10 @@ return;
 
 }
 
+
 if(
-user.email !==
-ADMIN_EMAIL
+(user.email || "").toLowerCase() !==
+ADMIN_EMAIL.toLowerCase()
 ){
 
 alert(
@@ -739,15 +732,16 @@ return;
 
 }
 
+
 await loadAll();
 
 }
 );
 
 
-/* =========================
+/* =====================================================
    NAVIGATION
-========================= */
+===================================================== */
 
 document
 .querySelectorAll(".nav-btn")
@@ -755,7 +749,7 @@ document
 
 button.addEventListener(
 "click",
-()=>{
+async()=>{
 
 document
 .querySelectorAll(".nav-btn")
@@ -773,11 +767,12 @@ section.classList.remove("active")
 );
 
 
-document
-.getElementById(
+const section =
+document.getElementById(
 button.dataset.section
-)
-.classList.add("active");
+);
+
+section.classList.add("active");
 
 
 if(
@@ -789,6 +784,7 @@ displayPending();
 
 }
 
+
 if(
 button.dataset.section ===
 "approved"
@@ -797,6 +793,7 @@ button.dataset.section ===
 displayApproved();
 
 }
+
 
 if(
 button.dataset.section ===
@@ -807,32 +804,42 @@ displayRejected();
 
 }
 
+
+if(
+button.dataset.section ===
+"users"
+){
+
+await loadUsers();
+
+}
+
 }
 );
 
 });
 
 
-/* =========================
+/* =====================================================
    LOAD EVERYTHING
-========================= */
+===================================================== */
 
 async function loadAll(){
 
-await loadPending();
-
-await loadApproved();
-
-await loadRejected();
-
-await loadCounts();
+await Promise.all([
+loadPending(),
+loadApproved(),
+loadRejected(),
+loadUsers(),
+loadCounts()
+]);
 
 }
 
 
-/* =========================
+/* =====================================================
    COUNTS
-========================= */
+===================================================== */
 
 async function loadCounts(){
 
@@ -840,120 +847,442 @@ try{
 
 const pending =
 await getCountFromServer(
-collection(db,"pendingPages")
+collection(
+db,
+"pendingPages"
+)
 );
 
 const approved =
 await getCountFromServer(
-collection(db,"approvedPages")
+collection(
+db,
+"approvedPages"
+)
 );
+
+const users =
+await getCountFromServer(
+collection(
+db,
+"users"
+)
+);
+
+let reportsCount = 0;
+
+try{
+
+const reports =
+await getCountFromServer(
+collection(
+db,
+"reports"
+)
+);
+
+reportsCount =
+reports.data().count;
+
+}catch(error){
+
+console.warn(
+"Reports count unavailable:",
+error
+);
+
+}
+
+
+const pendingCount =
+pending.data().count;
+
+const approvedCount =
+approved.data().count;
+
+const userCount =
+users.data().count;
 
 
 document.getElementById(
 "pendingCount"
 ).innerText =
-pending.data().count;
+pendingCount;
 
 
 document.getElementById(
 "approvedCount"
 ).innerText =
-approved.data().count;
+approvedCount;
+
+
+document.getElementById(
+"usersCount"
+).innerText =
+userCount;
+
+
+document.getElementById(
+"reportsCount"
+).innerText =
+reportsCount;
 
 
 document.getElementById(
 "totalCount"
 ).innerText =
 
-pending.data().count +
-approved.data().count;
-
-
-/* USERS */
-
-try{
-
-const users =
-await getCountFromServer(
-collection(db,"users")
-);
-
-document.getElementById(
-"usersCount"
-).innerText =
-users.data().count;
-
-}catch{
-
-document.getElementById(
-"usersCount"
-).innerText =
-"0";
-
-}
-
-
-/* REPORTS */
-
-try{
-
-const reports =
-await getCountFromServer(
-collection(db,"reports")
-);
-
-document.getElementById(
-"reportsCount"
-).innerText =
-reports.data().count;
-
-}catch{
-
-document.getElementById(
-"reportsCount"
-).innerText =
-"0";
-
-}
+pendingCount +
+approvedCount;
 
 
 }catch(error){
 
-console.error(error);
+console.error(
+"Count loading error:",
+error
+);
 
 }
 
 }
 
 
-/* =========================
-   LOAD PENDING
-========================= */
+/* =====================================================
+   LOAD USERS
+===================================================== */
 
-async function loadPending(){
+async function loadUsers(){
+
+const list =
+document.getElementById(
+"usersList"
+);
+
+
+list.innerHTML = `
+
+<div class="loading">
+Loading registered users...
+</div>
+
+`;
+
+
+try{
 
 const snapshot =
 await getDocs(
-collection(db,"pendingPages")
+collection(
+db,
+"users"
+)
+);
+
+
+registeredUsers =
+snapshot.docs.map(
+userDoc=>({
+
+id:
+userDoc.id,
+
+data:
+userDoc.data()
+
+})
+);
+
+
+displayUsers();
+
+
+}catch(error){
+
+console.error(
+"Users loading error:",
+error
+);
+
+
+list.innerHTML = `
+
+<div class="error">
+
+<strong>
+Unable to load registered users.
+</strong>
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   DISPLAY USERS
+===================================================== */
+
+function displayUsers(){
+
+const list =
+document.getElementById(
+"usersList"
+);
+
+const search =
+document.getElementById(
+"usersSearch"
+).value
+.toLowerCase()
+.trim();
+
+
+const filtered =
+registeredUsers.filter(
+user=>{
+
+const data =
+user.data;
+
+
+const name =
+String(
+data.name || ""
+)
+.toLowerCase();
+
+
+const email =
+String(
+data.email || ""
+)
+.toLowerCase();
+
+
+const uid =
+String(
+data.uid ||
+user.id ||
+""
+)
+.toLowerCase();
+
+
+return (
+name.includes(search) ||
+email.includes(search) ||
+uid.includes(search)
+);
+
+});
+
+
+list.innerHTML = "";
+
+
+if(
+filtered.length === 0
+){
+
+list.innerHTML = `
+
+<div class="empty">
+
+<strong>
+No registered users found.
+</strong>
+
+<br><br>
+
+There are currently no documents
+in the Firestore <strong>users</strong>
+collection matching your search.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(
+user=>{
+
+const data =
+user.data;
+
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"user-card";
+
+
+const uid =
+data.uid ||
+user.id ||
+"";
+
+
+let createdDate =
+"Not available";
+
+
+if(
+data.createdAt &&
+typeof data.createdAt.toDate ===
+"function"
+){
+
+createdDate =
+data.createdAt
+.toDate()
+.toLocaleString();
+
+}
+
+
+card.innerHTML = `
+
+<h3>
+👤 ${escapeHTML(
+data.name ||
+"No name"
+)}
+</h3>
+
+<p class="user-email">
+
+<strong>Email:</strong>
+
+${escapeHTML(
+data.email ||
+"No email"
+)}
+
+</p>
+
+
+<div>
+
+<span class="user-role">
+
+Role:
+${escapeHTML(
+data.role ||
+"user"
+)}
+
+</span>
+
+
+<span class="user-status">
+
+Status:
+${escapeHTML(
+data.accountStatus ||
+"active"
+)}
+
+</span>
+
+</div>
+
+
+<p class="user-date">
+
+<strong>Registered:</strong>
+
+${escapeHTML(
+createdDate
+)}
+
+</p>
+
+
+<div class="user-uid">
+
+<strong>Firebase UID:</strong>
+
+<br>
+
+${escapeHTML(
+uid
+)}
+
+</div>
+
+`;
+
+
+list.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =====================================================
+   LOAD PENDING
+===================================================== */
+
+async function loadPending(){
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"pendingPages"
+)
 );
 
 pendingPages =
-snapshot.docs.map(item=>({
+snapshot.docs.map(
+item=>({
 
 id:item.id,
 
 data:item.data()
 
-}));
+})
+);
 
 displayPending();
+
+}catch(error){
+
+console.error(
+"Pending loading error:",
+error
+);
+
+}
 
 }
 
 
-/* =========================
+/* =====================================================
    DISPLAY PENDING
-========================= */
+===================================================== */
 
 function displayPending(){
 
@@ -971,7 +1300,8 @@ document.getElementById(
 
 
 const filtered =
-pendingPages.filter(page=>{
+pendingPages.filter(
+page=>{
 
 const data =
 page.data;
@@ -987,7 +1317,9 @@ data.pageName || ""
 ||
 
 String(
-data.email || ""
+data.email ||
+data.ownerEmail ||
+""
 )
 .toLowerCase()
 .includes(search)
@@ -1008,13 +1340,16 @@ data.location || ""
 list.innerHTML = "";
 
 
-if(!filtered.length){
+if(
+!filtered.length
+){
 
-list.innerHTML =
-`
+list.innerHTML = `
+
 <div class="empty">
 No pending pages found.
 </div>
+
 `;
 
 return;
@@ -1022,7 +1357,8 @@ return;
 }
 
 
-filtered.forEach(page=>{
+filtered.forEach(
+page=>{
 
 list.appendChild(
 createPageCard(
@@ -1036,34 +1372,50 @@ page,
 }
 
 
-/* =========================
+/* =====================================================
    LOAD APPROVED
-========================= */
+===================================================== */
 
 async function loadApproved(){
 
+try{
+
 const snapshot =
 await getDocs(
-collection(db,"approvedPages")
+collection(
+db,
+"approvedPages"
+)
 );
 
 approvedPages =
-snapshot.docs.map(item=>({
+snapshot.docs.map(
+item=>({
 
 id:item.id,
 
 data:item.data()
 
-}));
+})
+);
 
 displayApproved();
+
+}catch(error){
+
+console.error(
+"Approved loading error:",
+error
+);
+
+}
 
 }
 
 
-/* =========================
+/* =====================================================
    DISPLAY APPROVED
-========================= */
+===================================================== */
 
 function displayApproved(){
 
@@ -1081,7 +1433,8 @@ document.getElementById(
 
 
 const filtered =
-approvedPages.filter(page=>{
+approvedPages.filter(
+page=>{
 
 const data =
 page.data;
@@ -1097,7 +1450,9 @@ data.pageName || ""
 ||
 
 String(
-data.email || ""
+data.email ||
+data.ownerEmail ||
+""
 )
 .toLowerCase()
 .includes(search)
@@ -1118,13 +1473,16 @@ data.location || ""
 list.innerHTML = "";
 
 
-if(!filtered.length){
+if(
+!filtered.length
+){
 
-list.innerHTML =
-`
+list.innerHTML = `
+
 <div class="empty">
 No approved pages found.
 </div>
+
 `;
 
 return;
@@ -1132,7 +1490,8 @@ return;
 }
 
 
-filtered.forEach(page=>{
+filtered.forEach(
+page=>{
 
 list.appendChild(
 createPageCard(
@@ -1146,34 +1505,50 @@ page,
 }
 
 
-/* =========================
+/* =====================================================
    LOAD REJECTED
-========================= */
+===================================================== */
 
 async function loadRejected(){
 
+try{
+
 const snapshot =
 await getDocs(
-collection(db,"rejectedPages")
+collection(
+db,
+"rejectedPages"
+)
 );
 
 rejectedPages =
-snapshot.docs.map(item=>({
+snapshot.docs.map(
+item=>({
 
 id:item.id,
 
 data:item.data()
 
-}));
+})
+);
 
 displayRejected();
+
+}catch(error){
+
+console.error(
+"Rejected loading error:",
+error
+);
+
+}
 
 }
 
 
-/* =========================
+/* =====================================================
    DISPLAY REJECTED
-========================= */
+===================================================== */
 
 function displayRejected(){
 
@@ -1191,7 +1566,8 @@ document.getElementById(
 
 
 const filtered =
-rejectedPages.filter(page=>{
+rejectedPages.filter(
+page=>{
 
 const data =
 page.data;
@@ -1207,7 +1583,9 @@ data.pageName || ""
 ||
 
 String(
-data.email || ""
+data.email ||
+data.ownerEmail ||
+""
 )
 .toLowerCase()
 .includes(search)
@@ -1220,13 +1598,16 @@ data.email || ""
 list.innerHTML = "";
 
 
-if(!filtered.length){
+if(
+!filtered.length
+){
 
-list.innerHTML =
-`
+list.innerHTML = `
+
 <div class="empty">
 No rejected pages found.
 </div>
+
 `;
 
 return;
@@ -1234,7 +1615,8 @@ return;
 }
 
 
-filtered.forEach(page=>{
+filtered.forEach(
+page=>{
 
 list.appendChild(
 createPageCard(
@@ -1248,9 +1630,9 @@ page,
 }
 
 
-/* =========================
+/* =====================================================
    CREATE PAGE CARD
-========================= */
+===================================================== */
 
 function createPageCard(
 page,
@@ -1307,7 +1689,9 @@ data.category || ""
 <p>
 <strong>Email:</strong>
 ${escapeHTML(
-data.email || ""
+data.email ||
+data.ownerEmail ||
+""
 )}
 </p>
 
@@ -1344,20 +1728,22 @@ data.status || ""
 <button
 class="action view"
 data-action="view"
-data-id="${page.id}"
-data-type="${type}"
+data-id="${escapeAttribute(page.id)}"
+data-type="${escapeAttribute(type)}"
 >
 👁 View
 </button>
+
 
 ${
 type === "pending"
 ?
 `
+
 <button
 class="action approve"
 data-action="approve"
-data-id="${page.id}"
+data-id="${escapeAttribute(page.id)}"
 >
 ✅ Approve
 </button>
@@ -1365,7 +1751,7 @@ data-id="${page.id}"
 <button
 class="action reject"
 data-action="reject"
-data-id="${page.id}"
+data-id="${escapeAttribute(page.id)}"
 >
 ❌ Reject
 </button>
@@ -1373,48 +1759,56 @@ data-id="${page.id}"
 <button
 class="action delete"
 data-action="delete-pending"
-data-id="${page.id}"
+data-id="${escapeAttribute(page.id)}"
 >
 🗑 Delete
 </button>
+
 `
 :
 ""
 }
+
 
 ${
 type === "approved"
 ?
 `
+
 <button
 class="action delete"
 data-action="delete-approved"
-data-id="${page.id}"
+data-id="${escapeAttribute(page.id)}"
 >
 🗑 Delete Approved Page
 </button>
+
 `
 :
 ""
 }
 
+
 ${
 type === "rejected"
 ?
 `
+
 <button
 class="action delete"
 data-action="delete-rejected"
-data-id="${page.id}"
+data-id="${escapeAttribute(page.id)}"
 >
 🗑 Delete
 </button>
+
 `
 :
 ""
 }
 
 </div>
+
 `;
 
 return card;
@@ -1422,9 +1816,9 @@ return card;
 }
 
 
-/* =========================
-   ACTIONS
-========================= */
+/* =====================================================
+   PAGE ACTIONS
+===================================================== */
 
 document.addEventListener(
 "click",
@@ -1452,21 +1846,41 @@ try{
 
 /* VIEW */
 
-if(action === "view"){
+if(
+action === "view"
+){
 
 const type =
 button.dataset.type;
 
-let source;
+let source = [];
 
-if(type === "pending")
-source = pendingPages;
+if(
+type === "pending"
+){
 
-if(type === "approved")
-source = approvedPages;
+source =
+pendingPages;
 
-if(type === "rejected")
-source = rejectedPages;
+}
+
+if(
+type === "approved"
+){
+
+source =
+approvedPages;
+
+}
+
+if(
+type === "rejected"
+){
+
+source =
+rejectedPages;
+
+}
 
 
 const item =
@@ -1490,7 +1904,9 @@ return;
 
 /* APPROVE */
 
-if(action === "approve"){
+if(
+action === "approve"
+){
 
 const item =
 pendingPages.find(
@@ -1515,12 +1931,10 @@ return;
 
 
 await addDoc(
-
 collection(
 db,
 "approvedPages"
 ),
-
 {
 
 ...item.data,
@@ -1532,25 +1946,19 @@ approvedAt:
 serverTimestamp()
 
 }
-
 );
 
-
-await deleteDoc(
-
+     await deleteDoc(
 doc(
 db,
 "pendingPages",
 id
 )
-
 );
-
 
 alert(
 "Page approved successfully."
 );
-
 
 await loadAll();
 
@@ -1561,18 +1969,18 @@ return;
 
 /* REJECT */
 
-if(action === "reject"){
+if(
+action === "reject"
+){
 
 const item =
 pendingPages.find(
 page=>page.id === id
 );
 
-
 if(!item){
 return;
 }
-
 
 if(
 !confirm(
@@ -1584,14 +1992,11 @@ return;
 
 }
 
-
 await addDoc(
-
 collection(
 db,
 "rejectedPages"
 ),
-
 {
 
 ...item.data,
@@ -1603,25 +2008,19 @@ rejectedAt:
 serverTimestamp()
 
 }
-
 );
 
-
 await deleteDoc(
-
 doc(
 db,
 "pendingPages",
 id
 )
-
 );
-
 
 alert(
-"Page rejected."
+"Page rejected successfully."
 );
-
 
 await loadAll();
 
@@ -1632,7 +2031,9 @@ return;
 
 /* DELETE PENDING */
 
-if(action === "delete-pending"){
+if(
+action === "delete-pending"
+){
 
 if(
 !confirm(
@@ -1644,22 +2045,17 @@ return;
 
 }
 
-
 await deleteDoc(
-
 doc(
 db,
 "pendingPages",
 id
 )
-
 );
-
 
 alert(
 "Pending page deleted."
 );
-
 
 await loadAll();
 
@@ -1670,11 +2066,13 @@ return;
 
 /* DELETE APPROVED */
 
-if(action === "delete-approved"){
+if(
+action === "delete-approved"
+){
 
 if(
 !confirm(
-"Delete this approved page permanently? It will disappear from the public website."
+"Delete this approved page permanently?"
 )
 ){
 
@@ -1682,53 +2080,17 @@ return;
 
 }
 
-
 await deleteDoc(
-
 doc(
 db,
 "approvedPages",
 id
 )
-
 );
-
-
-/*
-Delete posts belonging to this page too.
-*/
-
-const postsSnapshot =
-await getDocs(
-collection(db,"posts")
-);
-
-
-for(
-const post of postsSnapshot.docs
-){
-
-if(
-post.data().pageId === id
-){
-
-await deleteDoc(
-doc(
-db,
-"posts",
-post.id
-)
-);
-
-}
-
-}
-
 
 alert(
-"Approved page and its posts were deleted."
+"Approved page deleted."
 );
-
 
 await loadAll();
 
@@ -1739,7 +2101,9 @@ return;
 
 /* DELETE REJECTED */
 
-if(action === "delete-rejected"){
+if(
+action === "delete-rejected"
+){
 
 if(
 !confirm(
@@ -1751,22 +2115,17 @@ return;
 
 }
 
-
 await deleteDoc(
-
 doc(
 db,
 "rejectedPages",
 id
 )
-
 );
-
 
 alert(
 "Rejected page deleted."
 );
-
 
 await loadAll();
 
@@ -1807,7 +2166,6 @@ const content =
 document.getElementById(
 "modalContent"
 );
-
 
 content.innerHTML = `
 
@@ -1850,7 +2208,9 @@ data.category || ""
 <p>
 <strong>Email:</strong>
 ${escapeHTML(
-data.email || ""
+data.email ||
+data.ownerEmail ||
+""
 )}
 </p>
 
@@ -1943,7 +2303,8 @@ event.currentTarget.style.display =
 
 }
 
-});
+}
+);
 
 
 /* =========================
@@ -1959,7 +2320,6 @@ document
 displayPending
 );
 
-
 document
 .getElementById(
 "approvedSearch"
@@ -1968,7 +2328,6 @@ document
 "input",
 displayApproved
 );
-
 
 document
 .getElementById(
@@ -2030,7 +2389,8 @@ error.message
 
 }
 
-});
+}
+);
 
 
 /* =========================
@@ -2079,4 +2439,4 @@ return escapeHTML(value);
 
 </body>
 
-     </html>
+</html>
