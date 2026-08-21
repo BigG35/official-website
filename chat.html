@@ -32,6 +32,10 @@ header h1{
 margin:0;
 }
 
+header p{
+margin:6px 0 0;
+}
+
 .container{
 max-width:900px;
 margin:20px auto;
@@ -100,7 +104,7 @@ color:white;
 }
 
 .hidden{
-display:none;
+display:none !important;
 }
 
 .limit{
@@ -130,9 +134,39 @@ color:#777;
 padding:30px;
 }
 
-.user-search{
-margin-bottom:15px;
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-area{
+margin-bottom:20px;
 }
+
+.search-label{
+display:block;
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.search-row{
+display:flex;
+gap:8px;
+}
+
+.search-row input{
+margin:0;
+flex:1;
+}
+
+.search-row button{
+flex-shrink:0;
+}
+
+
+/* =========================
+   USERS
+========================= */
 
 .user-list{
 display:flex;
@@ -172,6 +206,11 @@ margin-top:4px;
 .user-card button{
 flex-shrink:0;
 }
+
+
+/* =========================
+   CHAT
+========================= */
 
 .chat-box{
 height:450px;
@@ -223,41 +262,6 @@ flex:1;
 min-width:130px;
 }
 
-.page-info{
-display:flex;
-align-items:center;
-gap:15px;
-background:#eef5ff;
-border-radius:8px;
-padding:12px;
-margin-bottom:15px;
-}
-
-.page-info img{
-width:65px;
-height:65px;
-border-radius:50%;
-object-fit:cover;
-border:2px solid #0a4ea3;
-}
-
-.page-info-text{
-min-width:0;
-}
-
-.page-info-name{
-font-size:18px;
-font-weight:bold;
-color:#0a4ea3;
-word-break:break-word;
-}
-
-.page-info-status{
-font-size:13px;
-color:#18752a;
-margin-top:4px;
-}
-
 @media(max-width:500px){
 
 .container{
@@ -266,6 +270,14 @@ padding:10px;
 
 .card{
 padding:15px;
+}
+
+.search-row{
+flex-direction:column;
+}
+
+.search-row button{
+width:100%;
 }
 
 .user-card{
@@ -282,11 +294,6 @@ height:400px;
 
 .message{
 max-width:90%;
-}
-
-.page-info img{
-width:55px;
-height:55px;
 }
 
 }
@@ -398,50 +405,7 @@ in normal chats each day.
 
 
 <!-- =========================
-     APPROVED PAGE CHAT INFO
-========================= -->
-
-<div
-id="pageChatInfo"
-class="card hidden"
->
-
-<div class="page-info">
-
-<img
-id="pageLogo"
-src=""
-alt="Page Logo"
->
-
-<div class="page-info-text">
-
-<div
-id="pageName"
-class="page-info-name"
->
-Approved Page
-</div>
-
-<div class="page-info-status">
-✅ Approved Page
-</div>
-
-</div>
-
-</div>
-
-<div class="info">
-
-You are chatting with the owner of this approved page.
-
-</div>
-
-</div>
-
-
-<!-- =========================
-     USER LIST
+     USERS
 ========================= -->
 
 <div
@@ -450,25 +414,53 @@ class="card"
 >
 
 <h2>
-👥 Find Users
+👥 People on Logical World
 </h2>
+
 
 <div class="info">
 
-Search for another registered Logical World
-user by name and tap <strong>💬 Chat</strong>
-to start a conversation.
+Choose a registered user below to start
+a private chat.
 
 </div>
 
 
+<!-- SEARCH AT TOP -->
+
+<div class="search-area">
+
+<label
+class="search-label"
+for="userSearch"
+>
+🔎 Search users
+</label>
+
+
+<div class="search-row">
+
 <input
 type="text"
 id="userSearch"
-class="user-search"
-placeholder="🔎 Search user by name..."
+placeholder="Search by name..."
+autocomplete="off"
 >
 
+
+<button
+class="primary"
+id="searchBtn"
+>
+Search
+</button>
+
+</div>
+
+</div>
+
+
+<!-- USER LIST -->
 
 <div
 id="userList"
@@ -536,6 +528,7 @@ style="display:block;font-weight:bold;margin-top:12px;"
 Message
 </label>
 
+
 <textarea
 id="messageInput"
 placeholder="Write your message..."
@@ -594,7 +587,6 @@ collection,
 query,
 where,
 getDocs,
-getDoc,
 addDoc,
 doc,
 updateDoc,
@@ -610,21 +602,6 @@ from
 ========================= */
 
 const DAILY_LIMIT = 200;
-
-
-/* =========================
-   URL PAGE ID
-========================= */
-
-const urlParams =
-new URLSearchParams(
-window.location.search
-);
-
-const approvedPageId =
-urlParams.get(
-"pageId"
-);
 
 
 /* =========================
@@ -664,6 +641,11 @@ document.getElementById(
 const userSearch =
 document.getElementById(
 "userSearch"
+);
+
+const searchBtn =
+document.getElementById(
+"searchBtn"
 );
 
 const userList =
@@ -711,21 +693,6 @@ document.getElementById(
 "closeChatBtn"
 );
 
-const pageChatInfo =
-document.getElementById(
-"pageChatInfo"
-);
-
-const pageLogo =
-document.getElementById(
-"pageLogo"
-);
-
-const pageNameElement =
-document.getElementById(
-"pageName"
-);
-
 
 /* =========================
    VARIABLES
@@ -743,13 +710,9 @@ let currentOtherEmail = "";
 
 let allUsers = [];
 
-let pageChatMode = false;
-
-let currentPageId = null;
-
 
 /* =========================
-   TODAY KEY
+   TODAY
 ========================= */
 
 function getTodayKey(){
@@ -793,7 +756,7 @@ return text
 
 
 /* =========================
-   GET USED WORDS
+   USED WORDS
 ========================= */
 
 function getUsedWords(){
@@ -807,11 +770,8 @@ return 0;
 const key =
 
 "logicalWorldChatWords_" +
-
 currentUser.uid +
-
 "_" +
-
 getTodayKey();
 
 
@@ -827,7 +787,7 @@ key
 
 
 /* =========================
-   SAVE USED WORDS
+   SAVE WORDS
 ========================= */
 
 function setUsedWords(amount){
@@ -841,11 +801,8 @@ return;
 const key =
 
 "logicalWorldChatWords_" +
-
 currentUser.uid +
-
 "_" +
-
 getTodayKey();
 
 
@@ -858,7 +815,7 @@ String(amount)
 
 
 /* =========================
-   UPDATE COUNTER
+   COUNTER
 ========================= */
 
 function updateWordCounter(){
@@ -960,390 +917,10 @@ user.email ||
 updateWordCounter();
 
 
-/*
-If pageId exists,
-open the approved page chat.
-*/
-
-if(
-approvedPageId
-){
-
-await startApprovedPageChat(
-approvedPageId
-);
-
-}else{
-
 await loadUsers();
 
 }
-
-}
 );
-
-
-/* =========================
-   APPROVED PAGE CHAT
-========================= */
-
-async function startApprovedPageChat(
-pageId
-){
-
-pageChatMode = true;
-
-currentPageId =
-pageId;
-
-
-/*
-Hide normal user list.
-*/
-
-userListArea.classList.add(
-"hidden"
-);
-
-
-pageChatInfo.classList.remove(
-"hidden"
-);
-
-
-chatArea.classList.remove(
-"hidden"
-);
-
-
-try{
-
-/*
-Load approved page.
-*/
-
-const pageRef =
-doc(
-db,
-"approvedPages",
-pageId
-);
-
-
-const pageSnapshot =
-await getDoc(
-pageRef
-);
-
-
-if(
-!pageSnapshot.exists()
-){
-
-throw new Error(
-"Approved page was not found."
-);
-
-}
-
-
-const pageData =
-pageSnapshot.data();
-
-
-/*
-Make sure the page is approved.
-*/
-
-if(
-pageData.status !==
-"Approved"
-){
-
-throw new Error(
-"This page is not approved."
-);
-
-}
-
-
-const ownerId =
-pageData.ownerId ||
-"";
-
-
-const ownerEmail =
-pageData.ownerEmail ||
-pageData.email ||
-"";
-
-
-const businessName =
-pageData.pageName ||
-"Approved Page";
-
-
-const logoURL =
-pageData.logoURL ||
-"images/default-logo.png";
-
-
-if(
-!ownerId
-){
-
-throw new Error(
-"This approved page does not have an owner ID."
-);
-
-}
-
-
-/*
-Save page information.
-*/
-
-pageNameElement.textContent =
-businessName;
-
-pageLogo.src =
-logoURL;
-
-pageLogo.alt =
-businessName;
-
-
-currentOtherUserId =
-ownerId;
-
-currentOtherName =
-businessName;
-
-currentOtherEmail =
-ownerEmail;
-
-
-chatTitle.textContent =
-
-"💬 Chat with " +
-businessName;
-
-
-/*
-Find existing page conversation.
-*/
-
-const conversationsSnapshot =
-
-await getDocs(
-
-query(
-
-collection(
-db,
-"conversations"
-),
-
-where(
-"members",
-"array-contains",
-currentUser.uid
-)
-
-)
-
-);
-
-
-let existingConversation =
-null;
-
-
-conversationsSnapshot.forEach(
-(conversationDoc)=>{
-
-const data =
-conversationDoc.data();
-
-
-if(
-
-data.type ===
-"page"
-
-&&
-
-data.pageId ===
-pageId
-
-&&
-
-Array.isArray(
-data.members
-)
-
-&&
-
-data.members.includes(
-ownerId
-)
-
-){
-
-existingConversation =
-conversationDoc;
-
-}
-
-});
-
-
-/*
-Use existing conversation
-or create a new one.
-*/
-
-if(
-existingConversation
-){
-
-currentConversationId =
-existingConversation.id;
-
-}else{
-
-const conversationRef =
-
-await addDoc(
-
-collection(
-db,
-"conversations"
-),
-
-{
-
-type:
-"page",
-
-pageId:
-pageId,
-
-pageName:
-businessName,
-
-pageOwnerId:
-ownerId,
-
-pageOwnerEmail:
-ownerEmail,
-
-members:[
-
-currentUser.uid,
-
-ownerId
-
-],
-
-memberEmails:[
-
-currentUser.email ||
-"",
-
-ownerEmail
-
-],
-
-createdAt:
-serverTimestamp(),
-
-lastMessageAt:
-serverTimestamp(),
-
-lastMessage:"",
-
-lastSenderId:""
-
-}
-
-);
-
-
-currentConversationId =
-conversationRef.id;
-
-}
-
-
-/*
-Load messages.
-*/
-
-await loadMessages();
-
-
-chatArea.scrollIntoView({
-behavior:"smooth"
-});
-
-
-}catch(error){
-
-console.error(
-"Approved page chat error:",
-error
-);
-
-
-chatArea.classList.add(
-"hidden"
-);
-
-
-pageChatInfo.classList.add(
-"hidden"
-);
-
-
-const errorArea =
-document.createElement(
-"div"
-);
-
-errorArea.className =
-"card";
-
-
-errorArea.innerHTML = `
-
-<h2>❌ Chat Unavailable</h2>
-
-<p class="error">
-
-${escapeHTML(
-error.message
-)}
-
-</p>
-
-<button
-class="secondary"
-onclick="history.back()"
->
-← Go Back
-</button>
-
-`;
-
-
-mainArea.prepend(
-errorArea
-);
-
-}
-
-}
 
 
 /* =========================
@@ -1404,6 +981,7 @@ userDoc.id,
 
 name:
 data.name ||
+data.displayName ||
 "User",
 
 email:
@@ -1415,6 +993,10 @@ data.email ||
 });
 
 
+/*
+Sort alphabetically.
+*/
+
 allUsers.sort(
 (a,b)=>
 
@@ -1424,6 +1006,10 @@ b.name
 
 );
 
+
+/*
+Show users immediately.
+*/
 
 renderUsers(
 allUsers
@@ -1541,9 +1127,7 @@ email
 );
 
 
-/*
-Chat button.
-*/
+/* CHAT BUTTON */
 
 const chatButton =
 document.createElement(
@@ -1586,12 +1170,10 @@ card
 
 
 /* =========================
-   SEARCH USERS
+   SEARCH
 ========================= */
 
-userSearch.addEventListener(
-"input",
-()=>{
+function performSearch(){
 
 const search =
 
@@ -1629,18 +1211,66 @@ renderUsers(
 filtered
 );
 
+}
+
+
+/*
+Search button.
+*/
+
+searchBtn.addEventListener(
+"click",
+performSearch
+);
+
+
+/*
+Also search while typing.
+*/
+
+userSearch.addEventListener(
+"input",
+performSearch
+);
+
+
+/*
+Press Enter to search.
+*/
+
+userSearch.addEventListener(
+"keydown",
+(event)=>{
+
+if(
+event.key === "Enter"
+){
+
+performSearch();
+
+}
+
 });
 
 
 /* =========================
-   START NORMAL USER CHAT
+   START CHAT
 ========================= */
 
 async function startChatWithUser(
 user
 ){
 
-pageChatMode = false;
+if(!currentUser){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
 
 currentOtherUserId =
 user.id;
@@ -1653,6 +1283,10 @@ user.email;
 
 
 try{
+
+/*
+Find existing conversation.
+*/
 
 const conversationsSnapshot =
 
@@ -1689,8 +1323,7 @@ conversationDoc.data();
 
 if(
 
-data.type ===
-"normal"
+data.type === "normal"
 
 &&
 
@@ -1714,6 +1347,10 @@ conversationDoc;
 });
 
 
+/*
+Use existing conversation.
+*/
+
 if(
 existingConversation
 ){
@@ -1722,6 +1359,11 @@ currentConversationId =
 existingConversation.id;
 
 }else{
+
+
+/*
+Create new conversation.
+*/
 
 const conversationRef =
 
@@ -1775,17 +1417,21 @@ conversationRef.id;
 }
 
 
+/*
+Show chat.
+*/
+
 chatTitle.textContent =
 
-"💬 " +
+"💬 Chat with " +
 currentOtherName;
 
 
-chatArea.classList.remove(
+userListArea.classList.add(
 "hidden"
 );
 
-userListArea.classList.add(
+chatArea.classList.remove(
 "hidden"
 );
 
@@ -1915,7 +1561,6 @@ currentUser.uid;
 message.className =
 
 "message " +
-
 (
 mine
 ?
@@ -2109,18 +1754,7 @@ conversationId:
 currentConversationId,
 
 type:
-pageChatMode
-?
-"page"
-:
 "normal",
-
-pageId:
-pageChatMode
-?
-currentPageId
-:
-null,
 
 senderId:
 currentUser.uid,
@@ -2221,96 +1855,46 @@ sendBtn.textContent =
 
 
 /* =========================
-   BACK TO USERS
+   BACK
 ========================= */
+
+function backToUsers(){
+
+chatArea.classList.add(
+"hidden"
+);
+
+userListArea.classList.remove(
+"hidden"
+);
+
+currentConversationId =
+null;
+
+currentOtherUserId =
+null;
+
+currentOtherName =
+"";
+
+currentOtherEmail =
+"";
+
+messageInput.value = "";
+
+}
+
 
 backBtn.addEventListener(
 "click",
-()=>{
-
-/*
-If this is an approved-page chat,
-go back to the previous page.
-*/
-
-if(
-pageChatMode
-){
-
-history.back();
-
-return;
-
-}
-
-
-chatArea.classList.add(
-"hidden"
+backToUsers
 );
 
-userListArea.classList.remove(
-"hidden"
-);
-
-currentConversationId =
-null;
-
-currentOtherUserId =
-null;
-
-currentOtherName =
-"";
-
-currentOtherEmail =
-"";
-
-messageInput.value = "";
-
-});
-
-
-/* =========================
-   CLOSE CHAT
-========================= */
 
 closeChatBtn.addEventListener(
 "click",
-()=>{
-
-if(
-pageChatMode
-){
-
-history.back();
-
-return;
-
-}
-
-
-chatArea.classList.add(
-"hidden"
+backToUsers
 );
-
-userListArea.classList.remove(
-"hidden"
-);
-
-currentConversationId =
-null;
-
-currentOtherUserId =
-null;
-
-currentOtherName =
-"";
-
-currentOtherEmail =
-"";
-
-messageInput.value = "";
-
-});
 
 
 /* =========================
@@ -2354,4 +1938,4 @@ return String(value)
 
 </body>
 
-</html>
+     </html>
