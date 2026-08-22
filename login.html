@@ -72,6 +72,11 @@ button:hover{
 background:#083d82;
 }
 
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
 .create-link{
 text-align:center;
 margin-top:20px;
@@ -154,7 +159,10 @@ import {
 collection,
 query,
 where,
-getDocs
+getDocs,
+doc,
+setDoc,
+serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -177,7 +185,8 @@ async()=>{
 const email =
 document.getElementById(
 "email"
-).value.trim();
+).value.trim()
+.toLowerCase();
 
 const password =
 document.getElementById(
@@ -222,6 +231,86 @@ password
 
 const user =
 credential.user;
+
+
+/* =====================================================
+   SAVE / UPDATE USER FOR CHAT
+===================================================== */
+
+try{
+
+const userName =
+
+user.displayName ||
+email.split("@")[0] ||
+"User";
+
+
+await setDoc(
+
+doc(
+db,
+"users",
+user.uid
+),
+
+{
+
+uid:
+user.uid,
+
+name:
+userName,
+
+displayName:
+userName,
+
+email:
+user.email ||
+email,
+
+role:
+"user",
+
+accountStatus:
+"active",
+
+updatedAt:
+serverTimestamp()
+
+},
+
+{
+merge:true
+}
+
+);
+
+
+console.log(
+"User saved to users collection:",
+user.uid
+);
+
+
+}catch(
+userSaveError
+){
+
+/*
+Do not stop the login if the user
+document cannot be saved.
+
+The login and page management
+can still continue.
+*/
+
+console.warn(
+"Could not save user to users collection:",
+userSaveError
+);
+
+}
 
 
 /* =========================
@@ -381,4 +470,4 @@ loginBtn.innerText =
 
 </body>
 
-</html>
+   </html>
