@@ -224,6 +224,10 @@ background:#222;
 background:#0a4ea3;
 }
 
+.chat-admin{
+background:#198754;
+}
+
 .refresh{
 background:#0a4ea3;
 color:white;
@@ -300,6 +304,53 @@ cursor:pointer;
 margin-top:15px;
 }
 
+.chat-settings{
+background:#eef5ff;
+border-left:5px solid #0a4ea3;
+padding:15px;
+border-radius:7px;
+margin-top:15px;
+}
+
+.chat-settings h3{
+color:#0a4ea3;
+margin-bottom:10px;
+}
+
+.chat-setting-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:15px;
+padding:10px 0;
+border-bottom:1px solid #ddd;
+}
+
+.chat-setting-row:last-child{
+border-bottom:none;
+}
+
+.chat-setting-label{
+font-weight:bold;
+}
+
+.toggle{
+padding:6px 12px;
+border-radius:20px;
+font-weight:bold;
+font-size:13px;
+}
+
+.toggle.on{
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.toggle.off{
+background:#f8d7da;
+color:#842029;
+}
+
 @media(max-width:600px){
 
 header h1{
@@ -323,6 +374,11 @@ padding:17px 8px;
 font-size:26px;
 }
 
+.chat-setting-row{
+align-items:flex-start;
+flex-direction:column;
+}
+
 }
 
 </style>
@@ -330,9 +386,7 @@ font-size:26px;
 </head>
 
 <body>
-
-
-<header>
+   <header>
 
 <h1>🌍 Logical World Admin Dashboard</h1>
 
@@ -381,9 +435,14 @@ font-size:26px;
 <div class="container">
 
 
-<!-- DASHBOARD -->
+<!-- =========================
+     DASHBOARD
+========================= -->
 
-<section id="dashboard" class="section active">
+<section
+id="dashboard"
+class="section active"
+>
 
 <div class="card">
 
@@ -401,34 +460,74 @@ Use the menu above to manage Logical World.
 <div class="stats">
 
 <div class="stat">
-<h2 id="pendingCount">0</h2>
-<p>Pending Pages</p>
+
+<h2 id="pendingCount">
+0
+</h2>
+
+<p>
+Pending Pages
+</p>
+
 </div>
 
-<div class="stat">
-<h2 id="approvedCount">0</h2>
-<p>Approved Pages</p>
-</div>
 
 <div class="stat">
-<h2 id="usersCount">0</h2>
-<p>Users</p>
+
+<h2 id="approvedCount">
+0
+</h2>
+
+<p>
+Approved Pages
+</p>
+
 </div>
 
-<div class="stat">
-<h2 id="reportsCount">0</h2>
-<p>Reports</p>
-</div>
 
 <div class="stat">
-<h2 id="totalCount">0</h2>
-<p>Total Pages</p>
+
+<h2 id="usersCount">
+0
+</h2>
+
+<p>
+Users
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h2 id="reportsCount">
+0
+</h2>
+
+<p>
+Reports
+</p>
+
+</div>
+
+
+<div class="stat">
+
+<h2 id="totalCount">
+0
+</h2>
+
+<p>
+Total Pages
+</p>
+
 </div>
 
 </div>
 
 
 <br>
+
 
 <button
 class="refresh"
@@ -440,19 +539,28 @@ id="refreshDashboard"
 </section>
 
 
-<!-- PENDING -->
+<!-- =========================
+     PENDING PAGES
+========================= -->
 
-<section id="pending" class="section">
+<section
+id="pending"
+class="section"
+>
 
 <div class="card">
 
-<h2>📋 Pending Pages</h2>
+<h2>
+📋 Pending Pages
+</h2>
+
 
 <input
 class="search"
 id="pendingSearch"
 placeholder="🔍 Search pending pages..."
 >
+
 
 <div id="pendingList">
 
@@ -467,19 +575,28 @@ Loading pending pages...
 </section>
 
 
-<!-- APPROVED -->
+<!-- =========================
+     APPROVED PAGES
+========================= -->
 
-<section id="approved" class="section">
+<section
+id="approved"
+class="section"
+>
 
 <div class="card">
 
-<h2>✅ Approved Pages</h2>
+<h2>
+✅ Approved Pages
+</h2>
+
 
 <input
 class="search"
 id="approvedSearch"
 placeholder="🔍 Search approved pages..."
 >
+
 
 <div id="approvedList">
 
@@ -494,19 +611,28 @@ Loading approved pages...
 </section>
 
 
-<!-- REJECTED -->
+<!-- =========================
+     REJECTED PAGES
+========================= -->
 
-<section id="rejected" class="section">
+<section
+id="rejected"
+class="section"
+>
 
 <div class="card">
 
-<h2>❌ Rejected Pages</h2>
+<h2>
+❌ Rejected Pages
+</h2>
+
 
 <input
 class="search"
 id="rejectedSearch"
 placeholder="🔍 Search rejected pages..."
 >
+
 
 <div id="rejectedList">
 
@@ -521,19 +647,28 @@ Loading rejected pages...
 </section>
 
 
-<!-- USERS -->
+<!-- =========================
+     USERS
+========================= -->
 
-<section id="users" class="section">
+<section
+id="users"
+class="section"
+>
 
 <div class="card">
 
-<h2>👥 Registered Users</h2>
+<h2>
+👥 Registered Users
+</h2>
+
 
 <input
 class="search"
 id="usersSearch"
 placeholder="🔍 Search by name, email or UID..."
 >
+
 
 <button
 class="refresh"
@@ -542,7 +677,9 @@ id="refreshUsers"
 🔄 Refresh Users
 </button>
 
+
 <br><br>
+
 
 <div id="usersList">
 
@@ -557,13 +694,21 @@ Loading registered users...
 </section>
 
 
-<!-- REPORTS -->
+<!-- =========================
+     REPORTS
+========================= -->
 
-<section id="reports" class="section">
+<section
+id="reports"
+class="section"
+>
 
 <div class="card">
 
-<h2>🚨 Reports</h2>
+<h2>
+🚨 Reports
+</h2>
+
 
 <div id="reportsList">
 
@@ -578,25 +723,97 @@ No reports loaded yet.
 </section>
 
 
-<!-- SETTINGS -->
+<!-- =========================
+     SETTINGS
+========================= -->
 
-<section id="settings" class="section">
+<section
+id="settings"
+class="section"
+>
 
 <div class="card">
 
-<h2>⚙️ Settings</h2>
+<h2>
+⚙️ Settings
+</h2>
+
 
 <p>
 <strong>Website:</strong>
 Logical World
 </p>
 
+
 <br>
+
 
 <p>
 <strong>Admin:</strong>
 alagoagodstime@gmail.com
 </p>
+
+
+<!-- =========================
+     CHAT SETTINGS
+========================= -->
+
+<div class="chat-settings">
+
+<h3>
+💬 Chat Management
+</h3>
+
+
+<p>
+Chat is available to registered users.
+Visitors must login before they can chat.
+</p>
+
+
+<div class="chat-setting-row">
+
+<span class="chat-setting-label">
+👥 Registered users
+</span>
+
+<span
+id="chatUserStatus"
+class="toggle on"
+>
+Loading...
+</span>
+
+</div>
+
+
+<div class="chat-setting-row">
+
+<span class="chat-setting-label">
+🔐 Login required for chat
+</span>
+
+<span class="toggle on">
+ON
+</span>
+
+</div>
+
+
+<div class="chat-setting-row">
+
+<span class="chat-setting-label">
+🔎 Search users
+</span>
+
+<span class="toggle on">
+ON
+</span>
+
+</div>
+
+
+</div>
 
 </div>
 
@@ -605,6 +822,10 @@ alagoagodstime@gmail.com
 
 </div>
 
+
+<!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
@@ -617,7 +838,9 @@ alagoagodstime@gmail.com
 </footer>
 
 
-<!-- MODAL -->
+<!-- =========================
+     PAGE DETAILS MODAL
+========================= -->
 
 <div
 id="viewModal"
@@ -626,9 +849,14 @@ class="modal"
 
 <div class="modal-box">
 
-<h2>Page Details</h2>
+<h2>
+Page Details
+</h2>
 
-<div id="modalContent"></div>
+
+<div id="modalContent">
+</div>
+
 
 <button
 class="close"
@@ -643,9 +871,7 @@ Close
 
 
 <script type="module">
-
-
-/* =====================================================
+   /* =====================================================
    FIREBASE
 ===================================================== */
 
@@ -699,7 +925,7 @@ let registeredUsers = [];
 
 
 /* =====================================================
-   AUTH
+   AUTHENTICATION
 ===================================================== */
 
 onAuthStateChanged(
@@ -757,6 +983,7 @@ document
 btn.classList.remove("active")
 );
 
+
 button.classList.add("active");
 
 
@@ -771,6 +998,7 @@ const section =
 document.getElementById(
 button.dataset.section
 );
+
 
 section.classList.add("active");
 
@@ -853,6 +1081,7 @@ db,
 )
 );
 
+
 const approved =
 await getCountFromServer(
 collection(
@@ -860,6 +1089,7 @@ db,
 "approvedPages"
 )
 );
+
 
 const users =
 await getCountFromServer(
@@ -869,7 +1099,9 @@ db,
 )
 );
 
+
 let reportsCount = 0;
+
 
 try{
 
@@ -881,8 +1113,10 @@ db,
 )
 );
 
+
 reportsCount =
 reports.data().count;
+
 
 }catch(error){
 
@@ -897,8 +1131,10 @@ error
 const pendingCount =
 pending.data().count;
 
+
 const approvedCount =
 approved.data().count;
+
 
 const userCount =
 users.data().count;
@@ -935,6 +1171,20 @@ document.getElementById(
 pendingCount +
 approvedCount;
 
+
+const chatStatus =
+document.getElementById(
+"chatUserStatus"
+);
+
+
+if(chatStatus){
+
+chatStatus.innerText =
+userCount +
+" users";
+
+}
 
 }catch(error){
 
@@ -1039,6 +1289,7 @@ document.getElementById(
 "usersList"
 );
 
+
 const search =
 document.getElementById(
 "usersSearch"
@@ -1079,9 +1330,13 @@ user.id ||
 
 
 return (
+
 name.includes(search) ||
+
 email.includes(search) ||
+
 uid.includes(search)
+
 );
 
 });
@@ -1129,6 +1384,7 @@ document.createElement(
 "div"
 );
 
+
 card.className =
 "user-card";
 
@@ -1165,6 +1421,7 @@ data.name ||
 "No name"
 )}
 </h3>
+
 
 <p class="user-email">
 
@@ -1227,6 +1484,18 @@ uid
 
 </div>
 
+
+<div>
+
+<button
+class="action chat-admin"
+data-chat-user="${escapeAttribute(uid)}"
+>
+💬 Chat User
+</button>
+
+</div>
+
 `;
 
 
@@ -1237,6 +1506,47 @@ card
 });
 
 }
+
+
+/* =====================================================
+   CHAT USER BUTTON
+===================================================== */
+
+document.addEventListener(
+"click",
+(event)=>{
+
+const button =
+event.target.closest(
+"[data-chat-user]"
+);
+
+
+if(!button){
+return;
+}
+
+
+const uid =
+button.dataset.chatUser;
+
+
+if(!uid){
+return;
+}
+
+
+/*
+The admin can open the chat page
+with the selected user's UID.
+*/
+
+location.href =
+"chat.html?user=" +
+encodeURIComponent(uid);
+
+}
+);
 
 
 /* =====================================================
@@ -1255,6 +1565,7 @@ db,
 )
 );
 
+
 pendingPages =
 snapshot.docs.map(
 item=>({
@@ -1266,7 +1577,9 @@ data:item.data()
 })
 );
 
+
 displayPending();
+
 
 }catch(error){
 
@@ -1291,6 +1604,7 @@ document.getElementById(
 "pendingList"
 );
 
+
 const search =
 document.getElementById(
 "pendingSearch"
@@ -1305,6 +1619,7 @@ page=>{
 
 const data =
 page.data;
+
 
 return (
 
@@ -1388,6 +1703,7 @@ db,
 )
 );
 
+
 approvedPages =
 snapshot.docs.map(
 item=>({
@@ -1399,7 +1715,9 @@ data:item.data()
 })
 );
 
+
 displayApproved();
+
 
 }catch(error){
 
@@ -1424,6 +1742,7 @@ document.getElementById(
 "approvedList"
 );
 
+
 const search =
 document.getElementById(
 "approvedSearch"
@@ -1438,6 +1757,7 @@ page=>{
 
 const data =
 page.data;
+
 
 return (
 
@@ -1521,6 +1841,7 @@ db,
 )
 );
 
+
 rejectedPages =
 snapshot.docs.map(
 item=>({
@@ -1532,7 +1853,9 @@ data:item.data()
 })
 );
 
+
 displayRejected();
+
 
 }catch(error){
 
@@ -1557,6 +1880,7 @@ document.getElementById(
 "rejectedList"
 );
 
+
 const search =
 document.getElementById(
 "rejectedSearch"
@@ -1571,6 +1895,7 @@ page=>{
 
 const data =
 page.data;
+
 
 return (
 
@@ -1648,6 +1973,7 @@ document.createElement(
 "div"
 );
 
+
 card.className =
 "page-card";
 
@@ -1665,65 +1991,98 @@ class="page-logo"
 alt="Page Logo"
 >
 
+
 <h3>
+
 ${escapeHTML(
 data.pageName ||
 "Unnamed Page"
 )}
+
 </h3>
 
+
 <p>
+
 <strong>Page Type:</strong>
+
 ${escapeHTML(
 data.pageType || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Category:</strong>
+
 ${escapeHTML(
 data.category || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Email:</strong>
+
 ${escapeHTML(
 data.email ||
 data.ownerEmail ||
 ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Location:</strong>
+
 ${escapeHTML(
 data.location || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Address:</strong>
+
 ${escapeHTML(
 data.address || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Description:</strong>
+
 ${escapeHTML(
 data.description || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Status:</strong>
+
 ${escapeHTML(
 data.status || ""
 )}
+
 </p>
 
+
 <div>
+
 
 <button
 class="action view"
@@ -1748,6 +2107,7 @@ data-id="${escapeAttribute(page.id)}"
 ✅ Approve
 </button>
 
+
 <button
 class="action reject"
 data-action="reject"
@@ -1755,6 +2115,7 @@ data-id="${escapeAttribute(page.id)}"
 >
 ❌ Reject
 </button>
+
 
 <button
 class="action delete"
@@ -1807,9 +2168,11 @@ data-id="${escapeAttribute(page.id)}"
 ""
 }
 
+
 </div>
 
 `;
+
 
 return card;
 
@@ -1829,6 +2192,7 @@ event.target.closest(
 "[data-action]"
 );
 
+
 if(!button){
 return;
 }
@@ -1837,6 +2201,7 @@ return;
 const action =
 button.dataset.action;
 
+
 const id =
 button.dataset.id;
 
@@ -1844,7 +2209,9 @@ button.dataset.id;
 try{
 
 
-/* VIEW */
+/* =========================
+   VIEW
+========================= */
 
 if(
 action === "view"
@@ -1853,7 +2220,9 @@ action === "view"
 const type =
 button.dataset.type;
 
+
 let source = [];
+
 
 if(
 type === "pending"
@@ -1864,6 +2233,7 @@ pendingPages;
 
 }
 
+
 if(
 type === "approved"
 ){
@@ -1872,6 +2242,7 @@ source =
 approvedPages;
 
 }
+
 
 if(
 type === "rejected"
@@ -1897,12 +2268,15 @@ item.data
 
 }
 
+
 return;
 
 }
 
 
-/* APPROVE */
+/* =========================
+   APPROVE
+========================= */
 
 if(
 action === "approve"
@@ -1948,7 +2322,8 @@ serverTimestamp()
 }
 );
 
-     await deleteDoc(
+
+await deleteDoc(
 doc(
 db,
 "pendingPages",
@@ -1956,9 +2331,11 @@ id
 )
 );
 
+
 alert(
 "Page approved successfully."
 );
+
 
 await loadAll();
 
@@ -1967,7 +2344,9 @@ return;
 }
 
 
-/* REJECT */
+/* =========================
+   REJECT
+========================= */
 
 if(
 action === "reject"
@@ -1978,9 +2357,11 @@ pendingPages.find(
 page=>page.id === id
 );
 
+
 if(!item){
 return;
 }
+
 
 if(
 !confirm(
@@ -1991,6 +2372,7 @@ if(
 return;
 
 }
+
 
 await addDoc(
 collection(
@@ -2010,6 +2392,7 @@ serverTimestamp()
 }
 );
 
+
 await deleteDoc(
 doc(
 db,
@@ -2018,9 +2401,11 @@ id
 )
 );
 
+
 alert(
 "Page rejected successfully."
 );
+
 
 await loadAll();
 
@@ -2029,7 +2414,9 @@ return;
 }
 
 
-/* DELETE PENDING */
+/* =========================
+   DELETE PENDING
+========================= */
 
 if(
 action === "delete-pending"
@@ -2045,6 +2432,7 @@ return;
 
 }
 
+
 await deleteDoc(
 doc(
 db,
@@ -2053,9 +2441,11 @@ id
 )
 );
 
+
 alert(
 "Pending page deleted."
 );
+
 
 await loadAll();
 
@@ -2064,7 +2454,9 @@ return;
 }
 
 
-/* DELETE APPROVED */
+/* =========================
+   DELETE APPROVED
+========================= */
 
 if(
 action === "delete-approved"
@@ -2080,6 +2472,7 @@ return;
 
 }
 
+
 await deleteDoc(
 doc(
 db,
@@ -2088,9 +2481,11 @@ id
 )
 );
 
+
 alert(
 "Approved page deleted."
 );
+
 
 await loadAll();
 
@@ -2099,7 +2494,9 @@ return;
 }
 
 
-/* DELETE REJECTED */
+/* =========================
+   DELETE REJECTED
+========================= */
 
 if(
 action === "delete-rejected"
@@ -2115,6 +2512,7 @@ return;
 
 }
 
+
 await deleteDoc(
 doc(
 db,
@@ -2123,9 +2521,11 @@ id
 )
 );
 
+
 alert(
 "Rejected page deleted."
 );
+
 
 await loadAll();
 
@@ -2141,6 +2541,7 @@ console.error(
 error
 );
 
+
 alert(
 "Action failed: " +
 error.message
@@ -2151,21 +2552,25 @@ error.message
 });
 
 
-/* =========================
+/* =====================================================
    MODAL
-========================= */
+===================================================== */
 
-function showModal(data){
+function showModal(
+data
+){
 
 const modal =
 document.getElementById(
 "viewModal"
 );
 
+
 const content =
 document.getElementById(
 "modalContent"
 );
+
 
 content.innerHTML = `
 
@@ -2173,6 +2578,7 @@ ${
 data.logoURL
 ?
 `
+
 <img
 src="${escapeAttribute(
 data.logoURL
@@ -2186,77 +2592,115 @@ display:block;
 margin:0 auto 20px;
 "
 >
+
 `
 :
 ""
 }
 
+
 <p>
+
 <strong>Page Name:</strong>
+
 ${escapeHTML(
 data.pageName || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Category:</strong>
+
 ${escapeHTML(
 data.category || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Email:</strong>
+
 ${escapeHTML(
 data.email ||
 data.ownerEmail ||
 ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Location:</strong>
+
 ${escapeHTML(
 data.location || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Address:</strong>
+
 ${escapeHTML(
 data.address || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Description:</strong>
+
 ${escapeHTML(
 data.description || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Contact:</strong>
+
 ${escapeHTML(
 data.contactMethod || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>WhatsApp:</strong>
+
 ${escapeHTML(
 data.whatsapp || ""
 )}
+
 </p>
 
+
 <p>
+
 <strong>Zangi:</strong>
+
 ${escapeHTML(
 data.zangi || ""
 )}
+
 </p>
 
 `;
+
 
 modal.style.display =
 "block";
@@ -2264,9 +2708,9 @@ modal.style.display =
 }
 
 
-/* =========================
+/* =====================================================
    CLOSE MODAL
-========================= */
+===================================================== */
 
 document
 .getElementById(
@@ -2307,9 +2751,9 @@ event.currentTarget.style.display =
 );
 
 
-/* =========================
+/* =====================================================
    SEARCH
-========================= */
+===================================================== */
 
 document
 .getElementById(
@@ -2320,6 +2764,7 @@ document
 displayPending
 );
 
+
 document
 .getElementById(
 "approvedSearch"
@@ -2328,6 +2773,7 @@ document
 "input",
 displayApproved
 );
+
 
 document
 .getElementById(
@@ -2339,9 +2785,41 @@ displayRejected
 );
 
 
-/* =========================
-   REFRESH
-========================= */
+document
+.getElementById(
+"usersSearch"
+)
+.addEventListener(
+"input",
+displayUsers
+);
+
+
+/* =====================================================
+   REFRESH USERS
+===================================================== */
+
+document
+.getElementById(
+"refreshUsers"
+)
+.addEventListener(
+"click",
+async()=>{
+
+await loadUsers();
+
+alert(
+"Users refreshed."
+);
+
+}
+);
+
+
+/* =====================================================
+   REFRESH DASHBOARD
+===================================================== */
 
 document
 .getElementById(
@@ -2361,9 +2839,9 @@ alert(
 );
 
 
-/* =========================
+/* =====================================================
    LOGOUT
-========================= */
+===================================================== */
 
 document
 .getElementById(
@@ -2393,11 +2871,13 @@ error.message
 );
 
 
-/* =========================
+/* =====================================================
    HELPERS
-========================= */
+===================================================== */
 
-function escapeHTML(value){
+function escapeHTML(
+value
+){
 
 return String(value)
 
@@ -2429,11 +2909,16 @@ return String(value)
 }
 
 
-function escapeAttribute(value){
+function escapeAttribute(
+value
+){
 
-return escapeHTML(value);
+return escapeHTML(
+value
+);
 
 }
+
 
 </script>
 
