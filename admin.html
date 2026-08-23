@@ -871,35 +871,31 @@ Close
 
 
 <script type="module">
-   /* =====================================================
+
+/* =====================================================
    FIREBASE
 ===================================================== */
 
 import {
-auth,
-db
-}
-from "./firebase.js";
-
+  auth,
+  db
+} from "./firebase.js";
 
 import {
-onAuthStateChanged,
-signOut
-}
-from
+  onAuthStateChanged,
+  signOut
+} from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-
 import {
-collection,
-getDocs,
-getCountFromServer,
-addDoc,
-deleteDoc,
-doc,
-serverTimestamp
-}
-from
+  collection,
+  getDocs,
+  getCountFromServer,
+  addDoc,
+  deleteDoc,
+  doc,
+  serverTimestamp
+} from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -916,16 +912,13 @@ const ADMIN_EMAIL =
 ===================================================== */
 
 let pendingPages = [];
-
 let approvedPages = [];
-
 let rejectedPages = [];
-
 let registeredUsers = [];
 
 
 /* =====================================================
-   AUTHENTICATION
+   AUTH
 ===================================================== */
 
 onAuthStateChanged(
@@ -966,6 +959,23 @@ await loadAll();
 
 
 /* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
+async function loadAll(){
+
+await Promise.all([
+loadPending(),
+loadApproved(),
+loadRejected(),
+loadUsers(),
+loadCounts()
+]);
+
+}
+
+
+/* =====================================================
    NAVIGATION
 ===================================================== */
 
@@ -979,19 +989,18 @@ async()=>{
 
 document
 .querySelectorAll(".nav-btn")
-.forEach(btn=>
-btn.classList.remove("active")
-);
-
+.forEach(btn=>{
+btn.classList.remove("active");
+});
 
 button.classList.add("active");
 
 
 document
 .querySelectorAll(".section")
-.forEach(section=>
-section.classList.remove("active")
-);
+.forEach(section=>{
+section.classList.remove("active");
+});
 
 
 const section =
@@ -999,8 +1008,9 @@ document.getElementById(
 button.dataset.section
 );
 
-
+if(section){
 section.classList.add("active");
+}
 
 
 if(
@@ -1042,27 +1052,9 @@ await loadUsers();
 
 }
 
-}
-);
-
 });
 
-
-/* =====================================================
-   LOAD EVERYTHING
-===================================================== */
-
-async function loadAll(){
-
-await Promise.all([
-loadPending(),
-loadApproved(),
-loadRejected(),
-loadUsers(),
-loadCounts()
-]);
-
-}
+});
 
 
 /* =====================================================
@@ -1102,7 +1094,6 @@ db,
 
 let reportsCount = 0;
 
-
 try{
 
 const reports =
@@ -1113,15 +1104,13 @@ db,
 )
 );
 
-
 reportsCount =
 reports.data().count;
-
 
 }catch(error){
 
 console.warn(
-"Reports count unavailable:",
+"Reports unavailable:",
 error
 );
 
@@ -1131,60 +1120,69 @@ error
 const pendingCount =
 pending.data().count;
 
-
 const approvedCount =
 approved.data().count;
-
 
 const userCount =
 users.data().count;
 
 
+const pendingElement =
 document.getElementById(
 "pendingCount"
-).innerText =
-pendingCount;
+);
 
-
+const approvedElement =
 document.getElementById(
 "approvedCount"
-).innerText =
-approvedCount;
+);
 
-
+const usersElement =
 document.getElementById(
 "usersCount"
-).innerText =
-userCount;
+);
 
-
+const reportsElement =
 document.getElementById(
 "reportsCount"
-).innerText =
-reportsCount;
+);
 
-
+const totalElement =
 document.getElementById(
 "totalCount"
-).innerText =
-
-pendingCount +
-approvedCount;
-
-
-const chatStatus =
-document.getElementById(
-"chatUserStatus"
 );
 
 
-if(chatStatus){
-
-chatStatus.innerText =
-userCount +
-" users";
-
+if(pendingElement){
+pendingElement.innerText =
+pendingCount;
 }
+
+
+if(approvedElement){
+approvedElement.innerText =
+approvedCount;
+}
+
+
+if(usersElement){
+usersElement.innerText =
+userCount;
+}
+
+
+if(reportsElement){
+reportsElement.innerText =
+reportsCount;
+}
+
+
+if(totalElement){
+totalElement.innerText =
+pendingCount +
+approvedCount;
+}
+
 
 }catch(error){
 
@@ -1208,6 +1206,11 @@ const list =
 document.getElementById(
 "usersList"
 );
+
+
+if(!list){
+return;
+}
 
 
 list.innerHTML = `
@@ -1290,12 +1293,25 @@ document.getElementById(
 );
 
 
-const search =
+if(!list){
+return;
+}
+
+
+const searchElement =
 document.getElementById(
 "usersSearch"
-).value
+);
+
+
+const search =
+searchElement
+?
+searchElement.value
 .toLowerCase()
-.trim();
+.trim()
+:
+"";
 
 
 const filtered =
@@ -1329,14 +1345,10 @@ user.id ||
 .toLowerCase();
 
 
-return (
-
+return(
 name.includes(search) ||
-
 email.includes(search) ||
-
 uid.includes(search)
-
 );
 
 });
@@ -1359,9 +1371,8 @@ No registered users found.
 
 <br><br>
 
-There are currently no documents
-in the Firestore <strong>users</strong>
-collection matching your search.
+There are currently no users
+matching your search.
 
 </div>
 
@@ -1383,7 +1394,6 @@ const card =
 document.createElement(
 "div"
 );
-
 
 card.className =
 "user-card";
@@ -1421,7 +1431,6 @@ data.name ||
 "No name"
 )}
 </h3>
-
 
 <p class="user-email">
 
@@ -1474,7 +1483,9 @@ createdDate
 
 <div class="user-uid">
 
-<strong>Firebase UID:</strong>
+<strong>
+Firebase UID:
+</strong>
 
 <br>
 
@@ -1485,16 +1496,17 @@ uid
 </div>
 
 
-<div>
+<br>
 
 <button
-class="action chat-admin"
-data-chat-user="${escapeAttribute(uid)}"
+class="action view"
+data-user-chat="${escapeAttribute(uid)}"
+data-user-name="${escapeAttribute(
+data.name || "User"
+)}"
 >
-💬 Chat User
+💬 Chat
 </button>
-
-</div>
 
 `;
 
@@ -1518,7 +1530,7 @@ document.addEventListener(
 
 const button =
 event.target.closest(
-"[data-chat-user]"
+"[data-user-chat]"
 );
 
 
@@ -1528,7 +1540,11 @@ return;
 
 
 const uid =
-button.dataset.chatUser;
+button.dataset.userChat;
+
+
+const name =
+button.dataset.userName;
 
 
 if(!uid){
@@ -1537,20 +1553,20 @@ return;
 
 
 /*
-The admin can open the chat page
-with the selected user's UID.
+   Open the existing chat page.
 */
 
 location.href =
 "chat.html?user=" +
-encodeURIComponent(uid);
+encodeURIComponent(uid) +
+"&name=" +
+encodeURIComponent(name);
 
-}
-);
+});
 
 
 /* =====================================================
-   LOAD PENDING
+   LOAD PENDING PAGES
 ===================================================== */
 
 async function loadPending(){
@@ -1571,7 +1587,6 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
-
 data:item.data()
 
 })
@@ -1605,12 +1620,25 @@ document.getElementById(
 );
 
 
-const search =
+if(!list){
+return;
+}
+
+
+const searchElement =
 document.getElementById(
 "pendingSearch"
-).value
+);
+
+
+const search =
+searchElement
+?
+searchElement.value
 .toLowerCase()
-.trim();
+.trim()
+:
+"";
 
 
 const filtered =
@@ -1621,7 +1649,7 @@ const data =
 page.data;
 
 
-return (
+return(
 
 String(
 data.pageName || ""
@@ -1709,7 +1737,6 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
-
 data:item.data()
 
 })
@@ -1743,12 +1770,25 @@ document.getElementById(
 );
 
 
-const search =
+if(!list){
+return;
+}
+
+
+const searchElement =
 document.getElementById(
 "approvedSearch"
-).value
+);
+
+
+const search =
+searchElement
+?
+searchElement.value
 .toLowerCase()
-.trim();
+.trim()
+:
+"";
 
 
 const filtered =
@@ -1759,7 +1799,7 @@ const data =
 page.data;
 
 
-return (
+return(
 
 String(
 data.pageName || ""
@@ -1847,7 +1887,6 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
-
 data:item.data()
 
 })
@@ -1881,12 +1920,25 @@ document.getElementById(
 );
 
 
-const search =
+if(!list){
+return;
+}
+
+
+const searchElement =
 document.getElementById(
 "rejectedSearch"
-).value
+);
+
+
+const search =
+searchElement
+?
+searchElement.value
 .toLowerCase()
-.trim();
+.trim()
+:
+"";
 
 
 const filtered =
@@ -1897,7 +1949,7 @@ const data =
 page.data;
 
 
-return (
+return(
 
 String(
 data.pageName || ""
@@ -1973,7 +2025,6 @@ document.createElement(
 "div"
 );
 
-
 card.className =
 "page-card";
 
@@ -1993,96 +2044,72 @@ alt="Page Logo"
 
 
 <h3>
-
 ${escapeHTML(
 data.pageName ||
 "Unnamed Page"
 )}
-
 </h3>
 
 
 <p>
-
 <strong>Page Type:</strong>
-
 ${escapeHTML(
 data.pageType || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Category:</strong>
-
 ${escapeHTML(
 data.category || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Email:</strong>
-
 ${escapeHTML(
 data.email ||
 data.ownerEmail ||
 ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Location:</strong>
-
 ${escapeHTML(
 data.location || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Address:</strong>
-
 ${escapeHTML(
 data.address || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Description:</strong>
-
 ${escapeHTML(
 data.description || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Status:</strong>
-
 ${escapeHTML(
 data.status || ""
 )}
-
 </p>
 
 
 <div>
-
 
 <button
 class="action view"
@@ -2168,11 +2195,9 @@ data-id="${escapeAttribute(page.id)}"
 ""
 }
 
-
 </div>
 
 `;
-
 
 return card;
 
@@ -2209,9 +2234,7 @@ button.dataset.id;
 try{
 
 
-/* =========================
-   VIEW
-========================= */
+/* VIEW */
 
 if(
 action === "view"
@@ -2274,9 +2297,7 @@ return;
 }
 
 
-/* =========================
-   APPROVE
-========================= */
+/* APPROVE */
 
 if(
 action === "approve"
@@ -2344,9 +2365,7 @@ return;
 }
 
 
-/* =========================
-   REJECT
-========================= */
+/* REJECT */
 
 if(
 action === "reject"
@@ -2414,9 +2433,7 @@ return;
 }
 
 
-/* =========================
-   DELETE PENDING
-========================= */
+/* DELETE PENDING */
 
 if(
 action === "delete-pending"
@@ -2454,9 +2471,7 @@ return;
 }
 
 
-/* =========================
-   DELETE APPROVED
-========================= */
+/* DELETE APPROVED */
 
 if(
 action === "delete-approved"
@@ -2494,9 +2509,7 @@ return;
 }
 
 
-/* =========================
-   DELETE REJECTED
-========================= */
+/* DELETE REJECTED */
 
 if(
 action === "delete-rejected"
@@ -2556,9 +2569,7 @@ error.message
    MODAL
 ===================================================== */
 
-function showModal(
-data
-){
+function showModal(data){
 
 const modal =
 document.getElementById(
@@ -2572,13 +2583,17 @@ document.getElementById(
 );
 
 
+if(!modal || !content){
+return;
+}
+
+
 content.innerHTML = `
 
 ${
 data.logoURL
 ?
 `
-
 <img
 src="${escapeAttribute(
 data.logoURL
@@ -2592,7 +2607,6 @@ display:block;
 margin:0 auto 20px;
 "
 >
-
 `
 :
 ""
@@ -2600,103 +2614,76 @@ margin:0 auto 20px;
 
 
 <p>
-
 <strong>Page Name:</strong>
-
 ${escapeHTML(
 data.pageName || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Category:</strong>
-
 ${escapeHTML(
 data.category || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Email:</strong>
-
 ${escapeHTML(
 data.email ||
 data.ownerEmail ||
 ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Location:</strong>
-
 ${escapeHTML(
 data.location || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Address:</strong>
-
 ${escapeHTML(
 data.address || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Description:</strong>
-
 ${escapeHTML(
 data.description || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Contact:</strong>
-
 ${escapeHTML(
 data.contactMethod || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>WhatsApp:</strong>
-
 ${escapeHTML(
 data.whatsapp || ""
 )}
-
 </p>
 
 
 <p>
-
 <strong>Zangi:</strong>
-
 ${escapeHTML(
 data.zangi || ""
 )}
-
 </p>
 
 `;
@@ -2712,28 +2699,42 @@ modal.style.display =
    CLOSE MODAL
 ===================================================== */
 
-document
-.getElementById(
-"closeModal"
-)
-.addEventListener(
-"click",
-()=>{
-
+const closeModal =
 document.getElementById(
-"viewModal"
-).style.display =
-"none";
-
-}
+"closeModal"
 );
 
 
-document
-.getElementById(
+if(closeModal){
+
+closeModal.addEventListener(
+"click",
+()=>{
+
+const modal =
+document.getElementById(
 "viewModal"
-)
-.addEventListener(
+);
+
+if(modal){
+modal.style.display =
+"none";
+}
+
+});
+
+}
+
+
+const viewModal =
+document.getElementById(
+"viewModal"
+);
+
+
+if(viewModal){
+
+viewModal.addEventListener(
 "click",
 (event)=>{
 
@@ -2747,85 +2748,120 @@ event.currentTarget.style.display =
 
 }
 
+});
+
 }
-);
 
 
 /* =====================================================
    SEARCH
 ===================================================== */
 
-document
-.getElementById(
+const pendingSearch =
+document.getElementById(
 "pendingSearch"
-)
-.addEventListener(
+);
+
+
+if(pendingSearch){
+
+pendingSearch.addEventListener(
 "input",
 displayPending
 );
 
+}
 
-document
-.getElementById(
+
+const approvedSearch =
+document.getElementById(
 "approvedSearch"
-)
-.addEventListener(
+);
+
+
+if(approvedSearch){
+
+approvedSearch.addEventListener(
 "input",
 displayApproved
 );
 
+}
 
-document
-.getElementById(
+
+const rejectedSearch =
+document.getElementById(
 "rejectedSearch"
-)
-.addEventListener(
+);
+
+
+if(rejectedSearch){
+
+rejectedSearch.addEventListener(
 "input",
 displayRejected
 );
 
 
-document
-.getElementById(
+}
+
+
+/* =====================================================
+   USERS SEARCH
+===================================================== */
+
+const usersSearch =
+document.getElementById(
 "usersSearch"
-)
-.addEventListener(
+);
+
+
+if(usersSearch){
+
+usersSearch.addEventListener(
 "input",
 displayUsers
 );
+
+}
 
 
 /* =====================================================
    REFRESH USERS
 ===================================================== */
 
-document
-.getElementById(
+const refreshUsers =
+document.getElementById(
 "refreshUsers"
-)
-.addEventListener(
+);
+
+
+if(refreshUsers){
+
+refreshUsers.addEventListener(
 "click",
 async()=>{
 
 await loadUsers();
 
-alert(
-"Users refreshed."
-);
+});
 
 }
-);
 
 
 /* =====================================================
    REFRESH DASHBOARD
 ===================================================== */
 
-document
-.getElementById(
+const refreshDashboard =
+document.getElementById(
 "refreshDashboard"
-)
-.addEventListener(
+);
+
+
+if(refreshDashboard){
+
+refreshDashboard.addEventListener(
 "click",
 async()=>{
 
@@ -2835,19 +2871,24 @@ alert(
 "Dashboard refreshed."
 );
 
+});
+
 }
-);
 
 
 /* =====================================================
    LOGOUT
 ===================================================== */
 
-document
-.getElementById(
+const logoutButton =
+document.getElementById(
 "logoutButton"
-)
-.addEventListener(
+);
+
+
+if(logoutButton){
+
+logoutButton.addEventListener(
 "click",
 async()=>{
 
@@ -2867,17 +2908,16 @@ error.message
 
 }
 
+});
+
 }
-);
 
 
 /* =====================================================
    HELPERS
 ===================================================== */
 
-function escapeHTML(
-value
-){
+function escapeHTML(value){
 
 return String(value)
 
@@ -2909,19 +2949,14 @@ return String(value)
 }
 
 
-function escapeAttribute(
-value
-){
+function escapeAttribute(value){
 
-return escapeHTML(
-value
-);
+return escapeHTML(value);
 
 }
 
+   </script>
+   
+   </body>
 
-</script>
-
-</body>
-
-</html>
+   </html>
