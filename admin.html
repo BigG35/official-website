@@ -224,10 +224,6 @@ background:#222;
 background:#0a4ea3;
 }
 
-.chat-admin{
-background:#198754;
-}
-
 .refresh{
 background:#0a4ea3;
 color:white;
@@ -271,6 +267,100 @@ padding:25px;
 margin-top:40px;
 }
 
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:18px;
+}
+
+.settings-box{
+background:#f8f9fa;
+border:1px solid #ddd;
+border-radius:10px;
+padding:18px;
+}
+
+.settings-box h3{
+color:#0a4ea3;
+margin-bottom:12px;
+}
+
+.settings-box label{
+display:block;
+font-weight:bold;
+margin-top:12px;
+margin-bottom:6px;
+}
+
+.settings-box input,
+.settings-box textarea{
+width:100%;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:15px;
+}
+
+.settings-box textarea{
+min-height:100px;
+resize:vertical;
+}
+
+.save-settings{
+margin-top:20px;
+background:#198754;
+color:white;
+border:0;
+padding:13px 20px;
+border-radius:6px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.save-settings:hover{
+background:#146c43;
+}
+
+.settings-message{
+display:none;
+margin-top:15px;
+padding:12px;
+border-radius:6px;
+font-weight:bold;
+}
+
+.settings-success{
+display:block;
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.settings-error{
+display:block;
+background:#f8d7da;
+color:#842029;
+}
+
+.info-preview{
+background:#eef5ff;
+border-left:4px solid #0a4ea3;
+padding:15px;
+margin-top:20px;
+border-radius:6px;
+line-height:1.6;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
 .modal{
 display:none;
 position:fixed;
@@ -304,52 +394,10 @@ cursor:pointer;
 margin-top:15px;
 }
 
-.chat-settings{
-background:#eef5ff;
-border-left:5px solid #0a4ea3;
-padding:15px;
-border-radius:7px;
-margin-top:15px;
-}
 
-.chat-settings h3{
-color:#0a4ea3;
-margin-bottom:10px;
-}
-
-.chat-setting-row{
-display:flex;
-justify-content:space-between;
-align-items:center;
-gap:15px;
-padding:10px 0;
-border-bottom:1px solid #ddd;
-}
-
-.chat-setting-row:last-child{
-border-bottom:none;
-}
-
-.chat-setting-label{
-font-weight:bold;
-}
-
-.toggle{
-padding:6px 12px;
-border-radius:20px;
-font-weight:bold;
-font-size:13px;
-}
-
-.toggle.on{
-background:#d1e7dd;
-color:#0f5132;
-}
-
-.toggle.off{
-background:#f8d7da;
-color:#842029;
-}
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
@@ -363,7 +411,8 @@ padding:9px 10px;
 }
 
 .stats{
-grid-template-columns:repeat(2,1fr);
+grid-template-columns:
+repeat(2,1fr);
 }
 
 .stat{
@@ -374,9 +423,8 @@ padding:17px 8px;
 font-size:26px;
 }
 
-.chat-setting-row{
-align-items:flex-start;
-flex-direction:column;
+.settings-grid{
+grid-template-columns:1fr;
 }
 
 }
@@ -385,8 +433,11 @@ flex-direction:column;
 
 </head>
 
+
 <body>
-   <header>
+
+
+<header>
 
 <h1>🌍 Logical World Admin Dashboard</h1>
 
@@ -397,33 +448,61 @@ flex-direction:column;
 
 <nav>
 
-<button class="nav-btn active" data-section="dashboard">
+<button
+class="nav-btn active"
+data-section="dashboard"
+>
 🏠 Dashboard
 </button>
 
-<button class="nav-btn" data-section="pending">
+
+<button
+class="nav-btn"
+data-section="pending"
+>
 📋 Pending Pages
 </button>
 
-<button class="nav-btn" data-section="approved">
+
+<button
+class="nav-btn"
+data-section="approved"
+>
 ✅ Approved Pages
 </button>
 
-<button class="nav-btn" data-section="rejected">
+
+<button
+class="nav-btn"
+data-section="rejected"
+>
 ❌ Rejected Pages
 </button>
 
-<button class="nav-btn" data-section="users">
+
+<button
+class="nav-btn"
+data-section="users"
+>
 👥 Users
 </button>
 
-<button class="nav-btn" data-section="reports">
+
+<button
+class="nav-btn"
+data-section="reports"
+>
 🚨 Reports
 </button>
 
-<button class="nav-btn" data-section="settings">
+
+<button
+class="nav-btn"
+data-section="settings"
+>
 ⚙️ Settings
 </button>
+
 
 <button id="logoutButton">
 🚪 Logout
@@ -539,8 +618,9 @@ id="refreshDashboard"
 </section>
 
 
+
 <!-- =========================
-     PENDING PAGES
+     PENDING
 ========================= -->
 
 <section
@@ -575,8 +655,9 @@ Loading pending pages...
 </section>
 
 
+
 <!-- =========================
-     APPROVED PAGES
+     APPROVED
 ========================= -->
 
 <section
@@ -611,8 +692,9 @@ Loading approved pages...
 </section>
 
 
+
 <!-- =========================
-     REJECTED PAGES
+     REJECTED
 ========================= -->
 
 <section
@@ -647,6 +729,7 @@ Loading rejected pages...
 </section>
 
 
+
 <!-- =========================
      USERS
 ========================= -->
@@ -678,7 +761,8 @@ id="refreshUsers"
 </button>
 
 
-<br><br>
+<br>
+<br>
 
 
 <div id="usersList">
@@ -692,6 +776,7 @@ Loading registered users...
 </div>
 
 </section>
+
 
 
 <!-- =========================
@@ -723,6 +808,7 @@ No reports loaded yet.
 </section>
 
 
+
 <!-- =========================
      SETTINGS
 ========================= -->
@@ -735,83 +821,265 @@ class="section"
 <div class="card">
 
 <h2>
-⚙️ Settings
+⚙️ Website Settings
 </h2>
 
-
 <p>
-<strong>Website:</strong>
-Logical World
+These settings control the information displayed on
+Logical World.
 </p>
 
 
-<br>
+<div class="settings-grid">
 
 
-<p>
-<strong>Admin:</strong>
-alagoagodstime@gmail.com
-</p>
+<!-- CLEANING -->
 
-
-<!-- =========================
-     CHAT SETTINGS
-========================= -->
-
-<div class="chat-settings">
+<div class="settings-box">
 
 <h3>
-💬 Chat Management
+🧹 Cleaning Services
 </h3>
 
 
-<p>
-Chat is available to registered users.
-Visitors must login before they can chat.
-</p>
+<label for="cleaningTitle">
+Title
+</label>
 
-
-<div class="chat-setting-row">
-
-<span class="chat-setting-label">
-👥 Registered users
-</span>
-
-<span
-id="chatUserStatus"
-class="toggle on"
+<input
+id="cleaningTitle"
+type="text"
+placeholder="Cleaning Services"
 >
-Loading...
-</span>
+
+
+<label for="cleaningDescription">
+Description
+</label>
+
+<textarea
+id="cleaningDescription"
+placeholder="Describe your cleaning services..."
+></textarea>
 
 </div>
 
 
-<div class="chat-setting-row">
 
-<span class="chat-setting-label">
-🔐 Login required for chat
-</span>
+<!-- REPAIRS -->
 
-<span class="toggle on">
-ON
-</span>
+<div class="settings-box">
+
+<h3>
+🔧 Repairs
+</h3>
+
+
+<label for="repairsTitle">
+Title
+</label>
+
+<input
+id="repairsTitle"
+type="text"
+placeholder="Repairs"
+>
+
+
+<label for="repairsDescription">
+Description
+</label>
+
+<textarea
+id="repairsDescription"
+placeholder="Describe your repair services..."
+></textarea>
 
 </div>
 
 
-<div class="chat-setting-row">
 
-<span class="chat-setting-label">
-🔎 Search users
-</span>
+<!-- DELIVERY -->
 
-<span class="toggle on">
-ON
-</span>
+<div class="settings-box">
+
+<h3>
+🚚 Delivery
+</h3>
+
+
+<label for="deliveryTitle">
+Title
+</label>
+
+<input
+id="deliveryTitle"
+type="text"
+placeholder="Delivery"
+>
+
+
+<label for="deliveryDescription">
+Description
+</label>
+
+<textarea
+id="deliveryDescription"
+placeholder="Describe your delivery services..."
+></textarea>
 
 </div>
 
+
+
+<!-- CONTACT -->
+
+<div class="settings-box">
+
+<h3>
+📞 Contact Us
+</h3>
+
+
+<label for="contactPhone">
+📞 Phone
+</label>
+
+<input
+id="contactPhone"
+type="text"
+placeholder="Your phone number"
+>
+
+
+<label for="contactEmail">
+📧 Email
+</label>
+
+<input
+id="contactEmail"
+type="email"
+placeholder="Your email address"
+>
+
+
+<label for="contactWhatsapp">
+💬 WhatsApp
+</label>
+
+<input
+id="contactWhatsapp"
+type="text"
+placeholder="WhatsApp number"
+>
+
+
+<label for="contactZangi">
+💬 Zangi
+</label>
+
+<input
+id="contactZangi"
+type="text"
+placeholder="Zangi username or number"
+>
+
+</div>
+
+</div>
+
+
+<button
+id="saveSettings"
+class="save-settings"
+>
+💾 Save Website Settings
+</button>
+
+
+<div
+id="settingsMessage"
+class="settings-message"
+></div>
+
+
+<div class="info-preview">
+
+<strong>
+Preview:
+</strong>
+
+<br><br>
+
+🧹
+<strong id="previewCleaningTitle">
+Cleaning Services
+</strong>
+
+<br>
+
+<span id="previewCleaningDescription">
+Book trusted cleaning services easily.
+</span>
+
+<br><br>
+
+
+🔧
+<strong id="previewRepairsTitle">
+Repairs
+</strong>
+
+<br>
+
+<span id="previewRepairsDescription">
+Find reliable repair professionals.
+</span>
+
+<br><br>
+
+
+🚚
+<strong id="previewDeliveryTitle">
+Delivery
+</strong>
+
+<br>
+
+<span id="previewDeliveryDescription">
+Fast and secure delivery services.
+</span>
+
+<br><br>
+
+
+<strong>
+Contact Us
+</strong>
+
+<br>
+
+📞
+<span id="previewPhone">
+Your phone number will appear here.
+</span>
+
+<br>
+
+📧
+<span id="previewEmail">
+Your email address will appear here.
+</span>
+
+<br>
+
+💬 WhatsApp / Zangi
+
+<br>
+
+<span>
+Contact options will appear on each business page.
+</span>
 
 </div>
 
@@ -823,23 +1091,22 @@ ON
 </div>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
 
 <footer>
 
 🌍 Logical World Admin Panel
 
-<br><br>
+<br>
+<br>
 
 © 2026 Logical World
 
 </footer>
 
 
+
 <!-- =========================
-     PAGE DETAILS MODAL
+     MODAL
 ========================= -->
 
 <div
@@ -854,8 +1121,7 @@ Page Details
 </h2>
 
 
-<div id="modalContent">
-</div>
+<div id="modalContent"></div>
 
 
 <button
@@ -870,32 +1136,41 @@ Close
 </div>
 
 
+
 <script type="module">
+
 
 /* =====================================================
    FIREBASE
 ===================================================== */
 
 import {
-  auth,
-  db
-} from "./firebase.js";
+auth,
+db
+}
+from "./firebase.js";
+
 
 import {
-  onAuthStateChanged,
-  signOut
-} from
+onAuthStateChanged,
+signOut
+}
+from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+
 import {
-  collection,
-  getDocs,
-  getCountFromServer,
-  addDoc,
-  deleteDoc,
-  doc,
-  serverTimestamp
-} from
+collection,
+getDocs,
+getCountFromServer,
+addDoc,
+deleteDoc,
+doc,
+serverTimestamp,
+getDoc,
+setDoc
+}
+from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -912,8 +1187,11 @@ const ADMIN_EMAIL =
 ===================================================== */
 
 let pendingPages = [];
+
 let approvedPages = [];
+
 let rejectedPages = [];
+
 let registeredUsers = [];
 
 
@@ -959,23 +1237,6 @@ await loadAll();
 
 
 /* =====================================================
-   LOAD EVERYTHING
-===================================================== */
-
-async function loadAll(){
-
-await Promise.all([
-loadPending(),
-loadApproved(),
-loadRejected(),
-loadUsers(),
-loadCounts()
-]);
-
-}
-
-
-/* =====================================================
    NAVIGATION
 ===================================================== */
 
@@ -989,18 +1250,18 @@ async()=>{
 
 document
 .querySelectorAll(".nav-btn")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
+.forEach(btn=>
+btn.classList.remove("active")
+);
 
 button.classList.add("active");
 
 
 document
 .querySelectorAll(".section")
-.forEach(section=>{
-section.classList.remove("active");
-});
+.forEach(section=>
+section.classList.remove("active")
+);
 
 
 const section =
@@ -1008,9 +1269,7 @@ document.getElementById(
 button.dataset.section
 );
 
-if(section){
 section.classList.add("active");
-}
 
 
 if(
@@ -1052,9 +1311,45 @@ await loadUsers();
 
 }
 
-});
+
+if(
+button.dataset.section ===
+"settings"
+){
+
+await loadSettings();
+
+}
+
+}
+);
 
 });
+
+
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
+async function loadAll(){
+
+await Promise.all([
+
+loadPending(),
+
+loadApproved(),
+
+loadRejected(),
+
+loadUsers(),
+
+loadCounts(),
+
+loadSettings()
+
+]);
+
+}
 
 
 /* =====================================================
@@ -1094,6 +1389,7 @@ db,
 
 let reportsCount = 0;
 
+
 try{
 
 const reports =
@@ -1110,7 +1406,7 @@ reports.data().count;
 }catch(error){
 
 console.warn(
-"Reports unavailable:",
+"Reports count unavailable:",
 error
 );
 
@@ -1127,61 +1423,36 @@ const userCount =
 users.data().count;
 
 
-const pendingElement =
 document.getElementById(
 "pendingCount"
-);
+).innerText =
+pendingCount;
 
-const approvedElement =
+
 document.getElementById(
 "approvedCount"
-);
+).innerText =
+approvedCount;
 
-const usersElement =
+
 document.getElementById(
 "usersCount"
-);
+).innerText =
+userCount;
 
-const reportsElement =
+
 document.getElementById(
 "reportsCount"
-);
+).innerText =
+reportsCount;
 
-const totalElement =
+
 document.getElementById(
 "totalCount"
-);
+).innerText =
 
-
-if(pendingElement){
-pendingElement.innerText =
-pendingCount;
-}
-
-
-if(approvedElement){
-approvedElement.innerText =
-approvedCount;
-}
-
-
-if(usersElement){
-usersElement.innerText =
-userCount;
-}
-
-
-if(reportsElement){
-reportsElement.innerText =
-reportsCount;
-}
-
-
-if(totalElement){
-totalElement.innerText =
 pendingCount +
 approvedCount;
-}
 
 
 }catch(error){
@@ -1206,11 +1477,6 @@ const list =
 document.getElementById(
 "usersList"
 );
-
-
-if(!list){
-return;
-}
 
 
 list.innerHTML = `
@@ -1293,25 +1559,12 @@ document.getElementById(
 );
 
 
-if(!list){
-return;
-}
-
-
-const searchElement =
+const search =
 document.getElementById(
 "usersSearch"
-);
-
-
-const search =
-searchElement
-?
-searchElement.value
+).value
 .toLowerCase()
-.trim()
-:
-"";
+.trim();
 
 
 const filtered =
@@ -1345,10 +1598,14 @@ user.id ||
 .toLowerCase();
 
 
-return(
+return (
+
 name.includes(search) ||
+
 email.includes(search) ||
+
 uid.includes(search)
+
 );
 
 });
@@ -1371,8 +1628,9 @@ No registered users found.
 
 <br><br>
 
-There are currently no users
-matching your search.
+There are currently no documents
+in the Firestore <strong>users</strong>
+collection matching your search.
 
 </div>
 
@@ -1432,6 +1690,7 @@ data.name ||
 )}
 </h3>
 
+
 <p class="user-email">
 
 <strong>Email:</strong>
@@ -1483,9 +1742,7 @@ createdDate
 
 <div class="user-uid">
 
-<strong>
-Firebase UID:
-</strong>
+<strong>Firebase UID:</strong>
 
 <br>
 
@@ -1494,19 +1751,6 @@ uid
 )}
 
 </div>
-
-
-<br>
-
-<button
-class="action view"
-data-user-chat="${escapeAttribute(uid)}"
-data-user-name="${escapeAttribute(
-data.name || "User"
-)}"
->
-💬 Chat
-</button>
 
 `;
 
@@ -1521,52 +1765,42 @@ card
 
 
 /* =====================================================
-   CHAT USER BUTTON
+   USERS SEARCH
 ===================================================== */
 
-document.addEventListener(
-"click",
-(event)=>{
-
-const button =
-event.target.closest(
-"[data-user-chat]"
+document
+.getElementById(
+"usersSearch"
+)
+.addEventListener(
+"input",
+displayUsers
 );
 
 
-if(!button){
-return;
-}
+/* =====================================================
+   REFRESH USERS
+===================================================== */
 
+document
+.getElementById(
+"refreshUsers"
+)
+.addEventListener(
+"click",
+async()=>{
 
-const uid =
-button.dataset.userChat;
+await loadUsers();
 
-
-const name =
-button.dataset.userName;
-
-
-if(!uid){
-return;
-}
-
-
-/*
-   Open the existing chat page.
-*/
-
-location.href =
-"chat.html?user=" +
-encodeURIComponent(uid) +
-"&name=" +
-encodeURIComponent(name);
+alert(
+"Users refreshed."
+);
 
 });
 
 
 /* =====================================================
-   LOAD PENDING PAGES
+   LOAD PENDING
 ===================================================== */
 
 async function loadPending(){
@@ -1587,6 +1821,7 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
+
 data:item.data()
 
 })
@@ -1620,25 +1855,12 @@ document.getElementById(
 );
 
 
-if(!list){
-return;
-}
-
-
-const searchElement =
+const search =
 document.getElementById(
 "pendingSearch"
-);
-
-
-const search =
-searchElement
-?
-searchElement.value
+).value
 .toLowerCase()
-.trim()
-:
-"";
+.trim();
 
 
 const filtered =
@@ -1649,7 +1871,7 @@ const data =
 page.data;
 
 
-return(
+return (
 
 String(
 data.pageName || ""
@@ -1737,6 +1959,7 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
+
 data:item.data()
 
 })
@@ -1770,25 +1993,12 @@ document.getElementById(
 );
 
 
-if(!list){
-return;
-}
-
-
-const searchElement =
+const search =
 document.getElementById(
 "approvedSearch"
-);
-
-
-const search =
-searchElement
-?
-searchElement.value
+).value
 .toLowerCase()
-.trim()
-:
-"";
+.trim();
 
 
 const filtered =
@@ -1799,7 +2009,7 @@ const data =
 page.data;
 
 
-return(
+return (
 
 String(
 data.pageName || ""
@@ -1887,6 +2097,7 @@ snapshot.docs.map(
 item=>({
 
 id:item.id,
+
 data:item.data()
 
 })
@@ -1920,25 +2131,12 @@ document.getElementById(
 );
 
 
-if(!list){
-return;
-}
-
-
-const searchElement =
+const search =
 document.getElementById(
 "rejectedSearch"
-);
-
-
-const search =
-searchElement
-?
-searchElement.value
+).value
 .toLowerCase()
-.trim()
-:
-"";
+.trim();
 
 
 const filtered =
@@ -1949,7 +2147,7 @@ const data =
 page.data;
 
 
-return(
+return (
 
 String(
 data.pageName || ""
@@ -2202,6 +2400,1492 @@ data-id="${escapeAttribute(page.id)}"
 return card;
 
 }
+   <!-- =========================
+     PART 2 — CONTINUATION
+========================= -->
+
+<!-- SETTINGS SECTION -->
+
+<section id="settings" class="section">
+
+<div class="card">
+
+<h2>⚙️ Website Settings</h2>
+
+<p style="color:#666;margin-bottom:20px;">
+Manage the information displayed on the Logical World website.
+</p>
+
+
+<div class="form-group">
+
+<label>🌍 Website Name</label>
+
+<input
+type="text"
+id="settingWebsiteName"
+placeholder="Logical World"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>🧹 Cleaning Services</label>
+
+<input
+type="text"
+id="settingCleaning"
+placeholder="Cleaning Services"
+>
+
+<textarea
+id="settingCleaningDescription"
+placeholder="Description"
+></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>🔧 Repairs</label>
+
+<input
+type="text"
+id="settingRepairs"
+placeholder="Repairs"
+>
+
+<textarea
+id="settingRepairsDescription"
+placeholder="Description"
+></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>🚚 Delivery</label>
+
+<input
+type="text"
+id="settingDelivery"
+placeholder="Delivery"
+>
+
+<textarea
+id="settingDeliveryDescription"
+placeholder="Description"
+></textarea>
+
+</div>
+
+
+<div class="form-group">
+
+<label>📞 Contact Phone</label>
+
+<input
+type="text"
+id="settingPhone"
+placeholder="Phone number"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>📧 Contact Email</label>
+
+<input
+type="email"
+id="settingEmail"
+placeholder="Email address"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label>💬 WhatsApp / Zangi Information</label>
+
+<textarea
+id="settingContactDescription"
+placeholder="Contact options will appear on each business page."
+></textarea>
+
+</div>
+
+
+<button
+class="refresh"
+id="saveSettings"
+>
+💾 Save Website Settings
+</button>
+
+
+<p
+id="settingsMessage"
+style="
+margin-top:15px;
+font-weight:bold;
+"
+></p>
+
+</div>
+
+</section>
+
+
+<!-- REPORTS -->
+
+<section id="reports" class="section">
+
+<div class="card">
+
+<h2>🚨 Reports</h2>
+
+<div id="reportsList">
+
+<div class="empty">
+No reports available.
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+</div>
+
+
+<footer>
+
+🌍 Logical World Admin Panel
+
+<br><br>
+
+© 2026 Logical World
+
+</footer>
+
+
+<!-- =========================
+     PAGE VIEW MODAL
+========================= -->
+
+<div
+id="viewModal"
+class="modal"
+>
+
+<div class="modal-box">
+
+<h2>
+Page Details
+</h2>
+
+<div id="modalContent"></div>
+
+<button
+class="close"
+id="closeModal"
+>
+Close
+</button>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+collection,
+doc,
+getDoc,
+getDocs,
+setDoc,
+addDoc,
+deleteDoc,
+getCountFromServer,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =====================================================
+   ADMIN EMAIL
+===================================================== */
+
+const ADMIN_EMAIL =
+"alagoagodstime@gmail.com";
+
+
+/* =====================================================
+   DATA
+===================================================== */
+
+let pendingPages = [];
+
+let approvedPages = [];
+
+let rejectedPages = [];
+
+let registeredUsers = [];
+
+
+/* =====================================================
+   AUTHENTICATION
+===================================================== */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+if(!user){
+
+location.href =
+"login.html";
+
+return;
+
+}
+
+
+if(
+(user.email || "").toLowerCase()
+!==
+ADMIN_EMAIL.toLowerCase()
+){
+
+alert(
+"Access Denied."
+);
+
+location.href =
+"index.html";
+
+return;
+
+}
+
+
+await loadAll();
+
+}
+);
+
+
+/* =====================================================
+   NAVIGATION
+===================================================== */
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(
+button=>{
+
+button.addEventListener(
+"click",
+async()=>{
+
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(
+btn=>
+btn.classList.remove(
+"active"
+)
+);
+
+
+button.classList.add(
+"active"
+);
+
+
+document
+.querySelectorAll(".section")
+.forEach(
+section=>
+section.classList.remove(
+"active"
+)
+);
+
+
+const section =
+document.getElementById(
+button.dataset.section
+);
+
+
+if(section){
+
+section.classList.add(
+"active"
+);
+
+}
+
+
+if(
+button.dataset.section ===
+"pending"
+){
+
+displayPending();
+
+}
+
+
+if(
+button.dataset.section ===
+"approved"
+){
+
+displayApproved();
+
+}
+
+
+if(
+button.dataset.section ===
+"rejected"
+){
+
+displayRejected();
+
+}
+
+
+if(
+button.dataset.section ===
+"users"
+){
+
+await loadUsers();
+
+}
+
+
+if(
+button.dataset.section ===
+"settings"
+){
+
+await loadSettings();
+
+}
+
+
+if(
+button.dataset.section ===
+"reports"
+){
+
+await loadReports();
+
+}
+
+});
+
+});
+
+
+/* =====================================================
+   LOAD EVERYTHING
+===================================================== */
+
+async function loadAll(){
+
+await Promise.all([
+
+loadPending(),
+
+loadApproved(),
+
+loadRejected(),
+
+loadUsers(),
+
+loadCounts(),
+
+loadSettings()
+
+]);
+
+}
+
+
+/* =====================================================
+   LOAD COUNTS
+===================================================== */
+
+async function loadCounts(){
+
+try{
+
+
+const pending =
+await getCountFromServer(
+collection(
+db,
+"pendingPages"
+)
+);
+
+
+const approved =
+await getCountFromServer(
+collection(
+db,
+"approvedPages"
+)
+);
+
+
+const users =
+await getCountFromServer(
+collection(
+db,
+"users"
+)
+);
+
+
+let reportsCount = 0;
+
+
+try{
+
+const reports =
+await getCountFromServer(
+collection(
+db,
+"reports"
+)
+);
+
+reportsCount =
+reports.data().count;
+
+}catch(error){
+
+console.log(
+"Reports collection not available yet."
+);
+
+}
+
+
+const pendingCount =
+pending.data().count;
+
+
+const approvedCount =
+approved.data().count;
+
+
+const userCount =
+users.data().count;
+
+
+document.getElementById(
+"pendingCount"
+).innerText =
+pendingCount;
+
+
+document.getElementById(
+"approvedCount"
+).innerText =
+approvedCount;
+
+
+document.getElementById(
+"usersCount"
+).innerText =
+userCount;
+
+
+document.getElementById(
+"reportsCount"
+).innerText =
+reportsCount;
+
+
+document.getElementById(
+"totalCount"
+).innerText =
+
+pendingCount +
+approvedCount;
+
+
+}catch(error){
+
+console.error(
+"Count error:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   USERS
+===================================================== */
+
+async function loadUsers(){
+
+const list =
+document.getElementById(
+"usersList"
+);
+
+
+if(!list){
+
+return;
+
+}
+
+
+list.innerHTML = `
+
+<div class="loading">
+Loading registered users...
+</div>
+
+`;
+
+
+try{
+
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"users"
+)
+);
+
+
+registeredUsers =
+snapshot.docs.map(
+userDoc=>({
+
+id:
+userDoc.id,
+
+data:
+userDoc.data()
+
+})
+);
+
+
+displayUsers();
+
+
+}catch(error){
+
+console.error(
+"Users error:",
+error
+);
+
+
+list.innerHTML = `
+
+<div class="error">
+
+Unable to load users.
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   DISPLAY USERS
+===================================================== */
+
+function displayUsers(){
+
+const list =
+document.getElementById(
+"usersList"
+);
+
+
+if(!list){
+
+return;
+
+}
+
+
+const searchInput =
+document.getElementById(
+"usersSearch"
+);
+
+
+const search =
+searchInput
+?
+searchInput.value
+.toLowerCase()
+.trim()
+:
+"";
+
+
+const filtered =
+registeredUsers.filter(
+user=>{
+
+const data =
+user.data;
+
+
+return (
+
+String(
+data.name || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.email || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.uid ||
+user.id ||
+""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+});
+
+
+list.innerHTML = "";
+
+
+if(
+filtered.length === 0
+){
+
+list.innerHTML = `
+
+<div class="empty">
+
+No registered users found.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(
+user=>{
+
+const data =
+user.data;
+
+
+const card =
+document.createElement(
+"div"
+);
+
+
+card.className =
+"user-card";
+
+
+let createdDate =
+"Not available";
+
+
+if(
+data.createdAt &&
+typeof data.createdAt.toDate ===
+"function"
+){
+
+createdDate =
+data.createdAt
+.toDate()
+.toLocaleString();
+
+}
+
+
+card.innerHTML = `
+
+<h3>
+👤
+${escapeHTML(
+data.name ||
+"User"
+)}
+</h3>
+
+
+<p class="user-email">
+
+<strong>Email:</strong>
+
+${escapeHTML(
+data.email ||
+"No email"
+)}
+
+</p>
+
+
+<span class="user-role">
+
+Role:
+${escapeHTML(
+data.role ||
+"user"
+)}
+
+</span>
+
+
+<span class="user-status">
+
+Status:
+${escapeHTML(
+data.accountStatus ||
+"active"
+)}
+
+</span>
+
+
+<p class="user-date">
+
+<strong>Registered:</strong>
+
+${escapeHTML(
+createdDate
+)}
+
+</p>
+
+
+<div class="user-uid">
+
+<strong>Firebase UID:</strong>
+
+<br>
+
+${escapeHTML(
+data.uid ||
+user.id
+)}
+
+</div>
+
+`;
+
+
+list.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =====================================================
+   PENDING PAGES
+===================================================== */
+
+async function loadPending(){
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"pendingPages"
+)
+);
+
+
+pendingPages =
+snapshot.docs.map(
+item=>({
+
+id:
+item.id,
+
+data:
+item.data()
+
+})
+);
+
+
+displayPending();
+
+
+}catch(error){
+
+console.error(
+"Pending error:",
+error
+);
+
+}
+
+}
+
+
+function displayPending(){
+
+const list =
+document.getElementById(
+"pendingList"
+);
+
+
+const search =
+document.getElementById(
+"pendingSearch"
+).value
+.toLowerCase()
+.trim();
+
+
+const filtered =
+pendingPages.filter(
+page=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.email ||
+data.ownerEmail ||
+""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.location || ""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+});
+
+
+list.innerHTML = "";
+
+
+if(
+filtered.length === 0
+){
+
+list.innerHTML = `
+
+<div class="empty">
+No pending pages found.
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(
+page=>{
+
+list.appendChild(
+createPageCard(
+page,
+"pending"
+)
+);
+
+});
+
+}
+
+
+/* =====================================================
+   APPROVED PAGES
+===================================================== */
+
+async function loadApproved(){
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"approvedPages"
+)
+);
+
+
+approvedPages =
+snapshot.docs.map(
+item=>({
+
+id:
+item.id,
+
+data:
+item.data()
+
+})
+);
+
+
+displayApproved();
+
+
+}catch(error){
+
+console.error(
+"Approved error:",
+error
+);
+
+}
+
+}
+
+
+function displayApproved(){
+
+const list =
+document.getElementById(
+"approvedList"
+);
+
+
+const search =
+document.getElementById(
+"approvedSearch"
+).value
+.toLowerCase()
+.trim();
+
+
+const filtered =
+approvedPages.filter(
+page=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.email ||
+data.ownerEmail ||
+""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.location || ""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+});
+
+
+list.innerHTML = "";
+
+
+if(
+filtered.length === 0
+){
+
+list.innerHTML = `
+
+<div class="empty">
+No approved pages found.
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(
+page=>{
+
+list.appendChild(
+createPageCard(
+page,
+"approved"
+)
+);
+
+});
+
+}
+
+
+/* =====================================================
+   REJECTED PAGES
+===================================================== */
+
+async function loadRejected(){
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"rejectedPages"
+)
+);
+
+
+rejectedPages =
+snapshot.docs.map(
+item=>({
+
+id:
+item.id,
+
+data:
+item.data()
+
+})
+);
+
+
+displayRejected();
+
+
+}catch(error){
+
+console.error(
+"Rejected error:",
+error
+);
+
+}
+
+}
+
+
+function displayRejected(){
+
+const list =
+document.getElementById(
+"rejectedList"
+);
+
+
+const search =
+document.getElementById(
+"rejectedSearch"
+).value
+.toLowerCase()
+.trim();
+
+
+const filtered =
+rejectedPages.filter(
+page=>{
+
+const data =
+page.data;
+
+
+return (
+
+String(
+data.pageName || ""
+)
+.toLowerCase()
+.includes(search)
+
+||
+
+String(
+data.email ||
+data.ownerEmail ||
+""
+)
+.toLowerCase()
+.includes(search)
+
+);
+
+});
+
+
+list.innerHTML = "";
+
+
+if(
+filtered.length === 0
+){
+
+list.innerHTML = `
+
+<div class="empty">
+No rejected pages found.
+</div>
+
+`;
+
+return;
+
+}
+
+
+filtered.forEach(
+page=>{
+
+list.appendChild(
+createPageCard(
+page,
+"rejected"
+)
+);
+
+});
+
+}
+
+
+/* =====================================================
+   PAGE CARD
+===================================================== */
+
+function createPageCard(
+page,
+type
+){
+
+const data =
+page.data;
+
+
+const card =
+document.createElement(
+"div"
+);
+
+
+card.className =
+"page-card";
+
+
+const logo =
+data.logoURL ||
+"images/default-logo.png";
+
+
+card.innerHTML = `
+
+<img
+src="${escapeAttribute(logo)}"
+class="page-logo"
+alt="Page Logo"
+>
+
+
+<h3>
+
+${escapeHTML(
+data.pageName ||
+"Unnamed Page"
+)}
+
+</h3>
+
+
+<p>
+
+<strong>Category:</strong>
+
+${escapeHTML(
+data.category || ""
+)}
+
+</p>
+
+
+<p>
+
+<strong>Email:</strong>
+
+${escapeHTML(
+data.email ||
+data.ownerEmail ||
+""
+)}
+
+</p>
+
+
+<p>
+
+<strong>Location:</strong>
+
+${escapeHTML(
+data.location || ""
+)}
+
+</p>
+
+
+<p>
+
+<strong>Address:</strong>
+
+${escapeHTML(
+data.address || ""
+)}
+
+</p>
+
+
+<p>
+
+<strong>Description:</strong>
+
+${escapeHTML(
+data.description || ""
+)}
+
+</p>
+
+
+<p>
+
+<strong>Status:</strong>
+
+${escapeHTML(
+data.status || ""
+)}
+
+</p>
+
+
+<div>
+
+
+<button
+class="action view"
+data-action="view"
+data-id="${escapeAttribute(page.id)}"
+data-type="${escapeAttribute(type)}"
+>
+
+👁 View
+
+</button>
+
+
+${
+type === "pending"
+?
+`
+
+<button
+class="action approve"
+data-action="approve"
+data-id="${escapeAttribute(page.id)}"
+>
+
+✅ Approve
+
+</button>
+
+
+<button
+class="action reject"
+data-action="reject"
+data-id="${escapeAttribute(page.id)}"
+>
+
+❌ Reject
+
+</button>
+
+
+<button
+class="action delete"
+data-action="delete-pending"
+data-id="${escapeAttribute(page.id)}"
+>
+
+🗑 Delete
+
+</button>
+
+`
+:
+""
+}
+
+
+${
+type === "approved"
+?
+`
+
+<button
+class="action delete"
+data-action="delete-approved"
+data-id="${escapeAttribute(page.id)}"
+>
+
+🗑 Delete Approved Page
+
+</button>
+
+`
+:
+""
+}
+
+
+${
+type === "rejected"
+?
+`
+
+<button
+class="action delete"
+data-action="delete-rejected"
+data-id="${escapeAttribute(page.id)}"
+>
+
+🗑 Delete
+
+</button>
+
+`
+:
+""
+}
+
+</div>
+
+`;
+
+return card;
+
+}
 
 
 /* =====================================================
@@ -2219,13 +3903,14 @@ event.target.closest(
 
 
 if(!button){
+
 return;
+
 }
 
 
 const action =
 button.dataset.action;
-
 
 const id =
 button.dataset.id;
@@ -2291,7 +3976,6 @@ item.data
 
 }
 
-
 return;
 
 }
@@ -2310,7 +3994,9 @@ page=>page.id === id
 
 
 if(!item){
+
 return;
+
 }
 
 
@@ -2325,10 +4011,11 @@ return;
 }
 
 
-await addDoc(
-collection(
+await setDoc(
+doc(
 db,
-"approvedPages"
+"approvedPages",
+id
 ),
 {
 
@@ -2378,7 +4065,9 @@ page=>page.id === id
 
 
 if(!item){
+
 return;
+
 }
 
 
@@ -2393,10 +4082,11 @@ return;
 }
 
 
-await addDoc(
-collection(
+await setDoc(
+doc(
 db,
-"rejectedPages"
+"rejectedPages",
+id
 ),
 {
 
@@ -2441,7 +4131,7 @@ action === "delete-pending"
 
 if(
 !confirm(
-"Delete this pending page permanently?"
+"Delete this pending page?"
 )
 ){
 
@@ -2456,11 +4146,6 @@ db,
 "pendingPages",
 id
 )
-);
-
-
-alert(
-"Pending page deleted."
 );
 
 
@@ -2479,7 +4164,7 @@ action === "delete-approved"
 
 if(
 !confirm(
-"Delete this approved page permanently?"
+"Delete this approved page?"
 )
 ){
 
@@ -2494,11 +4179,6 @@ db,
 "approvedPages",
 id
 )
-);
-
-
-alert(
-"Approved page deleted."
 );
 
 
@@ -2517,7 +4197,7 @@ action === "delete-rejected"
 
 if(
 !confirm(
-"Delete this rejected page permanently?"
+"Delete this rejected page?"
 )
 ){
 
@@ -2532,11 +4212,6 @@ db,
 "rejectedPages",
 id
 )
-);
-
-
-alert(
-"Rejected page deleted."
 );
 
 
@@ -2566,6 +4241,400 @@ error.message
 
 
 /* =====================================================
+   SETTINGS
+===================================================== */
+
+async function loadSettings(){
+
+try{
+
+
+const settingsRef =
+doc(
+db,
+"settings",
+"website"
+);
+
+
+const snapshot =
+await getDoc(
+settingsRef
+);
+
+
+if(
+!snapshot.exists()
+){
+
+return;
+
+}
+
+
+const data =
+snapshot.data();
+
+
+document.getElementById(
+"settingWebsiteName"
+).value =
+data.websiteName ||
+"Logical World";
+
+
+document.getElementById(
+"settingCleaning"
+).value =
+data.cleaningTitle ||
+"Cleaning Services";
+
+
+document.getElementById(
+"settingCleaningDescription"
+).value =
+data.cleaningDescription ||
+"Book trusted cleaning services easily.";
+
+
+document.getElementById(
+"settingRepairs"
+).value =
+data.repairsTitle ||
+"Repairs";
+
+
+document.getElementById(
+"settingRepairsDescription"
+).value =
+data.repairsDescription ||
+"Find reliable repair professionals.";
+
+
+document.getElementById(
+"settingDelivery"
+).value =
+data.deliveryTitle ||
+"Delivery";
+
+
+document.getElementById(
+"settingDeliveryDescription"
+).value =
+data.deliveryDescription ||
+"Fast and secure delivery services.";
+
+
+document.getElementById(
+"settingPhone"
+).value =
+data.phone ||
+"";
+
+
+document.getElementById(
+"settingEmail"
+).value =
+data.email ||
+"";
+
+
+document.getElementById(
+"settingContactDescription"
+).value =
+data.contactDescription ||
+"Contact options will appear on each business page.";
+
+
+}catch(error){
+
+console.error(
+"Settings loading error:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+document
+.getElementById(
+"saveSettings"
+)
+.addEventListener(
+"click",
+async()=>{
+
+
+const message =
+document.getElementById(
+"settingsMessage"
+);
+
+
+try{
+
+
+await setDoc(
+
+doc(
+db,
+"settings",
+"website"
+),
+
+{
+
+websiteName:
+document.getElementById(
+"settingWebsiteName"
+).value.trim(),
+
+
+cleaningTitle:
+document.getElementById(
+"settingCleaning"
+).value.trim(),
+
+
+cleaningDescription:
+document.getElementById(
+"settingCleaningDescription"
+).value.trim(),
+
+
+repairsTitle:
+document.getElementById(
+"settingRepairs"
+).value.trim(),
+
+
+repairsDescription:
+document.getElementById(
+"settingRepairsDescription"
+).value.trim(),
+
+
+deliveryTitle:
+document.getElementById(
+"settingDelivery"
+).value.trim(),
+
+
+deliveryDescription:
+document.getElementById(
+"settingDeliveryDescription"
+).value.trim(),
+
+
+phone:
+document.getElementById(
+"settingPhone"
+).value.trim(),
+
+
+email:
+document.getElementById(
+"settingEmail"
+).value.trim(),
+
+
+contactDescription:
+document.getElementById(
+"settingContactDescription"
+).value.trim(),
+
+
+updatedAt:
+serverTimestamp()
+
+}
+
+);
+
+
+message.innerText =
+"✅ Settings saved successfully.";
+
+
+message.style.color =
+"green";
+
+
+}catch(error){
+
+console.error(
+"Settings save error:",
+error
+);
+
+
+message.innerText =
+"❌ Unable to save settings: " +
+error.message;
+
+
+message.style.color =
+"red";
+
+}
+
+});
+
+
+/* =====================================================
+   REPORTS
+===================================================== */
+
+async function loadReports(){
+
+const list =
+document.getElementById(
+"reportsList"
+);
+
+
+try{
+
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"reports"
+)
+);
+
+
+if(
+snapshot.empty
+){
+
+list.innerHTML = `
+
+<div class="empty">
+No reports available.
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML = "";
+
+
+snapshot.docs.forEach(
+reportDoc=>{
+
+const data =
+reportDoc.data();
+
+
+const card =
+document.createElement(
+"div"
+);
+
+
+card.className =
+"page-card";
+
+
+card.innerHTML = `
+
+<h3>
+🚨 Report
+</h3>
+
+
+<p>
+
+<strong>Reason:</strong>
+
+${escapeHTML(
+data.reason ||
+"No reason provided"
+)}
+
+</p>
+
+
+<p>
+
+<strong>Reported By:</strong>
+
+${escapeHTML(
+data.reportedBy ||
+"Unknown"
+)}
+
+</p>
+
+
+<p>
+
+<strong>Reported User:</strong>
+
+${escapeHTML(
+data.reportedUser ||
+"Unknown"
+)}
+
+</p>
+
+
+<p>
+
+<strong>Description:</strong>
+
+${escapeHTML(
+data.description ||
+""
+)}
+
+</p>
+
+`;
+
+
+list.appendChild(
+card
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Reports error:",
+error
+);
+   
+   list.innerHTML = `
+
+<div class="error">
+
+Unable to load reports.
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
    MODAL
 ===================================================== */
 
@@ -2576,17 +4645,10 @@ document.getElementById(
 "viewModal"
 );
 
-
 const content =
 document.getElementById(
 "modalContent"
 );
-
-
-if(!modal || !content){
-return;
-}
-
 
 content.innerHTML = `
 
@@ -2612,7 +4674,6 @@ margin:0 auto 20px;
 ""
 }
 
-
 <p>
 <strong>Page Name:</strong>
 ${escapeHTML(
@@ -2620,14 +4681,12 @@ data.pageName || ""
 )}
 </p>
 
-
 <p>
 <strong>Category:</strong>
 ${escapeHTML(
 data.category || ""
 )}
 </p>
-
 
 <p>
 <strong>Email:</strong>
@@ -2638,14 +4697,12 @@ data.ownerEmail ||
 )}
 </p>
 
-
 <p>
 <strong>Location:</strong>
 ${escapeHTML(
 data.location || ""
 )}
 </p>
-
 
 <p>
 <strong>Address:</strong>
@@ -2654,7 +4711,6 @@ data.address || ""
 )}
 </p>
 
-
 <p>
 <strong>Description:</strong>
 ${escapeHTML(
@@ -2662,14 +4718,12 @@ data.description || ""
 )}
 </p>
 
-
 <p>
-<strong>Contact:</strong>
+<strong>Contact Method:</strong>
 ${escapeHTML(
 data.contactMethod || ""
 )}
 </p>
-
 
 <p>
 <strong>WhatsApp:</strong>
@@ -2678,7 +4732,6 @@ data.whatsapp || ""
 )}
 </p>
 
-
 <p>
 <strong>Zangi:</strong>
 ${escapeHTML(
@@ -2686,8 +4739,14 @@ data.zangi || ""
 )}
 </p>
 
-`;
+<p>
+<strong>Status:</strong>
+${escapeHTML(
+data.status || ""
+)}
+</p>
 
+`;
 
 modal.style.display =
 "block";
@@ -2699,42 +4758,28 @@ modal.style.display =
    CLOSE MODAL
 ===================================================== */
 
-const closeModal =
-document.getElementById(
+document
+.getElementById(
 "closeModal"
-);
-
-
-if(closeModal){
-
-closeModal.addEventListener(
+)
+.addEventListener(
 "click",
 ()=>{
 
-const modal =
 document.getElementById(
 "viewModal"
-);
-
-if(modal){
-modal.style.display =
+).style.display =
 "none";
-}
-
-});
 
 }
-
-
-const viewModal =
-document.getElementById(
-"viewModal"
 );
 
 
-if(viewModal){
-
-viewModal.addEventListener(
+document
+.getElementById(
+"viewModal"
+)
+.addEventListener(
 "click",
 (event)=>{
 
@@ -2748,120 +4793,85 @@ event.currentTarget.style.display =
 
 }
 
-});
-
 }
+);
 
 
 /* =====================================================
    SEARCH
 ===================================================== */
 
-const pendingSearch =
-document.getElementById(
+document
+.getElementById(
 "pendingSearch"
-);
-
-
-if(pendingSearch){
-
-pendingSearch.addEventListener(
+)
+.addEventListener(
 "input",
 displayPending
 );
 
-}
 
-
-const approvedSearch =
-document.getElementById(
+document
+.getElementById(
 "approvedSearch"
-);
-
-
-if(approvedSearch){
-
-approvedSearch.addEventListener(
+)
+.addEventListener(
 "input",
 displayApproved
 );
 
-}
 
-
-const rejectedSearch =
-document.getElementById(
+document
+.getElementById(
 "rejectedSearch"
-);
-
-
-if(rejectedSearch){
-
-rejectedSearch.addEventListener(
+)
+.addEventListener(
 "input",
 displayRejected
 );
 
 
-}
-
-
-/* =====================================================
-   USERS SEARCH
-===================================================== */
-
-const usersSearch =
-document.getElementById(
+document
+.getElementById(
 "usersSearch"
-);
-
-
-if(usersSearch){
-
-usersSearch.addEventListener(
+)
+.addEventListener(
 "input",
 displayUsers
 );
-
-}
 
 
 /* =====================================================
    REFRESH USERS
 ===================================================== */
 
-const refreshUsers =
-document.getElementById(
+document
+.getElementById(
 "refreshUsers"
-);
-
-
-if(refreshUsers){
-
-refreshUsers.addEventListener(
+)
+.addEventListener(
 "click",
 async()=>{
 
 await loadUsers();
 
-});
+alert(
+"Users refreshed."
+);
 
 }
+);
 
 
 /* =====================================================
    REFRESH DASHBOARD
 ===================================================== */
 
-const refreshDashboard =
-document.getElementById(
+document
+.getElementById(
 "refreshDashboard"
-);
-
-
-if(refreshDashboard){
-
-refreshDashboard.addEventListener(
+)
+.addEventListener(
 "click",
 async()=>{
 
@@ -2871,24 +4881,19 @@ alert(
 "Dashboard refreshed."
 );
 
-});
-
 }
+);
 
 
 /* =====================================================
    LOGOUT
 ===================================================== */
 
-const logoutButton =
-document.getElementById(
+document
+.getElementById(
 "logoutButton"
-);
-
-
-if(logoutButton){
-
-logoutButton.addEventListener(
+)
+.addEventListener(
 "click",
 async()=>{
 
@@ -2901,6 +4906,11 @@ location.href =
 
 }catch(error){
 
+console.error(
+"Logout error:",
+error
+);
+
 alert(
 "Logout failed: " +
 error.message
@@ -2908,9 +4918,8 @@ error.message
 
 }
 
-});
-
 }
+);
 
 
 /* =====================================================
@@ -2955,8 +4964,18 @@ return escapeHTML(value);
 
 }
 
-   </script>
-   
-   </body>
 
-   </html>
+/* =====================================================
+   INITIAL PAGE LOAD
+===================================================== */
+
+console.log(
+"Logical World Admin Dashboard loaded."
+);
+
+</script>
+
+
+</body>
+
+</html>
