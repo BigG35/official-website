@@ -4,7 +4,11 @@
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
 <title>Logical World Admin Dashboard</title>
 
@@ -121,12 +125,13 @@ margin-bottom:15px;
 }
 
 .page-card,
-.user-card{
+.user-card,
+.report-card{
 border:1px solid #ddd;
 border-radius:9px;
 padding:18px;
 margin-bottom:15px;
-background:#fff;
+background:white;
 }
 
 .page-logo{
@@ -140,13 +145,15 @@ border:3px solid #eee;
 }
 
 .page-card h3,
-.user-card h3{
+.user-card h3,
+.report-card h3{
 color:#0a4ea3;
 margin-bottom:10px;
 }
 
 .page-card p,
-.user-card p{
+.user-card p,
+.report-card p{
 margin:6px 0;
 word-break:break-word;
 }
@@ -267,6 +274,7 @@ padding:25px;
 margin-top:40px;
 }
 
+
 /* =========================
    SETTINGS
 ========================= */
@@ -353,7 +361,7 @@ border-left:4px solid #0a4ea3;
 padding:15px;
 margin-top:20px;
 border-radius:6px;
-line-height:1.6;
+line-height:1.7;
 }
 
 
@@ -439,9 +447,13 @@ grid-template-columns:1fr;
 
 <header>
 
-<h1>🌍 Logical World Admin Dashboard</h1>
+<h1>
+🌍 Logical World Admin Dashboard
+</h1>
 
-<p>Website Administration</p>
+<p>
+Website Administration
+</p>
 
 </header>
 
@@ -455,14 +467,12 @@ data-section="dashboard"
 🏠 Dashboard
 </button>
 
-
 <button
 class="nav-btn"
 data-section="pending"
 >
 📋 Pending Pages
 </button>
-
 
 <button
 class="nav-btn"
@@ -471,14 +481,12 @@ data-section="approved"
 ✅ Approved Pages
 </button>
 
-
 <button
 class="nav-btn"
 data-section="rejected"
 >
 ❌ Rejected Pages
 </button>
-
 
 <button
 class="nav-btn"
@@ -487,14 +495,12 @@ data-section="users"
 👥 Users
 </button>
 
-
 <button
 class="nav-btn"
 data-section="reports"
 >
 🚨 Reports
 </button>
-
 
 <button
 class="nav-btn"
@@ -503,8 +509,9 @@ data-section="settings"
 ⚙️ Settings
 </button>
 
-
-<button id="logoutButton">
+<button
+id="logoutButton"
+>
 🚪 Logout
 </button>
 
@@ -618,7 +625,6 @@ id="refreshDashboard"
 </section>
 
 
-
 <!-- =========================
      PENDING
 ========================= -->
@@ -653,7 +659,6 @@ Loading pending pages...
 </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -692,7 +697,6 @@ Loading approved pages...
 </section>
 
 
-
 <!-- =========================
      REJECTED
 ========================= -->
@@ -729,7 +733,6 @@ Loading rejected pages...
 </section>
 
 
-
 <!-- =========================
      USERS
 ========================= -->
@@ -761,8 +764,7 @@ id="refreshUsers"
 </button>
 
 
-<br>
-<br>
+<br><br>
 
 
 <div id="usersList">
@@ -776,7 +778,6 @@ Loading registered users...
 </div>
 
 </section>
-
 
 
 <!-- =========================
@@ -808,7 +809,6 @@ No reports loaded yet.
 </section>
 
 
-
 <!-- =========================
      SETTINGS
 ========================= -->
@@ -825,8 +825,7 @@ class="section"
 </h2>
 
 <p>
-These settings control the information displayed on
-Logical World.
+These settings control the information displayed on Logical World.
 </p>
 
 
@@ -859,11 +858,10 @@ Description
 
 <textarea
 id="cleaningDescription"
-placeholder="Describe your cleaning services..."
+placeholder="Book trusted cleaning services easily."
 ></textarea>
 
 </div>
-
 
 
 <!-- REPAIRS -->
@@ -892,11 +890,10 @@ Description
 
 <textarea
 id="repairsDescription"
-placeholder="Describe your repair services..."
+placeholder="Find reliable repair professionals."
 ></textarea>
 
 </div>
-
 
 
 <!-- DELIVERY -->
@@ -925,11 +922,10 @@ Description
 
 <textarea
 id="deliveryDescription"
-placeholder="Describe your delivery services..."
+placeholder="Fast and secure delivery services."
 ></textarea>
 
 </div>
-
 
 
 <!-- CONTACT -->
@@ -986,6 +982,7 @@ placeholder="Zangi username or number"
 
 </div>
 
+
 </div>
 
 
@@ -1011,6 +1008,7 @@ Preview:
 
 <br><br>
 
+
 🧹
 <strong id="previewCleaningTitle">
 Cleaning Services
@@ -1021,6 +1019,7 @@ Cleaning Services
 <span id="previewCleaningDescription">
 Book trusted cleaning services easily.
 </span>
+
 
 <br><br>
 
@@ -1036,6 +1035,7 @@ Repairs
 Find reliable repair professionals.
 </span>
 
+
 <br><br>
 
 
@@ -1049,6 +1049,7 @@ Delivery
 <span id="previewDeliveryDescription">
 Fast and secure delivery services.
 </span>
+
 
 <br><br>
 
@@ -1083,6 +1084,7 @@ Contact options will appear on each business page.
 
 </div>
 
+
 </div>
 
 </section>
@@ -1091,18 +1093,15 @@ Contact options will appear on each business page.
 </div>
 
 
-
 <footer>
 
 🌍 Logical World Admin Panel
 
-<br>
-<br>
+<br><br>
 
 © 2026 Logical World
 
 </footer>
-
 
 
 <!-- =========================
@@ -1120,7 +1119,6 @@ class="modal"
 Page Details
 </h2>
 
-
 <div id="modalContent"></div>
 
 
@@ -1134,7 +1132,6 @@ Close
 </div>
 
 </div>
-
 
 
 <script type="module">
@@ -1162,13 +1159,13 @@ from
 import {
 collection,
 getDocs,
+getDoc,
 getCountFromServer,
 addDoc,
+setDoc,
 deleteDoc,
 doc,
-serverTimestamp,
-getDoc,
-setDoc
+serverTimestamp
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -1193,6 +1190,8 @@ let approvedPages = [];
 let rejectedPages = [];
 
 let registeredUsers = [];
+
+let reports = [];
 
 
 /* =====================================================
@@ -1250,24 +1249,26 @@ async()=>{
 
 document
 .querySelectorAll(".nav-btn")
-.forEach(btn=>
-btn.classList.remove("active")
-);
+.forEach(btn=>{
+btn.classList.remove("active");
+});
+
 
 button.classList.add("active");
 
 
 document
 .querySelectorAll(".section")
-.forEach(section=>
-section.classList.remove("active")
-);
+.forEach(section=>{
+section.classList.remove("active");
+});
 
 
 const section =
 document.getElementById(
 button.dataset.section
 );
+
 
 section.classList.add("active");
 
@@ -1314,6 +1315,16 @@ await loadUsers();
 
 if(
 button.dataset.section ===
+"reports"
+){
+
+await loadReports();
+
+}
+
+
+if(
+button.dataset.section ===
 "settings"
 ){
 
@@ -1333,7 +1344,7 @@ await loadSettings();
 
 async function loadAll(){
 
-await Promise.all([
+await Promise.allSettled([
 
 loadPending(),
 
@@ -1342,6 +1353,8 @@ loadApproved(),
 loadRejected(),
 
 loadUsers(),
+
+loadReports(),
 
 loadCounts(),
 
@@ -1392,7 +1405,7 @@ let reportsCount = 0;
 
 try{
 
-const reports =
+const reportResult =
 await getCountFromServer(
 collection(
 db,
@@ -1400,14 +1413,14 @@ db,
 )
 );
 
+
 reportsCount =
-reports.data().count;
+reportResult.data().count;
 
 }catch(error){
 
-console.warn(
-"Reports count unavailable:",
-error
+console.log(
+"Reports collection unavailable."
 );
 
 }
@@ -1416,8 +1429,10 @@ error
 const pendingCount =
 pending.data().count;
 
+
 const approvedCount =
 approved.data().count;
+
 
 const userCount =
 users.data().count;
@@ -1425,32 +1440,31 @@ users.data().count;
 
 document.getElementById(
 "pendingCount"
-).innerText =
+).textContent =
 pendingCount;
 
 
 document.getElementById(
 "approvedCount"
-).innerText =
+).textContent =
 approvedCount;
 
 
 document.getElementById(
 "usersCount"
-).innerText =
+).textContent =
 userCount;
 
 
 document.getElementById(
 "reportsCount"
-).innerText =
+).textContent =
 reportsCount;
 
 
 document.getElementById(
 "totalCount"
-).innerText =
-
+).textContent =
 pendingCount +
 approvedCount;
 
@@ -1468,7 +1482,7 @@ error
 
 
 /* =====================================================
-   LOAD USERS
+   USERS
 ===================================================== */
 
 async function loadUsers(){
@@ -1480,11 +1494,9 @@ document.getElementById(
 
 
 list.innerHTML = `
-
 <div class="loading">
 Loading registered users...
 </div>
-
 `;
 
 
@@ -1501,13 +1513,11 @@ db,
 
 registeredUsers =
 snapshot.docs.map(
-userDoc=>({
+item=>({
 
-id:
-userDoc.id,
+id:item.id,
 
-data:
-userDoc.data()
+data:item.data()
 
 })
 );
@@ -1528,9 +1538,7 @@ list.innerHTML = `
 
 <div class="error">
 
-<strong>
 Unable to load registered users.
-</strong>
 
 <br><br>
 
@@ -1628,9 +1636,7 @@ No registered users found.
 
 <br><br>
 
-There are currently no documents
-in the Firestore <strong>users</strong>
-collection matching your search.
+There are currently no matching users.
 
 </div>
 
@@ -1652,6 +1658,7 @@ const card =
 document.createElement(
 "div"
 );
+
 
 card.className =
 "user-card";
@@ -1693,7 +1700,9 @@ data.name ||
 
 <p class="user-email">
 
-<strong>Email:</strong>
+<strong>
+Email:
+</strong>
 
 ${escapeHTML(
 data.email ||
@@ -1731,7 +1740,9 @@ data.accountStatus ||
 
 <p class="user-date">
 
-<strong>Registered:</strong>
+<strong>
+Registered:
+</strong>
 
 ${escapeHTML(
 createdDate
@@ -1742,7 +1753,9 @@ createdDate
 
 <div class="user-uid">
 
-<strong>Firebase UID:</strong>
+<strong>
+Firebase UID:
+</strong>
 
 <br>
 
@@ -1765,7 +1778,7 @@ card
 
 
 /* =====================================================
-   USERS SEARCH
+   USER SEARCH
 ===================================================== */
 
 document
@@ -1792,15 +1805,18 @@ async()=>{
 
 await loadUsers();
 
+await loadCounts();
+
 alert(
 "Users refreshed."
 );
 
-});
+}
+);
 
 
 /* =====================================================
-   LOAD PENDING
+   PENDING PAGES
 ===================================================== */
 
 async function loadPending(){
@@ -1906,13 +1922,15 @@ list.innerHTML = "";
 
 
 if(
-!filtered.length
+filtered.length === 0
 ){
 
 list.innerHTML = `
 
 <div class="empty">
+
 No pending pages found.
+
 </div>
 
 `;
@@ -1938,7 +1956,7 @@ page,
 
 
 /* =====================================================
-   LOAD APPROVED
+   APPROVED PAGES
 ===================================================== */
 
 async function loadApproved(){
@@ -2044,13 +2062,15 @@ list.innerHTML = "";
 
 
 if(
-!filtered.length
+filtered.length === 0
 ){
 
 list.innerHTML = `
 
 <div class="empty">
+
 No approved pages found.
+
 </div>
 
 `;
@@ -2076,7 +2096,7 @@ page,
 
 
 /* =====================================================
-   LOAD REJECTED
+   REJECTED PAGES
 ===================================================== */
 
 async function loadRejected(){
@@ -2174,1473 +2194,15 @@ list.innerHTML = "";
 
 
 if(
-!filtered.length
+filtered.length === 0
 ){
 
 list.innerHTML = `
 
 <div class="empty">
+
 No rejected pages found.
-</div>
 
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"rejected"
-)
-);
-
-});
-
-}
-
-
-/* =====================================================
-   CREATE PAGE CARD
-===================================================== */
-
-function createPageCard(
-page,
-type
-){
-
-const data =
-page.data;
-
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"page-card";
-
-
-const logo =
-data.logoURL ||
-"images/default-logo.png";
-
-
-card.innerHTML = `
-
-<img
-src="${escapeAttribute(logo)}"
-class="page-logo"
-alt="Page Logo"
->
-
-
-<h3>
-${escapeHTML(
-data.pageName ||
-"Unnamed Page"
-)}
-</h3>
-
-
-<p>
-<strong>Page Type:</strong>
-${escapeHTML(
-data.pageType || ""
-)}
-</p>
-
-
-<p>
-<strong>Category:</strong>
-${escapeHTML(
-data.category || ""
-)}
-</p>
-
-
-<p>
-<strong>Email:</strong>
-${escapeHTML(
-data.email ||
-data.ownerEmail ||
-""
-)}
-</p>
-
-
-<p>
-<strong>Location:</strong>
-${escapeHTML(
-data.location || ""
-)}
-</p>
-
-
-<p>
-<strong>Address:</strong>
-${escapeHTML(
-data.address || ""
-)}
-</p>
-
-
-<p>
-<strong>Description:</strong>
-${escapeHTML(
-data.description || ""
-)}
-</p>
-
-
-<p>
-<strong>Status:</strong>
-${escapeHTML(
-data.status || ""
-)}
-</p>
-
-
-<div>
-
-<button
-class="action view"
-data-action="view"
-data-id="${escapeAttribute(page.id)}"
-data-type="${escapeAttribute(type)}"
->
-👁 View
-</button>
-
-
-${
-type === "pending"
-?
-`
-
-<button
-class="action approve"
-data-action="approve"
-data-id="${escapeAttribute(page.id)}"
->
-✅ Approve
-</button>
-
-
-<button
-class="action reject"
-data-action="reject"
-data-id="${escapeAttribute(page.id)}"
->
-❌ Reject
-</button>
-
-
-<button
-class="action delete"
-data-action="delete-pending"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete
-</button>
-
-`
-:
-""
-}
-
-
-${
-type === "approved"
-?
-`
-
-<button
-class="action delete"
-data-action="delete-approved"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete Approved Page
-</button>
-
-`
-:
-""
-}
-
-
-${
-type === "rejected"
-?
-`
-
-<button
-class="action delete"
-data-action="delete-rejected"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete
-</button>
-
-`
-:
-""
-}
-
-</div>
-
-`;
-
-return card;
-
-}
-   <!-- =========================
-     PART 2 — CONTINUATION
-========================= -->
-
-<!-- SETTINGS SECTION -->
-
-<section id="settings" class="section">
-
-<div class="card">
-
-<h2>⚙️ Website Settings</h2>
-
-<p style="color:#666;margin-bottom:20px;">
-Manage the information displayed on the Logical World website.
-</p>
-
-
-<div class="form-group">
-
-<label>🌍 Website Name</label>
-
-<input
-type="text"
-id="settingWebsiteName"
-placeholder="Logical World"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>🧹 Cleaning Services</label>
-
-<input
-type="text"
-id="settingCleaning"
-placeholder="Cleaning Services"
->
-
-<textarea
-id="settingCleaningDescription"
-placeholder="Description"
-></textarea>
-
-</div>
-
-
-<div class="form-group">
-
-<label>🔧 Repairs</label>
-
-<input
-type="text"
-id="settingRepairs"
-placeholder="Repairs"
->
-
-<textarea
-id="settingRepairsDescription"
-placeholder="Description"
-></textarea>
-
-</div>
-
-
-<div class="form-group">
-
-<label>🚚 Delivery</label>
-
-<input
-type="text"
-id="settingDelivery"
-placeholder="Delivery"
->
-
-<textarea
-id="settingDeliveryDescription"
-placeholder="Description"
-></textarea>
-
-</div>
-
-
-<div class="form-group">
-
-<label>📞 Contact Phone</label>
-
-<input
-type="text"
-id="settingPhone"
-placeholder="Phone number"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>📧 Contact Email</label>
-
-<input
-type="email"
-id="settingEmail"
-placeholder="Email address"
->
-
-</div>
-
-
-<div class="form-group">
-
-<label>💬 WhatsApp / Zangi Information</label>
-
-<textarea
-id="settingContactDescription"
-placeholder="Contact options will appear on each business page."
-></textarea>
-
-</div>
-
-
-<button
-class="refresh"
-id="saveSettings"
->
-💾 Save Website Settings
-</button>
-
-
-<p
-id="settingsMessage"
-style="
-margin-top:15px;
-font-weight:bold;
-"
-></p>
-
-</div>
-
-</section>
-
-
-<!-- REPORTS -->
-
-<section id="reports" class="section">
-
-<div class="card">
-
-<h2>🚨 Reports</h2>
-
-<div id="reportsList">
-
-<div class="empty">
-No reports available.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-</div>
-
-
-<footer>
-
-🌍 Logical World Admin Panel
-
-<br><br>
-
-© 2026 Logical World
-
-</footer>
-
-
-<!-- =========================
-     PAGE VIEW MODAL
-========================= -->
-
-<div
-id="viewModal"
-class="modal"
->
-
-<div class="modal-box">
-
-<h2>
-Page Details
-</h2>
-
-<div id="modalContent"></div>
-
-<button
-class="close"
-id="closeModal"
->
-Close
-</button>
-
-</div>
-
-</div>
-
-
-<script type="module">
-
-
-/* =====================================================
-   FIREBASE
-===================================================== */
-
-import {
-auth,
-db
-}
-from "./firebase.js";
-
-
-import {
-onAuthStateChanged,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-
-import {
-collection,
-doc,
-getDoc,
-getDocs,
-setDoc,
-addDoc,
-deleteDoc,
-getCountFromServer,
-serverTimestamp
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* =====================================================
-   ADMIN EMAIL
-===================================================== */
-
-const ADMIN_EMAIL =
-"alagoagodstime@gmail.com";
-
-
-/* =====================================================
-   DATA
-===================================================== */
-
-let pendingPages = [];
-
-let approvedPages = [];
-
-let rejectedPages = [];
-
-let registeredUsers = [];
-
-
-/* =====================================================
-   AUTHENTICATION
-===================================================== */
-
-onAuthStateChanged(
-auth,
-async(user)=>{
-
-if(!user){
-
-location.href =
-"login.html";
-
-return;
-
-}
-
-
-if(
-(user.email || "").toLowerCase()
-!==
-ADMIN_EMAIL.toLowerCase()
-){
-
-alert(
-"Access Denied."
-);
-
-location.href =
-"index.html";
-
-return;
-
-}
-
-
-await loadAll();
-
-}
-);
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-document
-.querySelectorAll(".nav-btn")
-.forEach(
-button=>{
-
-button.addEventListener(
-"click",
-async()=>{
-
-
-document
-.querySelectorAll(".nav-btn")
-.forEach(
-btn=>
-btn.classList.remove(
-"active"
-)
-);
-
-
-button.classList.add(
-"active"
-);
-
-
-document
-.querySelectorAll(".section")
-.forEach(
-section=>
-section.classList.remove(
-"active"
-)
-);
-
-
-const section =
-document.getElementById(
-button.dataset.section
-);
-
-
-if(section){
-
-section.classList.add(
-"active"
-);
-
-}
-
-
-if(
-button.dataset.section ===
-"pending"
-){
-
-displayPending();
-
-}
-
-
-if(
-button.dataset.section ===
-"approved"
-){
-
-displayApproved();
-
-}
-
-
-if(
-button.dataset.section ===
-"rejected"
-){
-
-displayRejected();
-
-}
-
-
-if(
-button.dataset.section ===
-"users"
-){
-
-await loadUsers();
-
-}
-
-
-if(
-button.dataset.section ===
-"settings"
-){
-
-await loadSettings();
-
-}
-
-
-if(
-button.dataset.section ===
-"reports"
-){
-
-await loadReports();
-
-}
-
-});
-
-});
-
-
-/* =====================================================
-   LOAD EVERYTHING
-===================================================== */
-
-async function loadAll(){
-
-await Promise.all([
-
-loadPending(),
-
-loadApproved(),
-
-loadRejected(),
-
-loadUsers(),
-
-loadCounts(),
-
-loadSettings()
-
-]);
-
-}
-
-
-/* =====================================================
-   LOAD COUNTS
-===================================================== */
-
-async function loadCounts(){
-
-try{
-
-
-const pending =
-await getCountFromServer(
-collection(
-db,
-"pendingPages"
-)
-);
-
-
-const approved =
-await getCountFromServer(
-collection(
-db,
-"approvedPages"
-)
-);
-
-
-const users =
-await getCountFromServer(
-collection(
-db,
-"users"
-)
-);
-
-
-let reportsCount = 0;
-
-
-try{
-
-const reports =
-await getCountFromServer(
-collection(
-db,
-"reports"
-)
-);
-
-reportsCount =
-reports.data().count;
-
-}catch(error){
-
-console.log(
-"Reports collection not available yet."
-);
-
-}
-
-
-const pendingCount =
-pending.data().count;
-
-
-const approvedCount =
-approved.data().count;
-
-
-const userCount =
-users.data().count;
-
-
-document.getElementById(
-"pendingCount"
-).innerText =
-pendingCount;
-
-
-document.getElementById(
-"approvedCount"
-).innerText =
-approvedCount;
-
-
-document.getElementById(
-"usersCount"
-).innerText =
-userCount;
-
-
-document.getElementById(
-"reportsCount"
-).innerText =
-reportsCount;
-
-
-document.getElementById(
-"totalCount"
-).innerText =
-
-pendingCount +
-approvedCount;
-
-
-}catch(error){
-
-console.error(
-"Count error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   USERS
-===================================================== */
-
-async function loadUsers(){
-
-const list =
-document.getElementById(
-"usersList"
-);
-
-
-if(!list){
-
-return;
-
-}
-
-
-list.innerHTML = `
-
-<div class="loading">
-Loading registered users...
-</div>
-
-`;
-
-
-try{
-
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"users"
-)
-);
-
-
-registeredUsers =
-snapshot.docs.map(
-userDoc=>({
-
-id:
-userDoc.id,
-
-data:
-userDoc.data()
-
-})
-);
-
-
-displayUsers();
-
-
-}catch(error){
-
-console.error(
-"Users error:",
-error
-);
-
-
-list.innerHTML = `
-
-<div class="error">
-
-Unable to load users.
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY USERS
-===================================================== */
-
-function displayUsers(){
-
-const list =
-document.getElementById(
-"usersList"
-);
-
-
-if(!list){
-
-return;
-
-}
-
-
-const searchInput =
-document.getElementById(
-"usersSearch"
-);
-
-
-const search =
-searchInput
-?
-searchInput.value
-.toLowerCase()
-.trim()
-:
-"";
-
-
-const filtered =
-registeredUsers.filter(
-user=>{
-
-const data =
-user.data;
-
-
-return (
-
-String(
-data.name || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.uid ||
-user.id ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-
-No registered users found.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-user=>{
-
-const data =
-user.data;
-
-
-const card =
-document.createElement(
-"div"
-);
-
-
-card.className =
-"user-card";
-
-
-let createdDate =
-"Not available";
-
-
-if(
-data.createdAt &&
-typeof data.createdAt.toDate ===
-"function"
-){
-
-createdDate =
-data.createdAt
-.toDate()
-.toLocaleString();
-
-}
-
-
-card.innerHTML = `
-
-<h3>
-👤
-${escapeHTML(
-data.name ||
-"User"
-)}
-</h3>
-
-
-<p class="user-email">
-
-<strong>Email:</strong>
-
-${escapeHTML(
-data.email ||
-"No email"
-)}
-
-</p>
-
-
-<span class="user-role">
-
-Role:
-${escapeHTML(
-data.role ||
-"user"
-)}
-
-</span>
-
-
-<span class="user-status">
-
-Status:
-${escapeHTML(
-data.accountStatus ||
-"active"
-)}
-
-</span>
-
-
-<p class="user-date">
-
-<strong>Registered:</strong>
-
-${escapeHTML(
-createdDate
-)}
-
-</p>
-
-
-<div class="user-uid">
-
-<strong>Firebase UID:</strong>
-
-<br>
-
-${escapeHTML(
-data.uid ||
-user.id
-)}
-
-</div>
-
-`;
-
-
-list.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =====================================================
-   PENDING PAGES
-===================================================== */
-
-async function loadPending(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"pendingPages"
-)
-);
-
-
-pendingPages =
-snapshot.docs.map(
-item=>({
-
-id:
-item.id,
-
-data:
-item.data()
-
-})
-);
-
-
-displayPending();
-
-
-}catch(error){
-
-console.error(
-"Pending error:",
-error
-);
-
-}
-
-}
-
-
-function displayPending(){
-
-const list =
-document.getElementById(
-"pendingList"
-);
-
-
-const search =
-document.getElementById(
-"pendingSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-pendingPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.location || ""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-No pending pages found.
-</div>
-
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"pending"
-)
-);
-
-});
-
-}
-
-
-/* =====================================================
-   APPROVED PAGES
-===================================================== */
-
-async function loadApproved(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"approvedPages"
-)
-);
-
-
-approvedPages =
-snapshot.docs.map(
-item=>({
-
-id:
-item.id,
-
-data:
-item.data()
-
-})
-);
-
-
-displayApproved();
-
-
-}catch(error){
-
-console.error(
-"Approved error:",
-error
-);
-
-}
-
-}
-
-
-function displayApproved(){
-
-const list =
-document.getElementById(
-"approvedList"
-);
-
-
-const search =
-document.getElementById(
-"approvedSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-approvedPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.location || ""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-No approved pages found.
-</div>
-
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"approved"
-)
-);
-
-});
-
-}
-
-
-/* =====================================================
-   REJECTED PAGES
-===================================================== */
-
-async function loadRejected(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"rejectedPages"
-)
-);
-
-
-rejectedPages =
-snapshot.docs.map(
-item=>({
-
-id:
-item.id,
-
-data:
-item.data()
-
-})
-);
-
-
-displayRejected();
-
-
-}catch(error){
-
-console.error(
-"Rejected error:",
-error
-);
-
-}
-
-}
-
-
-function displayRejected(){
-
-const list =
-document.getElementById(
-"rejectedList"
-);
-
-
-const search =
-document.getElementById(
-"rejectedSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-rejectedPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-No rejected pages found.
 </div>
 
 `;
@@ -3714,7 +2276,22 @@ data.pageName ||
 
 <p>
 
-<strong>Category:</strong>
+<strong>
+Page Type:
+</strong>
+
+${escapeHTML(
+data.pageType || ""
+)}
+
+</p>
+
+
+<p>
+
+<strong>
+Category:
+</strong>
 
 ${escapeHTML(
 data.category || ""
@@ -3725,7 +2302,9 @@ data.category || ""
 
 <p>
 
-<strong>Email:</strong>
+<strong>
+Email:
+</strong>
 
 ${escapeHTML(
 data.email ||
@@ -3738,7 +2317,9 @@ data.ownerEmail ||
 
 <p>
 
-<strong>Location:</strong>
+<strong>
+Location:
+</strong>
 
 ${escapeHTML(
 data.location || ""
@@ -3749,7 +2330,9 @@ data.location || ""
 
 <p>
 
-<strong>Address:</strong>
+<strong>
+Address:
+</strong>
 
 ${escapeHTML(
 data.address || ""
@@ -3760,7 +2343,9 @@ data.address || ""
 
 <p>
 
-<strong>Description:</strong>
+<strong>
+Description:
+</strong>
 
 ${escapeHTML(
 data.description || ""
@@ -3771,7 +2356,9 @@ data.description || ""
 
 <p>
 
-<strong>Status:</strong>
+<strong>
+Status:
+</strong>
 
 ${escapeHTML(
 data.status || ""
@@ -3782,16 +2369,13 @@ data.status || ""
 
 <div>
 
-
 <button
 class="action view"
 data-action="view"
 data-id="${escapeAttribute(page.id)}"
 data-type="${escapeAttribute(type)}"
 >
-
 👁 View
-
 </button>
 
 
@@ -3805,9 +2389,7 @@ class="action approve"
 data-action="approve"
 data-id="${escapeAttribute(page.id)}"
 >
-
 ✅ Approve
-
 </button>
 
 
@@ -3816,9 +2398,7 @@ class="action reject"
 data-action="reject"
 data-id="${escapeAttribute(page.id)}"
 >
-
 ❌ Reject
-
 </button>
 
 
@@ -3827,9 +2407,7 @@ class="action delete"
 data-action="delete-pending"
 data-id="${escapeAttribute(page.id)}"
 >
-
 🗑 Delete
-
 </button>
 
 `
@@ -3848,9 +2426,7 @@ class="action delete"
 data-action="delete-approved"
 data-id="${escapeAttribute(page.id)}"
 >
-
 🗑 Delete Approved Page
-
 </button>
 
 `
@@ -3869,9 +2445,7 @@ class="action delete"
 data-action="delete-rejected"
 data-id="${escapeAttribute(page.id)}"
 >
-
 🗑 Delete
-
 </button>
 
 `
@@ -3883,922 +2457,14 @@ data-id="${escapeAttribute(page.id)}"
 
 `;
 
+
 return card;
 
 }
 
 
 /* =====================================================
-   PAGE ACTIONS
-===================================================== */
-
-document.addEventListener(
-"click",
-async(event)=>{
-
-const button =
-event.target.closest(
-"[data-action]"
-);
-
-
-if(!button){
-
-return;
-
-}
-
-
-const action =
-button.dataset.action;
-
-const id =
-button.dataset.id;
-
-
-try{
-
-
-/* VIEW */
-
-if(
-action === "view"
-){
-
-const type =
-button.dataset.type;
-
-
-let source = [];
-
-
-if(
-type === "pending"
-){
-
-source =
-pendingPages;
-
-}
-
-
-if(
-type === "approved"
-){
-
-source =
-approvedPages;
-
-}
-
-
-if(
-type === "rejected"
-){
-
-source =
-rejectedPages;
-
-}
-
-
-const item =
-source.find(
-page=>page.id === id
-);
-
-
-if(item){
-
-showModal(
-item.data
-);
-
-}
-
-return;
-
-}
-
-
-/* APPROVE */
-
-if(
-action === "approve"
-){
-
-const item =
-pendingPages.find(
-page=>page.id === id
-);
-
-
-if(!item){
-
-return;
-
-}
-
-
-if(
-!confirm(
-"Approve this page?"
-)
-){
-
-return;
-
-}
-
-
-await setDoc(
-doc(
-db,
-"approvedPages",
-id
-),
-{
-
-...item.data,
-
-status:
-"Approved",
-
-approvedAt:
-serverTimestamp()
-
-}
-);
-
-
-await deleteDoc(
-doc(
-db,
-"pendingPages",
-id
-)
-);
-
-
-alert(
-"Page approved successfully."
-);
-
-
-await loadAll();
-
-return;
-
-}
-
-
-/* REJECT */
-
-if(
-action === "reject"
-){
-
-const item =
-pendingPages.find(
-page=>page.id === id
-);
-
-
-if(!item){
-
-return;
-
-}
-
-
-if(
-!confirm(
-"Reject this page?"
-)
-){
-
-return;
-
-}
-
-
-await setDoc(
-doc(
-db,
-"rejectedPages",
-id
-),
-{
-
-...item.data,
-
-status:
-"Rejected",
-
-rejectedAt:
-serverTimestamp()
-
-}
-);
-
-
-await deleteDoc(
-doc(
-db,
-"pendingPages",
-id
-)
-);
-
-
-alert(
-"Page rejected successfully."
-);
-
-
-await loadAll();
-
-return;
-
-}
-
-
-/* DELETE PENDING */
-
-if(
-action === "delete-pending"
-){
-
-if(
-!confirm(
-"Delete this pending page?"
-)
-){
-
-return;
-
-}
-
-
-await deleteDoc(
-doc(
-db,
-"pendingPages",
-id
-)
-);
-
-
-await loadAll();
-
-return;
-
-}
-
-
-/* DELETE APPROVED */
-
-if(
-action === "delete-approved"
-){
-
-if(
-!confirm(
-"Delete this approved page?"
-)
-){
-
-return;
-
-}
-
-
-await deleteDoc(
-doc(
-db,
-"approvedPages",
-id
-)
-);
-
-
-await loadAll();
-
-return;
-
-}
-
-
-/* DELETE REJECTED */
-
-if(
-action === "delete-rejected"
-){
-
-if(
-!confirm(
-"Delete this rejected page?"
-)
-){
-
-return;
-
-}
-
-
-await deleteDoc(
-doc(
-db,
-"rejectedPages",
-id
-)
-);
-
-
-await loadAll();
-
-return;
-
-}
-
-
-}catch(error){
-
-console.error(
-"Admin action error:",
-error
-);
-
-
-alert(
-"Action failed: " +
-error.message
-);
-
-}
-
-});
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-async function loadSettings(){
-
-try{
-
-
-const settingsRef =
-doc(
-db,
-"settings",
-"website"
-);
-
-
-const snapshot =
-await getDoc(
-settingsRef
-);
-
-
-if(
-!snapshot.exists()
-){
-
-return;
-
-}
-
-
-const data =
-snapshot.data();
-
-
-document.getElementById(
-"settingWebsiteName"
-).value =
-data.websiteName ||
-"Logical World";
-
-
-document.getElementById(
-"settingCleaning"
-).value =
-data.cleaningTitle ||
-"Cleaning Services";
-
-
-document.getElementById(
-"settingCleaningDescription"
-).value =
-data.cleaningDescription ||
-"Book trusted cleaning services easily.";
-
-
-document.getElementById(
-"settingRepairs"
-).value =
-data.repairsTitle ||
-"Repairs";
-
-
-document.getElementById(
-"settingRepairsDescription"
-).value =
-data.repairsDescription ||
-"Find reliable repair professionals.";
-
-
-document.getElementById(
-"settingDelivery"
-).value =
-data.deliveryTitle ||
-"Delivery";
-
-
-document.getElementById(
-"settingDeliveryDescription"
-).value =
-data.deliveryDescription ||
-"Fast and secure delivery services.";
-
-
-document.getElementById(
-"settingPhone"
-).value =
-data.phone ||
-"";
-
-
-document.getElementById(
-"settingEmail"
-).value =
-data.email ||
-"";
-
-
-document.getElementById(
-"settingContactDescription"
-).value =
-data.contactDescription ||
-"Contact options will appear on each business page.";
-
-
-}catch(error){
-
-console.error(
-"Settings loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   SAVE SETTINGS
-===================================================== */
-
-document
-.getElementById(
-"saveSettings"
-)
-.addEventListener(
-"click",
-async()=>{
-
-
-const message =
-document.getElementById(
-"settingsMessage"
-);
-
-
-try{
-
-
-await setDoc(
-
-doc(
-db,
-"settings",
-"website"
-),
-
-{
-
-websiteName:
-document.getElementById(
-"settingWebsiteName"
-).value.trim(),
-
-
-cleaningTitle:
-document.getElementById(
-"settingCleaning"
-).value.trim(),
-
-
-cleaningDescription:
-document.getElementById(
-"settingCleaningDescription"
-).value.trim(),
-
-
-repairsTitle:
-document.getElementById(
-"settingRepairs"
-).value.trim(),
-
-
-repairsDescription:
-document.getElementById(
-"settingRepairsDescription"
-).value.trim(),
-
-
-deliveryTitle:
-document.getElementById(
-"settingDelivery"
-).value.trim(),
-
-
-deliveryDescription:
-document.getElementById(
-"settingDeliveryDescription"
-).value.trim(),
-
-
-phone:
-document.getElementById(
-"settingPhone"
-).value.trim(),
-
-
-email:
-document.getElementById(
-"settingEmail"
-).value.trim(),
-
-
-contactDescription:
-document.getElementById(
-"settingContactDescription"
-).value.trim(),
-
-
-updatedAt:
-serverTimestamp()
-
-}
-
-);
-
-
-message.innerText =
-"✅ Settings saved successfully.";
-
-
-message.style.color =
-"green";
-
-
-}catch(error){
-
-console.error(
-"Settings save error:",
-error
-);
-
-
-message.innerText =
-"❌ Unable to save settings: " +
-error.message;
-
-
-message.style.color =
-"red";
-
-}
-
-});
-
-
-/* =====================================================
-   REPORTS
-===================================================== */
-
-async function loadReports(){
-
-const list =
-document.getElementById(
-"reportsList"
-);
-
-
-try{
-
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"reports"
-)
-);
-
-
-if(
-snapshot.empty
-){
-
-list.innerHTML = `
-
-<div class="empty">
-No reports available.
-</div>
-
-`;
-
-return;
-
-}
-
-
-list.innerHTML = "";
-
-
-snapshot.docs.forEach(
-reportDoc=>{
-
-const data =
-reportDoc.data();
-
-
-const card =
-document.createElement(
-"div"
-);
-
-
-card.className =
-"page-card";
-
-
-card.innerHTML = `
-
-<h3>
-🚨 Report
-</h3>
-
-
-<p>
-
-<strong>Reason:</strong>
-
-${escapeHTML(
-data.reason ||
-"No reason provided"
-)}
-
-</p>
-
-
-<p>
-
-<strong>Reported By:</strong>
-
-${escapeHTML(
-data.reportedBy ||
-"Unknown"
-)}
-
-</p>
-
-
-<p>
-
-<strong>Reported User:</strong>
-
-${escapeHTML(
-data.reportedUser ||
-"Unknown"
-)}
-
-</p>
-
-
-<p>
-
-<strong>Description:</strong>
-
-${escapeHTML(
-data.description ||
-""
-)}
-
-</p>
-
-`;
-
-
-list.appendChild(
-card
-);
-
-});
-
-
-}catch(error){
-
-console.error(
-"Reports error:",
-error
-);
-   
-   list.innerHTML = `
-
-<div class="error">
-
-Unable to load reports.
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function showModal(data){
-
-const modal =
-document.getElementById(
-"viewModal"
-);
-
-const content =
-document.getElementById(
-"modalContent"
-);
-
-content.innerHTML = `
-
-${
-data.logoURL
-?
-`
-<img
-src="${escapeAttribute(
-data.logoURL
-)}"
-style="
-width:130px;
-height:130px;
-object-fit:cover;
-border-radius:50%;
-display:block;
-margin:0 auto 20px;
-"
->
-`
-:
-""
-}
-
-<p>
-<strong>Page Name:</strong>
-${escapeHTML(
-data.pageName || ""
-)}
-</p>
-
-<p>
-<strong>Category:</strong>
-${escapeHTML(
-data.category || ""
-)}
-</p>
-
-<p>
-<strong>Email:</strong>
-${escapeHTML(
-data.email ||
-data.ownerEmail ||
-""
-)}
-</p>
-
-<p>
-<strong>Location:</strong>
-${escapeHTML(
-data.location || ""
-)}
-</p>
-
-<p>
-<strong>Address:</strong>
-${escapeHTML(
-data.address || ""
-)}
-</p>
-
-<p>
-<strong>Description:</strong>
-${escapeHTML(
-data.description || ""
-)}
-</p>
-
-<p>
-<strong>Contact Method:</strong>
-${escapeHTML(
-data.contactMethod || ""
-)}
-</p>
-
-<p>
-<strong>WhatsApp:</strong>
-${escapeHTML(
-data.whatsapp || ""
-)}
-</p>
-
-<p>
-<strong>Zangi:</strong>
-${escapeHTML(
-data.zangi || ""
-)}
-</p>
-
-<p>
-<strong>Status:</strong>
-${escapeHTML(
-data.status || ""
-)}
-</p>
-
-`;
-
-modal.style.display =
-"block";
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
-document
-.getElementById(
-"closeModal"
-)
-.addEventListener(
-"click",
-()=>{
-
-document.getElementById(
-"viewModal"
-).style.display =
-"none";
-
-}
-);
-
-
-document
-.getElementById(
-"viewModal"
-)
-.addEventListener(
-"click",
-(event)=>{
-
-if(
-event.target.id ===
-"viewModal"
-){
-
-event.currentTarget.style.display =
-"none";
-
-}
-
-}
-);
-
-
-/* =====================================================
-   SEARCH
+   PAGE SEARCH
 ===================================================== */
 
 document
@@ -4829,77 +2495,1710 @@ document
 "input",
 displayRejected
 );
-
-
-document
+   document
 .getElementById(
-"usersSearch"
+"rejectedSearch"
 )
 .addEventListener(
 "input",
-displayUsers
+displayRejected
 );
 
 
 /* =====================================================
-   REFRESH USERS
+   USERS SEARCH
 ===================================================== */
 
-document
-.getElementById(
-"refreshUsers"
-)
-.addEventListener(
-"click",
-async()=>{
+const usersSearch =
+document.getElementById(
+"usersSearch"
+);
 
-await loadUsers();
+if(usersSearch){
 
-alert(
-"Users refreshed."
+usersSearch.addEventListener(
+"input",
+displayUsers
 );
 
 }
-);
 
 
 /* =====================================================
    REFRESH DASHBOARD
 ===================================================== */
 
-document
-.getElementById(
+const refreshDashboard =
+document.getElementById(
 "refreshDashboard"
-)
-.addEventListener(
+);
+
+if(refreshDashboard){
+
+refreshDashboard.addEventListener(
 "click",
 async()=>{
+
+try{
+
+refreshDashboard.disabled =
+true;
+
+refreshDashboard.innerText =
+"🔄 Refreshing...";
 
 await loadAll();
 
 alert(
-"Dashboard refreshed."
+"Dashboard refreshed successfully."
+);
+
+}catch(error){
+
+console.error(
+"Dashboard refresh error:",
+error
+);
+
+alert(
+"Unable to refresh dashboard: " +
+error.message
+);
+
+}finally{
+
+refreshDashboard.disabled =
+false;
+
+refreshDashboard.innerText =
+"🔄 Refresh Dashboard";
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   REFRESH USERS
+===================================================== */
+
+const refreshUsers =
+document.getElementById(
+"refreshUsers"
+);
+
+if(refreshUsers){
+
+refreshUsers.addEventListener(
+"click",
+async()=>{
+
+try{
+
+refreshUsers.disabled =
+true;
+
+refreshUsers.innerText =
+"🔄 Loading...";
+
+await loadUsers();
+
+}catch(error){
+
+console.error(
+"Users refresh error:",
+error
+);
+
+alert(
+"Unable to refresh users: " +
+error.message
+);
+
+}finally{
+
+refreshUsers.disabled =
+false;
+
+refreshUsers.innerText =
+"🔄 Refresh Users";
+
+}
+
+});
+
+}
+
+
+/* =====================================================
+   REPORTS
+===================================================== */
+
+async function loadReports(){
+
+const list =
+document.getElementById(
+"reportsList"
+);
+
+if(!list){
+
+return;
+
+}
+
+
+list.innerHTML = `
+
+<div class="loading">
+Loading reports...
+</div>
+
+`;
+
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+"reports"
+)
+);
+
+
+if(snapshot.empty){
+
+list.innerHTML = `
+
+<div class="empty">
+
+<strong>
+No reports found.
+</strong>
+
+<br><br>
+
+There are currently no reports.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+list.innerHTML = "";
+
+
+snapshot.forEach(
+reportDoc=>{
+
+const data =
+reportDoc.data();
+
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"page-card";
+
+
+let createdDate =
+"Not available";
+
+
+if(
+data.createdAt &&
+typeof data.createdAt.toDate ===
+"function"
+){
+
+createdDate =
+data.createdAt
+.toDate()
+.toLocaleString();
+
+}
+
+
+card.innerHTML = `
+
+<h3>
+🚨 Report
+</h3>
+
+<p>
+
+<strong>
+Reported by:
+</strong>
+
+${escapeHTML(
+data.reportedByName ||
+data.userName ||
+"No name"
+)}
+
+</p>
+
+
+<p>
+
+<strong>
+Email:
+</strong>
+
+${escapeHTML(
+data.reportedByEmail ||
+data.email ||
+"No email"
+)}
+
+</p>
+
+
+<p>
+
+<strong>
+Reason:
+</strong>
+
+${escapeHTML(
+data.reason ||
+"No reason provided"
+)}
+
+</p>
+
+
+<p>
+
+<strong>
+Description:
+</strong>
+
+${escapeHTML(
+data.description ||
+"No description provided"
+)}
+
+</p>
+
+
+<p>
+
+<strong>
+Date:
+</strong>
+
+${escapeHTML(
+createdDate
+)}
+
+</p>
+
+
+<button
+class="action delete"
+data-report-id="${escapeAttribute(
+reportDoc.id
+)}"
+>
+
+🗑 Delete Report
+
+</button>
+
+`;
+
+
+list.appendChild(
+card
+);
+
+});
+
+
+}catch(error){
+
+console.error(
+"Reports loading error:",
+error
+);
+
+
+list.innerHTML = `
+
+<div class="error">
+
+<strong>
+Unable to load reports.
+</strong>
+
+<br><br>
+
+${escapeHTML(
+error.message
+)}
+
+</div>
+
+`;
+
+}
+
+}
+
+
+/* =====================================================
+   REPORT BUTTON
+===================================================== */
+
+const reportsButton =
+document.querySelector(
+'[data-section="reports"]'
+);
+
+if(reportsButton){
+
+reportsButton.addEventListener(
+"click",
+async()=>{
+
+await loadReports();
+
+});
+
+}
+
+
+/* =====================================================
+   DELETE REPORT
+===================================================== */
+
+document.addEventListener(
+"click",
+async(event)=>{
+
+const button =
+event.target.closest(
+"[data-report-id]"
+);
+
+if(!button){
+
+return;
+
+}
+
+
+const reportId =
+button.dataset.reportId;
+
+
+if(
+!confirm(
+"Delete this report?"
+)
+){
+
+return;
+
+}
+
+
+try{
+
+await deleteDoc(
+doc(
+db,
+"reports",
+reportId
+)
+);
+
+
+alert(
+"Report deleted successfully."
+);
+
+
+await loadReports();
+
+
+}catch(error){
+
+console.error(
+"Delete report error:",
+error
+);
+
+alert(
+"Unable to delete report: " +
+error.message
 );
 
 }
+
+});
+
+
+/* =====================================================
+   SETTINGS
+===================================================== */
+
+function createSettingsPanel(){
+
+const section =
+document.getElementById(
+"settings"
 );
+
+if(!section){
+
+return;
+
+}
+
+
+section.innerHTML = `
+
+<div class="card">
+
+<h2>
+⚙️ Website Settings
+</h2>
+
+
+<p style="
+color:#555;
+margin-bottom:20px;
+">
+
+Fill in the information below.
+These details can be displayed on
+the Logical World website.
+
+</p>
+
+
+<div style="
+background:#e8f1ff;
+border-left:5px solid #0a4ea3;
+padding:15px;
+border-radius:6px;
+margin-bottom:20px;
+">
+
+<strong>
+🌍 Website Information
+</strong>
+
+</div>
+
+
+<label>
+<strong>
+Website Name
+</strong>
+</label>
+
+<input
+class="search"
+id="settingWebsiteName"
+placeholder="Logical World"
+>
+
+
+<div style="
+margin-top:20px;
+background:#f5f5f5;
+padding:15px;
+border-radius:8px;
+">
+
+<h3 style="
+color:#0a4ea3;
+margin-bottom:15px;
+">
+
+🧹 Cleaning Services
+
+</h3>
+
+
+<label>
+Title
+</label>
+
+<input
+class="search"
+id="settingCleaning"
+placeholder="Cleaning Services"
+>
+
+
+<label>
+Description
+</label>
+
+<textarea
+class="search"
+id="settingCleaningDescription"
+rows="3"
+placeholder="Book trusted cleaning services easily."
+></textarea>
+
+</div>
+
+
+<div style="
+margin-top:20px;
+background:#f5f5f5;
+padding:15px;
+border-radius:8px;
+">
+
+<h3 style="
+color:#0a4ea3;
+margin-bottom:15px;
+">
+
+🔧 Repairs
+
+</h3>
+
+
+<label>
+Title
+</label>
+
+<input
+class="search"
+id="settingRepairs"
+placeholder="Repairs"
+>
+
+
+<label>
+Description
+</label>
+
+<textarea
+class="search"
+id="settingRepairsDescription"
+rows="3"
+placeholder="Find reliable repair professionals."
+></textarea>
+
+</div>
+
+
+<div style="
+margin-top:20px;
+background:#f5f5f5;
+padding:15px;
+border-radius:8px;
+">
+
+<h3 style="
+color:#0a4ea3;
+margin-bottom:15px;
+">
+
+🚚 Delivery
+
+</h3>
+
+
+<label>
+Title
+</label>
+
+<input
+class="search"
+id="settingDelivery"
+placeholder="Delivery"
+>
+
+
+<label>
+Description
+</label>
+
+<textarea
+class="search"
+id="settingDeliveryDescription"
+rows="3"
+placeholder="Fast and secure delivery services."
+></textarea>
+
+</div>
+
+
+<div style="
+margin-top:20px;
+background:#e8f1ff;
+border-left:5px solid #0a4ea3;
+padding:15px;
+border-radius:6px;
+">
+
+<h3 style="
+color:#0a4ea3;
+margin-bottom:15px;
+">
+
+📞 Contact Us
+
+</h3>
+
+
+<label>
+<strong>
+Phone Number
+</strong>
+</label>
+
+<input
+class="search"
+id="settingPhone"
+placeholder="Enter phone number"
+>
+
+
+<label>
+<strong>
+Email Address
+</strong>
+</label>
+
+<input
+class="search"
+id="settingEmail"
+type="email"
+placeholder="Enter email address"
+>
+
+
+<label>
+<strong>
+WhatsApp / Zangi
+</strong>
+</label>
+
+<input
+class="search"
+id="settingContactDescription"
+placeholder="Contact options will appear on each business page."
+>
+
+</div>
+
+
+<br>
+
+
+<div
+id="settingsMessage"
+style="display:none;margin-bottom:15px;"
+></div>
+
+
+<button
+class="refresh"
+id="saveSettings"
+style="
+width:100%;
+padding:14px;
+font-size:16px;
+"
+>
+
+💾 Save Website Settings
+
+</button>
+
+
+<div style="
+margin-top:30px;
+background:#fff;
+border:1px solid #ddd;
+border-radius:10px;
+padding:20px;
+">
+
+<h2>
+👁 Preview
+</h2>
+
+
+<h1
+id="previewWebsiteName"
+style="
+color:#0a4ea3;
+margin:20px 0;
+"
+>
+Logical World
+</h1>
+
+
+<div class="page-card">
+
+<h3 id="previewCleaningTitle">
+Cleaning Services
+</h3>
+
+<p id="previewCleaningDescription">
+Book trusted cleaning services easily.
+</p>
+
+</div>
+
+
+<div class="page-card">
+
+<h3 id="previewRepairsTitle">
+Repairs
+</h3>
+
+<p id="previewRepairsDescription">
+Find reliable repair professionals.
+</p>
+
+</div>
+
+
+<div class="page-card">
+
+<h3 id="previewDeliveryTitle">
+Delivery
+</h3>
+
+<p id="previewDeliveryDescription">
+Fast and secure delivery services.
+</p>
+
+</div>
+
+
+<h2 style="
+margin-top:30px;
+color:#0a4ea3;
+">
+
+Contact Us
+
+</h2>
+
+
+<div class="page-card">
+
+<h3>
+📞 Phone
+</h3>
+
+<p id="previewPhone">
+Your phone number will appear here.
+</p>
+
+</div>
+
+
+<div class="page-card">
+
+<h3>
+📧 Email
+</h3>
+
+<p id="previewEmail">
+Your email address will appear here.
+</p>
+
+</div>
+
+
+<div class="page-card">
+
+<h3>
+💬 WhatsApp / Zangi
+</h3>
+
+<p>
+Contact options will appear on each business page.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+`;
+
+}
+
+
+/* =====================================================
+   SETTINGS HELPERS
+===================================================== */
+
+function settingValue(id){
+
+const element =
+document.getElementById(id);
+
+if(!element){
+
+return "";
+
+}
+
+return element.value.trim();
+
+}
+
+
+function setSettingValue(
+id,
+value
+){
+
+const element =
+document.getElementById(id);
+
+if(element){
+
+element.value =
+value || "";
+
+}
+
+}
+
+
+function setPreviewText(
+id,
+value
+){
+
+const element =
+document.getElementById(id);
+
+if(element){
+
+element.innerText =
+value || "";
+
+}
+
+}
+
+
+/* =====================================================
+   LOAD SETTINGS
+===================================================== */
+
+async function loadSettings(){
+
+try{
+
+const settingsSnapshot =
+await getDocs(
+collection(
+db,
+"siteSettings"
+)
+);
+
+
+let data = null;
+
+
+settingsSnapshot.forEach(
+item=>{
+
+if(
+item.id ===
+"general"
+){
+
+data =
+item.data();
+
+}
+
+});
+
+
+if(!data){
+
+data = {
+
+websiteName:
+"Logical World",
+
+cleaningTitle:
+"Cleaning Services",
+
+cleaningDescription:
+"Book trusted cleaning services easily.",
+
+repairsTitle:
+"Repairs",
+
+repairsDescription:
+"Find reliable repair professionals.",
+
+deliveryTitle:
+"Delivery",
+
+deliveryDescription:
+"Fast and secure delivery services.",
+
+phone:
+"",
+
+email:
+"",
+
+contactDescription:
+"Contact options will appear on each business page."
+
+};
+
+}
+
+
+setSettingValue(
+"settingWebsiteName",
+data.websiteName
+);
+
+
+setSettingValue(
+"settingCleaning",
+data.cleaningTitle
+);
+
+
+setSettingValue(
+"settingCleaningDescription",
+data.cleaningDescription
+);
+
+
+setSettingValue(
+"settingRepairs",
+data.repairsTitle
+);
+
+
+setSettingValue(
+"settingRepairsDescription",
+data.repairsDescription
+);
+
+
+setSettingValue(
+"settingDelivery",
+data.deliveryTitle
+);
+
+
+setSettingValue(
+"settingDeliveryDescription",
+data.deliveryDescription
+);
+
+
+setSettingValue(
+"settingPhone",
+data.phone
+);
+
+
+setSettingValue(
+"settingEmail",
+data.email
+);
+
+
+setSettingValue(
+"settingContactDescription",
+data.contactDescription
+);
+
+
+updateSettingsPreview();
+
+
+}catch(error){
+
+console.error(
+"Load settings error:",
+error
+);
+
+}
+
+}
+
+
+/* =====================================================
+   SETTINGS PREVIEW
+===================================================== */
+
+function updateSettingsPreview(){
+
+setPreviewText(
+"previewWebsiteName",
+settingValue(
+"settingWebsiteName"
+) ||
+"Logical World"
+);
+
+
+setPreviewText(
+"previewCleaningTitle",
+settingValue(
+"settingCleaning"
+) ||
+"Cleaning Services"
+);
+
+
+setPreviewText(
+"previewCleaningDescription",
+settingValue(
+"settingCleaningDescription"
+) ||
+"Book trusted cleaning services easily."
+);
+
+
+setPreviewText(
+"previewRepairsTitle",
+settingValue(
+"settingRepairs"
+) ||
+"Repairs"
+);
+
+
+setPreviewText(
+"previewRepairsDescription",
+settingValue(
+"settingRepairsDescription"
+) ||
+"Find reliable repair professionals."
+);
+
+
+setPreviewText(
+"previewDeliveryTitle",
+settingValue(
+"settingDelivery"
+) ||
+"Delivery"
+);
+
+
+setPreviewText(
+"previewDeliveryDescription",
+settingValue(
+"settingDeliveryDescription"
+) ||
+"Fast and secure delivery services."
+);
+
+
+setPreviewText(
+"previewPhone",
+settingValue(
+"settingPhone"
+) ||
+"Your phone number will appear here."
+);
+
+
+setPreviewText(
+"previewEmail",
+settingValue(
+"settingEmail"
+) ||
+"Your email address will appear here."
+);
+
+}
+
+
+/* =====================================================
+   SETTINGS LIVE PREVIEW
+===================================================== */
+
+document.addEventListener(
+"input",
+(event)=>{
+
+if(
+event.target.closest(
+"#settings"
+)
+){
+
+updateSettingsPreview();
+
+}
+
+});
+
+
+/* =====================================================
+   SAVE SETTINGS
+===================================================== */
+
+document.addEventListener(
+"click",
+async(event)=>{
+
+const button =
+event.target.closest(
+"#saveSettings"
+);
+
+if(!button){
+
+return;
+
+}
+
+
+try{
+
+button.disabled =
+true;
+
+button.innerText =
+"💾 Saving...";
+
+
+const settingsData = {
+
+websiteName:
+settingValue(
+"settingWebsiteName"
+) ||
+"Logical World",
+
+cleaningTitle:
+settingValue(
+"settingCleaning"
+) ||
+"Cleaning Services",
+
+cleaningDescription:
+settingValue(
+"settingCleaningDescription"
+) ||
+"Book trusted cleaning services easily.",
+
+repairsTitle:
+settingValue(
+"settingRepairs"
+) ||
+"Repairs",
+
+repairsDescription:
+settingValue(
+"settingRepairsDescription"
+) ||
+"Find reliable repair professionals.",
+
+deliveryTitle:
+settingValue(
+"settingDelivery"
+) ||
+"Delivery",
+
+deliveryDescription:
+settingValue(
+"settingDeliveryDescription"
+) ||
+"Fast and secure delivery services.",
+
+phone:
+settingValue(
+"settingPhone"
+),
+
+email:
+settingValue(
+"settingEmail"
+),
+
+contactDescription:
+settingValue(
+"settingContactDescription"
+) ||
+"Contact options will appear on each business page.",
+
+updatedAt:
+serverTimestamp(),
+
+updatedBy:
+auth.currentUser ?
+auth.currentUser.email :
+""
+
+};
+
+
+/*
+   We use addDoc here only if the settings
+   document does not already exist.
+*/
+
+const settingsSnapshot =
+await getDocs(
+collection(
+db,
+"siteSettings"
+)
+);
+
+
+let generalDoc = null;
+
+
+settingsSnapshot.forEach(
+item=>{
+
+if(
+item.id ===
+"general"
+){
+
+generalDoc =
+item;
+
+}
+
+});
+
+
+if(generalDoc){
+
+await updateDoc(
+doc(
+db,
+"siteSettings",
+"general"
+),
+settingsData
+);
+
+}else{
+
+await setDoc(
+doc(
+db,
+"siteSettings",
+"general"
+),
+settingsData
+);
+
+}
+
+
+const message =
+document.getElementById(
+"settingsMessage"
+);
+
+
+if(message){
+
+message.innerText =
+"✅ Website settings saved successfully.";
+
+message.style.display =
+"block";
+
+message.style.background =
+"#d1e7dd";
+
+message.style.color =
+"#0f5132";
+
+message.style.padding =
+"12px";
+
+message.style.borderRadius =
+"6px";
+
+}
+
+
+alert(
+"Website settings saved successfully."
+);
+
+
+}catch(error){
+
+console.error(
+"Save settings error:",
+error
+);
+
+
+alert(
+"Unable to save settings: " +
+error.message
+);
+
+
+}finally{
+
+button.disabled =
+false;
+
+button.innerText =
+"💾 Save Website Settings";
+
+}
+
+});
+
+
+/* =====================================================
+   SETTINGS NAVIGATION
+===================================================== */
+
+const settingsButton =
+document.querySelector(
+'[data-section="settings"]'
+);
+
+if(settingsButton){
+
+settingsButton.addEventListener(
+"click",
+async()=>{
+
+createSettingsPanel();
+
+await loadSettings();
+
+});
+
+}
+
+
+/* =====================================================
+   MODAL
+===================================================== */
+
+function showModal(data){
+
+const modal =
+document.getElementById(
+"viewModal"
+);
+
+const content =
+document.getElementById(
+"modalContent"
+);
+
+if(!modal || !content){
+
+return;
+
+}
+
+
+content.innerHTML = `
+
+${
+data.logoURL
+?
+`
+<img
+src="${escapeAttribute(
+data.logoURL
+)}"
+style="
+width:130px;
+height:130px;
+object-fit:cover;
+border-radius:50%;
+display:block;
+margin:0 auto 20px;
+"
+>
+`
+:
+""
+}
+
+
+<p>
+<strong>
+Page Name:
+</strong>
+
+${escapeHTML(
+data.pageName ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Page Type:
+</strong>
+
+${escapeHTML(
+data.pageType ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Category:
+</strong>
+
+${escapeHTML(
+data.category ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Email:
+</strong>
+
+${escapeHTML(
+data.email ||
+data.ownerEmail ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Location:
+</strong>
+
+${escapeHTML(
+data.location ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Address:
+</strong>
+
+${escapeHTML(
+data.address ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Description:
+</strong>
+
+${escapeHTML(
+data.description ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Contact Method:
+</strong>
+
+${escapeHTML(
+data.contactMethod ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Phone:
+</strong>
+
+${escapeHTML(
+data.phone ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+WhatsApp:
+</strong>
+
+${escapeHTML(
+data.whatsapp ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Zangi:
+</strong>
+
+${escapeHTML(
+data.zangi ||
+""
+)}
+
+</p>
+
+
+<p>
+<strong>
+Status:
+</strong>
+
+${escapeHTML(
+data.status ||
+""
+)}
+
+</p>
+
+`;
+
+
+modal.style.display =
+"block";
+
+}
+
+
+/* =====================================================
+   CLOSE MODAL
+===================================================== */
+
+const closeModal =
+document.getElementById(
+"closeModal"
+);
+
+if(closeModal){
+
+closeModal.addEventListener(
+"click",
+()=>{
+
+const modal =
+document.getElementById(
+"viewModal"
+);
+
+if(modal){
+
+modal.style.display =
+"none";
+
+}
+
+});
+
+}
+
+
+const viewModal =
+document.getElementById(
+"viewModal"
+);
+
+if(viewModal){
+
+viewModal.addEventListener(
+"click",
+(event)=>{
+
+if(
+event.target ===
+viewModal
+){
+
+viewModal.style.display =
+"none";
+
+}
+
+});
+
+}
 
 
 /* =====================================================
    LOGOUT
 ===================================================== */
 
-document
-.getElementById(
+const logoutButton =
+document.getElementById(
 "logoutButton"
-)
-.addEventListener(
+);
+
+if(logoutButton){
+
+logoutButton.addEventListener(
 "click",
 async()=>{
 
 try{
 
-await signOut(auth);
+await signOut(
+auth
+);
 
 location.href =
 "login.html";
@@ -4918,63 +4217,23 @@ error.message
 
 }
 
-}
-);
-
-
-/* =====================================================
-   HELPERS
-===================================================== */
-
-function escapeHTML(value){
-
-return String(value)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-function escapeAttribute(value){
-
-return escapeHTML(value);
+});
 
 }
 
 
 /* =====================================================
-   INITIAL PAGE LOAD
+   INITIALIZE SETTINGS
 ===================================================== */
 
-console.log(
-"Logical World Admin Dashboard loaded."
-);
+createSettingsPanel();
+
+
+/* =====================================================
+   FINISH
+===================================================== */
 
 </script>
-
 
 </body>
 
