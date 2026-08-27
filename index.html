@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -84,7 +85,10 @@ border-radius:5px;
 }
 
 .hero{
-background:linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55));
+background:linear-gradient(
+rgba(0,0,0,.55),
+rgba(0,0,0,.55)
+);
 min-height:400px;
 display:flex;
 justify-content:center;
@@ -143,7 +147,8 @@ margin-bottom:35px;
 
 .approved-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
 gap:20px;
 }
 
@@ -239,7 +244,8 @@ padding:10px 0;
 
 .cards{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+grid-template-columns:
+repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 }
 
@@ -264,6 +270,41 @@ margin-bottom:10px;
 
 .card p{
 font-size:15px;
+}
+
+
+/* =========================
+   CONTACT LINKS
+========================= */
+
+.contact-link{
+color:#0a4ea3;
+font-weight:bold;
+text-decoration:none;
+word-break:break-word;
+}
+
+.contact-link:hover{
+text-decoration:underline;
+}
+
+
+/* =========================
+   SETTINGS LOADING
+========================= */
+
+.settings-loading{
+text-align:center;
+padding:20px;
+color:#666;
+}
+
+.settings-error{
+text-align:center;
+padding:20px;
+color:#842029;
+background:#f8d7da;
+border-radius:8px;
 }
 
 
@@ -347,7 +388,9 @@ max-height:350px;
 
 <header>
 
-<h1>🌍 Logical World</h1>
+<h1>
+🌍 Logical World
+</h1>
 
 <p>
 Connecting People, Products & Services.
@@ -381,19 +424,33 @@ Search
 
 <nav>
 
-<a href="index.html">🏠 Home</a>
+<a href="index.html">
+🏠 Home
+</a>
 
-<a href="gallery.html">📸 Gallery</a>
+<a href="gallery.html">
+📸 Gallery
+</a>
 
-<a href="videos.html">🎥 Videos</a>
+<a href="videos.html">
+🎥 Videos
+</a>
 
-<a href="marketplace.html">🛒 Marketplace</a>
+<a href="marketplace.html">
+🛒 Marketplace
+</a>
 
-<a href="services.html">🏠 Services</a>
+<a href="services.html">
+🏠 Services
+</a>
 
-<a href="contact.html">📞 Contact</a>
+<a href="contact.html">
+📞 Contact
+</a>
 
-<a href="login.html">🔐 Login</a>
+<a href="login.html">
+🔐 Login
+</a>
 
 </nav>
 
@@ -421,7 +478,12 @@ class="button"
 ➕ Create Your Own Page
 </a>
 
-<p style="margin-top:15px;font-size:15px;">
+<p
+style="
+margin-top:15px;
+font-size:15px;
+"
+>
 All submitted pages are reviewed by the Logical World Admin before becoming public.
 </p>
 
@@ -464,44 +526,13 @@ Loading pages and latest posts...
 Home Services
 </h2>
 
-<div class="cards">
+<div
+id="servicesCards"
+class="cards"
+>
 
-<div class="card">
-
-<h3>
-Cleaning Services
-</h3>
-
-<p>
-Book trusted cleaning services easily.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-Repairs
-</h3>
-
-<p>
-Find reliable repair professionals.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-Delivery
-</h3>
-
-<p>
-Fast and secure delivery services.
-</p>
-
+<div class="settings-loading">
+Loading services...
 </div>
 
 </div>
@@ -519,44 +550,13 @@ Fast and secure delivery services.
 Contact Us
 </h2>
 
-<div class="cards">
+<div
+id="contactCards"
+class="cards"
+>
 
-<div class="card">
-
-<h3>
-📞 Phone
-</h3>
-
-<p>
-Your phone number will appear here.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-📧 Email
-</h3>
-
-<p>
-Your email address will appear here.
-</p>
-
-</div>
-
-
-<div class="card">
-
-<h3>
-💬 WhatsApp / Zangi
-</h3>
-
-<p>
-Contact options will appear on each business page.
-</p>
-
+<div class="settings-loading">
+Loading contact information...
 </div>
 
 </div>
@@ -593,13 +593,18 @@ Connecting People, Products & Services.
 
 <script type="module">
 
-import { db }
-from "./firebase.js";
+import {
+db
+}
+from
+"./firebase.js";
 
 
 import {
 collection,
-getDocs
+getDocs,
+getDoc,
+doc
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
@@ -624,17 +629,30 @@ document.getElementById(
 "searchBtn"
 );
 
+const servicesCards =
+document.getElementById(
+"servicesCards"
+);
+
+const contactCards =
+document.getElementById(
+"contactCards"
+);
+
 
 /* =========================
    DATA
 ========================= */
 
 let allPages = [];
+
 let allPosts = [];
+
+let siteSettings = {};
 
 
 /* =========================
-   LOAD DATA
+   LOAD WEBSITE
 ========================= */
 
 async function loadWebsite(){
@@ -642,13 +660,19 @@ async function loadWebsite(){
 try{
 
 approvedPagesList.innerHTML = `
+
 <div class="loading">
+
 Loading pages and latest posts...
+
 </div>
+
 `;
 
 
-/* LOAD APPROVED PAGES */
+/* =========================
+   LOAD APPROVED PAGES
+========================= */
 
 const pagesSnapshot =
 await getDocs(
@@ -659,7 +683,9 @@ db,
 );
 
 
-/* LOAD POSTS */
+/* =========================
+   LOAD POSTS
+========================= */
 
 const postsSnapshot =
 await getDocs(
@@ -674,9 +700,11 @@ allPages =
 pagesSnapshot.docs.map(
 docSnap => ({
 
-id:docSnap.id,
+id:
+docSnap.id,
 
-data:docSnap.data()
+data:
+docSnap.data()
 
 })
 );
@@ -686,15 +714,19 @@ allPosts =
 postsSnapshot.docs.map(
 docSnap => ({
 
-id:docSnap.id,
+id:
+docSnap.id,
 
-data:docSnap.data()
+data:
+docSnap.data()
 
 })
 );
 
 
-/* SORT POSTS NEWEST FIRST */
+/* =========================
+   SORT POSTS
+========================= */
 
 allPosts.sort(
 (a,b)=>
@@ -708,11 +740,20 @@ a.data.createdAt
 );
 
 
-/* DISPLAY */
+/* =========================
+   DISPLAY PAGES
+========================= */
 
 displayPages(
 allPages
 );
+
+
+/* =========================
+   LOAD SETTINGS
+========================= */
+
+await loadSiteSettings();
 
 
 }catch(error){
@@ -744,485 +785,699 @@ error.message
 
 
 /* =========================
-   DISPLAY PAGES
+   LOAD SITE SETTINGS
 ========================= */
 
-function displayPages(
-pages
+async function loadSiteSettings(){
+
+try{
+
+let foundSettings = null;
+
+
+/*
+   Try the common settings
+   document locations first.
+*/
+
+const possibleLocations = [
+
+["siteSettings","main"],
+
+["settings","main"],
+
+["websiteSettings","main"],
+
+["siteSettings","website"],
+
+["settings","website"]
+
+];
+
+
+for(
+const location of
+possibleLocations
 ){
 
-approvedPagesList.innerHTML = "";
+try{
+
+const settingsSnapshot =
+await getDoc(
+doc(
+db,
+location[0],
+location[1]
+)
+);
 
 
-if(pages.length === 0){
+if(
+settingsSnapshot.exists()
+){
 
-approvedPagesList.innerHTML = `
+foundSettings =
+settingsSnapshot.data();
 
-<div class="loading">
+break;
 
-No approved pages yet.
+}
+
+}catch(error){
+
+console.warn(
+"Could not check settings location:",
+location,
+error
+);
+
+}
+
+}
+
+
+/*
+   If no exact document was found,
+   look inside the common settings
+   collections.
+*/
+
+if(!foundSettings){
+
+const possibleCollections = [
+
+"siteSettings",
+
+"settings",
+
+"websiteSettings"
+
+];
+
+
+for(
+const collectionName of
+possibleCollections
+){
+
+try{
+
+const snapshot =
+await getDocs(
+collection(
+db,
+collectionName
+)
+);
+
+
+if(
+!snapshot.empty
+){
+
+/*
+   Use the first settings
+   document that contains
+   one of our expected fields.
+*/
+
+for(
+const settingsDoc of
+snapshot.docs
+){
+
+const data =
+settingsDoc.data();
+
+if(
+data.cleaningTitle ||
+data.cleaningDescription ||
+data.repairsTitle ||
+data.repairsDescription ||
+data.deliveryTitle ||
+data.deliveryDescription ||
+data.phone ||
+data.phoneNumber ||
+data.email ||
+data.whatsapp ||
+data.zangi
+){
+
+foundSettings =
+data;
+
+break;
+
+}
+
+}
+
+}
+
+
+if(foundSettings){
+
+break;
+
+}
+
+}catch(error){
+
+console.warn(
+"Could not read settings collection:",
+collectionName,
+error
+);
+
+}
+
+}
+
+}
+
+
+/* =========================
+   SETTINGS FOUND
+========================= */
+
+if(foundSettings){
+
+siteSettings =
+foundSettings;
+
+displayServices();
+
+displayContact();
+
+}else{
+
+/*
+   If settings have not been
+   found yet, show safe defaults.
+*/
+
+siteSettings = {
+
+cleaningTitle:
+"Cleaning Services",
+
+cleaningDescription:
+"Book trusted cleaning services easily.",
+
+repairsTitle:
+"Repairs",
+
+repairsDescription:
+"Find reliable repair professionals.",
+
+deliveryTitle:
+"Delivery",
+
+deliveryDescription:
+"Fast and secure delivery services.",
+
+phone:
+"Your phone number will appear here.",
+
+email:
+"Your email address will appear here.",
+
+whatsapp:
+"Contact options will appear on each business page."
+
+};
+
+displayServices();
+
+displayContact();
+
+}
+
+}catch(error){
+
+console.error(
+"Settings loading error:",
+error
+);
+
+servicesCards.innerHTML = `
+
+<div class="settings-error">
+
+Unable to load services.
 
 </div>
 
 `;
 
-return;
+contactCards.innerHTML = `
+
+<div class="settings-error">
+
+Unable to load contact information.
+
+</div>
+
+`;
+
+}
 
 }
 
 
-/* EACH PAGE */
+/* =========================
+   DISPLAY SERVICES
+========================= */
 
-pages.forEach(
-(page)=>{
+function displayServices(){
 
-const data =
-page.data;
-
-
-const pageName =
-data.pageName ||
-"Business";
-
-
-const logoURL =
-data.logoURL ||
-"images/default-logo.png";
+const cleaningTitle =
+siteSettings.cleaningTitle ||
+siteSettings.cleaningServiceTitle ||
+siteSettings.cleaning_title ||
+"Cleaning Services";
 
 
-const businessURL =
-"business.html?id=" +
-encodeURIComponent(
-page.id
-);
+const cleaningDescription =
+siteSettings.cleaningDescription ||
+siteSettings.cleaningServiceDescription ||
+siteSettings.cleaning_description ||
+"Book trusted cleaning services easily.";
 
 
-/* FIND NEWEST POST FOR THIS PAGE */
-
-const pagePosts =
-allPosts.filter(
-post =>
-post.data.pageId ===
-page.id
-);
+const repairsTitle =
+siteSettings.repairsTitle ||
+siteSettings.repairTitle ||
+siteSettings.repairs_title ||
+"Repairs";
 
 
-/* NEWEST POST */
-
-const latestPost =
-pagePosts.length > 0
-?
-pagePosts[0]
-:
-null;
+const repairsDescription =
+siteSettings.repairsDescription ||
+siteSettings.repairDescription ||
+siteSettings.repairs_description ||
+"Find reliable repair professionals.";
 
 
-/* CREATE CARD */
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"page-card";
+const deliveryTitle =
+siteSettings.deliveryTitle ||
+"Delivery";
 
 
-/* PAGE HEADER */
-
-const pageHeader =
-document.createElement(
-"div"
-);
-
-pageHeader.className =
-"page-header";
+const deliveryDescription =
+siteSettings.deliveryDescription ||
+"Fast and secure delivery services.";
 
 
-pageHeader.innerHTML = `
+servicesCards.innerHTML = `
 
-<a
-href="${businessURL}"
-class="page-link"
->
+<div class="card">
 
-<img
-src="${escapeAttribute(
-logoURL
-)}"
-class="business-logo"
-alt="${escapeAttribute(
-pageName
-)}"
->
+<h3>
 
-<div class="business-name">
-
-${escapeHTML(
-pageName
+🧹 ${escapeHTML(
+cleaningTitle
 )}
 
+</h3>
+
+<p>
+
+${escapeHTML(
+cleaningDescription
+)}
+
+</p>
+
 </div>
 
-<div class="latest-label">
 
-Tap page to see all posts
+<div class="card">
+
+<h3>
+
+🔧 ${escapeHTML(
+repairsTitle
+)}
+
+</h3>
+
+<p>
+
+${escapeHTML(
+repairsDescription
+)}
+
+</p>
 
 </div>
+
+
+<div class="card">
+
+<h3>
+
+🚚 ${escapeHTML(
+deliveryTitle
+)}
+
+</h3>
+
+<p>
+
+${escapeHTML(
+deliveryDescription
+)}
+
+</p>
+
+</div>
+
+`;
+
+}
+
+
+/* =========================
+   DISPLAY CONTACT
+========================= */
+
+function displayContact(){
+
+const phone =
+siteSettings.phone ||
+siteSettings.phoneNumber ||
+siteSettings.contactPhone ||
+"Your phone number will appear here.";
+
+
+const email =
+siteSettings.email ||
+siteSettings.emailAddress ||
+siteSettings.contactEmail ||
+"Your email address will appear here.";
+
+
+const whatsapp =
+siteSettings.whatsapp ||
+siteSettings.whatsappNumber ||
+siteSettings.zangi ||
+siteSettings.whatsappZangi ||
+"Contact options will appear on each business page.";
+
+
+/* PHONE */
+
+let phoneHTML =
+escapeHTML(phone);
+
+
+if(
+phone &&
+phone !==
+"Your phone number will appear here."
+){
+
+const cleanPhone =
+String(phone)
+.replace(
+/[^0-9+]/g,
+""
+);
+
+phoneHTML = `
+
+<a
+class="contact-link"
+href="tel:${escapeAttribute(
+cleanPhone
+)}"
+>
+
+${escapeHTML(phone)}
 
 </a>
 
 `;
 
-
-card.appendChild(
-pageHeader
-);
+}
 
 
-/* =========================
-   LATEST POST
-========================= */
+/* EMAIL */
 
-const latestPostDiv =
-document.createElement(
-"div"
-);
-
-latestPostDiv.className =
-"latest-post";
+let emailHTML =
+escapeHTML(email);
 
 
-if(latestPost){
+if(
+email &&
+email !==
+"Your email address will appear here."
+){
 
-const postData =
-latestPost.data;
+emailHTML = `
 
+<a
+class="contact-link"
+href="mailto:${escapeAttribute(
+email
+)}"
+>
 
-/* POST TEXT */
+${escapeHTML(email)}
 
-let html = `
-
-<h4>
-🆕 Latest Post
-</h4>
+</a>
 
 `;
 
+}
 
-if(postData.text){
 
-html += `
+/* WHATSAPP / ZANGI */
 
-<p class="latest-post-text">
+let whatsappHTML =
+escapeHTML(whatsapp);
+
+
+if(
+whatsapp &&
+whatsapp !==
+"Contact options will appear on each business page."
+){
+
+whatsappHTML = `
+
+<span class="contact-link">
 
 ${escapeHTML(
-postData.text
+whatsapp
 )}
+
+</span>
+
+`;
+
+}
+
+
+/* DISPLAY */
+
+contactCards.innerHTML = `
+
+<div class="card">
+
+<h3>
+📞 Phone
+</h3>
+
+<p>
+
+${phoneHTML}
 
 </p>
 
-`;
-
-}
+</div>
 
 
-/* IMAGE */
+<div class="card">
 
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"image"
-){
+<h3>
+📧 Email
+</h3>
 
-html += `
+<p>
 
-<img
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-class="latest-media"
-alt="Latest post"
->
+${emailHTML}
 
-`;
+</p>
 
-}
+</div>
 
 
-/* VIDEO */
+<div class="card">
 
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"video"
-){
+<h3>
+💬 WhatsApp / Zangi
+</h3>
 
-html += `
+<p>
 
-<video
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-class="latest-media"
-controls
-playsinline
->
+${whatsappHTML}
 
-</video>
-
-`;
-
-}
-
-
-/* DATE */
-
-html += `
-
-<div class="post-date">
-
-${formatDate(
-postData.createdAt
-)}
+</p>
 
 </div>
 
 `;
 
-
-latestPostDiv.innerHTML =
-html;
-
-
-}else{
-
-latestPostDiv.innerHTML = `
-
-<p class="no-post">
-
-No posts yet.
-
-</p>
-
-`;
-
 }
-
-
-card.appendChild(
-latestPostDiv
-);
-
-
-approvedPagesList.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =========================
-   SEARCH
+   /* =========================
+   SETTINGS FROM FIRESTORE
 ========================= */
 
-function searchPages(){
+async function loadSettings(){
 
-const search =
-searchInput.value
-.trim()
-.toLowerCase();
+try{
 
-
-if(!search){
-
-displayPages(
-allPages
+const settingsRef =
+doc(
+db,
+"settings",
+"website"
 );
 
+const settingsSnapshot =
+await getDoc(settingsRef);
+
+if(!settingsSnapshot.exists()){
 return;
+}
+
+const settings =
+settingsSnapshot.data();
+
+
+/* HOME SERVICES */
+
+const serviceTitles = [
+document.getElementById("serviceTitle1"),
+document.getElementById("serviceTitle2"),
+document.getElementById("serviceTitle3")
+];
+
+const serviceDescriptions = [
+document.getElementById("serviceDescription1"),
+document.getElementById("serviceDescription2"),
+document.getElementById("serviceDescription3")
+];
+
+
+if(serviceTitles[0]){
+serviceTitles[0].textContent =
+settings.service1Title ||
+"Cleaning Services";
+}
+
+if(serviceDescriptions[0]){
+serviceDescriptions[0].textContent =
+settings.service1Description ||
+"Book trusted cleaning services easily.";
+}
+
+
+if(serviceTitles[1]){
+serviceTitles[1].textContent =
+settings.service2Title ||
+"Repairs";
+}
+
+if(serviceDescriptions[1]){
+serviceDescriptions[1].textContent =
+settings.service2Description ||
+"Find reliable repair professionals.";
+}
+
+
+if(serviceTitles[2]){
+serviceTitles[2].textContent =
+settings.service3Title ||
+"Delivery";
+}
+
+if(serviceDescriptions[2]){
+serviceDescriptions[2].textContent =
+settings.service3Description ||
+"Fast and secure delivery services.";
+}
+
+
+/* CONTACT */
+
+const phone =
+document.getElementById(
+"contactPhone"
+);
+
+const email =
+document.getElementById(
+"contactEmail"
+);
+
+const whatsapp =
+document.getElementById(
+"contactWhatsapp"
+);
+
+
+if(phone){
+
+phone.textContent =
+settings.phone ||
+"Your phone number will appear here.";
 
 }
 
 
-const filtered =
-allPages.filter(
-page => {
+if(email){
 
-const data =
-page.data;
+email.textContent =
+settings.email ||
+"Your email address will appear here.";
 
-
-const pageName =
-String(
-data.pageName || ""
-).toLowerCase();
+}
 
 
-const category =
-String(
-data.category || ""
-).toLowerCase();
+if(whatsapp){
+
+whatsapp.textContent =
+settings.whatsapp ||
+"Contact options will appear here.";
+
+}
 
 
-const description =
-String(
-data.description || ""
-).toLowerCase();
+}catch(error){
 
-
-const matchingPosts =
-allPosts.some(
-post =>
-
-post.data.pageId ===
-page.id &&
-
-String(
-post.data.text || ""
-)
-.toLowerCase()
-.includes(search)
+console.error(
+"Settings loading error:",
+error
 );
 
-
-return (
-
-pageName.includes(search) ||
-
-category.includes(search) ||
-
-description.includes(search) ||
-
-matchingPosts
-
-);
-
-});
-
-
-displayPages(
-filtered
-);
+}
 
 }
 
 
 /* =========================
-   SEARCH BUTTON
-========================= */
-
-searchBtn.addEventListener(
-"click",
-searchPages
-);
-
-
-searchInput.addEventListener(
-"input",
-searchPages
-);
-
-
-/* =========================
-   HELPERS
-========================= */
-
-function getTime(
-timestamp
-){
-
-if(
-timestamp &&
-typeof timestamp.toMillis ===
-"function"
-){
-
-return timestamp.toMillis();
-
-}
-
-return 0;
-
-}
-
-
-function formatDate(
-timestamp
-){
-
-if(
-!timestamp ||
-typeof timestamp.toDate !==
-"function"
-){
-
-return "";
-
-}
-
-return timestamp
-.toDate()
-.toLocaleString();
-
-}
-
-
-function escapeHTML(
-value
-){
-
-return String(value)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-function escapeAttribute(
-value
-){
-
-return escapeHTML(
-value
-);
-
-}
-
-
-/* =========================
-   START
+   START WEBSITE
 ========================= */
 
 loadWebsite();
 
-</script>
-
+loadSettings();
+   
+   </script>
 
 </body>
-   </html>
+
+</html>
