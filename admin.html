@@ -10,9 +10,13 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 >
 
-<title>Logical World Admin Dashboard</title>
+<title>Logical World</title>
 
 <style>
+
+/* =========================
+   BASIC
+========================= */
 
 *{
 margin:0;
@@ -23,383 +27,410 @@ font-family:Arial,sans-serif;
 
 body{
 background:#f5f5f5;
-color:#222;
+color:#333;
+line-height:1.6;
 }
+
+
+/* =========================
+   HEADER
+========================= */
 
 header{
 background:#0a4ea3;
 color:white;
-padding:22px;
+padding:20px;
 text-align:center;
 }
 
 header h1{
-font-size:30px;
-margin-bottom:6px;
+font-size:40px;
 }
 
-nav{
-background:#083d82;
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
-gap:8px;
+header p{
+font-size:18px;
+margin-top:8px;
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box{
+text-align:center;
+padding:15px;
+background:white;
+}
+
+.search-box input{
+width:70%;
+max-width:500px;
 padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
 }
 
-nav button{
-border:0;
+.search-box button{
+padding:12px 18px;
+border:none;
+border-radius:6px;
 background:#0a4ea3;
 color:white;
-padding:11px 14px;
-border-radius:6px;
 font-weight:bold;
 cursor:pointer;
 }
 
-nav button:hover,
-nav button.active{
-background:white;
-color:#0a4ea3;
+.search-box button:hover{
+background:#083d82;
 }
 
-.container{
-max-width:1200px;
-margin:25px auto;
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav{
+background:#222;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
 padding:15px;
 }
 
-.section{
-display:none;
+nav a{
+color:white;
+text-decoration:none;
+padding:10px 15px;
+font-weight:bold;
 }
 
-.section.active{
+nav a:hover{
+background:#0a4ea3;
+border-radius:5px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+background:
+linear-gradient(
+rgba(0,0,0,.55),
+rgba(0,0,0,.55)
+);
+
+min-height:400px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+color:white;
+
+padding:30px 20px;
+}
+
+.hero-content{
+max-width:800px;
+}
+
+.hero h2{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.hero p{
+font-size:20px;
+margin-bottom:25px;
+}
+
+.button{
+display:inline-block;
+
+background:#0a4ea3;
+
+color:white;
+
+padding:15px 30px;
+
+text-decoration:none;
+
+border-radius:8px;
+
+font-size:18px;
+
+font-weight:bold;
+}
+
+.button:hover{
+background:#083b7a;
+}
+
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+padding:50px 20px;
+max-width:1200px;
+margin:auto;
+}
+
+.section-title{
+text-align:center;
+font-size:34px;
+color:#0a4ea3;
+margin-bottom:35px;
+}
+
+
+/* =========================
+   APPROVED PAGES
+========================= */
+
+.approved-grid{
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(280px,1fr)
+);
+
+gap:20px;
+}
+
+.page-card{
+background:white;
+
+border-radius:12px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.15);
+
+overflow:hidden;
+}
+
+.page-header{
+padding:18px;
+
+text-align:center;
+
+border-bottom:1px solid #eee;
+}
+
+.page-link{
+text-decoration:none;
+color:inherit;
+}
+
+.business-logo{
+width:110px;
+height:110px;
+
+border-radius:50%;
+
+object-fit:cover;
+
 display:block;
+
+margin:0 auto 12px;
+
+border:4px solid #0a4ea3;
+
+background:#eee;
+}
+
+.business-name{
+font-size:21px;
+
+font-weight:bold;
+
+color:#0a4ea3;
+}
+
+.latest-label{
+font-size:14px;
+
+font-weight:bold;
+
+color:#777;
+
+margin-top:4px;
+}
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+.latest-post{
+padding:18px;
+}
+
+.latest-post h4{
+font-size:18px;
+
+color:#0a4ea3;
+
+margin-bottom:8px;
+}
+
+.latest-post-text{
+font-size:16px;
+
+margin-bottom:12px;
+
+white-space:pre-wrap;
+}
+
+.latest-media{
+width:100%;
+
+max-height:400px;
+
+object-fit:contain;
+
+border-radius:10px;
+
+background:#111;
+
+display:block;
+}
+
+.post-date{
+font-size:13px;
+
+color:#777;
+
+margin-top:10px;
+}
+
+.no-post{
+text-align:center;
+
+color:#777;
+
+font-size:15px;
+
+padding:10px 0;
+}
+
+
+/* =========================
+   GENERAL CARDS
+========================= */
+
+.cards{
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(250px,1fr)
+);
+
+gap:20px;
 }
 
 .card{
 background:white;
+
 padding:20px;
-margin-bottom:20px;
+
 border-radius:10px;
-box-shadow:0 2px 9px rgba(0,0,0,.14);
-}
 
-.card h2{
-color:#0a4ea3;
-margin-bottom:15px;
-}
+box-shadow:
+0 0 10px rgba(0,0,0,.15);
 
-.stats{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(180px,1fr));
-gap:15px;
-}
-
-.stat{
-background:#0a4ea3;
-color:white;
-padding:22px;
-border-radius:10px;
 text-align:center;
 }
 
-.stat h2{
-color:white;
-font-size:32px;
-margin-bottom:5px;
-}
-
-.stat p{
-font-size:15px;
-}
-
-.search{
+.card img{
 width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
+
+border-radius:10px;
+
 margin-bottom:15px;
 }
 
-.page-card,
-.user-card,
-.report-card{
-border:1px solid #ddd;
-border-radius:9px;
-padding:18px;
-margin-bottom:15px;
-background:white;
-}
-
-.page-logo{
-width:90px;
-height:90px;
-border-radius:50%;
-object-fit:cover;
-display:block;
-margin-bottom:12px;
-border:3px solid #eee;
-}
-
-.page-card h3,
-.user-card h3,
-.report-card h3{
+.card h3{
 color:#0a4ea3;
+
 margin-bottom:10px;
 }
 
-.page-card p,
-.user-card p,
-.report-card p{
-margin:6px 0;
-word-break:break-word;
-}
-
-.user-card{
-border-left:5px solid #0a4ea3;
-}
-
-.user-email{
-color:#555;
-}
-
-.user-uid{
-font-size:12px;
-color:#777;
-background:#f5f5f5;
-padding:8px;
-border-radius:5px;
-margin-top:10px;
-word-break:break-all;
-}
-
-.user-role{
-display:inline-block;
-background:#e8f1ff;
-color:#0a4ea3;
-padding:5px 10px;
-border-radius:20px;
-font-size:13px;
-font-weight:bold;
-margin-top:8px;
-}
-
-.user-status{
-display:inline-block;
-background:#d1e7dd;
-color:#0f5132;
-padding:5px 10px;
-border-radius:20px;
-font-size:13px;
-font-weight:bold;
-margin-top:8px;
-margin-left:5px;
-}
-
-.user-date{
-font-size:13px;
-color:#777;
-margin-top:10px;
-}
-
-button.action{
-padding:10px 15px;
-border:0;
-border-radius:5px;
-color:white;
-font-weight:bold;
-cursor:pointer;
-margin:5px 5px 0 0;
-}
-
-.approve{
-background:#198754;
-}
-
-.reject{
-background:#dc3545;
-}
-
-.delete{
-background:#222;
-}
-
-.view{
-background:#0a4ea3;
-}
-
-.refresh{
-background:#0a4ea3;
-color:white;
-border:0;
-padding:11px 18px;
-border-radius:6px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.refresh:hover{
-background:#083d82;
-}
-
-.empty{
-text-align:center;
-padding:30px;
-color:#777;
-}
-
-.loading{
-text-align:center;
-padding:30px;
-color:#0a4ea3;
-font-weight:bold;
-}
-
-.error{
-text-align:center;
-padding:20px;
-background:#f8d7da;
-color:#842029;
-border-radius:6px;
-}
-
-footer{
-background:#0a4ea3;
-color:white;
-text-align:center;
-padding:25px;
-margin-top:40px;
-}
-
-
-/* =========================
-   SETTINGS
-========================= */
-
-.settings-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-gap:18px;
-}
-
-.settings-box{
-background:#f8f9fa;
-border:1px solid #ddd;
-border-radius:10px;
-padding:18px;
-}
-
-.settings-box h3{
-color:#0a4ea3;
-margin-bottom:12px;
-}
-
-.settings-box label{
-display:block;
-font-weight:bold;
-margin-top:12px;
-margin-bottom:6px;
-}
-
-.settings-box input,
-.settings-box textarea{
-width:100%;
-padding:12px;
-border:1px solid #ccc;
-border-radius:6px;
+.card p{
 font-size:15px;
 }
 
-.settings-box textarea{
-min-height:100px;
-resize:vertical;
-}
 
-.save-settings{
-margin-top:20px;
-background:#198754;
-color:white;
-border:0;
-padding:13px 20px;
-border-radius:6px;
+/* =========================
+   SETTINGS CARDS
+========================= */
+
+.settings-value{
 font-size:16px;
-font-weight:bold;
-cursor:pointer;
-}
-
-.save-settings:hover{
-background:#146c43;
-}
-
-.settings-message{
-display:none;
-margin-top:15px;
-padding:12px;
-border-radius:6px;
-font-weight:bold;
-}
-
-.settings-success{
-display:block;
-background:#d1e7dd;
-color:#0f5132;
-}
-
-.settings-error{
-display:block;
-background:#f8d7da;
-color:#842029;
-}
-
-.info-preview{
-background:#eef5ff;
-border-left:4px solid #0a4ea3;
-padding:15px;
-margin-top:20px;
-border-radius:6px;
-line-height:1.7;
+white-space:pre-wrap;
+word-break:break-word;
 }
 
 
 /* =========================
-   MODAL
+   LOADING
 ========================= */
 
-.modal{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.65);
-z-index:999;
-padding:20px;
-overflow:auto;
+.loading{
+text-align:center;
+
+padding:30px;
+
+color:#666;
+
+font-size:17px;
 }
 
-.modal-box{
-background:white;
-max-width:700px;
-margin:40px auto;
-padding:25px;
-border-radius:10px;
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+text-align:center;
+
+padding:30px;
+
+color:#842029;
+
+background:#f8d7da;
+
+border-radius:8px;
 }
 
-.modal-box h2{
-color:#0a4ea3;
-margin-bottom:15px;
-}
 
-.close{
-background:#555;
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+background:#0a4ea3;
+
 color:white;
-border:0;
-padding:10px 18px;
-border-radius:5px;
-cursor:pointer;
-margin-top:15px;
+
+text-align:center;
+
+padding:25px;
+
+margin-top:50px;
 }
 
 
@@ -410,29 +441,36 @@ margin-top:15px;
 @media(max-width:600px){
 
 header h1{
-font-size:24px;
+font-size:30px;
 }
 
-nav button{
-font-size:13px;
-padding:9px 10px;
+.hero h2{
+font-size:32px;
 }
 
-.stats{
-grid-template-columns:
-repeat(2,1fr);
+.hero p{
+font-size:17px;
 }
 
-.stat{
-padding:17px 8px;
+.search-box input{
+width:65%;
 }
 
-.stat h2{
-font-size:26px;
+.search-box button{
+padding:12px;
 }
 
-.settings-grid{
+.approved-grid{
 grid-template-columns:1fr;
+}
+
+.business-logo{
+width:100px;
+height:100px;
+}
+
+.latest-media{
+max-height:350px;
 }
 
 }
@@ -445,214 +483,164 @@ grid-template-columns:1fr;
 <body>
 
 
+<!-- =========================
+     HEADER
+========================= -->
+
 <header>
 
-<h1>
-🌍 Logical World Admin Dashboard
+<h1 id="websiteName">
+
+🌍 Logical World
+
 </h1>
 
 <p>
-Website Administration
+
+Connecting People, Products & Services.
+
 </p>
 
 </header>
 
 
+<!-- =========================
+     SEARCH
+========================= -->
+
+<div class="search-box">
+
+<input
+type="text"
+id="searchInput"
+placeholder="Search pages and posts..."
+>
+
+<button id="searchBtn">
+
+Search
+
+</button>
+
+</div>
+
+
+<!-- =========================
+     NAVIGATION
+========================= -->
+
 <nav>
 
-<button
-class="nav-btn active"
-data-section="dashboard"
->
-🏠 Dashboard
-</button>
+<a href="index.html">
 
-<button
-class="nav-btn"
-data-section="pending"
->
-📋 Pending Pages
-</button>
+🏠 Home
 
-<button
-class="nav-btn"
-data-section="approved"
->
-✅ Approved Pages
-</button>
+</a>
 
-<button
-class="nav-btn"
-data-section="rejected"
->
-❌ Rejected Pages
-</button>
+<a href="gallery.html">
 
-<button
-class="nav-btn"
-data-section="users"
->
-👥 Users
-</button>
+📸 Gallery
 
-<button
-class="nav-btn"
-data-section="reports"
->
-🚨 Reports
-</button>
+</a>
 
-<button
-class="nav-btn"
-data-section="settings"
->
-⚙️ Settings
-</button>
+<a href="videos.html">
 
-<button
-id="logoutButton"
->
-🚪 Logout
-</button>
+🎥 Videos
+
+</a>
+
+<a href="marketplace.html">
+
+🛒 Marketplace
+
+</a>
+
+<a href="services.html">
+
+🏠 Services
+
+</a>
+
+<a href="contact.html">
+
+📞 Contact
+
+</a>
+
+<a href="login.html">
+
+🔐 Login
+
+</a>
 
 </nav>
 
 
-<div class="container">
+<!-- =========================
+     HERO
+========================= -->
+
+<div class="hero">
+
+<div class="hero-content">
+
+<h2>
+
+Welcome to Logical World
+
+</h2>
+
+<p>
+
+Explore photos, videos, products and trusted services from different pages all in one place.
+
+</p>
+
+<a
+href="create-page.html"
+class="button"
+>
+
+➕ Create Your Own Page
+
+</a>
+
+<p
+style="
+margin-top:15px;
+font-size:15px;
+"
+>
+
+All submitted pages are reviewed by the Logical World Admin before becoming public.
+
+</p>
+
+</div>
+
+</div>
 
 
 <!-- =========================
-     DASHBOARD
+     APPROVED PAGES
 ========================= -->
 
-<section
-id="dashboard"
-class="section active"
+<section>
+
+<h2 class="section-title">
+
+🌍 Pages & Latest Posts
+
+</h2>
+
+<div
+id="approvedPagesList"
+class="approved-grid"
 >
-
-<div class="card">
-
-<h2>
-🏠 Dashboard Overview
-</h2>
-
-<p>
-Use the menu above to manage Logical World.
-</p>
-
-</div>
-
-
-<div class="stats">
-
-<div class="stat">
-
-<h2 id="pendingCount">
-0
-</h2>
-
-<p>
-Pending Pages
-</p>
-
-</div>
-
-
-<div class="stat">
-
-<h2 id="approvedCount">
-0
-</h2>
-
-<p>
-Approved Pages
-</p>
-
-</div>
-
-
-<div class="stat">
-
-<h2 id="usersCount">
-0
-</h2>
-
-<p>
-Users
-</p>
-
-</div>
-
-
-<div class="stat">
-
-<h2 id="reportsCount">
-0
-</h2>
-
-<p>
-Reports
-</p>
-
-</div>
-
-
-<div class="stat">
-
-<h2 id="totalCount">
-0
-</h2>
-
-<p>
-Total Pages
-</p>
-
-</div>
-
-</div>
-
-
-<br>
-
-
-<button
-class="refresh"
-id="refreshDashboard"
->
-🔄 Refresh Dashboard
-</button>
-
-</section>
-
-
-<!-- =========================
-     PENDING
-========================= -->
-
-<section
-id="pending"
-class="section"
->
-
-<div class="card">
-
-<h2>
-📋 Pending Pages
-</h2>
-
-
-<input
-class="search"
-id="pendingSearch"
-placeholder="🔍 Search pending pages..."
->
-
-
-<div id="pendingList">
 
 <div class="loading">
-Loading pending pages...
-</div>
+
+Loading pages and latest posts...
 
 </div>
 
@@ -662,425 +650,82 @@ Loading pending pages...
 
 
 <!-- =========================
-     APPROVED
+     HOME SERVICES
 ========================= -->
 
-<section
-id="approved"
-class="section"
->
+<section>
 
-<div class="card">
+<h2 class="section-title">
 
-<h2>
-✅ Approved Pages
+Home Services
+
 </h2>
 
-
-<input
-class="search"
-id="approvedSearch"
-placeholder="🔍 Search approved pages..."
->
-
-
-<div id="approvedList">
-
-<div class="loading">
-Loading approved pages...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     REJECTED
-========================= -->
-
-<section
-id="rejected"
-class="section"
->
-
-<div class="card">
-
-<h2>
-❌ Rejected Pages
-</h2>
-
-
-<input
-class="search"
-id="rejectedSearch"
-placeholder="🔍 Search rejected pages..."
->
-
-
-<div id="rejectedList">
-
-<div class="loading">
-Loading rejected pages...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     USERS
-========================= -->
-
-<section
-id="users"
-class="section"
->
-
-<div class="card">
-
-<h2>
-👥 Registered Users
-</h2>
-
-
-<input
-class="search"
-id="usersSearch"
-placeholder="🔍 Search by name, email or UID..."
->
-
-
-<button
-class="refresh"
-id="refreshUsers"
->
-🔄 Refresh Users
-</button>
-
-
-<br><br>
-
-
-<div id="usersList">
-
-<div class="loading">
-Loading registered users...
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     REPORTS
-========================= -->
-
-<section
-id="reports"
-class="section"
->
-
-<div class="card">
-
-<h2>
-🚨 Reports
-</h2>
-
-
-<div id="reportsList">
-
-<div class="empty">
-No reports loaded yet.
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     SETTINGS
-========================= -->
-
-<section
-id="settings"
-class="section"
->
-
-<div class="card">
-
-<h2>
-⚙️ Website Settings
-</h2>
-
-<p>
-These settings control the information displayed on Logical World.
-</p>
-
-
-<div class="settings-grid">
+<div class="cards">
 
 
 <!-- CLEANING -->
 
-<div class="settings-box">
+<div class="card">
 
-<h3>
-🧹 Cleaning Services
+<h3 id="serviceTitle1">
+
+Cleaning Services
+
 </h3>
 
-
-<label for="cleaningTitle">
-Title
-</label>
-
-<input
-id="cleaningTitle"
-type="text"
-placeholder="Cleaning Services"
+<p
+id="serviceDescription1"
+class="settings-value"
 >
 
+Book trusted cleaning services easily.
 
-<label for="cleaningDescription">
-Description
-</label>
-
-<textarea
-id="cleaningDescription"
-placeholder="Book trusted cleaning services easily."
-></textarea>
+</p>
 
 </div>
 
 
 <!-- REPAIRS -->
 
-<div class="settings-box">
+<div class="card">
 
-<h3>
-🔧 Repairs
+<h3 id="serviceTitle2">
+
+Repairs
+
 </h3>
 
-
-<label for="repairsTitle">
-Title
-</label>
-
-<input
-id="repairsTitle"
-type="text"
-placeholder="Repairs"
+<p
+id="serviceDescription2"
+class="settings-value"
 >
 
+Find reliable repair professionals.
 
-<label for="repairsDescription">
-Description
-</label>
-
-<textarea
-id="repairsDescription"
-placeholder="Find reliable repair professionals."
-></textarea>
+</p>
 
 </div>
 
 
 <!-- DELIVERY -->
 
-<div class="settings-box">
+<div class="card">
 
-<h3>
-🚚 Delivery
-</h3>
+<h3 id="serviceTitle3">
 
-
-<label for="deliveryTitle">
-Title
-</label>
-
-<input
-id="deliveryTitle"
-type="text"
-placeholder="Delivery"
->
-
-
-<label for="deliveryDescription">
-Description
-</label>
-
-<textarea
-id="deliveryDescription"
-placeholder="Fast and secure delivery services."
-></textarea>
-
-</div>
-
-
-<!-- CONTACT -->
-
-<div class="settings-box">
-
-<h3>
-📞 Contact Us
-</h3>
-
-
-<label for="contactPhone">
-📞 Phone
-</label>
-
-<input
-id="contactPhone"
-type="text"
-placeholder="Your phone number"
->
-
-
-<label for="contactEmail">
-📧 Email
-</label>
-
-<input
-id="contactEmail"
-type="email"
-placeholder="Your email address"
->
-
-
-<label for="contactWhatsapp">
-💬 WhatsApp
-</label>
-
-<input
-id="contactWhatsapp"
-type="text"
-placeholder="WhatsApp number"
->
-
-
-<label for="contactZangi">
-💬 Zangi
-</label>
-
-<input
-id="contactZangi"
-type="text"
-placeholder="Zangi username or number"
->
-
-</div>
-
-
-</div>
-
-
-<button
-id="saveSettings"
-class="save-settings"
->
-💾 Save Website Settings
-</button>
-
-
-<div
-id="settingsMessage"
-class="settings-message"
-></div>
-
-
-<div class="info-preview">
-
-<strong>
-Preview:
-</strong>
-
-<br><br>
-
-
-🧹
-<strong id="previewCleaningTitle">
-Cleaning Services
-</strong>
-
-<br>
-
-<span id="previewCleaningDescription">
-Book trusted cleaning services easily.
-</span>
-
-
-<br><br>
-
-
-🔧
-<strong id="previewRepairsTitle">
-Repairs
-</strong>
-
-<br>
-
-<span id="previewRepairsDescription">
-Find reliable repair professionals.
-</span>
-
-
-<br><br>
-
-
-🚚
-<strong id="previewDeliveryTitle">
 Delivery
-</strong>
 
-<br>
+</h3>
 
-<span id="previewDeliveryDescription">
+<p
+id="serviceDescription3"
+class="settings-value"
+>
+
 Fast and secure delivery services.
-</span>
 
-
-<br><br>
-
-
-<strong>
-Contact Us
-</strong>
-
-<br>
-
-📞
-<span id="previewPhone">
-Your phone number will appear here.
-</span>
-
-<br>
-
-📧
-<span id="previewEmail">
-Your email address will appear here.
-</span>
-
-<br>
-
-💬 WhatsApp / Zangi
-
-<br>
-
-<span>
-Contact options will appear on each business page.
-</span>
+</p>
 
 </div>
 
@@ -1090,299 +735,252 @@ Contact options will appear on each business page.
 </section>
 
 
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section>
+
+<h2 class="section-title">
+
+Contact Us
+
+</h2>
+
+<div class="cards">
+
+
+<!-- PHONE -->
+
+<div class="card">
+
+<h3>
+
+📞 Phone
+
+</h3>
+
+<p
+id="contactPhone"
+class="settings-value"
+>
+
+Your phone number will appear here.
+
+</p>
+
 </div>
 
 
+<!-- EMAIL -->
+
+<div class="card">
+
+<h3>
+
+📧 Email
+
+</h3>
+
+<p
+id="contactEmail"
+class="settings-value"
+>
+
+Your email address will appear here.
+
+</p>
+
+</div>
+
+
+<!-- WHATSAPP / ZANGI -->
+
+<div class="card">
+
+<h3>
+
+💬 WhatsApp / Zangi
+
+</h3>
+
+<p
+id="contactWhatsapp"
+class="settings-value"
+>
+
+Contact options will appear here.
+
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
 <footer>
 
-🌍 Logical World Admin Panel
+<h3 id="footerWebsiteName">
 
-<br><br>
+🌍 Logical World
 
-© 2026 Logical World
+</h3>
+
+<p>
+
+Connecting People, Products & Services.
+
+</p>
+
+<br>
+
+<p>
+
+© 2026 Logical World. All Rights Reserved.
+
+</p>
 
 </footer>
 
 
 <!-- =========================
-     MODAL
+     FIREBASE SCRIPT STARTS
 ========================= -->
-
-<div
-id="viewModal"
-class="modal"
->
-
-<div class="modal-box">
-
-<h2>
-Page Details
-</h2>
-
-<div id="modalContent"></div>
-
-
-<button
-class="close"
-id="closeModal"
->
-Close
-</button>
-
-</div>
-
-</div>
-
 
 <script type="module">
 
-
-/* =====================================================
-   FIREBASE
-===================================================== */
-
 import {
-auth,
 db
 }
 from "./firebase.js";
 
 
 import {
-onAuthStateChanged,
-signOut
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
-
-import {
 collection,
 getDocs,
-getCountFromServer,
-addDoc,
-deleteDoc,
 doc,
-serverTimestamp,
-updateDoc
+getDoc
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =====================================================
-   ADMIN
-===================================================== */
+/* =========================
+   ELEMENTS
+========================= */
 
-const ADMIN_EMAIL =
-"alagoagodstime@gmail.com";
-
-
-/* =====================================================
-   DATA
-===================================================== */
-
-let pendingPages = [];
-
-let approvedPages = [];
-
-let rejectedPages = [];
-
-let registeredUsers = [];
-
-let reports = [];
-
-
-/* =====================================================
-   AUTH
-===================================================== */
-
-onAuthStateChanged(
-auth,
-async(user)=>{
-
-if(!user){
-
-location.href =
-"login.html";
-
-return;
-
-}
-
-
-if(
-(user.email || "").toLowerCase() !==
-ADMIN_EMAIL.toLowerCase()
-){
-
-alert(
-"Access Denied."
-);
-
-location.href =
-"index.html";
-
-return;
-
-}
-
-
-await loadAll();
-
-}
-);
-
-
-/* =====================================================
-   NAVIGATION
-===================================================== */
-
-document
-.querySelectorAll(".nav-btn")
-.forEach(button=>{
-
-button.addEventListener(
-"click",
-async()=>{
-
-document
-.querySelectorAll(".nav-btn")
-.forEach(btn=>{
-btn.classList.remove("active");
-});
-
-
-button.classList.add("active");
-
-
-document
-.querySelectorAll(".section")
-.forEach(section=>{
-section.classList.remove("active");
-});
-
-
-const section =
+const approvedPagesList =
 document.getElementById(
-button.dataset.section
+"approvedPagesList"
+);
+
+const searchInput =
+document.getElementById(
+"searchInput"
+);
+
+const searchBtn =
+document.getElementById(
+"searchBtn"
+);
+
+const websiteName =
+document.getElementById(
+"websiteName"
+);
+
+const footerWebsiteName =
+document.getElementById(
+"footerWebsiteName"
+);
+
+const serviceTitle1 =
+document.getElementById(
+"serviceTitle1"
+);
+
+const serviceDescription1 =
+document.getElementById(
+"serviceDescription1"
+);
+
+const serviceTitle2 =
+document.getElementById(
+"serviceTitle2"
+);
+
+const serviceDescription2 =
+document.getElementById(
+"serviceDescription2"
+);
+
+const serviceTitle3 =
+document.getElementById(
+"serviceTitle3"
+);
+
+const serviceDescription3 =
+document.getElementById(
+"serviceDescription3"
+);
+
+const contactPhone =
+document.getElementById(
+"contactPhone"
+);
+
+const contactEmail =
+document.getElementById(
+"contactEmail"
+);
+
+const contactWhatsapp =
+document.getElementById(
+"contactWhatsapp"
 );
 
 
-section.classList.add("active");
+/* =========================
+   DATA
+========================= */
+
+let allPages = [];
+
+let allPosts = [];
 
 
-if(
-button.dataset.section ===
-"pending"
-){
+/* =========================
+   LOAD WEBSITE
+========================= */
 
-displayPending();
-
-}
-
-
-if(
-button.dataset.section ===
-"approved"
-){
-
-displayApproved();
-
-}
-
-
-if(
-button.dataset.section ===
-"rejected"
-){
-
-displayRejected();
-
-}
-
-
-if(
-button.dataset.section ===
-"users"
-){
-
-await loadUsers();
-
-}
-
-
-if(
-button.dataset.section ===
-"reports"
-){
-
-await loadReports();
-
-}
-
-
-if(
-button.dataset.section ===
-"settings"
-){
-
-await loadSettings();
-
-}
-
-}
-);
-
-});
-
-
-/* =====================================================
-   LOAD EVERYTHING
-===================================================== */
-
-async function loadAll(){
-
-await Promise.allSettled([
-
-loadPending(),
-
-loadApproved(),
-
-loadRejected(),
-
-loadUsers(),
-
-loadReports(),
-
-loadCounts(),
-
-loadSettings()
-
-]);
-
-}
-
-
-/* =====================================================
-   COUNTS
-===================================================== */
-
-async function loadCounts(){
+async function loadWebsite(){
 
 try{
 
-const pending =
-await getCountFromServer(
-collection(
-db,
-"pendingPages"
-)
-);
+approvedPagesList.innerHTML = `
+
+<div class="loading">
+
+Loading pages and latest posts...
+
+</div>
+
+`;
 
 
-const approved =
-await getCountFromServer(
+/* =========================
+   LOAD APPROVED PAGES
+========================= */
+
+const pagesSnapshot =
+await getDocs(
 collection(
 db,
 "approvedPages"
@@ -1390,154 +988,95 @@ db,
 );
 
 
-const users =
-await getCountFromServer(
-collection(
-db,
-"users"
-)
-);
+/* =========================
+   LOAD POSTS
+========================= */
 
-
-let reportsCount = 0;
-
-
-try{
-
-const reportResult =
-await getCountFromServer(
-collection(
-db,
-"reports"
-)
-);
-
-
-reportsCount =
-reportResult.data().count;
-
-}catch(error){
-
-console.log(
-"Reports collection unavailable."
-);
-
-}
-
-
-const pendingCount =
-pending.data().count;
-
-
-const approvedCount =
-approved.data().count;
-
-
-const userCount =
-users.data().count;
-
-
-document.getElementById(
-"pendingCount"
-).textContent =
-pendingCount;
-
-
-document.getElementById(
-"approvedCount"
-).textContent =
-approvedCount;
-
-
-document.getElementById(
-"usersCount"
-).textContent =
-userCount;
-
-
-document.getElementById(
-"reportsCount"
-).textContent =
-reportsCount;
-
-
-document.getElementById(
-"totalCount"
-).textContent =
-pendingCount +
-approvedCount;
-
-
-}catch(error){
-
-console.error(
-"Count loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   USERS
-===================================================== */
-
-async function loadUsers(){
-
-const list =
-document.getElementById(
-"usersList"
-);
-
-
-list.innerHTML = `
-<div class="loading">
-Loading registered users...
-</div>
-`;
-
-
-try{
-
-const snapshot =
+const postsSnapshot =
 await getDocs(
 collection(
 db,
-"users"
+"posts"
 )
 );
 
 
-registeredUsers =
-snapshot.docs.map(
-item=>({
+allPages =
+pagesSnapshot.docs.map(
+docSnap => ({
 
-id:item.id,
+id:
+docSnap.id,
 
-data:item.data()
+data:
+docSnap.data()
 
 })
 );
 
 
-displayUsers();
+allPosts =
+postsSnapshot.docs.map(
+docSnap => ({
+
+id:
+docSnap.id,
+
+data:
+docSnap.data()
+
+})
+);
+
+
+/* =========================
+   SORT POSTS
+========================= */
+
+allPosts.sort(
+(a,b)=>
+getTime(
+b.data.createdAt
+)
+-
+getTime(
+a.data.createdAt
+)
+);
+
+
+/* =========================
+   DISPLAY PAGES
+========================= */
+
+displayPages(
+allPages
+);
+
+
+/* =========================
+   LOAD ADMIN SETTINGS
+========================= */
+
+await loadSettings();
 
 
 }catch(error){
 
 console.error(
-"Users loading error:",
+"Website loading error:",
 error
 );
 
-
-list.innerHTML = `
+approvedPagesList.innerHTML = `
 
 <div class="error">
 
-Unable to load registered users.
+<strong>
+
+Unable to load pages and posts.
+
+</strong>
 
 <br><br>
 
@@ -1554,2685 +1093,985 @@ error.message
 }
 
 
-/* =====================================================
-   DISPLAY USERS
-===================================================== */
+/* =========================
+   DISPLAY PAGES
+========================= */
 
-function displayUsers(){
+function displayPages(
+pages
+){
 
-const list =
-document.getElementById(
-"usersList"
+approvedPagesList.innerHTML = "";
+
+
+if(
+pages.length === 0
+){
+
+approvedPagesList.innerHTML = `
+
+<div class="loading">
+
+No approved pages yet.
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================
+   EACH PAGE
+========================= */
+
+pages.forEach(
+page=>{
+
+const data =
+page.data;
+
+
+const pageName =
+data.pageName ||
+"Business";
+
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
+
+const businessURL =
+"business.html?id=" +
+encodeURIComponent(
+page.id
 );
 
 
+/* =========================
+   FIND POSTS FOR PAGE
+========================= */
+
+const pagePosts =
+allPosts.filter(
+post =>
+post.data.pageId ===
+page.id
+);
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+const latestPost =
+pagePosts.length > 0
+?
+pagePosts[0]
+:
+null;
+
+
+/* =========================
+   CREATE CARD
+========================= */
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"page-card";
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+const pageHeader =
+document.createElement(
+"div"
+);
+
+pageHeader.className =
+"page-header";
+
+
+pageHeader.innerHTML = `
+
+<a
+href="${businessURL}"
+class="page-link"
+>
+
+<img
+src="${escapeAttribute(
+logoURL
+)}"
+class="business-logo"
+alt="${escapeAttribute(
+pageName
+)}"
+>
+
+<div class="business-name">
+
+${escapeHTML(
+pageName
+)}
+
+</div>
+
+<div class="latest-label">
+
+Tap page to see all posts
+
+</div>
+
+</a>
+
+`;
+
+
+card.appendChild(
+pageHeader
+);
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+const latestPostDiv =
+document.createElement(
+"div"
+);
+
+latestPostDiv.className =
+"latest-post";
+
+
+if(
+latestPost
+){
+
+const postData =
+latestPost.data;
+
+
+let html = `
+
+<h4>
+
+🆕 Latest Post
+
+</h4>
+
+`;
+
+
+/* =========================
+   POST TEXT
+========================= */
+
+if(
+postData.text
+){
+
+html += `
+
+<p class="latest-post-text">
+
+${escapeHTML(
+postData.text
+)}
+
+</p>
+
+`;
+
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"image"
+){
+
+html += `
+
+<img
+
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+
+class="latest-media"
+
+alt="Latest post"
+
+>
+
+`;
+
+}
+
+
+/* =========================
+   VIDEO
+========================= */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"video"
+){
+
+html += `
+
+<video
+
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+
+class="latest-media"
+
+controls
+
+playsinline
+
+>
+
+</video>
+
+`;
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+html += `
+
+<div class="post-date">
+
+${formatDate(
+postData.createdAt
+)}
+
+</div>
+
+`;
+
+
+latestPostDiv.innerHTML =
+html;
+
+
+}else{
+
+latestPostDiv.innerHTML = `
+
+<p class="no-post">
+
+No posts yet.
+
+</p>
+
+`;
+
+}
+
+
+card.appendChild(
+latestPostDiv
+);
+
+
+approvedPagesList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   LOAD SETTINGS
+========================= */
+
+async function loadSettings(){
+
+try{
+
+/*
+   EXACT LOCATION USED
+   BY ADMIN SETTINGS:
+
+   siteSettings
+        ↓
+     general
+*/
+
+const settingsRef =
+doc(
+db,
+"siteSettings",
+"general"
+);
+
+
+const settingsSnapshot =
+await getDoc(
+settingsRef
+);
+
+
+/* SETTINGS DOCUMENT DOES NOT EXIST */
+
+if(
+!settingsSnapshot.exists()
+){
+
+console.log(
+"No website settings found."
+);
+
+return;
+
+}
+
+
+const settings =
+settingsSnapshot.data();
+
+
+/* =========================
+   WEBSITE NAME
+========================= */
+
+if(
+settings.websiteName
+){
+
+websiteName.textContent =
+"🌍 " +
+settings.websiteName;
+
+footerWebsiteName.textContent =
+"🌍 " +
+settings.websiteName;
+
+}
+   /* =========================
+   CLEANING SERVICE
+========================= */
+
+if(
+settings.cleaningTitle
+){
+
+serviceTitle1.textContent =
+settings.cleaningTitle;
+
+}
+
+
+if(
+settings.cleaningDescription
+){
+
+serviceDescription1.textContent =
+settings.cleaningDescription;
+
+}
+
+
+/* =========================
+   REPAIRS SERVICE
+========================= */
+
+if(
+settings.repairsTitle
+){
+
+serviceTitle2.textContent =
+settings.repairsTitle;
+
+}
+
+
+if(
+settings.repairsDescription
+){
+
+serviceDescription2.textContent =
+settings.repairsDescription;
+
+}
+
+
+/* =========================
+   DELIVERY SERVICE
+========================= */
+
+if(
+settings.deliveryTitle
+){
+
+serviceTitle3.textContent =
+settings.deliveryTitle;
+
+}
+
+
+if(
+settings.deliveryDescription
+){
+
+serviceDescription3.textContent =
+settings.deliveryDescription;
+
+}
+
+
+/* =========================
+   PHONE
+========================= */
+
+if(
+settings.phone
+){
+
+contactPhone.textContent =
+settings.phone;
+
+}
+
+
+/* =========================
+   EMAIL
+========================= */
+
+if(
+settings.email
+){
+
+contactEmail.textContent =
+settings.email;
+
+}
+
+
+/* =========================
+   WHATSAPP / ZANGI
+========================= */
+
+let contactText = "";
+
+
+if(
+settings.whatsapp
+){
+
+contactText =
+settings.whatsapp;
+
+}
+
+
+if(
+settings.zangi
+){
+
+if(
+contactText
+){
+
+contactText +=
+" / " +
+settings.zangi;
+
+}else{
+
+contactText =
+settings.zangi;
+
+}
+
+}
+
+
+if(
+contactText
+){
+
+contactWhatsapp.textContent =
+contactText;
+
+}
+
+
+/* =========================
+   CONTACT DESCRIPTION
+========================= */
+
+if(
+settings.contactDescription
+){
+
+const contactCards =
+document.querySelectorAll(
+".card"
+);
+
+
+/*
+   Keep the existing
+   contact information
+   while allowing the
+   Admin description to
+   appear underneath.
+*/
+
+const contactSection =
+contactWhatsapp
+.closest("section");
+
+
+if(
+contactSection
+){
+
+let descriptionElement =
+contactSection.querySelector(
+".contact-description"
+);
+
+
+if(
+!descriptionElement
+){
+
+descriptionElement =
+document.createElement(
+"p"
+);
+
+descriptionElement.className =
+"contact-description";
+
+descriptionElement.style.textAlign =
+"center";
+
+descriptionElement.style.marginBottom =
+"25px";
+
+descriptionElement.style.fontSize =
+"16px";
+
+descriptionElement.style.color =
+"#555";
+
+const title =
+contactSection.querySelector(
+".section-title"
+);
+
+
+if(
+title
+){
+
+title.insertAdjacentElement(
+"afterend",
+descriptionElement
+);
+
+}
+
+}
+
+
+descriptionElement.textContent =
+settings.contactDescription;
+
+}
+
+}
+
+
+console.log(
+"Admin settings loaded:",
+settings
+);
+
+
+}catch(error){
+
+console.error(
+"Settings loading error:",
+error
+);
+
+}
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchPages(){
+
 const search =
-document.getElementById(
-"usersSearch"
-).value
-.toLowerCase()
-.trim();
+searchInput.value
+.trim()
+.toLowerCase();
+
+
+if(
+!search
+){
+
+displayPages(
+allPages
+);
+
+return;
+
+}
 
 
 const filtered =
-registeredUsers.filter(
-user=>{
+allPages.filter(
+page=>{
 
 const data =
-user.data;
+page.data;
 
 
-const name =
+const pageName =
 String(
-data.name || ""
+data.pageName ||
+""
+)
+.toLowerCase();
+
+
+const category =
+String(
+data.category ||
+""
+)
+.toLowerCase();
+
+
+const description =
+String(
+data.description ||
+""
 )
 .toLowerCase();
 
 
 const email =
 String(
-data.email || ""
-)
-.toLowerCase();
-
-
-const uid =
-String(
-data.uid ||
-user.id ||
+data.email ||
+data.ownerEmail ||
 ""
 )
 .toLowerCase();
 
 
-return (
+const location =
+String(
+data.location ||
+""
+)
+.toLowerCase();
 
-name.includes(search) ||
 
-email.includes(search) ||
+const matchingPosts =
+allPosts.some(
+post=>{
 
-uid.includes(search)
+if(
+post.data.pageId !==
+page.id
+){
+
+return false;
+
+}
+
+
+const postText =
+String(
+post.data.text ||
+""
+)
+.toLowerCase();
+
+
+return postText.includes(
+search
+);
+
+});
+
+
+return(
+
+pageName.includes(
+search
+)
+
+||
+
+category.includes(
+search
+)
+
+||
+
+description.includes(
+search
+)
+
+||
+
+email.includes(
+search
+)
+
+||
+
+location.includes(
+search
+)
+
+||
+
+matchingPosts
 
 );
 
 });
 
 
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-
-<strong>
-No registered users found.
-</strong>
-
-<br><br>
-
-There are currently no matching users.
-
-</div>
-
-`;
-
-return;
+displayPages(
+filtered
+);
 
 }
 
 
-filtered.forEach(
-user=>{
+/* =========================
+   SEARCH BUTTON
+========================= */
 
-const data =
-user.data;
-
-
-const card =
-document.createElement(
-"div"
+searchBtn.addEventListener(
+"click",
+searchPages
 );
 
 
-card.className =
-"user-card";
+/* =========================
+   LIVE SEARCH
+========================= */
+
+searchInput.addEventListener(
+"input",
+searchPages
+);
 
 
-const uid =
-data.uid ||
-user.id ||
-"";
+/* =========================
+   GET FIRESTORE TIME
+========================= */
 
-
-let createdDate =
-"Not available";
-
+function getTime(
+timestamp
+){
 
 if(
-data.createdAt &&
-typeof data.createdAt.toDate ===
+timestamp &&
+typeof timestamp.toMillis ===
 "function"
 ){
 
-createdDate =
-data.createdAt
-.toDate()
-.toLocaleString();
+return timestamp.toMillis();
 
 }
-
-
-card.innerHTML = `
-
-<h3>
-👤 ${escapeHTML(
-data.name ||
-"No name"
-)}
-</h3>
-
-
-<p class="user-email">
-
-<strong>
-Email:
-</strong>
-
-${escapeHTML(
-data.email ||
-"No email"
-)}
-
-</p>
-
-
-<div>
-
-<span class="user-role">
-
-Role:
-${escapeHTML(
-data.role ||
-"user"
-)}
-
-</span>
-
-
-<span class="user-status">
-
-Status:
-${escapeHTML(
-data.accountStatus ||
-"active"
-)}
-
-</span>
-
-</div>
-
-
-<p class="user-date">
-
-<strong>
-Registered:
-</strong>
-
-${escapeHTML(
-createdDate
-)}
-
-</p>
-
-
-<div class="user-uid">
-
-<strong>
-Firebase UID:
-</strong>
-
-<br>
-
-${escapeHTML(
-uid
-)}
-
-</div>
-
-`;
-
-
-list.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =====================================================
-   USER SEARCH
-===================================================== */
-
-document
-.getElementById(
-"usersSearch"
-)
-.addEventListener(
-"input",
-displayUsers
-);
-
-
-/* =====================================================
-   REFRESH USERS
-===================================================== */
-
-document
-.getElementById(
-"refreshUsers"
-)
-.addEventListener(
-"click",
-async()=>{
-
-await loadUsers();
-
-await loadCounts();
-
-alert(
-"Users refreshed."
-);
-
-}
-);
-
-
-/* =====================================================
-   PENDING PAGES
-===================================================== */
-
-async function loadPending(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"pendingPages"
-)
-);
-
-
-pendingPages =
-snapshot.docs.map(
-item=>({
-
-id:item.id,
-
-data:item.data()
-
-})
-);
-
-
-displayPending();
-
-
-}catch(error){
-
-console.error(
-"Pending loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY PENDING
-===================================================== */
-
-function displayPending(){
-
-const list =
-document.getElementById(
-"pendingList"
-);
-
-
-const search =
-document.getElementById(
-"pendingSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-pendingPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.location || ""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
 
 
 if(
-filtered.length === 0
+timestamp &&
+typeof timestamp.seconds ===
+"number"
 ){
 
-list.innerHTML = `
-
-<div class="empty">
-
-No pending pages found.
-
-</div>
-
-`;
-
-return;
+return timestamp.seconds *
+1000;
 
 }
 
 
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"pending"
-)
-);
-
-});
+return 0;
 
 }
 
 
-/* =====================================================
-   APPROVED PAGES
-===================================================== */
+/* =========================
+   FORMAT DATE
+========================= */
 
-async function loadApproved(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"approvedPages"
-)
-);
-
-
-approvedPages =
-snapshot.docs.map(
-item=>({
-
-id:item.id,
-
-data:item.data()
-
-})
-);
-
-
-displayApproved();
-
-
-}catch(error){
-
-console.error(
-"Approved loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY APPROVED
-===================================================== */
-
-function displayApproved(){
-
-const list =
-document.getElementById(
-"approvedList"
-);
-
-
-const search =
-document.getElementById(
-"approvedSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-approvedPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.location || ""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
+function formatDate(
+timestamp
+){
 
 if(
-filtered.length === 0
+!timestamp
 ){
-
-list.innerHTML = `
-
-<div class="empty">
-
-No approved pages found.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"approved"
-)
-);
-
-});
-
-}
-
-
-/* =====================================================
-   REJECTED PAGES
-===================================================== */
-
-async function loadRejected(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"rejectedPages"
-)
-);
-
-
-rejectedPages =
-snapshot.docs.map(
-item=>({
-
-id:item.id,
-
-data:item.data()
-
-})
-);
-
-
-displayRejected();
-
-
-}catch(error){
-
-console.error(
-"Rejected loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   DISPLAY REJECTED
-===================================================== */
-
-function displayRejected(){
-
-const list =
-document.getElementById(
-"rejectedList"
-);
-
-
-const search =
-document.getElementById(
-"rejectedSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-const filtered =
-rejectedPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-return (
-
-String(
-data.pageName || ""
-)
-.toLowerCase()
-.includes(search)
-
-||
-
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase()
-.includes(search)
-
-);
-
-});
-
-
-list.innerHTML = "";
-
-
-if(
-filtered.length === 0
-){
-
-list.innerHTML = `
-
-<div class="empty">
-
-No rejected pages found.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-filtered.forEach(
-page=>{
-
-list.appendChild(
-createPageCard(
-page,
-"rejected"
-)
-);
-
-});
-
-}
-
-
-/* =====================================================
-   PAGE CARD
-===================================================== */
-
-function createPageCard(
-page,
-type
-){
-
-const data =
-page.data;
-
-
-const card =
-document.createElement(
-"div"
-);
-
-
-card.className =
-"page-card";
-
-
-const logo =
-data.logoURL ||
-"images/default-logo.png";
-
-
-card.innerHTML = `
-
-<img
-src="${escapeAttribute(logo)}"
-class="page-logo"
-alt="Page Logo"
->
-
-
-<h3>
-
-${escapeHTML(
-data.pageName ||
-"Unnamed Page"
-)}
-
-</h3>
-
-
-<p>
-
-<strong>
-Page Type:
-</strong>
-
-${escapeHTML(
-data.pageType || ""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Category:
-</strong>
-
-${escapeHTML(
-data.category || ""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Email:
-</strong>
-
-${escapeHTML(
-data.email ||
-data.ownerEmail ||
-""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Location:
-</strong>
-
-${escapeHTML(
-data.location || ""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Address:
-</strong>
-
-${escapeHTML(
-data.address || ""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Description:
-</strong>
-
-${escapeHTML(
-data.description || ""
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Status:
-</strong>
-
-${escapeHTML(
-data.status || ""
-)}
-
-</p>
-
-
-<div>
-
-<button
-class="action view"
-data-action="view"
-data-id="${escapeAttribute(page.id)}"
-data-type="${escapeAttribute(type)}"
->
-👁 View
-</button>
-
-
-${
-type === "pending"
-?
-`
-
-<button
-class="action approve"
-data-action="approve"
-data-id="${escapeAttribute(page.id)}"
->
-✅ Approve
-</button>
-
-
-<button
-class="action reject"
-data-action="reject"
-data-id="${escapeAttribute(page.id)}"
->
-❌ Reject
-</button>
-
-
-<button
-class="action delete"
-data-action="delete-pending"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete
-</button>
-
-`
-:
-""
-}
-
-
-${
-type === "approved"
-?
-`
-
-<button
-class="action delete"
-data-action="delete-approved"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete Approved Page
-</button>
-
-`
-:
-""
-}
-
-
-${
-type === "rejected"
-?
-`
-
-<button
-class="action delete"
-data-action="delete-rejected"
-data-id="${escapeAttribute(page.id)}"
->
-🗑 Delete
-</button>
-
-`
-:
-""
-}
-
-</div>
-
-`;
-
-
-return card;
-
-}
-
-
-/* =====================================================
-   PAGE SEARCH
-===================================================== */
-
-document
-.getElementById(
-"pendingSearch"
-)
-.addEventListener(
-"input",
-displayPending
-);
-
-
-document
-.getElementById(
-"approvedSearch"
-)
-.addEventListener(
-"input",
-displayApproved
-);
-
-
-document
-.getElementById(
-"rejectedSearch"
-)
-.addEventListener(
-"input",
-displayRejected
-);
-   document
-.getElementById(
-"rejectedSearch"
-)
-.addEventListener(
-"input",
-displayRejected
-);
-
-
-/* =====================================================
-   USERS SEARCH
-===================================================== */
-
-const usersSearch =
-document.getElementById(
-"usersSearch"
-);
-
-if(usersSearch){
-
-usersSearch.addEventListener(
-"input",
-displayUsers
-);
-
-}
-
-
-/* =====================================================
-   REFRESH DASHBOARD
-===================================================== */
-
-const refreshDashboard =
-document.getElementById(
-"refreshDashboard"
-);
-
-if(refreshDashboard){
-
-refreshDashboard.addEventListener(
-"click",
-async()=>{
-
-try{
-
-refreshDashboard.disabled =
-true;
-
-refreshDashboard.innerText =
-"🔄 Refreshing...";
-
-await loadAll();
-
-alert(
-"Dashboard refreshed successfully."
-);
-
-}catch(error){
-
-console.error(
-"Dashboard refresh error:",
-error
-);
-
-alert(
-"Unable to refresh dashboard: " +
-error.message
-);
-
-}finally{
-
-refreshDashboard.disabled =
-false;
-
-refreshDashboard.innerText =
-"🔄 Refresh Dashboard";
-
-}
-
-});
-
-}
-
-
-/* =====================================================
-   REFRESH USERS
-===================================================== */
-
-const refreshUsers =
-document.getElementById(
-"refreshUsers"
-);
-
-if(refreshUsers){
-
-refreshUsers.addEventListener(
-"click",
-async()=>{
-
-try{
-
-refreshUsers.disabled =
-true;
-
-refreshUsers.innerText =
-"🔄 Loading...";
-
-await loadUsers();
-
-}catch(error){
-
-console.error(
-"Users refresh error:",
-error
-);
-
-alert(
-"Unable to refresh users: " +
-error.message
-);
-
-}finally{
-
-refreshUsers.disabled =
-false;
-
-refreshUsers.innerText =
-"🔄 Refresh Users";
-
-}
-
-});
-
-}
-
-
-/* =====================================================
-   REPORTS
-===================================================== */
-
-async function loadReports(){
-
-const list =
-document.getElementById(
-"reportsList"
-);
-
-if(!list){
-
-return;
-
-}
-
-
-list.innerHTML = `
-
-<div class="loading">
-Loading reports...
-</div>
-
-`;
-
-
-try{
-
-const snapshot =
-await getDocs(
-collection(
-db,
-"reports"
-)
-);
-
-
-if(snapshot.empty){
-
-list.innerHTML = `
-
-<div class="empty">
-
-<strong>
-No reports found.
-</strong>
-
-<br><br>
-
-There are currently no reports.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-list.innerHTML = "";
-
-
-snapshot.forEach(
-reportDoc=>{
-
-const data =
-reportDoc.data();
-
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"page-card";
-
-
-let createdDate =
-"Not available";
-
-
-if(
-data.createdAt &&
-typeof data.createdAt.toDate ===
-"function"
-){
-
-createdDate =
-data.createdAt
-.toDate()
-.toLocaleString();
-
-}
-
-
-card.innerHTML = `
-
-<h3>
-🚨 Report
-</h3>
-
-<p>
-
-<strong>
-Reported by:
-</strong>
-
-${escapeHTML(
-data.reportedByName ||
-data.userName ||
-"No name"
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Email:
-</strong>
-
-${escapeHTML(
-data.reportedByEmail ||
-data.email ||
-"No email"
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Reason:
-</strong>
-
-${escapeHTML(
-data.reason ||
-"No reason provided"
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Description:
-</strong>
-
-${escapeHTML(
-data.description ||
-"No description provided"
-)}
-
-</p>
-
-
-<p>
-
-<strong>
-Date:
-</strong>
-
-${escapeHTML(
-createdDate
-)}
-
-</p>
-
-
-<button
-class="action delete"
-data-report-id="${escapeAttribute(
-reportDoc.id
-)}"
->
-
-🗑 Delete Report
-
-</button>
-
-`;
-
-
-list.appendChild(
-card
-);
-
-});
-
-
-}catch(error){
-
-console.error(
-"Reports loading error:",
-error
-);
-
-
-list.innerHTML = `
-
-<div class="error">
-
-<strong>
-Unable to load reports.
-</strong>
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =====================================================
-   REPORT BUTTON
-===================================================== */
-
-const reportsButton =
-document.querySelector(
-'[data-section="reports"]'
-);
-
-if(reportsButton){
-
-reportsButton.addEventListener(
-"click",
-async()=>{
-
-await loadReports();
-
-});
-
-}
-
-
-/* =====================================================
-   DELETE REPORT
-===================================================== */
-
-document.addEventListener(
-"click",
-async(event)=>{
-
-const button =
-event.target.closest(
-"[data-report-id]"
-);
-
-if(!button){
-
-return;
-
-}
-
-
-const reportId =
-button.dataset.reportId;
-
-
-if(
-!confirm(
-"Delete this report?"
-)
-){
-
-return;
-
-}
-
-
-try{
-
-await deleteDoc(
-doc(
-db,
-"reports",
-reportId
-)
-);
-
-
-alert(
-"Report deleted successfully."
-);
-
-
-await loadReports();
-
-
-}catch(error){
-
-console.error(
-"Delete report error:",
-error
-);
-
-alert(
-"Unable to delete report: " +
-error.message
-);
-
-}
-
-});
-
-
-/* =====================================================
-   SETTINGS
-===================================================== */
-
-function createSettingsPanel(){
-
-const section =
-document.getElementById(
-"settings"
-);
-
-if(!section){
-
-return;
-
-}
-
-
-section.innerHTML = `
-
-<div class="card">
-
-<h2>
-⚙️ Website Settings
-</h2>
-
-
-<p style="
-color:#555;
-margin-bottom:20px;
-">
-
-Fill in the information below.
-These details can be displayed on
-the Logical World website.
-
-</p>
-
-
-<div style="
-background:#e8f1ff;
-border-left:5px solid #0a4ea3;
-padding:15px;
-border-radius:6px;
-margin-bottom:20px;
-">
-
-<strong>
-🌍 Website Information
-</strong>
-
-</div>
-
-
-<label>
-<strong>
-Website Name
-</strong>
-</label>
-
-<input
-class="search"
-id="settingWebsiteName"
-placeholder="Logical World"
->
-
-
-<div style="
-margin-top:20px;
-background:#f5f5f5;
-padding:15px;
-border-radius:8px;
-">
-
-<h3 style="
-color:#0a4ea3;
-margin-bottom:15px;
-">
-
-🧹 Cleaning Services
-
-</h3>
-
-
-<label>
-Title
-</label>
-
-<input
-class="search"
-id="settingCleaning"
-placeholder="Cleaning Services"
->
-
-
-<label>
-Description
-</label>
-
-<textarea
-class="search"
-id="settingCleaningDescription"
-rows="3"
-placeholder="Book trusted cleaning services easily."
-></textarea>
-
-</div>
-
-
-<div style="
-margin-top:20px;
-background:#f5f5f5;
-padding:15px;
-border-radius:8px;
-">
-
-<h3 style="
-color:#0a4ea3;
-margin-bottom:15px;
-">
-
-🔧 Repairs
-
-</h3>
-
-
-<label>
-Title
-</label>
-
-<input
-class="search"
-id="settingRepairs"
-placeholder="Repairs"
->
-
-
-<label>
-Description
-</label>
-
-<textarea
-class="search"
-id="settingRepairsDescription"
-rows="3"
-placeholder="Find reliable repair professionals."
-></textarea>
-
-</div>
-
-
-<div style="
-margin-top:20px;
-background:#f5f5f5;
-padding:15px;
-border-radius:8px;
-">
-
-<h3 style="
-color:#0a4ea3;
-margin-bottom:15px;
-">
-
-🚚 Delivery
-
-</h3>
-
-
-<label>
-Title
-</label>
-
-<input
-class="search"
-id="settingDelivery"
-placeholder="Delivery"
->
-
-
-<label>
-Description
-</label>
-
-<textarea
-class="search"
-id="settingDeliveryDescription"
-rows="3"
-placeholder="Fast and secure delivery services."
-></textarea>
-
-</div>
-
-
-<div style="
-margin-top:20px;
-background:#e8f1ff;
-border-left:5px solid #0a4ea3;
-padding:15px;
-border-radius:6px;
-">
-
-<h3 style="
-color:#0a4ea3;
-margin-bottom:15px;
-">
-
-📞 Contact Us
-
-</h3>
-
-
-<label>
-<strong>
-Phone Number
-</strong>
-</label>
-
-<input
-class="search"
-id="settingPhone"
-placeholder="Enter phone number"
->
-
-
-<label>
-<strong>
-Email Address
-</strong>
-</label>
-
-<input
-class="search"
-id="settingEmail"
-type="email"
-placeholder="Enter email address"
->
-
-
-<label>
-<strong>
-WhatsApp / Zangi
-</strong>
-</label>
-
-<input
-class="search"
-id="settingContactDescription"
-placeholder="Contact options will appear on each business page."
->
-
-</div>
-
-
-<br>
-
-
-<div
-id="settingsMessage"
-style="display:none;margin-bottom:15px;"
-></div>
-
-
-<button
-class="refresh"
-id="saveSettings"
-style="
-width:100%;
-padding:14px;
-font-size:16px;
-"
->
-
-💾 Save Website Settings
-
-</button>
-
-
-<div style="
-margin-top:30px;
-background:#fff;
-border:1px solid #ddd;
-border-radius:10px;
-padding:20px;
-">
-
-<h2>
-👁 Preview
-</h2>
-
-
-<h1
-id="previewWebsiteName"
-style="
-color:#0a4ea3;
-margin:20px 0;
-"
->
-Logical World
-</h1>
-
-
-<div class="page-card">
-
-<h3 id="previewCleaningTitle">
-Cleaning Services
-</h3>
-
-<p id="previewCleaningDescription">
-Book trusted cleaning services easily.
-</p>
-
-</div>
-
-
-<div class="page-card">
-
-<h3 id="previewRepairsTitle">
-Repairs
-</h3>
-
-<p id="previewRepairsDescription">
-Find reliable repair professionals.
-</p>
-
-</div>
-
-
-<div class="page-card">
-
-<h3 id="previewDeliveryTitle">
-Delivery
-</h3>
-
-<p id="previewDeliveryDescription">
-Fast and secure delivery services.
-</p>
-
-</div>
-
-
-<h2 style="
-margin-top:30px;
-color:#0a4ea3;
-">
-
-Contact Us
-
-</h2>
-
-
-<div class="page-card">
-
-<h3>
-📞 Phone
-</h3>
-
-<p id="previewPhone">
-Your phone number will appear here.
-</p>
-
-</div>
-
-
-<div class="page-card">
-
-<h3>
-📧 Email
-</h3>
-
-<p id="previewEmail">
-Your email address will appear here.
-</p>
-
-</div>
-
-
-<div class="page-card">
-
-<h3>
-💬 WhatsApp / Zangi
-</h3>
-
-<p>
-Contact options will appear on each business page.
-</p>
-
-</div>
-
-</div>
-
-</div>
-
-`;
-
-}
-
-
-/* =====================================================
-   SETTINGS HELPERS
-===================================================== */
-
-function settingValue(id){
-
-const element =
-document.getElementById(id);
-
-if(!element){
 
 return "";
 
 }
 
-return element.value.trim();
+
+if(
+typeof timestamp.toDate ===
+"function"
+){
+
+return timestamp
+.toDate()
+.toLocaleString();
 
 }
 
 
-function setSettingValue(
-id,
+if(
+timestamp instanceof Date
+){
+
+return timestamp.toLocaleString();
+
+}
+
+
+return "";
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(
 value
 ){
 
-const element =
-document.getElementById(id);
+return String(
+value
+)
 
-if(element){
+.replace(
+/&/g,
+"&amp;"
+)
 
-element.value =
-value || "";
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
 
 }
 
-}
 
+/* =========================
+   ESCAPE ATTRIBUTE
+========================= */
 
-function setPreviewText(
-id,
+function escapeAttribute(
 value
 ){
 
-const element =
-document.getElementById(id);
-
-if(element){
-
-element.innerText =
-value || "";
-
-}
-
-}
-
-
-/* =====================================================
-   LOAD SETTINGS
-===================================================== */
-
-async function loadSettings(){
-
-try{
-
-const settingsSnapshot =
-await getDocs(
-collection(
-db,
-"siteSettings"
-)
-);
-
-
-let data = null;
-
-
-settingsSnapshot.forEach(
-item=>{
-
-if(
-item.id ===
-"general"
-){
-
-data =
-item.data();
-
-}
-
-});
-
-
-if(!data){
-
-data = {
-
-websiteName:
-"Logical World",
-
-cleaningTitle:
-"Cleaning Services",
-
-cleaningDescription:
-"Book trusted cleaning services easily.",
-
-repairsTitle:
-"Repairs",
-
-repairsDescription:
-"Find reliable repair professionals.",
-
-deliveryTitle:
-"Delivery",
-
-deliveryDescription:
-"Fast and secure delivery services.",
-
-phone:
-"",
-
-email:
-"",
-
-contactDescription:
-"Contact options will appear on each business page."
-
-};
-
-}
-
-
-setSettingValue(
-"settingWebsiteName",
-data.websiteName
-);
-
-
-setSettingValue(
-"settingCleaning",
-data.cleaningTitle
-);
-
-
-setSettingValue(
-"settingCleaningDescription",
-data.cleaningDescription
-);
-
-
-setSettingValue(
-"settingRepairs",
-data.repairsTitle
-);
-
-
-setSettingValue(
-"settingRepairsDescription",
-data.repairsDescription
-);
-
-
-setSettingValue(
-"settingDelivery",
-data.deliveryTitle
-);
-
-
-setSettingValue(
-"settingDeliveryDescription",
-data.deliveryDescription
-);
-
-
-setSettingValue(
-"settingPhone",
-data.phone
-);
-
-
-setSettingValue(
-"settingEmail",
-data.email
-);
-
-
-setSettingValue(
-"settingContactDescription",
-data.contactDescription
-);
-
-
-updateSettingsPreview();
-
-
-}catch(error){
-
-console.error(
-"Load settings error:",
-error
-);
-
-}
-
-}
-
-
-/* =====================================================
-   SETTINGS PREVIEW
-===================================================== */
-
-function updateSettingsPreview(){
-
-setPreviewText(
-"previewWebsiteName",
-settingValue(
-"settingWebsiteName"
-) ||
-"Logical World"
-);
-
-
-setPreviewText(
-"previewCleaningTitle",
-settingValue(
-"settingCleaning"
-) ||
-"Cleaning Services"
-);
-
-
-setPreviewText(
-"previewCleaningDescription",
-settingValue(
-"settingCleaningDescription"
-) ||
-"Book trusted cleaning services easily."
-);
-
-
-setPreviewText(
-"previewRepairsTitle",
-settingValue(
-"settingRepairs"
-) ||
-"Repairs"
-);
-
-
-setPreviewText(
-"previewRepairsDescription",
-settingValue(
-"settingRepairsDescription"
-) ||
-"Find reliable repair professionals."
-);
-
-
-setPreviewText(
-"previewDeliveryTitle",
-settingValue(
-"settingDelivery"
-) ||
-"Delivery"
-);
-
-
-setPreviewText(
-"previewDeliveryDescription",
-settingValue(
-"settingDeliveryDescription"
-) ||
-"Fast and secure delivery services."
-);
-
-
-setPreviewText(
-"previewPhone",
-settingValue(
-"settingPhone"
-) ||
-"Your phone number will appear here."
-);
-
-
-setPreviewText(
-"previewEmail",
-settingValue(
-"settingEmail"
-) ||
-"Your email address will appear here."
+return escapeHTML(
+value
 );
 
 }
 
 
-/* =====================================================
-   SETTINGS LIVE PREVIEW
-===================================================== */
+/* =========================
+   START WEBSITE
+========================= */
 
-document.addEventListener(
-"input",
+loadWebsite();
+   /* =========================
+   FINISH WEBSITE
+========================= */
+
+console.log("Logical World homepage started.");
+
+
+/* =========================
+   LOAD WEBSITE
+========================= */
+
+loadWebsite();
+
+
+/* =========================
+   SAFETY CHECK
+========================= */
+
+window.addEventListener(
+"error",
 (event)=>{
 
-if(
-event.target.closest(
-"#settings"
-)
-){
-
-updateSettingsPreview();
-
-}
-
-});
-
-
-/* =====================================================
-   SAVE SETTINGS
-===================================================== */
-
-document.addEventListener(
-"click",
-async(event)=>{
-
-const button =
-event.target.closest(
-"#saveSettings"
-);
-
-if(!button){
-
-return;
-
-}
-
-
-try{
-
-button.disabled =
-true;
-
-button.innerText =
-"💾 Saving...";
-
-
-const settingsData = {
-
-websiteName:
-settingValue(
-"settingWebsiteName"
-) ||
-"Logical World",
-
-cleaningTitle:
-settingValue(
-"settingCleaning"
-) ||
-"Cleaning Services",
-
-cleaningDescription:
-settingValue(
-"settingCleaningDescription"
-) ||
-"Book trusted cleaning services easily.",
-
-repairsTitle:
-settingValue(
-"settingRepairs"
-) ||
-"Repairs",
-
-repairsDescription:
-settingValue(
-"settingRepairsDescription"
-) ||
-"Find reliable repair professionals.",
-
-deliveryTitle:
-settingValue(
-"settingDelivery"
-) ||
-"Delivery",
-
-deliveryDescription:
-settingValue(
-"settingDeliveryDescription"
-) ||
-"Fast and secure delivery services.",
-
-phone:
-settingValue(
-"settingPhone"
-),
-
-email:
-settingValue(
-"settingEmail"
-),
-
-contactDescription:
-settingValue(
-"settingContactDescription"
-) ||
-"Contact options will appear on each business page.",
-
-updatedAt:
-serverTimestamp(),
-
-updatedBy:
-auth.currentUser ?
-auth.currentUser.email :
-""
-
-};
-
-
-/*
-   We use addDoc here only if the settings
-   document does not already exist.
-*/
-
-const settingsSnapshot =
-await getDocs(
-collection(
-db,
-"siteSettings"
-)
-);
-
-
-let generalDoc = null;
-
-
-settingsSnapshot.forEach(
-item=>{
-
-if(
-item.id ===
-"general"
-){
-
-generalDoc =
-item;
-
-}
-
-});
-
-
-if(generalDoc){
-
-await updateDoc(
-doc(
-db,
-"siteSettings",
-"general"
-),
-settingsData
-);
-
-}else{
-
-await setDoc(
-doc(
-db,
-"siteSettings",
-"general"
-),
-settingsData
-);
-
-}
-
-
-const message =
-document.getElementById(
-"settingsMessage"
-);
-
-
-if(message){
-
-message.innerText =
-"✅ Website settings saved successfully.";
-
-message.style.display =
-"block";
-
-message.style.background =
-"#d1e7dd";
-
-message.style.color =
-"#0f5132";
-
-message.style.padding =
-"12px";
-
-message.style.borderRadius =
-"6px";
-
-}
-
-
-alert(
-"Website settings saved successfully."
-);
-
-
-}catch(error){
-
 console.error(
-"Save settings error:",
-error
-);
-
-
-alert(
-"Unable to save settings: " +
-error.message
-);
-
-
-}finally{
-
-button.disabled =
-false;
-
-button.innerText =
-"💾 Save Website Settings";
-
-}
-
-});
-
-
-/* =====================================================
-   SETTINGS NAVIGATION
-===================================================== */
-
-const settingsButton =
-document.querySelector(
-'[data-section="settings"]'
-);
-
-if(settingsButton){
-
-settingsButton.addEventListener(
-"click",
-async()=>{
-
-createSettingsPanel();
-
-await loadSettings();
-
-});
-
-}
-
-
-/* =====================================================
-   MODAL
-===================================================== */
-
-function showModal(data){
-
-const modal =
-document.getElementById(
-"viewModal"
-);
-
-const content =
-document.getElementById(
-"modalContent"
-);
-
-if(!modal || !content){
-
-return;
-
-}
-
-
-content.innerHTML = `
-
-${
-data.logoURL
-?
-`
-<img
-src="${escapeAttribute(
-data.logoURL
-)}"
-style="
-width:130px;
-height:130px;
-object-fit:cover;
-border-radius:50%;
-display:block;
-margin:0 auto 20px;
-"
->
-`
-:
-""
-}
-
-
-<p>
-<strong>
-Page Name:
-</strong>
-
-${escapeHTML(
-data.pageName ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Page Type:
-</strong>
-
-${escapeHTML(
-data.pageType ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Category:
-</strong>
-
-${escapeHTML(
-data.category ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Email:
-</strong>
-
-${escapeHTML(
-data.email ||
-data.ownerEmail ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Location:
-</strong>
-
-${escapeHTML(
-data.location ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Address:
-</strong>
-
-${escapeHTML(
-data.address ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Description:
-</strong>
-
-${escapeHTML(
-data.description ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Contact Method:
-</strong>
-
-${escapeHTML(
-data.contactMethod ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Phone:
-</strong>
-
-${escapeHTML(
-data.phone ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-WhatsApp:
-</strong>
-
-${escapeHTML(
-data.whatsapp ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Zangi:
-</strong>
-
-${escapeHTML(
-data.zangi ||
-""
-)}
-
-</p>
-
-
-<p>
-<strong>
-Status:
-</strong>
-
-${escapeHTML(
-data.status ||
-""
-)}
-
-</p>
-
-`;
-
-
-modal.style.display =
-"block";
-
-}
-
-
-/* =====================================================
-   CLOSE MODAL
-===================================================== */
-
-const closeModal =
-document.getElementById(
-"closeModal"
-);
-
-if(closeModal){
-
-closeModal.addEventListener(
-"click",
-()=>{
-
-const modal =
-document.getElementById(
-"viewModal"
-);
-
-if(modal){
-
-modal.style.display =
-"none";
-
-}
-
-});
-
-}
-
-
-const viewModal =
-document.getElementById(
-"viewModal"
-);
-
-if(viewModal){
-
-viewModal.addEventListener(
-"click",
-(event)=>{
-
-if(
-event.target ===
-viewModal
-){
-
-viewModal.style.display =
-"none";
-
-}
-
-});
-
-}
-
-
-/* =====================================================
-   LOGOUT
-===================================================== */
-
-const logoutButton =
-document.getElementById(
-"logoutButton"
-);
-
-if(logoutButton){
-
-logoutButton.addEventListener(
-"click",
-async()=>{
-
-try{
-
-await signOut(
-auth
-);
-
-location.href =
-"login.html";
-
-}catch(error){
-
-console.error(
-"Logout error:",
-error
-);
-
-alert(
-"Logout failed: " +
-error.message
+"Website error:",
+event.error || event.message
 );
 
 }
-
-});
-
-}
-
-
-/* =====================================================
-   INITIALIZE SETTINGS
-===================================================== */
-
-createSettingsPanel();
-
-
-/* =====================================================
-   FINISH
-===================================================== */
+);
 
 </script>
+
 
 </body>
 
