@@ -1,2078 +1,1150 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<meta
-name="viewport"
-content="width=device-width, initial-scale=1.0"
->
-
-<title>Logical World</title>
+<title>Logical World Admin Dashboard</title>
 
 <style>
 
-/* =========================
-   BASIC
-========================= */
-
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Arial,sans-serif;
+    box-sizing:border-box;
 }
 
 body{
-background:#f5f5f5;
-color:#333;
-line-height:1.6;
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:#f4f6f8;
+    color:#222;
 }
 
-
-/* =========================
-   HEADER
-========================= */
+/* HEADER */
 
 header{
-background:#0a4ea3;
-color:white;
-padding:20px;
-text-align:center;
+    background:#111827;
+    color:white;
+    padding:18px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:15px;
 }
 
 header h1{
-font-size:40px;
+    margin:0;
+    font-size:21px;
 }
 
-header p{
-font-size:18px;
-margin-top:8px;
+#adminEmail{
+    font-size:13px;
+    opacity:.85;
 }
 
+/* NAVIGATION */
 
-/* =========================
-   SEARCH
-========================= */
-
-.search-box{
-text-align:center;
-padding:15px;
-background:white;
+.admin-nav{
+    background:white;
+    padding:10px;
+    display:flex;
+    gap:8px;
+    overflow-x:auto;
+    border-bottom:1px solid #ddd;
 }
 
-.search-box input{
-width:70%;
-max-width:500px;
-padding:12px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
+.admin-nav button{
+    border:0;
+    background:#eef2f7;
+    padding:11px 15px;
+    border-radius:8px;
+    cursor:pointer;
+    white-space:nowrap;
+    font-weight:bold;
 }
 
-.search-box button{
-padding:12px 18px;
-border:none;
-border-radius:6px;
-background:#0a4ea3;
-color:white;
-font-weight:bold;
-cursor:pointer;
+.admin-nav button:hover{
+    background:#dbe4ef;
 }
 
-.search-box button:hover{
-background:#083d82;
+.admin-nav button.active{
+    background:#111827;
+    color:white;
 }
 
+/* MAIN */
 
-/* =========================
-   NAVIGATION
-========================= */
-
-nav{
-background:#222;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-padding:15px;
+main{
+    max-width:1200px;
+    margin:auto;
+    padding:20px;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-padding:10px 15px;
-font-weight:bold;
+.section{
+    display:none;
 }
 
-nav a:hover{
-background:#0a4ea3;
-border-radius:5px;
-}
-
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-background:
-linear-gradient(
-rgba(0,0,0,.55),
-rgba(0,0,0,.55)
-);
-
-min-height:400px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
-text-align:center;
-
-color:white;
-
-padding:30px 20px;
-}
-
-.hero-content{
-max-width:800px;
-}
-
-.hero h2{
-font-size:42px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:20px;
-margin-bottom:25px;
-}
-
-.button{
-display:inline-block;
-
-background:#0a4ea3;
-
-color:white;
-
-padding:15px 30px;
-
-text-decoration:none;
-
-border-radius:8px;
-
-font-size:18px;
-
-font-weight:bold;
-}
-
-.button:hover{
-background:#083b7a;
-}
-
-
-/* =========================
-   SECTIONS
-========================= */
-
-section{
-padding:50px 20px;
-max-width:1200px;
-margin:auto;
+.section.active{
+    display:block;
 }
 
 .section-title{
-text-align:center;
-font-size:34px;
-color:#0a4ea3;
-margin-bottom:35px;
+    margin-top:0;
+    font-size:24px;
 }
 
+/* DASHBOARD CARDS */
 
-/* =========================
-   APPROVED PAGES
-========================= */
-
-.approved-grid{
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(280px,1fr)
-);
-
-gap:20px;
+.stats-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+    gap:15px;
+    margin-bottom:25px;
 }
 
-.page-card{
-background:white;
-
-border-radius:12px;
-
-box-shadow:
-0 2px 10px rgba(0,0,0,.15);
-
-overflow:hidden;
+.stat-card{
+    background:white;
+    border-radius:12px;
+    padding:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.page-header{
-padding:18px;
-
-text-align:center;
-
-border-bottom:1px solid #eee;
+.stat-card h3{
+    margin:0 0 10px;
+    font-size:15px;
+    color:#666;
 }
 
-.page-link{
-text-decoration:none;
-color:inherit;
+.stat-card strong{
+    font-size:30px;
 }
 
-.business-logo{
-width:110px;
-height:110px;
+/* PAGE CARDS */
 
-border-radius:50%;
-
-object-fit:cover;
-
-display:block;
-
-margin:0 auto 12px;
-
-border:4px solid #0a4ea3;
-
-background:#eee;
+.list{
+    display:grid;
+    gap:15px;
 }
 
-.business-name{
-font-size:21px;
-
-font-weight:bold;
-
-color:#0a4ea3;
+.page-card,
+.user-card,
+.report-card{
+    background:white;
+    border-radius:12px;
+    padding:18px;
+    box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.latest-label{
-font-size:14px;
-
-font-weight:bold;
-
-color:#777;
-
-margin-top:4px;
+.page-top{
+    display:flex;
+    align-items:center;
+    gap:15px;
 }
 
-
-/* =========================
-   LATEST POST
-========================= */
-
-.latest-post{
-padding:18px;
+.page-logo{
+    width:65px;
+    height:65px;
+    border-radius:10px;
+    object-fit:cover;
+    background:#eee;
 }
 
-.latest-post h4{
-font-size:18px;
-
-color:#0a4ea3;
-
-margin-bottom:8px;
+.page-info{
+    flex:1;
 }
 
-.latest-post-text{
-font-size:16px;
-
-margin-bottom:12px;
-
-white-space:pre-wrap;
+.page-info h3{
+    margin:0 0 6px;
 }
 
-.latest-media{
-width:100%;
-
-max-height:400px;
-
-object-fit:contain;
-
-border-radius:10px;
-
-background:#111;
-
-display:block;
+.page-info p{
+    margin:4px 0;
+    color:#666;
+    font-size:14px;
 }
 
-.post-date{
-font-size:13px;
-
-color:#777;
-
-margin-top:10px;
+.actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:15px;
 }
 
-.no-post{
-text-align:center;
-
-color:#777;
-
-font-size:15px;
-
-padding:10px 0;
+.actions button{
+    border:0;
+    padding:9px 13px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-
-/* =========================
-   GENERAL CARDS
-========================= */
-
-.cards{
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(250px,1fr)
-);
-
-gap:20px;
+.view-btn{
+    background:#e5e7eb;
 }
 
-.card{
-background:white;
-
-padding:20px;
-
-border-radius:10px;
-
-box-shadow:
-0 0 10px rgba(0,0,0,.15);
-
-text-align:center;
+.approve-btn{
+    background:#16a34a;
+    color:white;
 }
 
-.card img{
-width:100%;
-
-border-radius:10px;
-
-margin-bottom:15px;
+.reject-btn{
+    background:#dc2626;
+    color:white;
 }
 
-.card h3{
-color:#0a4ea3;
-
-margin-bottom:10px;
+.delete-btn{
+    background:#991b1b;
+    color:white;
 }
 
-.card p{
-font-size:15px;
+/* EMPTY */
+
+.empty{
+    background:white;
+    padding:25px;
+    border-radius:10px;
+    text-align:center;
+    color:#777;
 }
 
-
-/* =========================
-   SETTINGS CARDS
-========================= */
-
-.settings-value{
-font-size:16px;
-white-space:pre-wrap;
-word-break:break-word;
-}
-
-
-/* =========================
-   LOADING
-========================= */
+/* LOADING */
 
 .loading{
-text-align:center;
-
-padding:30px;
-
-color:#666;
-
-font-size:17px;
+    text-align:center;
+    padding:30px;
+    color:#666;
 }
 
+/* MODAL */
 
-/* =========================
-   ERROR
-========================= */
-
-.error{
-text-align:center;
-
-padding:30px;
-
-color:#842029;
-
-background:#f8d7da;
-
-border-radius:8px;
+.modal{
+    display:none;
+    position:fixed;
+    z-index:1000;
+    inset:0;
+    background:rgba(0,0,0,.65);
+    padding:20px;
+    overflow:auto;
 }
 
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-background:#0a4ea3;
-
-color:white;
-
-text-align:center;
-
-padding:25px;
-
-margin-top:50px;
+.modal-box{
+    background:white;
+    max-width:600px;
+    margin:40px auto;
+    padding:25px;
+    border-radius:12px;
 }
 
+.modal-box h2{
+    margin-top:0;
+}
 
-/* =========================
-   MOBILE
-========================= */
+.close-modal{
+    float:right;
+    border:0;
+    background:#eee;
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* MOBILE */
 
 @media(max-width:600px){
 
-header h1{
-font-size:30px;
-}
+    header{
+        align-items:flex-start;
+        flex-direction:column;
+    }
 
-.hero h2{
-font-size:32px;
-}
+    main{
+        padding:12px;
+    }
 
-.hero p{
-font-size:17px;
-}
+    .page-top{
+        align-items:flex-start;
+    }
 
-.search-box input{
-width:65%;
-}
-
-.search-box button{
-padding:12px;
-}
-
-.approved-grid{
-grid-template-columns:1fr;
-}
-
-.business-logo{
-width:100px;
-height:100px;
-}
-
-.latest-media{
-max-height:350px;
-}
+    .page-logo{
+        width:55px;
+        height:55px;
+    }
 
 }
 
 </style>
-
 </head>
-
 
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
-<h1 id="websiteName">
-
-🌍 Logical World
-
-</h1>
-
-<p>
-
-Connecting People, Products & Services.
-
-</p>
+    <div>
+        <h1>🌍 Logical World Admin Dashboard</h1>
+        <div id="adminEmail"></div>
+    </div>
 
 </header>
 
 
-<!-- =========================
-     SEARCH
-========================= -->
+<!-- ADMIN NAVIGATION -->
 
-<div class="search-box">
+<nav class="admin-nav">
 
-<input
-type="text"
-id="searchInput"
-placeholder="Search pages and posts..."
->
+    <button class="active" onclick="showSection('dashboard',this)">
+        Dashboard
+    </button>
 
-<button id="searchBtn">
+    <button onclick="showSection('pending',this)">
+        Pending Pages
+    </button>
 
-Search
+    <button onclick="showSection('approved',this)">
+        Approved Pages
+    </button>
 
-</button>
+    <button onclick="showSection('rejected',this)">
+        Rejected Pages
+    </button>
 
-</div>
+    <button onclick="showSection('users',this)">
+        Users
+    </button>
 
+    <button onclick="showSection('reports',this)">
+        Reports
+    </button>
 
-<!-- =========================
-     NAVIGATION
-========================= -->
+    <button onclick="showSection('videos',this)">
+        Videos
+    </button>
 
-<nav>
+    <button onclick="showSection('marketplace',this)">
+        Marketplace
+    </button>
 
-<a href="index.html">
+    <button onclick="showSection('messages',this)">
+        Marketplace Messages
+    </button>
 
-🏠 Home
+    <button onclick="showSection('settings',this)">
+        Settings
+    </button>
 
-</a>
-
-<a href="gallery.html">
-
-📸 Gallery
-
-</a>
-
-<a href="videos.html">
-
-🎥 Videos
-
-</a>
-
-<a href="marketplace.html">
-
-🛒 Marketplace
-
-</a>
-
-<a href="services.html">
-
-🏠 Services
-
-</a>
-
-<a href="contact.html">
-
-📞 Contact
-
-</a>
-
-<a href="login.html">
-
-🔐 Login
-
-</a>
+    <button onclick="logout()">
+        Logout
+    </button>
 
 </nav>
 
 
-<!-- =========================
-     HERO
-========================= -->
+<main>
 
-<div class="hero">
+<!-- ================= DASHBOARD ================= -->
 
-<div class="hero-content">
+<section id="dashboard" class="section active">
 
-<h2>
+    <h2 class="section-title">Dashboard</h2>
 
-Welcome to Logical World
+    <div class="stats-grid">
 
-</h2>
+        <div class="stat-card">
+            <h3>Pending Pages</h3>
+            <strong id="pendingCount">0</strong>
+        </div>
 
-<p>
+        <div class="stat-card">
+            <h3>Approved Pages</h3>
+            <strong id="approvedCount">0</strong>
+        </div>
 
-Explore photos, videos, products and trusted services from different pages all in one place.
+        <div class="stat-card">
+            <h3>Rejected Pages</h3>
+            <strong id="rejectedCount">0</strong>
+        </div>
 
-</p>
+        <div class="stat-card">
+            <h3>Users</h3>
+            <strong id="usersCount">0</strong>
+        </div>
 
-<a
-href="create-page.html"
-class="button"
->
+        <div class="stat-card">
+            <h3>Reports</h3>
+            <strong id="reportsCount">0</strong>
+        </div>
 
-➕ Create Your Own Page
+    </div>
 
-</a>
+    <div class="page-card">
 
-<p
-style="
-margin-top:15px;
-font-size:15px;
-"
->
+        <h3>Welcome to Logical World Admin</h3>
 
-All submitted pages are reviewed by the Logical World Admin before becoming public.
+        <p>
+            Use this dashboard to manage pages, users, reports,
+            videos, marketplace products and services.
+        </p>
 
-</p>
+        <p>
+            Customer marketplace enquiries will be handled by the
+            administrator.
+        </p>
 
-</div>
-
-</div>
-
-
-<!-- =========================
-     APPROVED PAGES
-========================= -->
-
-<section>
-
-<h2 class="section-title">
-
-🌍 Pages & Latest Posts
-
-</h2>
-
-<div
-id="approvedPagesList"
-class="approved-grid"
->
-
-<div class="loading">
-
-Loading pages and latest posts...
-
-</div>
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =========================
-     HOME SERVICES
-========================= -->
+<!-- ================= PENDING ================= -->
 
-<section>
+<section id="pending" class="section">
 
-<h2 class="section-title">
+    <h2 class="section-title">Pending Pages</h2>
 
-Home Services
+    <div id="pendingList" class="list">
 
-</h2>
+        <div class="loading">
+            Loading pending pages...
+        </div>
 
-<div class="cards">
-
-
-<!-- CLEANING -->
-
-<div class="card">
-
-<h3 id="serviceTitle1">
-
-Cleaning Services
-
-</h3>
-
-<p
-id="serviceDescription1"
-class="settings-value"
->
-
-Book trusted cleaning services easily.
-
-</p>
-
-</div>
-
-
-<!-- REPAIRS -->
-
-<div class="card">
-
-<h3 id="serviceTitle2">
-
-Repairs
-
-</h3>
-
-<p
-id="serviceDescription2"
-class="settings-value"
->
-
-Find reliable repair professionals.
-
-</p>
-
-</div>
-
-
-<!-- DELIVERY -->
-
-<div class="card">
-
-<h3 id="serviceTitle3">
-
-Delivery
-
-</h3>
-
-<p
-id="serviceDescription3"
-class="settings-value"
->
-
-Fast and secure delivery services.
-
-</p>
-
-</div>
-
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =========================
-     CONTACT
-========================= -->
+<!-- ================= APPROVED ================= -->
 
-<section>
+<section id="approved" class="section">
 
-<h2 class="section-title">
+    <h2 class="section-title">Approved Pages</h2>
 
-Contact Us
+    <div id="approvedList" class="list">
 
-</h2>
+        <div class="loading">
+            Loading approved pages...
+        </div>
 
-<div class="cards">
-
-
-<!-- PHONE -->
-
-<div class="card">
-
-<h3>
-
-📞 Phone
-
-</h3>
-
-<p
-id="contactPhone"
-class="settings-value"
->
-
-Your phone number will appear here.
-
-</p>
-
-</div>
-
-
-<!-- EMAIL -->
-
-<div class="card">
-
-<h3>
-
-📧 Email
-
-</h3>
-
-<p
-id="contactEmail"
-class="settings-value"
->
-
-Your email address will appear here.
-
-</p>
-
-</div>
-
-
-<!-- WHATSAPP / ZANGI -->
-
-<div class="card">
-
-<h3>
-
-💬 WhatsApp / Zangi
-
-</h3>
-
-<p
-id="contactWhatsapp"
-class="settings-value"
->
-
-Contact options will appear here.
-
-</p>
-
-</div>
-
-
-</div>
+    </div>
 
 </section>
 
 
-<!-- =========================
-     FOOTER
-========================= -->
+<!-- ================= REJECTED ================= -->
 
-<footer>
+<section id="rejected" class="section">
 
-<h3 id="footerWebsiteName">
+    <h2 class="section-title">Rejected Pages</h2>
 
-🌍 Logical World
+    <div id="rejectedList" class="list">
 
-</h3>
+        <div class="loading">
+            Loading rejected pages...
+        </div>
 
-<p>
+    </div>
 
-Connecting People, Products & Services.
-
-</p>
-
-<br>
-
-<p>
-
-© 2026 Logical World. All Rights Reserved.
-
-</p>
-
-</footer>
+</section>
 
 
-<!-- =========================
-     FIREBASE SCRIPT STARTS
-========================= -->
+<!-- ================= USERS ================= -->
+
+<section id="users" class="section">
+
+    <h2 class="section-title">Registered Users</h2>
+
+    <div id="usersList" class="list">
+
+        <div class="loading">
+            Loading users...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= REPORTS ================= -->
+
+<section id="reports" class="section">
+
+    <h2 class="section-title">Reports</h2>
+
+    <div id="reportsList" class="list">
+
+        <div class="loading">
+            Loading reports...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= VIDEOS ================= -->
+
+<section id="videos" class="section">
+
+    <h2 class="section-title">Videos</h2>
+
+    <div class="page-card">
+
+        <h3>Admin Video Management</h3>
+
+        <p>
+            Videos will be managed by the administrator.
+        </p>
+
+        <p>
+            You will be able to add videos, descriptions and
+            control which videos appear publicly.
+        </p>
+
+        <div id="videoAdminArea">
+
+            <div class="empty">
+                Video management will be connected in Part 2.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MARKETPLACE ================= -->
+
+<section id="marketplace" class="section">
+
+    <h2 class="section-title">Marketplace</h2>
+
+    <div class="page-card">
+
+        <h3>Products & Services</h3>
+
+        <p>
+            Marketplace is controlled by the administrator.
+        </p>
+
+        <p>
+            Products and Services will be managed together here.
+        </p>
+
+        <div id="marketplaceAdminArea">
+
+            <div class="empty">
+                Marketplace management will be connected in Part 2.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= MARKETPLACE MESSAGES ================= -->
+
+<section id="messages" class="section">
+
+    <h2 class="section-title">Marketplace Customer Messages</h2>
+
+    <div class="page-card">
+
+        <p>
+            Customer enquiries from the Marketplace will come to
+            the administrator.
+        </p>
+
+        <div id="marketplaceMessagesList">
+
+            <div class="empty">
+                Marketplace messages will be connected in Part 3.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section id="settings" class="section">
+
+    <h2 class="section-title">Website Settings</h2>
+
+    <div class="page-card">
+
+        <p>
+            Existing website settings will be connected in Part 3.
+        </p>
+
+    </div>
+
+</section>
+
+</main>
+
+
+<!-- ================= VIEW PAGE MODAL ================= -->
+
+<div id="viewModal" class="modal">
+
+    <div class="modal-box">
+
+        <button class="close-modal" onclick="closeModal()">
+            Close
+        </button>
+
+        <h2 id="modalTitle">Page Details</h2>
+
+        <div id="modalContent"></div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= FIREBASE ================= -->
 
 <script type="module">
 
-import {
-db
-}
-from "./firebase.js";
-
+import { auth, db } from "./firebase.js";
 
 import {
-collection,
-getDocs,
-doc,
-getDoc
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+    onAuthStateChanged,
+    signOut
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
+import {
+    collection,
+    getDocs,
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-/* =========================
-   ELEMENTS
-========================= */
 
-const approvedPagesList =
-document.getElementById(
-"approvedPagesList"
-);
+/* ADMIN EMAIL */
 
-const searchInput =
-document.getElementById(
-"searchInput"
-);
+const ADMIN_EMAIL = "alagoagodstime@gmail.com";
 
-const searchBtn =
-document.getElementById(
-"searchBtn"
-);
 
-const websiteName =
-document.getElementById(
-"websiteName"
-);
+/* AUTHENTICATION */
 
-const footerWebsiteName =
-document.getElementById(
-"footerWebsiteName"
-);
+onAuthStateChanged(auth, async (user) => {
 
-const serviceTitle1 =
-document.getElementById(
-"serviceTitle1"
-);
+    if(!user){
 
-const serviceDescription1 =
-document.getElementById(
-"serviceDescription1"
-);
+        window.location.href = "login.html";
 
-const serviceTitle2 =
-document.getElementById(
-"serviceTitle2"
-);
+        return;
+    }
 
-const serviceDescription2 =
-document.getElementById(
-"serviceDescription2"
-);
+    if(user.email !== ADMIN_EMAIL){
 
-const serviceTitle3 =
-document.getElementById(
-"serviceTitle3"
-);
+        alert("Access denied. Admin only.");
 
-const serviceDescription3 =
-document.getElementById(
-"serviceDescription3"
-);
+        await signOut(auth);
 
-const contactPhone =
-document.getElementById(
-"contactPhone"
-);
+        window.location.href = "login.html";
 
-const contactEmail =
-document.getElementById(
-"contactEmail"
-);
+        return;
+    }
 
-const contactWhatsapp =
-document.getElementById(
-"contactWhatsapp"
-);
+    document.getElementById("adminEmail").textContent =
+        "Logged in as: " + user.email;
 
-
-/* =========================
-   DATA
-========================= */
-
-let allPages = [];
-
-let allPosts = [];
-
-
-/* =========================
-   LOAD WEBSITE
-========================= */
-
-async function loadWebsite(){
-
-try{
-
-approvedPagesList.innerHTML = `
-
-<div class="loading">
-
-Loading pages and latest posts...
-
-</div>
-
-`;
-
-
-/* =========================
-   LOAD APPROVED PAGES
-========================= */
-
-const pagesSnapshot =
-await getDocs(
-collection(
-db,
-"approvedPages"
-)
-);
-
-
-/* =========================
-   LOAD POSTS
-========================= */
-
-const postsSnapshot =
-await getDocs(
-collection(
-db,
-"posts"
-)
-);
-
-
-allPages =
-pagesSnapshot.docs.map(
-docSnap => ({
-
-id:
-docSnap.id,
-
-data:
-docSnap.data()
-
-})
-);
-
-
-allPosts =
-postsSnapshot.docs.map(
-docSnap => ({
-
-id:
-docSnap.id,
-
-data:
-docSnap.data()
-
-})
-);
-
-
-/* =========================
-   SORT POSTS
-========================= */
-
-allPosts.sort(
-(a,b)=>
-getTime(
-b.data.createdAt
-)
--
-getTime(
-a.data.createdAt
-)
-);
-
-
-/* =========================
-   DISPLAY PAGES
-========================= */
-
-displayPages(
-allPages
-);
-
-
-/* =========================
-   LOAD ADMIN SETTINGS
-========================= */
-
-await loadSettings();
-
-
-}catch(error){
-
-console.error(
-"Website loading error:",
-error
-);
-
-approvedPagesList.innerHTML = `
-
-<div class="error">
-
-<strong>
-
-Unable to load pages and posts.
-
-</strong>
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =========================
-   DISPLAY PAGES
-========================= */
-
-function displayPages(
-pages
-){
-
-approvedPagesList.innerHTML = "";
-
-
-if(
-pages.length === 0
-){
-
-approvedPagesList.innerHTML = `
-
-<div class="loading">
-
-No approved pages yet.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-/* =========================
-   EACH PAGE
-========================= */
-
-pages.forEach(
-page=>{
-
-const data =
-page.data;
-
-
-const pageName =
-data.pageName ||
-"Business";
-
-
-const logoURL =
-data.logoURL ||
-"images/default-logo.png";
-
-
-const businessURL =
-"business.html?id=" +
-encodeURIComponent(
-page.id
-);
-
-
-/* =========================
-   FIND POSTS FOR PAGE
-========================= */
-
-const pagePosts =
-allPosts.filter(
-post =>
-post.data.pageId ===
-page.id
-);
-
-
-/* =========================
-   LATEST POST
-========================= */
-
-const latestPost =
-pagePosts.length > 0
-?
-pagePosts[0]
-:
-null;
-
-
-/* =========================
-   CREATE CARD
-========================= */
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"page-card";
-
-
-/* =========================
-   PAGE HEADER
-========================= */
-
-const pageHeader =
-document.createElement(
-"div"
-);
-
-pageHeader.className =
-"page-header";
-
-
-pageHeader.innerHTML = `
-
-<a
-href="${businessURL}"
-class="page-link"
->
-
-<img
-src="${escapeAttribute(
-logoURL
-)}"
-class="business-logo"
-alt="${escapeAttribute(
-pageName
-)}"
->
-
-<div class="business-name">
-
-${escapeHTML(
-pageName
-)}
-
-</div>
-
-<div class="latest-label">
-
-Tap page to see all posts
-
-</div>
-
-</a>
-
-`;
-
-
-card.appendChild(
-pageHeader
-);
-
-
-/* =========================
-   LATEST POST
-========================= */
-
-const latestPostDiv =
-document.createElement(
-"div"
-);
-
-latestPostDiv.className =
-"latest-post";
-
-
-if(
-latestPost
-){
-
-const postData =
-latestPost.data;
-
-
-let html = `
-
-<h4>
-
-🆕 Latest Post
-
-</h4>
-
-`;
-
-
-/* =========================
-   POST TEXT
-========================= */
-
-if(
-postData.text
-){
-
-html += `
-
-<p class="latest-post-text">
-
-${escapeHTML(
-postData.text
-)}
-
-</p>
-
-`;
-
-}
-
-
-/* =========================
-   IMAGE
-========================= */
-
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"image"
-){
-
-html += `
-
-<img
-
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-
-class="latest-media"
-
-alt="Latest post"
-
->
-
-`;
-
-}
-
-
-/* =========================
-   VIDEO
-========================= */
-
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"video"
-){
-
-html += `
-
-<video
-
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-
-class="latest-media"
-
-controls
-
-playsinline
-
->
-
-</video>
-
-`;
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-html += `
-
-<div class="post-date">
-
-${formatDate(
-postData.createdAt
-)}
-
-</div>
-
-`;
-
-
-latestPostDiv.innerHTML =
-html;
-
-
-}else{
-
-latestPostDiv.innerHTML = `
-
-<p class="no-post">
-
-No posts yet.
-
-</p>
-
-`;
-
-}
-
-
-card.appendChild(
-latestPostDiv
-);
-
-
-approvedPagesList.appendChild(
-card
-);
+    loadAll();
 
 });
 
-}
+
+/* NAVIGATION */
+
+window.showSection = function(sectionId, button){
+
+    document.querySelectorAll(".section").forEach(section => {
+
+        section.classList.remove("active");
+
+    });
+
+    document.getElementById(sectionId).classList.add("active");
 
 
-/* =========================
-   LOAD SETTINGS
-========================= */
+    document.querySelectorAll(".admin-nav button").forEach(btn => {
 
-async function loadSettings(){
+        btn.classList.remove("active");
 
-try{
+    });
 
-/*
-   EXACT LOCATION USED
-   BY ADMIN SETTINGS:
+    if(button){
 
-   siteSettings
-        ↓
-     general
-*/
+        button.classList.add("active");
 
-const settingsRef =
-doc(
-db,
-"siteSettings",
-"general"
-);
+    }
 
+    if(sectionId === "pending"){
+        loadPending();
+    }
 
-const settingsSnapshot =
-await getDoc(
-settingsRef
-);
+    if(sectionId === "approved"){
+        loadApproved();
+    }
 
+    if(sectionId === "rejected"){
+        loadRejected();
+    }
 
-/* SETTINGS DOCUMENT DOES NOT EXIST */
+    if(sectionId === "users"){
+        loadUsers();
+    }
 
-if(
-!settingsSnapshot.exists()
-){
+    if(sectionId === "reports"){
+        loadReports();
+    }
 
-console.log(
-"No website settings found."
-);
-
-return;
-
-}
+};
 
 
-const settings =
-settingsSnapshot.data();
+/* LOAD EVERYTHING */
 
+async function loadAll(){
 
-/* =========================
-   WEBSITE NAME
-========================= */
-
-if(
-settings.websiteName
-){
-
-websiteName.textContent =
-"🌍 " +
-settings.websiteName;
-
-footerWebsiteName.textContent =
-"🌍 " +
-settings.websiteName;
-
-}
-   /* =========================
-   CLEANING SERVICE
-========================= */
-
-if(
-settings.cleaningTitle
-){
-
-serviceTitle1.textContent =
-settings.cleaningTitle;
+    await loadPending();
+    await loadApproved();
+    await loadRejected();
+    await loadUsers();
+    await loadReports();
 
 }
 
 
-if(
-settings.cleaningDescription
-){
+/* PENDING PAGES */
 
-serviceDescription1.textContent =
-settings.cleaningDescription;
+async function loadPending(){
 
-}
+    const container =
+        document.getElementById("pendingList");
 
+    container.innerHTML =
+        `<div class="loading">Loading pending pages...</div>`;
 
-/* =========================
-   REPAIRS SERVICE
-========================= */
+    try{
 
-if(
-settings.repairsTitle
-){
+        const snapshot =
+            await getDocs(collection(db,"pendingPages"));
 
-serviceTitle2.textContent =
-settings.repairsTitle;
+        document.getElementById("pendingCount").textContent =
+            snapshot.size;
 
-}
+        if(snapshot.empty){
 
+            container.innerHTML =
+                `<div class="empty">No pending pages.</div>`;
 
-if(
-settings.repairsDescription
-){
+            return;
+        }
 
-serviceDescription2.textContent =
-settings.repairsDescription;
+        container.innerHTML = "";
 
-}
+        snapshot.forEach(docSnap => {
 
+            const page = docSnap.data();
 
-/* =========================
-   DELIVERY SERVICE
-========================= */
+            container.appendChild(
+                createPageCard(
+                    docSnap.id,
+                    page,
+                    "pending"
+                )
+            );
 
-if(
-settings.deliveryTitle
-){
+        });
 
-serviceTitle3.textContent =
-settings.deliveryTitle;
+    }catch(error){
 
-}
+        console.error(error);
 
+        container.innerHTML =
+            `<div class="empty">
+                Could not load pending pages.
+            </div>`;
 
-if(
-settings.deliveryDescription
-){
-
-serviceDescription3.textContent =
-settings.deliveryDescription;
+    }
 
 }
 
 
-/* =========================
-   PHONE
-========================= */
+/* APPROVED PAGES */
 
-if(
-settings.phone
-){
+async function loadApproved(){
 
-contactPhone.textContent =
-settings.phone;
+    const container =
+        document.getElementById("approvedList");
 
-}
+    container.innerHTML =
+        `<div class="loading">Loading approved pages...</div>`;
 
+    try{
 
-/* =========================
-   EMAIL
-========================= */
+        const snapshot =
+            await getDocs(collection(db,"approvedPages"));
 
-if(
-settings.email
-){
+        document.getElementById("approvedCount").textContent =
+            snapshot.size;
 
-contactEmail.textContent =
-settings.email;
+        if(snapshot.empty){
 
-}
+            container.innerHTML =
+                `<div class="empty">No approved pages.</div>`;
 
+            return;
+        }
 
-/* =========================
-   WHATSAPP / ZANGI
-========================= */
+        container.innerHTML = "";
 
-let contactText = "";
+        snapshot.forEach(docSnap => {
 
+            const page = docSnap.data();
 
-if(
-settings.whatsapp
-){
+            container.appendChild(
+                createPageCard(
+                    docSnap.id,
+                    page,
+                    "approved"
+                )
+            );
 
-contactText =
-settings.whatsapp;
+        });
 
-}
+    }catch(error){
 
+        console.error(error);
 
-if(
-settings.zangi
-){
+        container.innerHTML =
+            `<div class="empty">
+                Could not load approved pages.
+            </div>`;
 
-if(
-contactText
-){
-
-contactText +=
-" / " +
-settings.zangi;
-
-}else{
-
-contactText =
-settings.zangi;
-
-}
+    }
 
 }
 
 
-if(
-contactText
-){
+/* REJECTED PAGES */
 
-contactWhatsapp.textContent =
-contactText;
+async function loadRejected(){
+
+    const container =
+        document.getElementById("rejectedList");
+
+    container.innerHTML =
+        `<div class="loading">Loading rejected pages...</div>`;
+
+    try{
+
+        const snapshot =
+            await getDocs(collection(db,"rejectedPages"));
+
+        document.getElementById("rejectedCount").textContent =
+            snapshot.size;
+
+        if(snapshot.empty){
+
+            container.innerHTML =
+                `<div class="empty">No rejected pages.</div>`;
+
+            return;
+        }
+
+        container.innerHTML = "";
+
+        snapshot.forEach(docSnap => {
+
+            const page = docSnap.data();
+
+            container.appendChild(
+                createPageCard(
+                    docSnap.id,
+                    page,
+                    "rejected"
+                )
+            );
+
+        });
+
+    }catch(error){
+
+        console.error(error);
+
+        container.innerHTML =
+            `<div class="empty">
+                Could not load rejected pages.
+            </div>`;
+
+    }
 
 }
 
 
-/* =========================
-   CONTACT DESCRIPTION
-========================= */
+/* CREATE PAGE CARD */
 
-if(
-settings.contactDescription
-){
+function createPageCard(id,page,status){
 
-const contactCards =
-document.querySelectorAll(
-".card"
-);
+    const card =
+        document.createElement("div");
+
+    card.className = "page-card";
+
+
+    const logo =
+        page.logoURL ||
+        page.logo ||
+        "https://via.placeholder.com/100";
+
+
+    const name =
+        page.pageName ||
+        page.name ||
+        "Unnamed Page";
+
+
+    const description =
+        page.description ||
+        page.about ||
+        "";
+
+
+    let buttons = `
+
+        <button class="view-btn"
+            onclick='viewPage(${JSON.stringify(
+                JSON.stringify(page)
+            )})'>
+            View
+        </button>
+
+    `;
+
+
+    if(status === "pending"){
+
+        buttons += `
+
+            <button class="approve-btn"
+                onclick="approvePage('${id}')">
+                Approve
+            </button>
+
+            <button class="reject-btn"
+                onclick="rejectPage('${id}')">
+                Reject
+            </button>
+
+        `;
+
+    }
+
+
+    if(status === "approved"){
+
+        buttons += `
+
+            <button class="delete-btn"
+                onclick="deletePage('${id}','approvedPages')">
+                Delete
+            </button>
+
+        `;
+
+    }
+
+
+    if(status === "rejected"){
+
+        buttons += `
+
+            <button class="approve-btn"
+                onclick="restorePage('${id}')">
+                Restore
+            </button>
+
+            <button class="delete-btn"
+                onclick="deletePage('${id}','rejectedPages')">
+                Delete
+            </button>
+
+        `;
+
+    }
+
+
+    card.innerHTML = `
+
+        <div class="page-top">
+
+            <img
+                class="page-logo"
+                src="${logo}"
+                onerror="this.src='https://via.placeholder.com/100'"
+            >
+
+            <div class="page-info">
+
+                <h3>${escapeHtml(name)}</h3>
+
+                <p>${escapeHtml(description)}</p>
+
+                <p>
+                    Owner:
+                    ${escapeHtml(
+                        page.ownerEmail ||
+                        page.email ||
+                        "Not provided"
+                    )}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="actions">
+
+            ${buttons}
+
+        </div>
+
+    `;
+
+    return card;
+
+}
+
+
+/* VIEW PAGE */
+
+window.viewPage = function(pageString){
+
+    const page =
+        JSON.parse(pageString);
+
+    document.getElementById("modalTitle").textContent =
+        page.pageName ||
+        page.name ||
+        "Page Details";
+
+    document.getElementById("modalContent").innerHTML = `
+
+        <p>
+            <strong>Name:</strong>
+            ${escapeHtml(
+                page.pageName ||
+                page.name ||
+                ""
+            )}
+        </p>
+
+        <p>
+            <strong>Email:</strong>
+            ${escapeHtml(
+                page.ownerEmail ||
+                page.email ||
+                "Not provided"
+            )}
+        </p>
+
+        <p>
+            <strong>Description:</strong>
+            ${escapeHtml(
+                page.description ||
+                page.about ||
+                "Not provided"
+            )}
+        </p>
+
+        ${
+            page.logoURL
+            ?
+            `<img
+                src="${page.logoURL}"
+                style="max-width:200px;border-radius:10px;"
+            >`
+            :
+            ""
+        }
+
+    `;
+
+    document.getElementById("viewModal").style.display =
+        "block";
+
+};
+
+
+/* CLOSE MODAL */
+
+window.closeModal = function(){
+
+    document.getElementById("viewModal").style.display =
+        "none";
+
+};
+
+
+/* HTML SAFETY */
+
+function escapeHtml(value){
+
+    return String(value || "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* LOGOUT */
+
+window.logout = async function(){
+
+    try{
+
+        await signOut(auth);
+
+        window.location.href =
+            "login.html";
+
+    }catch(error){
+
+        console.error(error);
+
+        alert("Logout failed.");
+
+    }
+
+};
 
 
 /*
-   Keep the existing
-   contact information
-   while allowing the
-   Admin description to
-   appear underneath.
+==================================================
+PART 2 WILL ADD:
+==================================================
+
+1. Full Video Management
+2. Add Video
+3. Edit Video
+4. Delete Video
+5. Marketplace
+6. Products
+7. Services inside Marketplace
+
+==================================================
 */
-
-const contactSection =
-contactWhatsapp
-.closest("section");
-
-
-if(
-contactSection
-){
-
-let descriptionElement =
-contactSection.querySelector(
-".contact-description"
-);
-
-
-if(
-!descriptionElement
-){
-
-descriptionElement =
-document.createElement(
-"p"
-);
-
-descriptionElement.className =
-"contact-description";
-
-descriptionElement.style.textAlign =
-"center";
-
-descriptionElement.style.marginBottom =
-"25px";
-
-descriptionElement.style.fontSize =
-"16px";
-
-descriptionElement.style.color =
-"#555";
-
-const title =
-contactSection.querySelector(
-".section-title"
-);
-
-
-if(
-title
-){
-
-title.insertAdjacentElement(
-"afterend",
-descriptionElement
-);
-
-}
-
-}
-
-
-descriptionElement.textContent =
-settings.contactDescription;
-
-}
-
-}
-
-
-console.log(
-"Admin settings loaded:",
-settings
-);
-
-
-}catch(error){
-
-console.error(
-"Settings loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function searchPages(){
-
-const search =
-searchInput.value
-.trim()
-.toLowerCase();
-
-
-if(
-!search
-){
-
-displayPages(
-allPages
-);
-
-return;
-
-}
-
-
-const filtered =
-allPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-const pageName =
-String(
-data.pageName ||
-""
-)
-.toLowerCase();
-
-
-const category =
-String(
-data.category ||
-""
-)
-.toLowerCase();
-
-
-const description =
-String(
-data.description ||
-""
-)
-.toLowerCase();
-
-
-const email =
-String(
-data.email ||
-data.ownerEmail ||
-""
-)
-.toLowerCase();
-
-
-const location =
-String(
-data.location ||
-""
-)
-.toLowerCase();
-
-
-const matchingPosts =
-allPosts.some(
-post=>{
-
-if(
-post.data.pageId !==
-page.id
-){
-
-return false;
-
-}
-
-
-const postText =
-String(
-post.data.text ||
-""
-)
-.toLowerCase();
-
-
-return postText.includes(
-search
-);
-
-});
-
-
-return(
-
-pageName.includes(
-search
-)
-
-||
-
-category.includes(
-search
-)
-
-||
-
-description.includes(
-search
-)
-
-||
-
-email.includes(
-search
-)
-
-||
-
-location.includes(
-search
-)
-
-||
-
-matchingPosts
-
-);
-
-});
-
-
-displayPages(
-filtered
-);
-
-}
-
-
-/* =========================
-   SEARCH BUTTON
-========================= */
-
-searchBtn.addEventListener(
-"click",
-searchPages
-);
-
-
-/* =========================
-   LIVE SEARCH
-========================= */
-
-searchInput.addEventListener(
-"input",
-searchPages
-);
-
-
-/* =========================
-   GET FIRESTORE TIME
-========================= */
-
-function getTime(
-timestamp
-){
-
-if(
-timestamp &&
-typeof timestamp.toMillis ===
-"function"
-){
-
-return timestamp.toMillis();
-
-}
-
-
-if(
-timestamp &&
-typeof timestamp.seconds ===
-"number"
-){
-
-return timestamp.seconds *
-1000;
-
-}
-
-
-return 0;
-
-}
-
-
-/* =========================
-   FORMAT DATE
-========================= */
-
-function formatDate(
-timestamp
-){
-
-if(
-!timestamp
-){
-
-return "";
-
-}
-
-
-if(
-typeof timestamp.toDate ===
-"function"
-){
-
-return timestamp
-.toDate()
-.toLocaleString();
-
-}
-
-
-if(
-timestamp instanceof Date
-){
-
-return timestamp.toLocaleString();
-
-}
-
-
-return "";
-
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(
-value
-){
-
-return String(
-value
-)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-/* =========================
-   ESCAPE ATTRIBUTE
-========================= */
-
-function escapeAttribute(
-value
-){
-
-return escapeHTML(
-value
-);
-
-}
-
-
-/* =========================
-   START WEBSITE
-========================= */
-
-loadWebsite();
-   /* =========================
-   FINISH WEBSITE
-========================= */
-
-console.log("Logical World homepage started.");
-
-
-/* =========================
-   LOAD WEBSITE
-========================= */
-
-loadWebsite();
-
-
-/* =========================
-   SAFETY CHECK
-========================= */
-
-window.addEventListener(
-"error",
-(event)=>{
-
-console.error(
-"Website error:",
-event.error || event.message
-);
-
-}
-);
 
 </script>
 
-
 </body>
-
-</html>
+   </html>
