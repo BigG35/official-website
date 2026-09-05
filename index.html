@@ -1,811 +1,1802 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta
+name="viewport"
+content="width=device-width, initial-scale=1.0"
+>
 
 <title>Logical World</title>
 
 <style>
-* {
-    box-sizing: border-box;
+
+/* =========================
+   BASIC
+========================= */
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
 }
 
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-    color: #222;
+body{
+background:#f5f5f5;
+color:#333;
+line-height:1.6;
 }
 
-header {
-    background: #111827;
-    color: white;
-    text-align: center;
-    padding: 35px 20px;
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+background:#0a4ea3;
+color:white;
+padding:20px;
+text-align:center;
 }
 
-header h1 {
-    margin: 0 0 10px;
-    font-size: 32px;
+header h1{
+font-size:40px;
 }
 
-header p {
-    margin: 0;
-    opacity: .9;
+header p{
+font-size:18px;
+margin-top:8px;
 }
 
-nav {
-    background: white;
-    padding: 12px;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 8px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box{
+text-align:center;
+padding:15px;
+background:white;
 }
 
-nav a {
-    text-decoration: none;
-    color: #111827;
-    font-weight: bold;
-    padding: 10px 14px;
-    border-radius: 8px;
+.search-box input{
+width:70%;
+max-width:500px;
+padding:12px;
+border:1px solid #ccc;
+border-radius:6px;
+font-size:16px;
 }
 
-nav a:hover {
-    background: #e5e7eb;
+.search-box button{
+padding:12px 18px;
+border:none;
+border-radius:6px;
+background:#0a4ea3;
+color:white;
+font-weight:bold;
+cursor:pointer;
 }
 
-.hero {
-    max-width: 1100px;
-    margin: auto;
-    padding: 45px 20px;
-    text-align: center;
+.search-box button:hover{
+background:#083d82;
 }
 
-.hero h2 {
-    font-size: 30px;
-    margin-bottom: 10px;
+
+/* =========================
+   NAVIGATION
+========================= */
+
+nav{
+background:#222;
+display:flex;
+justify-content:center;
+flex-wrap:wrap;
+padding:15px;
 }
 
-.hero p {
-    color: #666;
-    font-size: 17px;
+nav a{
+color:white;
+text-decoration:none;
+padding:10px 15px;
+font-weight:bold;
 }
 
-section {
-    max-width: 1100px;
-    margin: 25px auto;
-    padding: 0 20px;
+nav a:hover{
+background:#0a4ea3;
+border-radius:5px;
 }
 
-.section-title {
-    text-align: center;
-    margin-bottom: 20px;
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+background:
+linear-gradient(
+rgba(0,0,0,.55),
+rgba(0,0,0,.55)
+);
+
+min-height:400px;
+
+display:flex;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+color:white;
+
+padding:30px 20px;
 }
 
-.grid {
-    display: grid;
-    grid-template-columns: repeat(
-        auto-fit,
-        minmax(260px, 1fr)
-    );
-    gap: 18px;
+.hero-content{
+max-width:800px;
 }
 
-.card {
-    background: white;
-    border-radius: 12px;
-    padding: 18px;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+.hero h2{
+font-size:42px;
+margin-bottom:15px;
 }
 
-.card h3 {
-    margin-top: 0;
+.hero p{
+font-size:20px;
+margin-bottom:25px;
 }
 
-.card p {
-    color: #666;
-    line-height: 1.5;
+.button{
+display:inline-block;
+
+background:#0a4ea3;
+
+color:white;
+
+padding:15px 30px;
+
+text-decoration:none;
+
+border-radius:8px;
+
+font-size:18px;
+
+font-weight:bold;
 }
 
-/* VIDEO */
-
-.video-card {
-    padding: 0;
-    overflow: hidden;
+.button:hover{
+background:#083b7a;
 }
 
-.video-card video {
-    width: 100%;
-    display: block;
-    background: #000;
+
+/* =========================
+   SECTIONS
+========================= */
+
+section{
+padding:50px 20px;
+max-width:1200px;
+margin:auto;
 }
 
-.video-info {
-    padding: 16px;
+.section-title{
+text-align:center;
+font-size:34px;
+color:#0a4ea3;
+margin-bottom:35px;
 }
 
-.video-info h3 {
-    margin-top: 0;
+
+/* =========================
+   APPROVED PAGES
+========================= */
+
+.approved-grid{
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(280px,1fr)
+);
+
+gap:20px;
 }
 
-.price {
-    font-weight: bold;
-    margin-top: 10px;
+.page-card{
+background:white;
+
+border-radius:12px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.15);
+
+overflow:hidden;
 }
 
-.loading,
-.empty,
-.error {
-    background: white;
-    padding: 25px;
-    border-radius: 10px;
-    text-align: center;
-    color: #666;
-    grid-column: 1 / -1;
+.page-header{
+padding:18px;
+
+text-align:center;
+
+border-bottom:1px solid #eee;
 }
 
-.contact {
-    background: white;
-    padding: 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0,0,0,.08);
+.page-link{
+text-decoration:none;
+color:inherit;
 }
 
-footer {
-    margin-top: 50px;
-    background: #111827;
-    color: white;
-    text-align: center;
-    padding: 25px;
+.business-logo{
+width:110px;
+height:110px;
+
+border-radius:50%;
+
+object-fit:cover;
+
+display:block;
+
+margin:0 auto 12px;
+
+border:4px solid #0a4ea3;
+
+background:#eee;
 }
 
-@media(max-width:600px) {
+.business-name{
+font-size:21px;
 
-    header h1 {
-        font-size: 27px;
-    }
+font-weight:bold;
 
-    .hero h2 {
-        font-size: 24px;
-    }
-
-    nav a {
-        font-size: 14px;
-    }
+color:#0a4ea3;
 }
+
+.latest-label{
+font-size:14px;
+
+font-weight:bold;
+
+color:#777;
+
+margin-top:4px;
+}
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+.latest-post{
+padding:18px;
+}
+
+.latest-post h4{
+font-size:18px;
+
+color:#0a4ea3;
+
+margin-bottom:8px;
+}
+
+.latest-post-text{
+font-size:16px;
+
+margin-bottom:12px;
+
+white-space:pre-wrap;
+}
+
+.latest-media{
+width:100%;
+
+max-height:400px;
+
+object-fit:contain;
+
+border-radius:10px;
+
+background:#111;
+
+display:block;
+}
+
+.post-date{
+font-size:13px;
+
+color:#777;
+
+margin-top:10px;
+}
+
+.no-post{
+text-align:center;
+
+color:#777;
+
+font-size:15px;
+
+padding:10px 0;
+}
+
+
+/* =========================
+   GENERAL CARDS
+========================= */
+
+.cards{
+display:grid;
+
+grid-template-columns:
+repeat(
+auto-fit,
+minmax(250px,1fr)
+);
+
+gap:20px;
+}
+
+.card{
+background:white;
+
+padding:20px;
+
+border-radius:10px;
+
+box-shadow:
+0 0 10px rgba(0,0,0,.15);
+
+text-align:center;
+}
+
+.card img{
+width:100%;
+
+border-radius:10px;
+
+margin-bottom:15px;
+}
+
+.card h3{
+color:#0a4ea3;
+
+margin-bottom:10px;
+}
+
+.card p{
+font-size:15px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.loading{
+text-align:center;
+
+padding:30px;
+
+color:#666;
+
+font-size:17px;
+}
+
+
+/* =========================
+   ERROR
+========================= */
+
+.error{
+text-align:center;
+
+padding:30px;
+
+color:#842029;
+
+background:#f8d7da;
+
+border-radius:8px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+background:#0a4ea3;
+
+color:white;
+
+text-align:center;
+
+padding:25px;
+
+margin-top:50px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:600px){
+
+header h1{
+font-size:30px;
+}
+
+.hero h2{
+font-size:32px;
+}
+
+.hero p{
+font-size:17px;
+}
+
+.search-box input{
+width:65%;
+}
+
+.search-box button{
+padding:12px;
+}
+
+.approved-grid{
+grid-template-columns:1fr;
+}
+
+.business-logo{
+width:100px;
+height:100px;
+}
+
+.latest-media{
+max-height:350px;
+}
+
+}
+
 </style>
 
 </head>
 
+
 <body>
+
+
+<!-- =========================
+     HEADER
+========================= -->
 
 <header>
 
-    <h1>🌍 Logical World</h1>
+<h1>
+🌍 Logical World
+</h1>
 
-    <p>
-        Connecting People, Products & Services.
-    </p>
+<p>
+Connecting People, Products & Services.
+</p>
 
 </header>
 
 
-<nav>
+<!-- =========================
+     SEARCH
+========================= -->
 
-    <a href="index.html">🏠 Home</a>
+<div class="search-box">
 
-    <a href="#pages">📄 Pages</a>
+<input
+type="text"
+id="searchInput"
+placeholder="Search pages and posts..."
+>
 
-    <a href="#videos">🎥 Videos</a>
-
-    <a href="create-page.html">
-        ➕ Create Page
-    </a>
-
-    <a href="login.html">
-        🔐 Login
-    </a>
-
-</nav>
-
-
-<div class="hero">
-
-    <h2>
-        Welcome to Logical World
-    </h2>
-
-    <p>
-        Discover people, pages, posts and videos
-        from the Logical World community.
-    </p>
+<button id="searchBtn">
+Search
+</button>
 
 </div>
 
 
-<!-- PUBLIC PAGES -->
+<!-- =========================
+     NAVIGATION
+========================= -->
 
-<section id="pages">
+<nav>
 
-    <h2 class="section-title">
-        🌍 Pages & Latest Posts
-    </h2>
+<a href="index.html">
+🏠 Home
+</a>
 
-    <div
-        id="approvedPagesList"
-        class="grid"
-    >
+<a href="gallery.html">
+📸 Gallery
+</a>
 
-        <div class="loading">
-            Loading pages and posts...
-        </div>
+<a href="videos.html">
+🎥 Videos
+</a>
 
-    </div>
+<a href="marketplace.html">
+🛒 Marketplace
+</a>
 
-</section>
+<a href="services.html">
+🏠 Services
+</a>
 
+<a href="contact.html">
+📞 Contact
+</a>
 
-<!-- PUBLIC VIDEOS -->
+<a href="login.html">
+🔐 Login
+</a>
 
-<section id="videos">
-
-    <h2 class="section-title">
-        🎥 Videos
-    </h2>
-
-    <div
-        id="videosList"
-        class="grid"
-    >
-
-        <div class="loading">
-            Loading videos...
-        </div>
-
-    </div>
-
-</section>
+</nav>
 
 
-<!-- SERVICES -->
+<!-- =========================
+     HERO
+========================= -->
 
-<section>
+<div class="hero">
 
-    <h2 class="section-title">
-        🛠️ Services
-    </h2>
+<div class="hero-content">
 
-    <div class="grid">
+<h2>
+Welcome to Logical World
+</h2>
 
-        <div class="card">
+<p>
+Explore photos, videos, products and trusted services from different pages all in one place.
+</p>
 
-            <h3>
-                👥 Community
-            </h3>
+<a
+href="create-page.html"
+class="button"
+>
+➕ Create Your Own Page
+</a>
 
-            <p>
-                Connect with people and discover
-                useful content from the Logical World
-                community.
-            </p>
+<p
+style="
+margin-top:15px;
+font-size:15px;
+"
+>
 
-        </div>
+All submitted pages are reviewed by the Logical World Admin before becoming public.
 
+</p>
 
-        <div class="card">
+</div>
 
-            <h3>
-                📄 Pages & Content
-            </h3>
-
-            <p>
-                Explore approved pages and the
-                latest posts published on Logical World.
-            </p>
-
-        </div>
-
-
-        <div class="card">
-
-            <h3>
-                🎥 Videos
-            </h3>
-
-            <p>
-                Watch videos published through the
-                Logical World administration.
-            </p>
-
-        </div>
-
-    </div>
-
-</section>
+</div>
 
 
-<!-- CONTACT -->
+<!-- =========================
+     APPROVED PAGES
+========================= -->
 
 <section>
 
-    <div class="contact">
+<h2 class="section-title">
 
-        <h2>
-            📞 Contact Logical World
-        </h2>
+🌍 Pages & Latest Posts
 
-        <p>
-            Thank you for visiting Logical World.
-        </p>
+</h2>
 
-    </div>
+<div
+id="approvedPagesList"
+class="approved-grid"
+>
+
+<div class="loading">
+
+Loading pages and latest posts...
+
+</div>
+
+</div>
 
 </section>
 
+
+<!-- =========================
+     HOME SERVICES
+========================= -->
+
+<section>
+
+<h2 class="section-title">
+
+Home Services
+
+</h2>
+
+<div class="cards">
+
+
+<!-- CLEANING -->
+
+<div class="card">
+
+<h3 id="serviceTitle1">
+
+Cleaning Services
+
+</h3>
+
+<p id="serviceDescription1">
+
+Book trusted cleaning services easily.
+
+</p>
+
+</div>
+
+
+<!-- REPAIRS -->
+
+<div class="card">
+
+<h3 id="serviceTitle2">
+
+Repairs
+
+</h3>
+
+<p id="serviceDescription2">
+
+Find reliable repair professionals.
+
+</p>
+
+</div>
+
+
+<!-- DELIVERY -->
+
+<div class="card">
+
+<h3 id="serviceTitle3">
+
+Delivery
+
+</h3>
+
+<p id="serviceDescription3">
+
+Fast and secure delivery services.
+
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+<!-- =========================
+     CONTACT
+========================= -->
+
+<section>
+
+<h2 class="section-title">
+
+Contact Us
+
+</h2>
+
+<div class="cards">
+
+
+<!-- PHONE -->
+
+<div class="card">
+
+<h3>
+
+📞 Phone
+
+</h3>
+
+<p id="contactPhone">
+
+Your phone number will appear here.
+
+</p>
+
+</div>
+
+
+<!-- EMAIL -->
+
+<div class="card">
+
+<h3>
+
+📧 Email
+
+</h3>
+
+<p id="contactEmail">
+
+Your email address will appear here.
+
+</p>
+
+</div>
+
+
+<!-- WHATSAPP / ZANGI -->
+
+<div class="card">
+
+<h3>
+
+💬 WhatsApp / Zangi
+
+</h3>
+
+<p id="contactWhatsapp">
+
+Contact options will appear here.
+
+</p>
+
+</div>
+
+
+</div>
+
+    </section>
+    <!-- =========================
+     FOOTER
+========================= -->
 
 <footer>
 
-    <p>
-        © <span id="year"></span>
-        Logical World. All rights reserved.
-    </p>
+<h3>
+🌍 Logical World
+</h3>
+
+<p>
+Connecting People, Products & Services.
+</p>
+
+<br>
+
+<p>
+© 2026 Logical World. All Rights Reserved.
+</p>
 
 </footer>
 
 
+<!-- =========================
+     FIREBASE
+========================= -->
+
 <script type="module">
 
-import { db } from "./firebase.js";
+import {
+db
+}
+from "./firebase.js";
+
 
 import {
-    collection,
-    getDocs,
-    query,
-    orderBy,
-    limit
+collection,
+getDocs,
+doc,
+getDoc
 }
-from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-document.getElementById("year").textContent =
-    new Date().getFullYear();
-
-
-const pagesList =
-    document.getElementById(
-        "approvedPagesList"
-    );
-
-const videosList =
-    document.getElementById(
-        "videosList"
-    );
-
-
-function escapeHtml(value) {
-
-    const div =
-        document.createElement("div");
-
-    div.textContent =
-        value ?? "";
-
-    return div.innerHTML;
-}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 /* =========================
-   LOAD PAGES AND POSTS
+   ELEMENTS
 ========================= */
 
-async function loadPagesAndPosts() {
+const approvedPagesList =
+document.getElementById(
+"approvedPagesList"
+);
 
-    try {
+const searchInput =
+document.getElementById(
+"searchInput"
+);
 
-        const pagesSnapshot =
-            await getDocs(
-                collection(
-                    db,
-                    "approvedPages"
-                )
-            );
+const searchBtn =
+document.getElementById(
+"searchBtn"
+);
 
 
-        let postsSnapshot;
+/* =========================
+   DATA
+========================= */
 
-        try {
+let allPages = [];
 
-            postsSnapshot =
-                await getDocs(
-                    query(
-                        collection(
-                            db,
-                            "posts"
-                        ),
-                        orderBy(
-                            "createdAt",
-                            "desc"
-                        ),
-                        limit(20)
-                    )
-                );
+let allPosts = [];
 
-        } catch (postError) {
 
-            console.warn(
-                "Posts could not be loaded:",
-                postError
-            );
+/* =========================
+   LOAD WEBSITE
+========================= */
 
-            postsSnapshot = null;
-        }
+async function loadWebsite(){
 
+try{
 
-        pagesList.innerHTML = "";
+approvedPagesList.innerHTML = `
 
+<div class="loading">
 
-        let somethingShown = false;
+Loading pages and latest posts...
 
+</div>
 
-        /* PAGES */
+`;
 
-        pagesSnapshot.forEach(
-            (doc) => {
 
-                const data =
-                    doc.data();
+/* =========================
+   LOAD APPROVED PAGES
+========================= */
 
-                const name =
-                    data.name ||
-                    data.title ||
-                    "Logical World Page";
+const pagesSnapshot =
+await getDocs(
+collection(
+db,
+"approvedPages"
+)
+);
 
-                const description =
-                    data.description ||
-                    data.bio ||
-                    "Visit this page to learn more.";
 
+/* =========================
+   LOAD POSTS
+========================= */
 
-                const card =
-                    document.createElement(
-                        "div"
-                    );
+const postsSnapshot =
+await getDocs(
+collection(
+db,
+"posts"
+)
+);
 
-                card.className =
-                    "card";
 
+allPages =
+pagesSnapshot.docs.map(
+docSnap => ({
 
-                card.innerHTML = `
+id:
+docSnap.id,
 
-                    <h3>
-                        📄 ${escapeHtml(name)}
-                    </h3>
+data:
+docSnap.data()
 
-                    <p>
-                        ${escapeHtml(description)}
-                    </p>
+})
+);
 
-                `;
 
+allPosts =
+postsSnapshot.docs.map(
+docSnap => ({
 
-                pagesList.appendChild(card);
+id:
+docSnap.id,
 
-                somethingShown = true;
+data:
+docSnap.data()
 
-            }
-        );
+})
+);
 
 
-        /* POSTS */
+/* =========================
+   SORT POSTS
+========================= */
 
-        if (postsSnapshot) {
+allPosts.sort(
+(a,b)=>
+getTime(
+b.data.createdAt
+)
+-
+getTime(
+a.data.createdAt
+)
+);
 
-            postsSnapshot.forEach(
-                (doc) => {
 
-                    const data =
-                        doc.data();
+/* =========================
+   DISPLAY
+========================= */
 
-                    const title =
-                        data.title ||
-                        "Latest Post";
+displayPages(
+allPages
+);
 
-                    const content =
-                        data.content ||
-                        data.text ||
-                        data.description ||
-                        "";
 
+/* =========================
+   LOAD SETTINGS
+========================= */
 
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
+await loadSettings();
 
-                    card.className =
-                        "card";
 
+}catch(error){
 
-                    card.innerHTML = `
+console.error(
+"Website loading error:",
+error
+);
 
-                        <h3>
-                            📝 ${escapeHtml(title)}
-                        </h3>
+approvedPagesList.innerHTML = `
 
-                        <p>
-                            ${escapeHtml(content)}
-                        </p>
+<div class="error">
 
-                    `;
+<strong>
+Unable to load pages and posts.
+</strong>
 
+<br><br>
 
-                    pagesList.appendChild(card);
+${escapeHTML(
+error.message
+)}
 
-                    somethingShown = true;
+</div>
 
-                }
-            );
+`;
 
-        }
-
-
-        if (!somethingShown) {
-
-            pagesList.innerHTML = `
-
-                <div class="empty">
-
-                    No public pages or posts
-                    are available yet.
-
-                </div>
-
-            `;
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Pages loading error:",
-            error
-        );
-
-
-        pagesList.innerHTML = `
-
-            <div class="error">
-
-                Unable to load pages right now.
-
-            </div>
-
-        `;
-
-    }
+}
 
 }
 
 
 /* =========================
-   LOAD VIDEOS
+   DISPLAY PAGES
 ========================= */
 
-async function loadVideos() {
+function displayPages(
+pages
+){
 
-    try {
+approvedPagesList.innerHTML = "";
 
-        const videosQuery =
-            query(
-                collection(
-                    db,
-                    "siteVideos"
-                ),
-                orderBy(
-                    "createdAt",
-                    "desc"
-                ),
-                limit(50)
-            );
 
+if(
+pages.length === 0
+){
 
-        const snapshot =
-            await getDocs(
-                videosQuery
-            );
+approvedPagesList.innerHTML = `
 
+<div class="loading">
 
-        videosList.innerHTML = "";
+No approved pages yet.
 
+</div>
 
-        let videoCount = 0;
+`;
 
-
-        snapshot.forEach(
-            (doc) => {
-
-                const data =
-                    doc.data();
-
-
-                /*
-                 Only show active videos.
-                 */
-
-                if (
-                    data.active === false ||
-                    !data.videoURL
-                ) {
-
-                    return;
-
-                }
-
-
-                videoCount++;
-
-
-                const card =
-                    document.createElement(
-                        "div"
-                    );
-
-                card.className =
-                    "card video-card";
-
-
-                const title =
-                    escapeHtml(
-                        data.title ||
-                        "Video"
-                    );
-
-
-                const description =
-                    escapeHtml(
-                        data.description ||
-                        ""
-                    );
-
-
-                let poster = "";
-
-                if (
-                    data.thumbnailURL
-                ) {
-
-                    poster =
-                        ` poster="${escapeHtml(
-                            data.thumbnailURL
-                        )}"`;
-
-                }
-
-
-                let price = "";
-
-                if (
-                    data.price !== undefined &&
-                    data.price !== null &&
-                    data.price !== ""
-                ) {
-
-                    price = `
-
-                        <div class="price">
-
-                            Price:
-                            ${escapeHtml(
-                                String(data.price)
-                            )}
-
-                        </div>
-
-                    `;
-
-                }
-
-
-                card.innerHTML = `
-
-                    <video
-                        controls
-                        preload="metadata"
-                        ${poster}
-                    >
-
-                        <source
-                            src="${escapeHtml(
-                                data.videoURL
-                            )}"
-                            type="video/mp4"
-                        >
-
-                        Your browser does not
-                        support video playback.
-
-                    </video>
-
-
-                    <div class="video-info">
-
-                        <h3>
-                            🎥 ${title}
-                        </h3>
-
-                        ${
-                            description
-                            ? `<p>${description}</p>`
-                            : ""
-                        }
-
-                        ${price}
-
-                    </div>
-
-                `;
-
-
-                videosList.appendChild(
-                    card
-                );
-
-            }
-        );
-
-
-        if (videoCount === 0) {
-
-            videosList.innerHTML = `
-
-                <div class="empty">
-
-                    No videos have been
-                    published yet.
-
-                </div>
-
-            `;
-
-        }
-
-
-    } catch (error) {
-
-        console.error(
-            "Video loading error:",
-            error
-        );
-
-
-        videosList.innerHTML = `
-
-            <div class="error">
-
-                Unable to load videos
-                right now.
-
-            </div>
-
-        `;
-
-    }
+return;
 
 }
 
 
-/* START */
+/* =========================
+   EACH PAGE
+========================= */
 
-loadPagesAndPosts();
+pages.forEach(
+page=>{
 
-loadVideos();
+const data =
+page.data;
+
+
+const pageName =
+data.pageName ||
+"Business";
+
+
+const logoURL =
+data.logoURL ||
+"images/default-logo.png";
+
+
+const businessURL =
+"business.html?id=" +
+encodeURIComponent(
+page.id
+);
+
+
+/* =========================
+   FIND POSTS
+========================= */
+
+const pagePosts =
+allPosts.filter(
+post =>
+post.data.pageId ===
+page.id
+);
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+const latestPost =
+pagePosts.length > 0
+?
+pagePosts[0]
+:
+null;
+
+
+/* =========================
+   CARD
+========================= */
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"page-card";
+
+
+/* =========================
+   PAGE HEADER
+========================= */
+
+const pageHeader =
+document.createElement(
+"div"
+);
+
+pageHeader.className =
+"page-header";
+
+
+pageHeader.innerHTML = `
+
+<a
+href="${escapeAttribute(
+businessURL
+)}"
+class="page-link"
+>
+
+<img
+src="${escapeAttribute(
+logoURL
+)}"
+class="business-logo"
+alt="${escapeAttribute(
+pageName
+)}"
+>
+
+<div class="business-name">
+
+${escapeHTML(
+pageName
+)}
+
+</div>
+
+<div class="latest-label">
+
+Tap page to see all posts
+
+</div>
+
+</a>
+
+`;
+
+
+card.appendChild(
+pageHeader
+);
+
+
+/* =========================
+   LATEST POST
+========================= */
+
+const latestPostDiv =
+document.createElement(
+"div"
+);
+
+latestPostDiv.className =
+"latest-post";
+
+
+if(
+latestPost
+){
+
+const postData =
+latestPost.data;
+
+
+let html = `
+
+<h4>
+🆕 Latest Post
+</h4>
+
+`;
+
+
+/* POST TEXT */
+
+if(
+postData.text
+){
+
+html += `
+
+<p class="latest-post-text">
+
+${escapeHTML(
+postData.text
+)}
+
+</p>
+
+`;
+
+}
+
+
+/* =========================
+   IMAGE
+========================= */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"image"
+){
+
+html += `
+
+<img
+
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+
+class="latest-media"
+
+alt="Latest post"
+
+>
+
+`;
+
+}
+
+
+/* =========================
+   VIDEO
+========================= */
+
+if(
+postData.mediaURL &&
+postData.mediaType ===
+"video"
+){
+
+html += `
+
+<video
+
+src="${escapeAttribute(
+postData.mediaURL
+)}"
+
+class="latest-media"
+
+controls
+
+playsinline
+
+>
+
+</video>
+
+`;
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+html += `
+
+<div class="post-date">
+
+${formatDate(
+postData.createdAt
+)}
+
+</div>
+
+`;
+
+
+latestPostDiv.innerHTML =
+html;
+
+
+}else{
+
+
+latestPostDiv.innerHTML = `
+
+<p class="no-post">
+
+No posts yet.
+
+</p>
+
+`;
+
+}
+
+
+card.appendChild(
+latestPostDiv
+);
+
+
+approvedPagesList.appendChild(
+card
+);
+
+});
+
+}
+
+
+/* =========================
+   LOAD SETTINGS
+========================= */
+
+async function loadSettings(){
+
+try{
+
+/*
+   Admin settings are saved in:
+
+   settings
+      ↓
+   website
+
+*/
+
+const settingsRef =
+doc(
+db,
+"settings",
+"website"
+);
+
+
+const settingsSnapshot =
+await getDoc(
+settingsRef
+);
+
+
+if(
+!settingsSnapshot.exists()
+){
+
+console.log(
+"No website settings found yet."
+);
+
+return;
+
+}
+
+
+const settings =
+settingsSnapshot.data();
+
+
+/* =========================
+   HOME SERVICES
+========================= */
+
+
+/* CLEANING */
+
+const serviceTitle1 =
+document.getElementById(
+"serviceTitle1"
+);
+
+const serviceDescription1 =
+document.getElementById(
+"serviceDescription1"
+);
+
+
+if(
+serviceTitle1 &&
+settings.service1Title
+){
+
+serviceTitle1.textContent =
+settings.service1Title;
+
+}
+
+
+if(
+serviceDescription1 &&
+settings.service1Description
+){
+
+serviceDescription1.textContent =
+settings.service1Description;
+
+}
+
+
+/* =========================
+   REPAIRS
+========================= */
+
+const serviceTitle2 =
+document.getElementById(
+"serviceTitle2"
+);
+
+const serviceDescription2 =
+document.getElementById(
+"serviceDescription2"
+);
+
+
+if(
+serviceTitle2 &&
+settings.service2Title
+){
+
+serviceTitle2.textContent =
+settings.service2Title;
+
+}
+
+
+if(
+serviceDescription2 &&
+settings.service2Description
+){
+
+serviceDescription2.textContent =
+settings.service2Description;
+
+}
+
+
+/* =========================
+   DELIVERY
+========================= */
+
+const serviceTitle3 =
+document.getElementById(
+"serviceTitle3"
+);
+
+const serviceDescription3 =
+document.getElementById(
+"serviceDescription3"
+);
+
+
+if(
+serviceTitle3 &&
+settings.service3Title
+){
+
+serviceTitle3.textContent =
+settings.service3Title;
+
+}
+
+
+if(
+serviceDescription3 &&
+settings.service3Description
+){
+
+serviceDescription3.textContent =
+settings.service3Description;
+
+}
+
+
+/* =========================
+   CONTACT
+========================= */
+
+const contactPhone =
+document.getElementById(
+"contactPhone"
+);
+
+const contactEmail =
+document.getElementById(
+"contactEmail"
+);
+
+const contactWhatsapp =
+document.getElementById(
+"contactWhatsapp"
+);
+
+
+/* PHONE */
+
+if(
+contactPhone &&
+settings.phone
+){
+
+contactPhone.textContent =
+settings.phone;
+
+}
+
+
+/* EMAIL */
+
+if(
+contactEmail &&
+settings.email
+){
+
+contactEmail.textContent =
+settings.email;
+
+}
+
+
+/* WHATSAPP / ZANGI */
+
+if(
+contactWhatsapp &&
+settings.whatsapp
+){
+
+contactWhatsapp.textContent =
+settings.whatsapp;
+
+}
+
+
+/* =========================
+   ALSO SUPPORT ZANGI
+========================= */
+
+if(
+contactWhatsapp &&
+settings.zangi
+){
+
+if(
+settings.whatsapp
+){
+
+contactWhatsapp.textContent =
+settings.whatsapp +
+" / " +
+settings.zangi;
+
+}else{
+
+contactWhatsapp.textContent =
+settings.zangi;
+
+}
+
+}
+
+
+console.log(
+"Website settings loaded successfully."
+);
+
+
+}catch(error){
+
+console.error(
+"Settings loading error:",
+error
+);
+
+}
+
+}
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function searchPages(){
+
+const search =
+searchInput.value
+.trim()
+.toLowerCase();
+
+
+if(
+!search
+){
+
+displayPages(
+allPages
+);
+
+return;
+
+}
+
+
+const filtered =
+allPages.filter(
+page=>{
+
+const data =
+page.data;
+
+
+const pageName =
+String(
+data.pageName ||
+""
+)
+.toLowerCase();
+
+
+const category =
+String(
+data.category ||
+""
+)
+.toLowerCase();
+
+
+const description =
+String(
+data.description ||
+""
+)
+.toLowerCase();
+
+
+const matchingPosts =
+allPosts.some(
+post =>
+
+post.data.pageId ===
+page.id &&
+
+String(
+post.data.text ||
+""
+)
+.toLowerCase()
+.includes(
+search
+)
+
+);
+
+
+return (
+
+pageName.includes(
+search
+)
+
+||
+
+category.includes(
+search
+)
+
+||
+
+description.includes(
+search
+)
+
+||
+
+matchingPosts
+
+);
+
+});
+
+
+displayPages(
+filtered
+);
+
+}
+
+
+/* =========================
+   SEARCH BUTTON
+========================= */
+
+searchBtn.addEventListener(
+"click",
+searchPages
+);
+
+
+/* =========================
+   LIVE SEARCH
+========================= */
+
+searchInput.addEventListener(
+"input",
+searchPages
+);
+
+
+/* =========================
+   TIME
+========================= */
+
+function getTime(
+timestamp
+){
+
+if(
+timestamp &&
+typeof timestamp.toMillis ===
+"function"
+){
+
+return timestamp.toMillis();
+
+}
+
+return 0;
+
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(
+timestamp
+){
+
+if(
+!timestamp ||
+typeof timestamp.toDate !==
+"function"
+){
+
+return "";
+
+}
+
+
+return timestamp
+.toDate()
+.toLocaleString();
+
+}
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(
+value
+){
+
+return String(
+value
+)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+
+/* =========================
+   ESCAPE ATTRIBUTE
+========================= */
+
+function escapeAttribute(
+value
+){
+
+return escapeHTML(
+value
+);
+
+}
+
+
+/* =========================
+   START
+========================= */
+
+loadWebsite();
 
 </script>
 
+
 </body>
-</html>
+
+    </html>
