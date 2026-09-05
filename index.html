@@ -4,2334 +4,806 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Logical World Admin Dashboard</title>
+<title>Logical World</title>
 
 <style>
-*{box-sizing:border-box}
-
-body{
-    margin:0;
-    font-family:Arial,sans-serif;
-    background:#f4f6f8;
-    color:#222;
+* {
+    box-sizing: border-box;
 }
 
-header{
-    background:#111827;
-    color:white;
-    padding:18px 20px;
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #222;
 }
 
-header h1{
-    margin:0;
-    font-size:21px;
+header {
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 35px 20px;
 }
 
-#adminEmail{
-    font-size:13px;
-    opacity:.85;
-    margin-top:5px;
+header h1 {
+    margin: 0 0 10px;
+    font-size: 32px;
 }
 
-.admin-nav{
-    background:white;
-    padding:10px;
-    display:flex;
-    gap:8px;
-    overflow-x:auto;
-    border-bottom:1px solid #ddd;
+header p {
+    margin: 0;
+    opacity: .9;
 }
 
-.admin-nav button{
-    border:0;
-    background:#eef2f7;
-    padding:11px 15px;
-    border-radius:8px;
-    cursor:pointer;
-    white-space:nowrap;
-    font-weight:bold;
+nav {
+    background: white;
+    padding: 12px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
-.admin-nav button.active{
-    background:#111827;
-    color:white;
+nav a {
+    text-decoration: none;
+    color: #111827;
+    font-weight: bold;
+    padding: 10px 14px;
+    border-radius: 8px;
 }
 
-main{
-    max-width:1200px;
-    margin:auto;
-    padding:20px;
+nav a:hover {
+    background: #e5e7eb;
 }
 
-.section{
-    display:none;
+.hero {
+    max-width: 1100px;
+    margin: auto;
+    padding: 45px 20px;
+    text-align: center;
 }
 
-.section.active{
-    display:block;
+.hero h2 {
+    font-size: 30px;
+    margin-bottom: 10px;
 }
 
-.section-title{
-    margin-top:0;
-    font-size:24px;
+.hero p {
+    color: #666;
+    font-size: 17px;
 }
 
-.stats-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
-    gap:15px;
-    margin-bottom:25px;
+section {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 0 20px;
 }
 
-.stat-card{
-    background:white;
-    border-radius:12px;
-    padding:20px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+.section-title {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.stat-card h3{
-    margin:0 0 10px;
-    font-size:15px;
-    color:#666;
+.grid {
+    display: grid;
+    grid-template-columns: repeat(
+        auto-fit,
+        minmax(260px, 1fr)
+    );
+    gap: 18px;
 }
 
-.stat-card strong{
-    font-size:30px;
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
-.page-card,
-.user-card,
-.report-card,
-.admin-box{
-    background:white;
-    border-radius:12px;
-    padding:18px;
-    margin-bottom:15px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
+.card h3 {
+    margin-top: 0;
 }
 
-.list{
-    display:grid;
-    gap:15px;
+.card p {
+    color: #666;
+    line-height: 1.5;
 }
 
-.page-top{
-    display:flex;
-    align-items:center;
-    gap:15px;
+/* VIDEO */
+
+.video-card {
+    padding: 0;
+    overflow: hidden;
 }
 
-.page-logo{
-    width:65px;
-    height:65px;
-    border-radius:10px;
-    object-fit:cover;
-    background:#eee;
+.video-card video {
+    width: 100%;
+    display: block;
+    background: #000;
 }
 
-.page-info{
-    flex:1;
+.video-info {
+    padding: 16px;
 }
 
-.page-info h3{
-    margin:0 0 6px;
+.video-info h3 {
+    margin-top: 0;
 }
 
-.page-info p{
-    margin:4px 0;
-    color:#666;
-    font-size:14px;
+.price {
+    font-weight: bold;
+    margin-top: 10px;
 }
 
-.actions{
-    display:flex;
-    flex-wrap:wrap;
-    gap:8px;
-    margin-top:15px;
+.loading,
+.empty,
+.error {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    color: #666;
+    grid-column: 1 / -1;
 }
 
-.actions button{
-    border:0;
-    padding:9px 13px;
-    border-radius:7px;
-    cursor:pointer;
-    font-weight:bold;
+.contact {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
-.view-btn{background:#e5e7eb}
-.approve-btn{background:#16a34a;color:white}
-.reject-btn{background:#dc2626;color:white}
-.delete-btn{background:#991b1b;color:white}
-.edit-btn{background:#2563eb;color:white}
-
-.empty{
-    background:white;
-    padding:25px;
-    border-radius:10px;
-    text-align:center;
-    color:#777;
+footer {
+    margin-top: 50px;
+    background: #111827;
+    color: white;
+    text-align: center;
+    padding: 25px;
 }
 
-.loading{
-    text-align:center;
-    padding:30px;
-    color:#666;
-}
+@media(max-width:600px) {
 
-.form-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:15px;
-}
-
-.form-group{
-    display:flex;
-    flex-direction:column;
-    gap:7px;
-}
-
-.form-group.full{
-    grid-column:1/-1;
-}
-
-.form-group label{
-    font-weight:bold;
-}
-
-.form-group input,
-.form-group textarea,
-.form-group select{
-    width:100%;
-    padding:12px;
-    border:1px solid #ccc;
-    border-radius:8px;
-    font-size:15px;
-}
-
-.form-group textarea{
-    min-height:100px;
-    resize:vertical;
-}
-
-.primary-btn{
-    border:0;
-    background:#111827;
-    color:white;
-    padding:12px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.cancel-btn{
-    border:0;
-    background:#ddd;
-    padding:12px 18px;
-    border-radius:8px;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.form-buttons{
-    display:flex;
-    gap:10px;
-    margin-top:15px;
-}
-
-.item-card{
-    background:white;
-    border-radius:12px;
-    padding:16px;
-    box-shadow:0 2px 8px rgba(0,0,0,.08);
-    margin-bottom:15px;
-}
-
-.item-card img{
-    width:100%;
-    max-width:260px;
-    max-height:180px;
-    object-fit:cover;
-    border-radius:10px;
-    margin-bottom:10px;
-}
-
-.item-card video{
-    width:100%;
-    max-width:420px;
-    border-radius:10px;
-    margin-bottom:10px;
-}
-
-.item-card h3{
-    margin:5px 0;
-}
-
-.item-card p{
-    color:#666;
-}
-
-.price{
-    font-size:19px;
-    font-weight:bold;
-    margin:8px 0;
-}
-
-.category-title{
-    margin-top:30px;
-    border-bottom:2px solid #ddd;
-    padding-bottom:8px;
-}
-
-.modal{
-    display:none;
-    position:fixed;
-    z-index:1000;
-    inset:0;
-    background:rgba(0,0,0,.65);
-    padding:20px;
-    overflow:auto;
-}
-
-.modal-box{
-    background:white;
-    max-width:600px;
-    margin:40px auto;
-    padding:25px;
-    border-radius:12px;
-}
-
-.close-modal{
-    float:right;
-    border:0;
-    background:#eee;
-    padding:8px 12px;
-    border-radius:6px;
-    cursor:pointer;
-}
-
-.message{
-    padding:12px;
-    margin-top:10px;
-    border-radius:8px;
-    display:none;
-}
-
-.success{
-    background:#dcfce7;
-    color:#166534;
-}
-
-.error{
-    background:#fee2e2;
-    color:#991b1b;
-}
-
-@media(max-width:650px){
-
-    .form-grid{
-        grid-template-columns:1fr;
+    header h1 {
+        font-size: 27px;
     }
 
-    .form-group.full{
-        grid-column:auto;
+    .hero h2 {
+        font-size: 24px;
     }
 
-    .page-top{
-        align-items:flex-start;
+    nav a {
+        font-size: 14px;
     }
-
 }
 </style>
+
 </head>
 
 <body>
 
 <header>
-    <h1>🌍 Logical World Admin Dashboard</h1>
-    <div id="adminEmail"></div>
+
+    <h1>🌍 Logical World</h1>
+
+    <p>
+        Connecting People, Products & Services.
+    </p>
+
 </header>
 
-<nav class="admin-nav">
 
-    <button class="active" onclick="showSection('dashboard',this)">
-        Dashboard
-    </button>
+<nav>
 
-    <button onclick="showSection('pending',this)">
-        Pending Pages
-    </button>
+    <a href="index.html">🏠 Home</a>
 
-    <button onclick="showSection('approved',this)">
-        Approved Pages
-    </button>
+    <a href="#pages">📄 Pages</a>
 
-    <button onclick="showSection('rejected',this)">
-        Rejected Pages
-    </button>
+    <a href="#videos">🎥 Videos</a>
 
-    <button onclick="showSection('users',this)">
-        Users
-    </button>
+    <a href="create-page.html">
+        ➕ Create Page
+    </a>
 
-    <button onclick="showSection('reports',this)">
-        Reports
-    </button>
-
-    <button onclick="showSection('videos',this)">
-        Videos
-    </button>
-
-    <button onclick="showSection('marketplace',this)">
-        Marketplace
-    </button>
-
-    <button onclick="showSection('messages',this)">
-        Marketplace Messages
-    </button>
-
-    <button onclick="showSection('settings',this)">
-        Settings
-    </button>
-
-    <button onclick="logout()">
-        Logout
-    </button>
+    <a href="login.html">
+        🔐 Login
+    </a>
 
 </nav>
 
-<main>
 
-<!-- DASHBOARD -->
+<div class="hero">
 
-<section id="dashboard" class="section active">
-
-    <h2 class="section-title">Dashboard</h2>
-
-    <div class="stats-grid">
-
-        <div class="stat-card">
-            <h3>Pending Pages</h3>
-            <strong id="pendingCount">0</strong>
-        </div>
-
-        <div class="stat-card">
-            <h3>Approved Pages</h3>
-            <strong id="approvedCount">0</strong>
-        </div>
-
-        <div class="stat-card">
-            <h3>Rejected Pages</h3>
-            <strong id="rejectedCount">0</strong>
-        </div>
-
-        <div class="stat-card">
-            <h3>Users</h3>
-            <strong id="usersCount">0</strong>
-        </div>
-
-        <div class="stat-card">
-            <h3>Reports</h3>
-            <strong id="reportsCount">0</strong>
-        </div>
-
-    </div>
-
-    <div class="page-card">
-
-        <h3>Welcome to Logical World Admin</h3>
-
-        <p>
-            Manage pages, users, reports, videos and the marketplace
-            from this dashboard.
-        </p>
-
-    </div>
-
-</section>
-
-
-<!-- PENDING -->
-
-<section id="pending" class="section">
-
-    <h2 class="section-title">Pending Pages</h2>
-
-    <div id="pendingList" class="list">
-        <div class="loading">Loading pending pages...</div>
-    </div>
-
-</section>
-
-
-<!-- APPROVED -->
-
-<section id="approved" class="section">
-
-    <h2 class="section-title">Approved Pages</h2>
-
-    <div id="approvedList" class="list">
-        <div class="loading">Loading approved pages...</div>
-    </div>
-
-</section>
-
-
-<!-- REJECTED -->
-
-<section id="rejected" class="section">
-
-    <h2 class="section-title">Rejected Pages</h2>
-
-    <div id="rejectedList" class="list">
-        <div class="loading">Loading rejected pages...</div>
-    </div>
-
-</section>
-
-
-<!-- USERS -->
-
-<section id="users" class="section">
-
-    <h2 class="section-title">Registered Users</h2>
-
-    <div id="usersList" class="list">
-        <div class="loading">Loading users...</div>
-    </div>
-
-</section>
-
-
-<!-- REPORTS -->
-
-<section id="reports" class="section">
-
-    <h2 class="section-title">Reports</h2>
-
-    <div id="reportsList" class="list">
-        <div class="loading">Loading reports...</div>
-    </div>
-
-</section>
-
-
-<!-- ================= VIDEOS ================= -->
-
-<section id="videos" class="section">
-
-    <h2 class="section-title">🎥 Video Management</h2>
-
-    <div class="admin-box">
-
-        <h3 id="videoFormTitle">Add New Video</h3>
-
-        <input type="hidden" id="editVideoId">
-
-        <div class="form-grid">
-
-            <div class="form-group full">
-                <label>Video Title</label>
-
-                <input
-                    type="text"
-                    id="videoTitle"
-                    placeholder="Enter video title"
-                >
-            </div>
-
-            <div class="form-group full">
-                <label>Video Description</label>
-
-                <textarea
-                    id="videoDescription"
-                    placeholder="Write about the video"
-                ></textarea>
-            </div>
-
-            <div class="form-group full">
-                <label>Video URL</label>
-
-                <input
-                    type="url"
-                    id="videoURL"
-                    placeholder="Paste video URL"
-                >
-            </div>
-
-            <div class="form-group">
-                <label>Thumbnail URL</label>
-
-                <input
-                    type="url"
-                    id="videoThumbnail"
-                    placeholder="Optional thumbnail URL"
-                >
-            </div>
-
-            <div class="form-group">
-                <label>Video Price</label>
-
-                <input
-                    type="number"
-                    id="videoPrice"
-                    min="0"
-                    step="0.01"
-                    value="0"
-                    placeholder="0"
-                >
-            </div>
-
-        </div>
-
-        <div class="form-buttons">
-
-            <button
-                class="primary-btn"
-                onclick="saveVideo()">
-                Save Video
-            </button>
-
-            <button
-                class="cancel-btn"
-                onclick="clearVideoForm()">
-                Clear
-            </button>
-
-        </div>
-
-        <div id="videoMessage" class="message"></div>
-
-    </div>
-
-
-    <h3 class="category-title">Published Videos</h3>
-
-    <div id="videosList">
-        <div class="loading">Loading videos...</div>
-    </div>
-
-</section>
-
-
-<!-- ================= MARKETPLACE ================= -->
-
-<section id="marketplace" class="section">
-
-    <h2 class="section-title">🛒 Marketplace</h2>
-
-    <div class="admin-box">
-
-        <h3 id="marketplaceFormTitle">
-            Add Marketplace Item
-        </h3>
-
-        <input
-            type="hidden"
-            id="editMarketplaceId"
-        >
-
-        <div class="form-grid">
-
-            <div class="form-group">
-
-                <label>Type</label>
-
-                <select id="marketplaceType">
-
-                    <option value="product">
-                        Product
-                    </option>
-
-                    <option value="service">
-                        Service
-                    </option>
-
-                </select>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Name</label>
-
-                <input
-                    type="text"
-                    id="marketplaceName"
-                    placeholder="Product or service name"
-                >
-
-            </div>
-
-
-            <div class="form-group full">
-
-                <label>Description</label>
-
-                <textarea
-                    id="marketplaceDescription"
-                    placeholder="Describe the product or service"
-                ></textarea>
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Price</label>
-
-                <input
-                    type="number"
-                    id="marketplacePrice"
-                    min="0"
-                    step="0.01"
-                    placeholder="Price"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Image URL</label>
-
-                <input
-                    type="url"
-                    id="marketplaceImage"
-                    placeholder="Paste image URL"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Seller / Provider</label>
-
-                <input
-                    type="text"
-                    id="marketplaceSeller"
-                    placeholder="Seller or service provider"
-                >
-
-            </div>
-
-
-            <div class="form-group">
-
-                <label>Contact Information</label>
-
-                <input
-                    type="text"
-                    id="marketplaceContact"
-                    placeholder="Optional"
-                >
-
-            </div>
-
-        </div>
-
-
-        <div class="form-buttons">
-
-            <button
-                class="primary-btn"
-                onclick="saveMarketplaceItem()">
-
-                Save Item
-
-            </button>
-
-            <button
-                class="cancel-btn"
-                onclick="clearMarketplaceForm()">
-
-                Clear
-
-            </button>
-
-        </div>
-
-        <div id="marketplaceMessage" class="message"></div>
-
-    </div>
-
-
-    <h3 class="category-title">
-        📦 Products
-    </h3>
-
-    <div id="productsList">
-        <div class="loading">Loading products...</div>
-    </div>
-
-
-    <h3 class="category-title">
-        🛠️ Services
-    </h3>
-
-    <div id="servicesList">
-        <div class="loading">Loading services...</div>
-    </div>
-
-</section>
-
-
-<!-- ================= MARKETPLACE MESSAGES ================= -->
-
-<section id="messages" class="section">
-
-    <h2 class="section-title">
-        💬 Marketplace Customer Messages
+    <h2>
+        Welcome to Logical World
     </h2>
 
-    <div class="page-card">
-
-        <p>
-            Customer enquiries from Marketplace will appear here
-            and will be handled by the administrator.
-        </p>
-
-        <div id="marketplaceMessagesList">
-
-            <div class="empty">
-                Marketplace messages will be connected in Part 3.
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-<!-- ================= SETTINGS ================= -->
-
-<section id="settings" class="section">
-
-    <h2 class="section-title">
-        ⚙️ Website Settings
-    </h2>
-
-    <div class="page-card">
-
-        <p>
-            Existing website settings will be connected in Part 3.
-        </p>
-
-    </div>
-
-</section>
-
-</main>
-
-
-<!-- VIEW MODAL -->
-
-<div id="viewModal" class="modal">
-
-    <div class="modal-box">
-
-        <button
-            class="close-modal"
-            onclick="closeModal()">
-            Close
-        </button>
-
-        <h2 id="modalTitle">
-            Page Details
-        </h2>
-
-        <div id="modalContent"></div>
-
-    </div>
+    <p>
+        Discover people, pages, posts and videos
+        from the Logical World community.
+    </p>
 
 </div>
 
 
+<!-- PUBLIC PAGES -->
+
+<section id="pages">
+
+    <h2 class="section-title">
+        🌍 Pages & Latest Posts
+    </h2>
+
+    <div
+        id="approvedPagesList"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading pages and posts...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- PUBLIC VIDEOS -->
+
+<section id="videos">
+
+    <h2 class="section-title">
+        🎥 Videos
+    </h2>
+
+    <div
+        id="videosList"
+        class="grid"
+    >
+
+        <div class="loading">
+            Loading videos...
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- SERVICES -->
+
+<section>
+
+    <h2 class="section-title">
+        🛠️ Services
+    </h2>
+
+    <div class="grid">
+
+        <div class="card">
+
+            <h3>
+                👥 Community
+            </h3>
+
+            <p>
+                Connect with people and discover
+                useful content from the Logical World
+                community.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                📄 Pages & Content
+            </h3>
+
+            <p>
+                Explore approved pages and the
+                latest posts published on Logical World.
+            </p>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>
+                🎥 Videos
+            </h3>
+
+            <p>
+                Watch videos published through the
+                Logical World administration.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- CONTACT -->
+
+<section>
+
+    <div class="contact">
+
+        <h2>
+            📞 Contact Logical World
+        </h2>
+
+        <p>
+            Thank you for visiting Logical World.
+        </p>
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <p>
+        © <span id="year"></span>
+        Logical World. All rights reserved.
+    </p>
+
+</footer>
+
+
 <script type="module">
 
-import { auth, db } from "./firebase.js";
-
-import {
-    onAuthStateChanged,
-    signOut
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+import { db } from "./firebase.js";
 
 import {
     collection,
     getDocs,
-    addDoc,
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc,
-    deleteDoc,
-    serverTimestamp
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-const ADMIN_EMAIL =
-    "alagoagodstime@gmail.com";
-
-
-/* ================= AUTH ================= */
-
-onAuthStateChanged(auth, async(user)=>{
-
-    if(!user){
-
-        window.location.href =
-            "login.html";
-
-        return;
-    }
-
-    if(user.email !== ADMIN_EMAIL){
-
-        alert("Access denied. Admin only.");
-
-        await signOut(auth);
-
-        window.location.href =
-            "login.html";
-
-        return;
-    }
-
-    document.getElementById("adminEmail").textContent =
-        "Logged in as: " + user.email;
-
-    loadAll();
-
-});
-
-
-/* ================= NAVIGATION ================= */
-
-window.showSection =
-function(sectionId,button){
-
-    document
-        .querySelectorAll(".section")
-        .forEach(section=>{
-            section.classList.remove("active");
-        });
-
-    document
-        .getElementById(sectionId)
-        .classList.add("active");
-
-
-    document
-        .querySelectorAll(".admin-nav button")
-        .forEach(btn=>{
-            btn.classList.remove("active");
-        });
-
-
-    if(button){
-        button.classList.add("active");
-    }
-
-
-    if(sectionId==="pending")
-        loadPending();
-
-    if(sectionId==="approved")
-        loadApproved();
-
-    if(sectionId==="rejected")
-        loadRejected();
-
-    if(sectionId==="users")
-        loadUsers();
-
-    if(sectionId==="reports")
-        loadReports();
-
-    if(sectionId==="videos")
-        loadVideos();
-
-    if(sectionId==="marketplace")
-        loadMarketplace();
-
-};
-
-
-/* ================= LOAD ALL ================= */
-
-async function loadAll(){
-
-    await loadPending();
-    await loadApproved();
-    await loadRejected();
-    await loadUsers();
-    await loadReports();
-    await loadVideos();
-    await loadMarketplace();
-
+    query,
+    orderBy,
+    limit
 }
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* ================= PENDING ================= */
+document.getElementById("year").textContent =
+    new Date().getFullYear();
 
-async function loadPending(){
 
-    const container =
-        document.getElementById("pendingList");
+const pagesList =
+    document.getElementById(
+        "approvedPagesList"
+    );
 
-    try{
+const videosList =
+    document.getElementById(
+        "videosList"
+    );
 
-        const snapshot =
-            await getDocs(
-                collection(db,"pendingPages")
-            );
 
-        document.getElementById("pendingCount")
-            .textContent = snapshot.size;
+function escapeHtml(value) {
 
-
-        if(snapshot.empty){
-
-            container.innerHTML =
-                `<div class="empty">
-                    No pending pages.
-                </div>`;
-
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-        snapshot.forEach(item=>{
-
-            container.appendChild(
-                createPageCard(
-                    item.id,
-                    item.data(),
-                    "pending"
-                )
-            );
-
-        });
-
-    }catch(error){
-
-        console.error(error);
-
-        container.innerHTML =
-            `<div class="empty">
-                Could not load pending pages.
-            </div>`;
-
-    }
-
-}
-
-
-/* ================= APPROVED ================= */
-
-async function loadApproved(){
-
-    const container =
-        document.getElementById("approvedList");
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(db,"approvedPages")
-            );
-
-        document.getElementById("approvedCount")
-            .textContent = snapshot.size;
-
-
-        if(snapshot.empty){
-
-            container.innerHTML =
-                `<div class="empty">
-                    No approved pages.
-                </div>`;
-
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-        snapshot.forEach(item=>{
-
-            container.appendChild(
-                createPageCard(
-                    item.id,
-                    item.data(),
-                    "approved"
-                )
-            );
-
-        });
-
-    }catch(error){
-
-        console.error(error);
-
-        container.innerHTML =
-            `<div class="empty">
-                Could not load approved pages.
-            </div>`;
-
-    }
-
-}
-
-
-/* ================= REJECTED ================= */
-
-async function loadRejected(){
-
-    const container =
-        document.getElementById("rejectedList");
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(db,"rejectedPages")
-            );
-
-        document.getElementById("rejectedCount")
-            .textContent = snapshot.size;
-
-
-        if(snapshot.empty){
-
-            container.innerHTML =
-                `<div class="empty">
-                    No rejected pages.
-                </div>`;
-
-            return;
-        }
-
-
-        container.innerHTML = "";
-
-        snapshot.forEach(item=>{
-
-            container.appendChild(
-                createPageCard(
-                    item.id,
-                    item.data(),
-                    "rejected"
-                )
-            );
-
-        });
-
-    }catch(error){
-
-        console.error(error);
-
-        container.innerHTML =
-            `<div class="empty">
-                Could not load rejected pages.
-            </div>`;
-
-    }
-
-}
-
-
-/* ================= PAGE CARD ================= */
-
-function createPageCard(id,page,status){
-
-    const card =
+    const div =
         document.createElement("div");
 
-    card.className = "page-card";
+    div.textContent =
+        value ?? "";
 
-
-    const logo =
-        page.logoURL ||
-        page.logo ||
-        "https://via.placeholder.com/100";
-
-
-    const name =
-        page.pageName ||
-        page.name ||
-        "Unnamed Page";
-
-
-    const description =
-        page.description ||
-        page.about ||
-        "";
-
-
-    let buttons = `
-
-        <button
-            class="view-btn"
-            onclick='viewPage(${JSON.stringify(
-                JSON.stringify(page)
-            )})'>
-
-            View
-
-        </button>
-
-    `;
-
-
-    if(status==="pending"){
-
-        buttons += `
-
-            <button
-                class="approve-btn"
-                onclick="approvePage('${id}')">
-
-                Approve
-
-            </button>
-
-            <button
-                class="reject-btn"
-                onclick="rejectPage('${id}')">
-
-                Reject
-
-            </button>
-
-        `;
-
-    }
-
-
-    if(status==="approved"){
-
-        buttons += `
-
-            <button
-                class="delete-btn"
-                onclick="deletePage('${id}','approvedPages')">
-
-                Delete
-
-            </button>
-
-        `;
-
-    }
-
-
-    if(status==="rejected"){
-
-        buttons += `
-
-            <button
-                class="approve-btn"
-                onclick="restorePage('${id}')">
-
-                Restore
-
-            </button>
-
-            <button
-                class="delete-btn"
-                onclick="deletePage('${id}','rejectedPages')">
-
-                Delete
-
-            </button>
-
-        `;
-
-    }
-
-
-    card.innerHTML = `
-
-        <div class="page-top">
-
-            <img
-                class="page-logo"
-                src="${logo}"
-                onerror="this.src='https://via.placeholder.com/100'"
-            >
-
-            <div class="page-info">
-
-                <h3>
-                    ${escapeHtml(name)}
-                </h3>
-
-                <p>
-                    ${escapeHtml(description)}
-                </p>
-
-                <p>
-                    Owner:
-                    ${escapeHtml(
-                        page.ownerEmail ||
-                        page.email ||
-                        "Not provided"
-                    )}
-                </p>
-
-            </div>
-
-        </div>
-
-        <div class="actions">
-            ${buttons}
-        </div>
-
-    `;
-
-    return card;
-
+    return div.innerHTML;
 }
 
 
-/* ================= VIDEOS ================= */
+/* =========================
+   LOAD PAGES AND POSTS
+========================= */
 
-async function loadVideos(){
+async function loadPagesAndPosts() {
 
-    const container =
-        document.getElementById("videosList");
+    try {
 
-    container.innerHTML =
-        `<div class="loading">
-            Loading videos...
-        </div>`;
-
-    try{
-
-        const snapshot =
+        const pagesSnapshot =
             await getDocs(
-                collection(db,"siteVideos")
+                collection(
+                    db,
+                    "approvedPages"
+                )
             );
 
 
-        if(snapshot.empty){
+        let postsSnapshot;
 
-            container.innerHTML =
-                `<div class="empty">
-                    No videos have been added yet.
-                </div>`;
+        try {
 
-            return;
+            postsSnapshot =
+                await getDocs(
+                    query(
+                        collection(
+                            db,
+                            "posts"
+                        ),
+                        orderBy(
+                            "createdAt",
+                            "desc"
+                        ),
+                        limit(20)
+                    )
+                );
+
+        } catch (postError) {
+
+            console.warn(
+                "Posts could not be loaded:",
+                postError
+            );
+
+            postsSnapshot = null;
         }
 
 
-        container.innerHTML = "";
+        pagesList.innerHTML = "";
 
 
-        snapshot.forEach(item=>{
-
-            const video =
-                item.data();
-
-            const card =
-                document.createElement("div");
-
-            card.className =
-                "item-card";
+        let somethingShown = false;
 
 
-            let media = "";
+        /* PAGES */
 
-            if(video.thumbnailURL){
+        pagesSnapshot.forEach(
+            (doc) => {
 
-                media = `
-                    <img
-                        src="${video.thumbnailURL}"
-                        alt="Video thumbnail"
-                    >
+                const data =
+                    doc.data();
+
+                const name =
+                    data.name ||
+                    data.title ||
+                    "Logical World Page";
+
+                const description =
+                    data.description ||
+                    data.bio ||
+                    "Visit this page to learn more.";
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "card";
+
+
+                card.innerHTML = `
+
+                    <h3>
+                        📄 ${escapeHtml(name)}
+                    </h3>
+
+                    <p>
+                        ${escapeHtml(description)}
+                    </p>
+
                 `;
 
-            }else if(video.videoURL){
 
-                media = `
-                    <video
-                        controls
-                        src="${video.videoURL}">
-                    </video>
-                `;
+                pagesList.appendChild(card);
+
+                somethingShown = true;
 
             }
+        );
 
 
-            card.innerHTML = `
+        /* POSTS */
 
-                ${media}
+        if (postsSnapshot) {
 
-                <h3>
-                    ${escapeHtml(
-                        video.title ||
-                        "Untitled Video"
-                    )}
-                </h3>
+            postsSnapshot.forEach(
+                (doc) => {
 
-                <p>
-                    ${escapeHtml(
-                        video.description || ""
-                    )}
-                </p>
+                    const data =
+                        doc.data();
 
-                <div class="price">
+                    const title =
+                        data.title ||
+                        "Latest Post";
 
-                    ${
-                        Number(video.price || 0) > 0
-                        ?
-                        "$" + Number(video.price).toFixed(2)
-                        :
-                        "Free"
-                    }
+                    const content =
+                        data.content ||
+                        data.text ||
+                        data.description ||
+                        "";
 
-                </div>
 
-                <div class="actions">
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
 
-                    <button
-                        class="edit-btn"
-                        onclick="editVideo('${item.id}')">
+                    card.className =
+                        "card";
 
-                        Edit
 
-                    </button>
+                    card.innerHTML = `
 
-                    <button
-                        class="delete-btn"
-                        onclick="deleteVideo('${item.id}')">
+                        <h3>
+                            📝 ${escapeHtml(title)}
+                        </h3>
 
-                        Delete
+                        <p>
+                            ${escapeHtml(content)}
+                        </p>
 
-                    </button>
+                    `;
+
+
+                    pagesList.appendChild(card);
+
+                    somethingShown = true;
+
+                }
+            );
+
+        }
+
+
+        if (!somethingShown) {
+
+            pagesList.innerHTML = `
+
+                <div class="empty">
+
+                    No public pages or posts
+                    are available yet.
 
                 </div>
 
             `;
 
-
-            container.appendChild(card);
-
-        });
-
-
-    }catch(error){
-
-        console.error(error);
-
-        container.innerHTML =
-            `<div class="empty">
-                Could not load videos.
-            </div>`;
-
-    }
-
-}
-
-
-/* ================= SAVE VIDEO ================= */
-
-window.saveVideo =
-async function(){
-
-    const title =
-        document.getElementById("videoTitle")
-        .value.trim();
-
-    const description =
-        document.getElementById("videoDescription")
-        .value.trim();
-
-    const videoURL =
-        document.getElementById("videoURL")
-        .value.trim();
-
-    const thumbnailURL =
-        document.getElementById("videoThumbnail")
-        .value.trim();
-
-    const price =
-        Number(
-            document.getElementById("videoPrice")
-            .value || 0
-        );
-
-    const editId =
-        document.getElementById("editVideoId")
-        .value;
-
-
-    if(!title || !videoURL){
-
-        showMessage(
-            "videoMessage",
-            "Please enter a video title and video URL.",
-            false
-        );
-
-        return;
-    }
-
-
-    try{
-
-        const data = {
-
-            title,
-            description,
-            videoURL,
-            thumbnailURL,
-            price,
-            updatedAt:serverTimestamp()
-
-        };
-
-
-        if(editId){
-
-            await updateDoc(
-                doc(db,"siteVideos",editId),
-                data
-            );
-
-        }else{
-
-            await addDoc(
-                collection(db,"siteVideos"),
-                {
-                    ...data,
-                    createdAt:serverTimestamp()
-                }
-            );
-
         }
 
 
-        showMessage(
-            "videoMessage",
-            "Video saved successfully.",
-            true
+    } catch (error) {
+
+        console.error(
+            "Pages loading error:",
+            error
         );
 
 
-        clearVideoForm();
+        pagesList.innerHTML = `
 
-        loadVideos();
+            <div class="error">
 
+                Unable to load pages right now.
 
-    }catch(error){
+            </div>
 
-        console.error(error);
-
-        showMessage(
-            "videoMessage",
-            "Could not save video: " + error.message,
-            false
-        );
-
-    }
-
-};
-
-
-/* ================= EDIT VIDEO ================= */
-
-window.editVideo =
-async function(id){
-
-    try{
-
-        const snap =
-            await getDoc(
-                doc(db,"siteVideos",id)
-            );
-
-
-        if(!snap.exists()){
-
-            alert("Video not found.");
-
-            return;
-        }
-
-
-        const video =
-            snap.data();
-
-
-        document.getElementById("editVideoId")
-            .value = id;
-
-        document.getElementById("videoTitle")
-            .value = video.title || "";
-
-        document.getElementById("videoDescription")
-            .value = video.description || "";
-
-        document.getElementById("videoURL")
-            .value = video.videoURL || "";
-
-        document.getElementById("videoThumbnail")
-            .value = video.thumbnailURL || "";
-
-        document.getElementById("videoPrice")
-            .value = video.price || 0;
-
-
-        document.getElementById("videoFormTitle")
-            .textContent = "Edit Video";
-
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Could not open video.");
-
-    }
-
-};
-
-
-/* ================= CLEAR VIDEO ================= */
-
-window.clearVideoForm =
-function(){
-
-    document.getElementById("editVideoId")
-        .value = "";
-
-    document.getElementById("videoTitle")
-        .value = "";
-
-    document.getElementById("videoDescription")
-        .value = "";
-
-    document.getElementById("videoURL")
-        .value = "";
-
-    document.getElementById("videoThumbnail")
-        .value = "";
-
-    document.getElementById("videoPrice")
-        .value = "0";
-
-    document.getElementById("videoFormTitle")
-        .textContent = "Add New Video";
-
-};
-
-
-/* ================= DELETE VIDEO ================= */
-
-window.deleteVideo =
-async function(id){
-
-    if(!confirm(
-        "Are you sure you want to delete this video?"
-    )) return;
-
-
-    try{
-
-        await deleteDoc(
-            doc(db,"siteVideos",id)
-        );
-
-        loadVideos();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not delete video: " +
-            error.message
-        );
-
-    }
-
-};
-
-
-/* ================= MARKETPLACE ================= */
-
-async function loadMarketplace(){
-
-    const products =
-        document.getElementById("productsList");
-
-    const services =
-        document.getElementById("servicesList");
-
-
-    products.innerHTML =
-        `<div class="loading">
-            Loading products...
-        </div>`;
-
-    services.innerHTML =
-        `<div class="loading">
-            Loading services...
-        </div>`;
-
-
-    try{
-
-        const snapshot =
-            await getDocs(
-                collection(db,"marketplace")
-            );
-
-
-        products.innerHTML = "";
-        services.innerHTML = "";
-
-
-        let productCount = 0;
-        let serviceCount = 0;
-
-
-        snapshot.forEach(item=>{
-
-            const data =
-                item.data();
-
-
-            const card =
-                createMarketplaceCard(
-                    item.id,
-                    data
-                );
-
-
-            if(data.type==="service"){
-
-                services.appendChild(card);
-
-                serviceCount++;
-
-            }else{
-
-                products.appendChild(card);
-
-                productCount++;
-
-            }
-
-        });
-
-
-        if(productCount===0){
-
-            products.innerHTML =
-                `<div class="empty">
-                    No products added yet.
-                </div>`;
-
-        }
-
-
-        if(serviceCount===0){
-
-            services.innerHTML =
-                `<div class="empty">
-                    No services added yet.
-                </div>`;
-
-        }
-
-
-    }catch(error){
-
-        console.error(error);
-
-        products.innerHTML =
-            `<div class="empty">
-                Could not load products.
-            </div>`;
-
-        services.innerHTML =
-            `<div class="empty">
-                Could not load services.
-            </div>`;
-
-    }
-
-}
-
-
-/* ================= MARKETPLACE CARD ================= */
-
-function createMarketplaceCard(id,item){
-
-    const card =
-        document.createElement("div");
-
-    card.className =
-        "item-card";
-
-
-    let image = "";
-
-    if(item.imageURL){
-
-        image = `
-            <img
-                src="${item.imageURL}"
-                alt="${escapeHtml(
-                    item.name || "Marketplace item"
-                )}"
-            >
         `;
 
     }
 
+}
 
-    card.innerHTML = `
 
-        ${image}
+/* =========================
+   LOAD VIDEOS
+========================= */
 
-        <h3>
-            ${escapeHtml(
-                item.name || "Unnamed item"
-            )}
-        </h3>
+async function loadVideos() {
 
-        <p>
-            ${escapeHtml(
-                item.description || ""
-            )}
-        </p>
+    try {
 
-        <div class="price">
+        const videosQuery =
+            query(
+                collection(
+                    db,
+                    "siteVideos"
+                ),
+                orderBy(
+                    "createdAt",
+                    "desc"
+                ),
+                limit(50)
+            );
 
-            ${
-                Number(item.price || 0) > 0
-                ?
-                "$" +
-                Number(item.price).toFixed(2)
-                :
-                "Contact Admin"
+
+        const snapshot =
+            await getDocs(
+                videosQuery
+            );
+
+
+        videosList.innerHTML = "";
+
+
+        let videoCount = 0;
+
+
+        snapshot.forEach(
+            (doc) => {
+
+                const data =
+                    doc.data();
+
+
+                /*
+                 Only show active videos.
+                 */
+
+                if (
+                    data.active === false ||
+                    !data.videoURL
+                ) {
+
+                    return;
+
+                }
+
+
+                videoCount++;
+
+
+                const card =
+                    document.createElement(
+                        "div"
+                    );
+
+                card.className =
+                    "card video-card";
+
+
+                const title =
+                    escapeHtml(
+                        data.title ||
+                        "Video"
+                    );
+
+
+                const description =
+                    escapeHtml(
+                        data.description ||
+                        ""
+                    );
+
+
+                let poster = "";
+
+                if (
+                    data.thumbnailURL
+                ) {
+
+                    poster =
+                        ` poster="${escapeHtml(
+                            data.thumbnailURL
+                        )}"`;
+
+                }
+
+
+                let price = "";
+
+                if (
+                    data.price !== undefined &&
+                    data.price !== null &&
+                    data.price !== ""
+                ) {
+
+                    price = `
+
+                        <div class="price">
+
+                            Price:
+                            ${escapeHtml(
+                                String(data.price)
+                            )}
+
+                        </div>
+
+                    `;
+
+                }
+
+
+                card.innerHTML = `
+
+                    <video
+                        controls
+                        preload="metadata"
+                        ${poster}
+                    >
+
+                        <source
+                            src="${escapeHtml(
+                                data.videoURL
+                            )}"
+                            type="video/mp4"
+                        >
+
+                        Your browser does not
+                        support video playback.
+
+                    </video>
+
+
+                    <div class="video-info">
+
+                        <h3>
+                            🎥 ${title}
+                        </h3>
+
+                        ${
+                            description
+                            ? `<p>${description}</p>`
+                            : ""
+                        }
+
+                        ${price}
+
+                    </div>
+
+                `;
+
+
+                videosList.appendChild(
+                    card
+                );
+
             }
-
-        </div>
-
-        <p>
-            <strong>
-                ${item.type==="service"
-                    ? "Service Provider:"
-                    : "Seller:"
-                }
-            </strong>
-
-            ${escapeHtml(
-                item.seller || "Admin"
-            )}
-
-        </p>
-
-        ${
-            item.contact
-            ?
-            `<p>
-                <strong>Contact:</strong>
-                ${escapeHtml(item.contact)}
-            </p>`
-            :
-            ""
-        }
-
-        <div class="actions">
-
-            <button
-                class="edit-btn"
-                onclick="editMarketplaceItem('${id}')">
-
-                Edit
-
-            </button>
-
-            <button
-                class="delete-btn"
-                onclick="deleteMarketplaceItem('${id}')">
-
-                Delete
-
-            </button>
-
-        </div>
-
-    `;
-
-
-    return card;
-
-}
-
-
-/* ================= SAVE MARKETPLACE ================= */
-
-window.saveMarketplaceItem =
-async function(){
-
-    const type =
-        document.getElementById("marketplaceType")
-        .value;
-
-    const name =
-        document.getElementById("marketplaceName")
-        .value.trim();
-
-    const description =
-        document.getElementById("marketplaceDescription")
-        .value.trim();
-
-    const price =
-        Number(
-            document.getElementById("marketplacePrice")
-            .value || 0
         );
 
-    const imageURL =
-        document.getElementById("marketplaceImage")
-        .value.trim();
 
-    const seller =
-        document.getElementById("marketplaceSeller")
-        .value.trim();
+        if (videoCount === 0) {
 
-    const contact =
-        document.getElementById("marketplaceContact")
-        .value.trim();
+            videosList.innerHTML = `
 
-    const editId =
-        document.getElementById("editMarketplaceId")
-        .value;
+                <div class="empty">
 
+                    No videos have been
+                    published yet.
 
-    if(!name){
+                </div>
 
-        showMessage(
-            "marketplaceMessage",
-            "Please enter a name.",
-            false
-        );
-
-        return;
-    }
-
-
-    try{
-
-        const data = {
-
-            type,
-            name,
-            description,
-            price,
-            imageURL,
-            seller,
-            contact,
-            updatedAt:serverTimestamp()
-
-        };
-
-
-        if(editId){
-
-            await updateDoc(
-                doc(db,"marketplace",editId),
-                data
-            );
-
-        }else{
-
-            await addDoc(
-                collection(db,"marketplace"),
-                {
-                    ...data,
-                    createdAt:serverTimestamp()
-                }
-            );
+            `;
 
         }
 
 
-        showMessage(
-            "marketplaceMessage",
-            "Marketplace item saved successfully.",
-            true
+    } catch (error) {
+
+        console.error(
+            "Video loading error:",
+            error
         );
 
 
-        clearMarketplaceForm();
+        videosList.innerHTML = `
 
-        loadMarketplace();
+            <div class="error">
 
+                Unable to load videos
+                right now.
 
-    }catch(error){
+            </div>
 
-        console.error(error);
-
-        showMessage(
-            "marketplaceMessage",
-            "Could not save item: " +
-            error.message,
-            false
-        );
+        `;
 
     }
-
-};
-
-
-/* ================= EDIT MARKETPLACE ================= */
-
-window.editMarketplaceItem =
-async function(id){
-
-    try{
-
-        const snap =
-            await getDoc(
-                doc(db,"marketplace",id)
-            );
-
-
-        if(!snap.exists()){
-
-            alert("Marketplace item not found.");
-
-            return;
-        }
-
-
-        const item =
-            snap.data();
-
-
-        document.getElementById(
-            "editMarketplaceId"
-        ).value = id;
-
-
-        document.getElementById(
-            "marketplaceType"
-        ).value =
-            item.type || "product";
-
-
-        document.getElementById(
-            "marketplaceName"
-        ).value =
-            item.name || "";
-
-
-        document.getElementById(
-            "marketplaceDescription"
-        ).value =
-            item.description || "";
-
-
-        document.getElementById(
-            "marketplacePrice"
-        ).value =
-            item.price || 0;
-
-
-        document.getElementById(
-            "marketplaceImage"
-        ).value =
-            item.imageURL || "";
-
-
-        document.getElementById(
-            "marketplaceSeller"
-        ).value =
-            item.seller || "";
-
-
-        document.getElementById(
-            "marketplaceContact"
-        ).value =
-            item.contact || "";
-
-
-        document.getElementById(
-            "marketplaceFormTitle"
-        ).textContent =
-            "Edit Marketplace Item";
-
-
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
-
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not open marketplace item."
-        );
-
-    }
-
-};
-
-
-/* ================= CLEAR MARKETPLACE ================= */
-
-window.clearMarketplaceForm =
-function(){
-
-    document.getElementById(
-        "editMarketplaceId"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceType"
-    ).value = "product";
-
-    document.getElementById(
-        "marketplaceName"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceDescription"
-    ).value = "";
-
-    document.getElementById(
-        "marketplacePrice"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceImage"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceSeller"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceContact"
-    ).value = "";
-
-    document.getElementById(
-        "marketplaceFormTitle"
-    ).textContent =
-        "Add Marketplace Item";
-
-};
-
-
-/* ================= DELETE MARKETPLACE ================= */
-
-window.deleteMarketplaceItem =
-async function(id){
-
-    if(!confirm(
-        "Are you sure you want to delete this marketplace item?"
-    )) return;
-
-
-    try{
-
-        await deleteDoc(
-            doc(db,"marketplace",id)
-        );
-
-        loadMarketplace();
-
-    }catch(error){
-
-        console.error(error);
-
-        alert(
-            "Could not delete item: " +
-            error.message
-        );
-
-    }
-
-};
-
-
-/* ================= VIEW PAGE ================= */
-
-window.viewPage =
-function(pageString){
-
-    const page =
-        JSON.parse(pageString);
-
-
-    document.getElementById(
-        "modalTitle"
-    ).textContent =
-        page.pageName ||
-        page.name ||
-        "Page Details";
-
-
-    document.getElementById(
-        "modalContent"
-    ).innerHTML = `
-
-        <p>
-            <strong>Name:</strong>
-            ${escapeHtml(
-                page.pageName ||
-                page.name ||
-                ""
-            )}
-        </p>
-
-        <p>
-            <strong>Email:</strong>
-            ${escapeHtml(
-                page.ownerEmail ||
-                page.email ||
-                "Not provided"
-            )}
-        </p>
-
-        <p>
-            <strong>Description:</strong>
-            ${escapeHtml(
-                page.description ||
-                page.about ||
-                "Not provided"
-            )}
-        </p>
-
-    `;
-
-
-    document.getElementById(
-        "viewModal"
-    ).style.display =
-        "block";
-
-};
-
-
-window.closeModal =
-function(){
-
-    document.getElementById(
-        "viewModal"
-    ).style.display =
-        "none";
-
-};
-
-
-/* ================= MESSAGE ================= */
-
-function showMessage(
-    elementId,
-    text,
-    success
-){
-
-    const element =
-        document.getElementById(elementId);
-
-    element.textContent = text;
-
-    element.className =
-        "message " +
-        (success ? "success" : "error");
-
-    element.style.display =
-        "block";
-
-    setTimeout(()=>{
-        element.style.display =
-            "none";
-    },4000);
 
 }
 
 
-/* ================= HTML SAFETY ================= */
+/* START */
 
-function escapeHtml(value){
+loadPagesAndPosts();
 
-    return String(value || "")
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
-}
-
-
-/* ================= LOGOUT ================= */
-
-window.logout =
-async function(){
-
-    try{
-
-        await signOut(auth);
-
-        window.location.href =
-            "login.html";
-
-    }catch(error){
-
-        console.error(error);
-
-        alert("Logout failed.");
-
-    }
-
-};
-
-
-/*
-========================================================
-PART 3
-========================================================
-
-NEXT WE WILL CONNECT:
-
-1. Marketplace customer messages
-2. Messages going to ADMIN
-3. Existing website Settings
-4. Contact settings
-5. Public connection for Videos
-6. Public connection for Marketplace
-7. Remove the old Gallery/Services links where needed
-
-IMPORTANT:
-THE EXISTING CHAT WILL NOT BE REBUILT OR CHANGED.
-
-========================================================
-*/
+loadVideos();
 
 </script>
 
