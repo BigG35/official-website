@@ -1,1416 +1,1577 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-
-<meta charset="UTF-8">
-
-<meta
+<!DOCTYPE html>  <html lang="en">  <head>  <meta charset="UTF-8">  <meta
 name="viewport"
-content="width=device-width,initial-scale=1.0"
->
+content="width=device-width, initial-scale=1.0"
 
-<title>Logical World</title>
+> 
 
-<style>
-
-*{
-box-sizing:border-box;
-}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f5f5f5;
-color:#222;
-}
-
-header{
-background:#0a4ea3;
-color:white;
-padding:15px 20px;
-display:flex;
-align-items:center;
-justify-content:space-between;
-flex-wrap:wrap;
-}
-
-.logo{
-font-size:26px;
-font-weight:bold;
-}
-
-.search-box{
-display:flex;
-gap:5px;
-}
-
-.search-box input{
-padding:10px;
-border:none;
-border-radius:5px;
-width:220px;
-}
-
-.search-box button{
-padding:10px 15px;
-border:none;
-border-radius:5px;
-background:white;
-color:#0a4ea3;
-font-weight:bold;
-cursor:pointer;
-}
-
-nav{
-background:#083b7a;
-display:flex;
-justify-content:center;
-flex-wrap:wrap;
-}
-
-nav a{
-color:white;
-text-decoration:none;
-padding:14px 18px;
-display:block;
-}
-
-nav a:hover{
-background:#062e60;
-}
-
-.hero{
-padding:45px 20px;
-text-align:center;
-background:white;
-}
-
-.hero h1{
-margin:0 0 10px;
-font-size:34px;
-color:#0a4ea3;
-}
-
-.hero p{
-font-size:18px;
-margin:0;
-}
-
-section{
-padding:30px 20px;
-max-width:1200px;
-margin:auto;
-}
-
-.section-title{
-text-align:center;
-font-size:28px;
-color:#0a4ea3;
-margin-bottom:25px;
-}
-
-.approved-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
-gap:20px;
-}
-
-.page-card{
-background:white;
-border-radius:12px;
-box-shadow:
-0 2px 10px rgba(0,0,0,.15);
-overflow:hidden;
-cursor:pointer;
-}
-
-.page-card img{
-width:100%;
-height:auto;
-display:block;
-}
-
-.page-info{
-padding:15px;
-}
-
-.page-name{
-font-size:21px;
-font-weight:bold;
-color:#0a4ea3;
-margin-bottom:10px;
-}
-
-.post-text{
-font-size:16px;
-white-space:pre-wrap;
-margin-bottom:10px;
-}
-
-.post-media{
-width:100%;
-height:auto;
-display:block;
-border-radius:8px;
-margin-top:10px;
-}
-
-.post-date{
-font-size:13px;
-color:#777;
-margin-top:10px;
-}
-
-/* =========================
-   ORIGINAL VIDEO SECTION
-========================= */
-
-.video-card{
-background:white;
-border-radius:12px;
-box-shadow:
-0 2px 10px rgba(0,0,0,.15);
-overflow:hidden;
-cursor:pointer;
-}
-
-.video-preview{
-position:relative;
-background:#111;
-min-height:200px;
-display:flex;
-align-items:center;
-justify-content:center;
-}
-
-.video-preview video{
-width:100%;
-height:auto;
-display:block;
-}
-
-.video-play{
-position:absolute;
-top:50%;
-left:50%;
-transform:
-translate(-50%,-50%);
-
-width:65px;
-height:65px;
-
-border-radius:50%;
-
-background:rgba(0,0,0,.75);
-
-color:white;
-
-display:flex;
-align-items:center;
-justify-content:center;
-
-font-size:30px;
-}
-
-.video-info{
-padding:15px;
-}
-
-.video-title{
-font-size:20px;
-font-weight:bold;
-color:#0a4ea3;
-margin-bottom:8px;
-}
-
-.video-description{
-font-size:16px;
-white-space:pre-wrap;
-margin-bottom:10px;
-}
-
-.services-grid{
-display:grid;
-grid-template-columns:
-repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-}
-
-.service-card{
-background:white;
-padding:20px;
-border-radius:12px;
-box-shadow:
-0 2px 10px rgba(0,0,0,.12);
-text-align:center;
-}
-
-.service-card h3{
-color:#0a4ea3;
-}
-
-.contact-box{
-background:white;
-padding:25px;
-border-radius:12px;
-box-shadow:
-0 2px 10px rgba(0,0,0,.12);
-}
-
-.contact-box p{
-margin:10px 0;
-}
-
-footer{
-background:#083b7a;
-color:white;
-text-align:center;
-padding:25px 15px;
-margin-top:30px;
-}
-
-.loading{
-text-align:center;
-padding:25px;
-font-size:17px;
-color:#666;
-}
-
-.error{
-background:#ffe5e5;
-color:#b00020;
-padding:20px;
-border-radius:10px;
-text-align:center;
-}
-
-@media(max-width:600px){
-
-header{
-flex-direction:column;
-gap:12px;
-}
-
-.search-box{
-width:100%;
-}
-
-.search-box input{
-width:100%;
-}
-
-.hero h1{
-font-size:28px;
-}
-
-section{
-padding:25px 15px;
-}
-
-}
-
-</style>
-
-</head>
-
-<body>
-
-<header>
-
-<div class="logo">
-Logical World
-</div>
-
-<div class="search-box">
-
-<input
+<title>Logical World</title>  <style>  
+  
+/* =========================  
+   BASIC  
+========================= */  
+  
+*{  
+margin:0;  
+padding:0;  
+box-sizing:border-box;  
+font-family:Arial,sans-serif;  
+}  
+  
+body{  
+background:#f5f5f5;  
+color:#333;  
+line-height:1.6;  
+}  
+  
+  
+/* =========================  
+   HEADER  
+========================= */  
+  
+header{  
+background:#0a4ea3;  
+color:white;  
+padding:20px;  
+text-align:center;  
+}  
+  
+header h1{  
+font-size:40px;  
+}  
+  
+header p{  
+font-size:18px;  
+margin-top:8px;  
+}  
+  
+  
+/* =========================  
+   SEARCH  
+========================= */  
+  
+.search-box{  
+text-align:center;  
+padding:15px;  
+background:white;  
+}  
+  
+.search-box input{  
+width:70%;  
+max-width:500px;  
+padding:12px;  
+border:1px solid #ccc;  
+border-radius:6px;  
+font-size:16px;  
+}  
+  
+.search-box button{  
+padding:12px 18px;  
+border:none;  
+border-radius:6px;  
+background:#0a4ea3;  
+color:white;  
+font-weight:bold;  
+cursor:pointer;  
+}  
+  
+.search-box button:hover{  
+background:#083d82;  
+}  
+  
+  
+/* =========================  
+   NAVIGATION  
+========================= */  
+  
+nav{  
+background:#222;  
+display:flex;  
+justify-content:center;  
+flex-wrap:wrap;  
+padding:15px;  
+}  
+  
+nav a{  
+color:white;  
+text-decoration:none;  
+padding:10px 15px;  
+font-weight:bold;  
+}  
+  
+nav a:hover{  
+background:#0a4ea3;  
+border-radius:5px;  
+}  
+  
+  
+/* =========================  
+   HERO  
+========================= */  
+  
+.hero{  
+background:  
+linear-gradient(  
+rgba(0,0,0,.55),  
+rgba(0,0,0,.55)  
+);  
+  
+min-height:400px;  
+  
+display:flex;  
+  
+justify-content:center;  
+  
+align-items:center;  
+  
+text-align:center;  
+  
+color:white;  
+  
+padding:30px 20px;  
+}  
+  
+.hero-content{  
+max-width:800px;  
+}  
+  
+.hero h2{  
+font-size:42px;  
+margin-bottom:15px;  
+}  
+  
+.hero p{  
+font-size:20px;  
+margin-bottom:25px;  
+}  
+  
+.button{  
+display:inline-block;  
+  
+background:#0a4ea3;  
+  
+color:white;  
+  
+padding:15px 30px;  
+  
+text-decoration:none;  
+  
+border-radius:8px;  
+  
+font-size:18px;  
+  
+font-weight:bold;  
+}  
+  
+.button:hover{  
+background:#083b7a;  
+}  
+  
+  
+/* =========================  
+   SECTIONS  
+========================= */  
+  
+section{  
+padding:50px 20px;  
+max-width:1200px;  
+margin:auto;  
+}  
+  
+.section-title{  
+text-align:center;  
+font-size:34px;  
+color:#0a4ea3;  
+margin-bottom:35px;  
+}  
+  
+  
+/* =========================  
+   APPROVED PAGES  
+========================= */  
+  
+.approved-grid{  
+display:grid;  
+  
+grid-template-columns:  
+repeat(  
+auto-fit,  
+minmax(280px,1fr)  
+);  
+  
+gap:20px;  
+}  
+  
+.page-card{  
+background:white;  
+  
+border-radius:12px;  
+  
+box-shadow:  
+0 2px 10px rgba(0,0,0,.15);  
+  
+overflow:hidden;  
+}  
+  
+.page-header{  
+padding:18px;  
+  
+text-align:center;  
+  
+border-bottom:1px solid #eee;  
+}  
+  
+.page-link{  
+text-decoration:none;  
+color:inherit;  
+}  
+  
+.business-logo{  
+width:110px;  
+height:110px;  
+  
+border-radius:50%;  
+  
+object-fit:cover;  
+  
+display:block;  
+  
+margin:0 auto 12px;  
+  
+border:4px solid #0a4ea3;  
+  
+background:#eee;  
+}  
+  
+.business-name{  
+font-size:21px;  
+  
+font-weight:bold;  
+  
+color:#0a4ea3;  
+}  
+  
+.latest-label{  
+font-size:14px;  
+  
+font-weight:bold;  
+  
+color:#777;  
+  
+margin-top:4px;  
+}  
+  
+  
+/* =========================  
+   LATEST POST  
+========================= */  
+  
+.latest-post{  
+padding:18px;  
+}  
+  
+.latest-post h4{  
+font-size:18px;  
+  
+color:#0a4ea3;  
+  
+margin-bottom:8px;  
+}  
+  
+.latest-post-text{  
+font-size:16px;  
+  
+margin-bottom:12px;  
+  
+white-space:pre-wrap;  
+}  
+  
+.latest-media{  
+width:100%;  
+  
+max-height:400px;  
+  
+object-fit:contain;  
+  
+border-radius:10px;  
+  
+background:#111;  
+  
+display:block;  
+}  
+  
+.post-date{  
+font-size:13px;  
+  
+color:#777;  
+  
+margin-top:10px;  
+}  
+  
+.no-post{  
+text-align:center;  
+  
+color:#777;  
+  
+font-size:15px;  
+  
+padding:10px 0;  
+}  
+  
+  
+/* =========================  
+   GENERAL CARDS  
+========================= */  
+  
+.cards{  
+display:grid;  
+  
+grid-template-columns:  
+repeat(  
+auto-fit,  
+minmax(250px,1fr)  
+);  
+  
+gap:20px;  
+}  
+  
+.card{  
+background:white;  
+  
+padding:20px;  
+  
+border-radius:10px;  
+  
+box-shadow:  
+0 0 10px rgba(0,0,0,.15);  
+  
+text-align:center;  
+}  
+  
+.card img{  
+width:100%;  
+  
+border-radius:10px;  
+  
+margin-bottom:15px;  
+}  
+  
+.card h3{  
+color:#0a4ea3;  
+  
+margin-bottom:10px;  
+}  
+  
+.card p{  
+font-size:15px;  
+}  
+  
+  
+/* =========================  
+   LOADING  
+========================= */  
+  
+.loading{  
+text-align:center;  
+  
+padding:30px;  
+  
+color:#666;  
+  
+font-size:17px;  
+}  
+  
+  
+/* =========================  
+   ERROR  
+========================= */  
+  
+.error{  
+text-align:center;  
+  
+padding:30px;  
+  
+color:#842029;  
+  
+background:#f8d7da;  
+  
+border-radius:8px;  
+}  
+  
+  
+/* =========================  
+   FOOTER  
+========================= */  
+  
+footer{  
+background:#0a4ea3;  
+  
+color:white;  
+  
+text-align:center;  
+  
+padding:25px;  
+  
+margin-top:50px;  
+}  
+  
+  
+/* =========================  
+   MOBILE  
+========================= */  
+  
+@media(max-width:600px){  
+  
+header h1{  
+font-size:30px;  
+}  
+  
+.hero h2{  
+font-size:32px;  
+}  
+  
+.hero p{  
+font-size:17px;  
+}  
+  
+.search-box input{  
+width:65%;  
+}  
+  
+.search-box button{  
+padding:12px;  
+}  
+  
+.approved-grid{  
+grid-template-columns:1fr;  
+}  
+  
+.business-logo{  
+width:100px;  
+height:100px;  
+}  
+  
+.latest-media{  
+max-height:350px;  
+}  
+  
+}  
+  
+</style>  </head>  <body>  <!-- =========================  
+     HEADER  
+========================= -->  <header>  <h1>  
+🌍 Logical World  
+</h1>  <p>  
+Connecting People, Products & Services.  
+</p>  </header>  <!-- =========================  
+     SEARCH  
+========================= -->  <div class="search-box">  <input
 type="text"
 id="searchInput"
-placeholder="Search"
->
+placeholder="Search pages and posts..."
 
-<button id="searchBtn">
-Search
-</button>
+> 
 
-</div>
+<button id="searchBtn">  
+Search  
+</button>  </div>  <!-- =========================  
+     NAVIGATION  
+========================= -->  <nav>  <a href="index.html">  
+🏠 Home  
+</a>  <a href="gallery.html">  
+📸 Gallery  
+</a>  <a href="videos.html">  
+🎥 Videos  
+</a>  <a href="marketplace.html">  
+🛒 Marketplace  
+</a>  <a href="services.html">  
+🏠 Services  
+</a>  <a href="contact.html">  
+📞 Contact  
+</a>  <a href="login.html">  
+🔐 Login  
+</a>  </nav>  <!-- =========================  
+     HERO  
+========================= -->  <div class="hero">  <div class="hero-content">  <h2>  
+Welcome to Logical World  
+</h2>  <p>  
+Explore photos, videos, products and trusted services from different pages all in one place.  
+</p>  <a
+href="create-page.html"
+class="button"
 
-</header>
+> 
 
-<nav>
+➕ Create Your Own Page
+</a>
 
-<a href="index.html">Home</a>
+<p  
+style="  
+margin-top:15px;  
+font-size:15px;  
+"  
+>  All submitted pages are reviewed by the Logical World Admin before becoming public.
 
-<a href="approved-pages.html">Pages</a>
+</p>  </div>  </div>  <!-- =========================  
+     APPROVED PAGES  
+========================= -->  <section>  <h2 class="section-title">  🌍 Pages & Latest Posts
 
-<a href="videos.html">Videos</a>
+</h2>  <div  
+id="approvedPagesList"  
+class="approved-grid"  
+>  <div class="loading">  Loading pages and latest posts...
 
-<a href="marketplace.html">Marketplace</a>
+</div>  </div>  </section>  <!-- =========================  
+     HOME SERVICES  
+========================= -->  <section>  <h2 class="section-title">  Home Services
 
-<a href="gallery.html">Gallery</a>
+</h2>  <div class="cards">  <!-- CLEANING -->  <div class="card">  <h3 id="serviceTitle1">  Cleaning Services
 
-<a href="#contact">Contact</a>
+</h3>  <p id="serviceDescription1">  Book trusted cleaning services easily.
 
-<a href="login.html">Login</a>
+</p>  </div>  <!-- REPAIRS -->  <div class="card">  <h3 id="serviceTitle2">  Repairs
 
-</nav>
+</h3>  <p id="serviceDescription2">  Find reliable repair professionals.
 
-<div class="hero">
+</p>  </div>  <!-- DELIVERY -->  <div class="card">  <h3 id="serviceTitle3">  Delivery
 
-<h1>
-Welcome to Logical World
-</h1>
+</h3>  <p id="serviceDescription3">  Fast and secure delivery services.
 
-<p>
-Discover businesses, services, posts,
-videos and more.
-</p>
+</p>  </div>  </div>  </section>  <!-- =========================  
+     CONTACT  
+========================= -->  <section>  <h2 class="section-title">  Contact Us
 
-</div>
+</h2>  <div class="cards">  <!-- PHONE -->  <div class="card">  <h3>  📞 Phone
 
-<section>
+</h3>  <p id="contactPhone">  Your phone number will appear here.
 
-<h2 class="section-title">
-Pages & Latest Posts
-</h2>
+</p>  </div>  <!-- EMAIL -->  <div class="card">  <h3>  📧 Email
 
-<div
-id="approvedPagesList"
-class="approved-grid"
->
+</h3>  <p id="contactEmail">  Your email address will appear here.
 
-<div class="loading">
-Loading pages...
-</div>
+</p>  </div>  <!-- WHATSAPP / ZANGI -->  <div class="card">  <h3>  💬 WhatsApp / Zangi
 
-</div>
+</h3>  <p id="contactWhatsapp">  Contact options will appear here.
 
-   </section>
-   <!-- =========================
-     ORIGINAL VIDEO SECTION
+</p>  </div>  </div>  </section>  
+<!-- =========================  
+ FOOTER
+
 ========================= -->
 
-<section>
-
-<h2 class="section-title">
-🎥 Videos
-</h2>
-
-<div
-id="homeVideos"
-class="approved-grid"
->
-
-<div class="loading">
-Loading videos...
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     HOME SERVICES
-========================= -->
-
-<section>
-
-<h2 class="section-title">
-Home Services
-</h2>
-
-<div class="services-grid">
-
-<div class="service-card">
-
-<h3>
-Business Pages
-</h3>
-
-<p>
-Discover approved businesses
-and their latest posts.
-</p>
-
-</div>
-
-
-<div class="service-card">
-
-<h3>
-Marketplace
-</h3>
-
-<p>
-Find products and services
-from businesses on Logical World.
-</p>
-
-</div>
-
-
-<div class="service-card">
-
-<h3>
-Gallery
-</h3>
-
-<p>
-View photos and visual content
-shared on Logical World.
-</p>
-
-</div>
-
-
-<div class="service-card">
-
-<h3>
-Videos
-</h3>
-
-<p>
-Watch videos uploaded to
-Logical World.
-</p>
-
-</div>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     CONTACT
-========================= -->
-
-<section id="contact">
-
-<h2 class="section-title">
-Contact
-</h2>
-
-<div class="contact-box">
-
-<p>
-<strong>
-Logical World
-</strong>
-</p>
-
-<p>
-For enquiries, business information
-or support, please contact us.
-</p>
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     FOOTER
-========================= -->
-
-<footer>
-
-<p>
-&copy; 2026 Logical World.
-All rights reserved.
-</p>
-
-</footer>
-
-
-<script type="module">
-
-import { db } from "./firebase.js";
-
-import {
-collection,
-getDocs,
-doc,
-getDoc
-}
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
-
-/* =========================
-   ELEMENTS
-========================= */
-
-const approvedPagesList =
-document.getElementById(
-"approvedPagesList"
-);
-
-const homeVideos =
-document.getElementById(
-"homeVideos"
-);
-
-const searchInput =
-document.getElementById(
-"searchInput"
-);
-
-const searchBtn =
-document.getElementById(
-"searchBtn"
-);
-
-
-/* =========================
-   DATA
-========================= */
-
-let allPages = [];
-
-let allPosts = [];
-
-
-/* =========================
-   LOAD WEBSITE
-========================= */
-
-async function loadWebsite(){
-
-try{
-
-const pagesSnapshot =
-await getDocs(
-collection(
-db,
-"approvedPages"
-)
-);
-
-allPages =
-pagesSnapshot.docs.map(
-docSnap => ({
-id:docSnap.id,
-data:docSnap.data()
-})
-);
-
-
-const postsSnapshot =
-await getDocs(
-collection(
-db,
-"posts"
-)
-);
-
-allPosts =
-postsSnapshot.docs.map(
-docSnap => ({
-id:docSnap.id,
-data:docSnap.data()
-})
-);
-
-
-allPosts.sort(
-(a,b)=>
-getTime(b.data.createdAt)
--
-getTime(a.data.createdAt)
-);
-
-
-displayPages(
-allPages
-);
-
-
-await loadSettings();
-
-
-}catch(error){
-
-console.error(
-"Website loading error:",
-error
-);
-
-approvedPagesList.innerHTML = `
-
-<div class="error">
-
-<strong>
-Unable to load website.
-</strong>
-
-<br><br>
-
-${escapeHTML(error.message)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-/* =========================
-   DISPLAY PAGES
-========================= */
-
-function displayPages(pages){
-
-if(!pages.length){
-
-approvedPagesList.innerHTML = `
-
-<div class="loading">
-
-No approved pages yet.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-approvedPagesList.innerHTML = "";
-
-
-pages.forEach(page=>{
-
-const data =
-page.data;
-
-
-const latestPost =
-allPosts.find(
-post =>
-post.data.pageId === page.id
-);
-
-
-const card =
-document.createElement("div");
-
-card.className =
-"page-card";
-
-
-if(data.logoURL){
-
-const logo =
-document.createElement("img");
-
-logo.src =
-data.logoURL;
-
-logo.alt =
-data.pageName ||
-"Business logo";
-
-card.appendChild(
-logo
-);
-
-}
-
-
-const info =
-document.createElement("div");
-
-info.className =
-"page-info";
-
-
-let html = `
-
-<div class="page-name">
-
-${escapeHTML(
-data.pageName ||
-data.name ||
-"Business Page"
-)}
-
-</div>
-
-`;
-
-
-if(latestPost){
-
-const post =
-latestPost.data;
-
-
-if(post.text){
-
-html += `
-
-<div class="post-text">
-
-${escapeHTML(
-post.text
-)}
-
-</div>
-
-`;
-
-}
-
-
-if(post.mediaURL){
-
-if(
-post.mediaType ===
-"video"
-){
-
-html += `
-
-<video
-class="post-media"
-controls
-playsinline
-preload="metadata"
-src="${escapeAttribute(
-post.mediaURL
-)}"
-></video>
-
-`;
-
-}else{
-
-html += `
-
-<img
-class="post-media"
-src="${escapeAttribute(
-post.mediaURL
-)}"
-alt="Post image"
->
-
-`;
-
-}
-
-
-html += `
-
-<div class="post-date">
-
-${formatDate(
-post.createdAt
-)}
-
-</div>
-
-`;
-
-}
-
-}
-
-
-card.addEventListener(
-"click",
-()=>{
-
-window.location.href =
-`business.html?id=${encodeURIComponent(
-page.id
-)}`;
-
-}
-);
-
-
-info.innerHTML =
-html;
-
-card.appendChild(
-info
-);
-
-approvedPagesList.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =========================
-   LOAD VIDEOS
-========================= */
-
-async function loadHomeVideos(){
-
-try{
-
-homeVideos.innerHTML = `
-
-<div class="loading">
-
-Loading videos...
-
-</div>
-
-`;
-
-
-const videosSnapshot =
-await getDocs(
-collection(
-db,
-"siteVideos"
-)
-);
-
-
-if(videosSnapshot.empty){
-
-homeVideos.innerHTML = `
-
-<div class="loading">
-
-No videos uploaded yet.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-const videos =
-videosSnapshot.docs.map(
-docSnap => ({
-id:docSnap.id,
-data:docSnap.data()
-})
-);
-
-
-videos.sort(
-(a,b)=>
-getTime(
-b.data.createdAt
-)
--
-getTime(
-a.data.createdAt
-)
-);
-
-
-homeVideos.innerHTML = "";
-
-
-videos.forEach(
-video=>{
-
-const data =
-video.data;
-
-
-const videoURL =
-data.videoURL ||
-data.videoUrl ||
-data.url ||
-data.mediaURL ||
-data.secure_url ||
-data.secureUrl ||
-"";
-
-
-if(!videoURL){
-return;
-}
-
-
-const card =
-document.createElement("div");
-
-card.className =
-"video-card";
-
-
-/* Video preview */
-
-const preview =
-document.createElement("div");
-
-preview.className =
-"video-preview";
-
-
-const videoElement =
-document.createElement("video");
-
-videoElement.src =
-videoURL;
-
-videoElement.preload =
-"metadata";
-
-videoElement.muted =
-true;
-
-videoElement.playsInline =
-true;
-
-
-/*
-Do not show video controls
-on the homepage preview.
-*/
-
-videoElement.controls =
-false;
-
-
-/* Play button */
-
-const playButton =
-document.createElement("div");
-
-playButton.className =
-"video-play";
-
-playButton.innerHTML =
-"▶";
-
-
-preview.appendChild(
-videoElement
-);
-
-preview.appendChild(
-playButton
-);
-
-
-/* Video information */
-
-const info =
-document.createElement("div");
-
-info.className =
-"video-info";
-
-
-let infoHTML = `
-
-<div class="video-title">
-
-${escapeHTML(
-data.title ||
-"Video"
-)}
-
-</div>
-
-`;
-
-
-if(data.description){
-
-infoHTML += `
-
-<div class="video-description">
-
-${escapeHTML(
-data.description
-)}
-
-</div>
-
-`;
-
-}
-
-
-infoHTML += `
-
-<div class="post-date">
-
-${formatDate(
-data.createdAt
-)}
-
-</div>
-
-`;
-
-
-info.innerHTML =
-infoHTML;
-
-
-card.appendChild(
-preview
-);
-
-card.appendChild(
-info
-);
-
-
-/*
-Only open the video after
-the visitor taps the card.
-*/
-
-card.addEventListener(
-"click",
-()=>{
-
-const encodedURL =
-encodeURIComponent(
-videoURL
-);
-
-window.location.href =
-`videos.html?video=${encodedURL}`;
-
-}
-);
-
-
-homeVideos.appendChild(
-card
-);
-
-});
-
-
-if(
-homeVideos.children.length === 0
-){
-
-homeVideos.innerHTML = `
-
-<div class="loading">
-
-No playable videos found.
-
-</div>
-
-`;
-
-}
-
-
-}catch(error){
-
-console.error(
-"Home video loading error:",
-error
-);
-
-homeVideos.innerHTML = `
-
-<div class="error">
-
-<strong>
-Unable to load videos.
-</strong>
-
-<br><br>
-
-${escapeHTML(
-error.message
-)}
-
-</div>
-
-`;
-
-}
-
-}
-   /* =========================
-   LOAD SETTINGS
-========================= */
-
-async function loadSettings(){
-
-try{
-
-const settingsRef =
-doc(
-db,
-"settings",
-"website"
-);
-
-const settingsSnap =
-await getDoc(
-settingsRef
-);
-
-if(
-!settingsSnap.exists()
-){
-
-return;
-
-}
-
-const settings =
-settingsSnap.data();
-
-
-if(
-settings.siteName
-){
-
-document.title =
-settings.siteName;
-
-}
-
-
-const logoElement =
-document.querySelector(
-".logo"
-);
-
-if(
-logoElement &&
-settings.siteName
-){
-
-logoElement.textContent =
-settings.siteName;
-
-}
-
-
-}catch(error){
-
-console.error(
-"Settings loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function searchWebsite(){
-
-const searchTerm =
-searchInput.value
-.trim()
-.toLowerCase();
-
-
-if(!searchTerm){
-
-displayPages(
-allPages
-);
-
-return;
-
-}
-
-
-const filteredPages =
-allPages.filter(
-page=>{
-
-const data =
-page.data;
-
-const pageName =
-String(
-data.pageName ||
-data.name ||
-""
-).toLowerCase();
-
-const description =
-String(
-data.description ||
-""
-).toLowerCase();
-
-
-return(
-pageName.includes(
-searchTerm
-) ||
-description.includes(
-searchTerm
-)
-);
-
-});
-
-
-displayPages(
-filteredPages
-);
-
-}
-
-
-/* =========================
-   SEARCH BUTTON
-========================= */
-
-searchBtn.addEventListener(
-"click",
-searchWebsite
-);
-
-
-/* =========================
-   ENTER KEY SEARCH
-========================= */
-
-searchInput.addEventListener(
-"keydown",
-event=>{
-
-if(
-event.key === "Enter"
-){
-
-searchWebsite();
-
-}
-
-});
-
-
-/* =========================
-   GET FIRESTORE TIME
-========================= */
-
-function getTime(timestamp){
-
-if(
-timestamp &&
-typeof timestamp.toMillis ===
-"function"
-){
-
-return timestamp.toMillis();
-
-}
-
-return 0;
-
-}
-
-
-/* =========================
-   FORMAT DATE
-========================= */
-
-function formatDate(timestamp){
-
-if(
-!timestamp ||
-typeof timestamp.toDate !==
-"function"
-){
-
-return "";
-
-}
-
-return timestamp
-.toDate()
-.toLocaleString();
-
-}
-
-
-/* =========================
-   ESCAPE HTML
-========================= */
-
-function escapeHTML(value){
-
-return String(value)
-
-.replace(
-/&/g,
-"&amp;"
-)
-
-.replace(
-/</g,
-"&lt;"
-)
-
-.replace(
-/>/g,
-"&gt;"
-)
-
-.replace(
-/"/g,
-"&quot;"
-)
-
-.replace(
-/'/g,
-"&#039;"
-);
-
-}
-
-
-/* =========================
-   ESCAPE ATTRIBUTE
-========================= */
-
-function escapeAttribute(value){
-
-return escapeHTML(
-value
-);
-
-}
-
-
-/* =========================
-   START
-========================= */
-
-loadWebsite();
-
-loadHomeVideos();
-
-</script>
-
-</body>
-
-</html>
+<footer>  <h3>  
+🌍 Logical World  
+</h3>  <p>  
+Connecting People, Products & Services.  
+</p>  <br>  <p>  
+© 2026 Logical World. All Rights Reserved.  
+</p>  </footer>  <!-- =========================  
+     FIREBASE  
+========================= -->  <script type="module">  
+  
+import {  
+db  
+}  
+from "./firebase.js";  
+  
+  
+import {  
+collection,  
+getDocs,  
+doc,  
+getDoc  
+}  
+from  
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";  
+  
+  
+/* =========================  
+   ELEMENTS  
+========================= */  
+  
+const approvedPagesList =  
+document.getElementById(  
+"approvedPagesList"  
+);  
+  
+const searchInput =  
+document.getElementById(  
+"searchInput"  
+);  
+  
+const searchBtn =  
+document.getElementById(  
+"searchBtn"  
+);  
+  
+  
+/* =========================  
+   DATA  
+========================= */  
+  
+let allPages = [];  
+  
+let allPosts = [];  
+  
+  
+/* =========================  
+   LOAD WEBSITE  
+========================= */  
+  
+async function loadWebsite(){  
+  
+try{  
+  
+approvedPagesList.innerHTML = `  
+  
+<div class="loading">  
+  
+Loading pages and latest posts...  
+  
+</div>  
+  
+`;  
+  
+  
+/* =========================  
+   LOAD APPROVED PAGES  
+========================= */  
+  
+const pagesSnapshot =  
+await getDocs(  
+collection(  
+db,  
+"approvedPages"  
+)  
+);  
+  
+  
+/* =========================  
+   LOAD POSTS  
+========================= */  
+  
+const postsSnapshot =  
+await getDocs(  
+collection(  
+db,  
+"posts"  
+)  
+);  
+  
+  
+allPages =  
+pagesSnapshot.docs.map(  
+docSnap => ({  
+  
+id:  
+docSnap.id,  
+  
+data:  
+docSnap.data()  
+  
+})  
+);  
+  
+  
+allPosts =  
+postsSnapshot.docs.map(  
+docSnap => ({  
+  
+id:  
+docSnap.id,  
+  
+data:  
+docSnap.data()  
+  
+})  
+);  
+  
+  
+/* =========================  
+   SORT POSTS  
+========================= */  
+  
+allPosts.sort(  
+(a,b)=>  
+getTime(  
+b.data.createdAt  
+)  
+-  
+getTime(  
+a.data.createdAt  
+)  
+);  
+  
+  
+/* =========================  
+   DISPLAY  
+========================= */  
+  
+displayPages(  
+allPages  
+);  
+  
+  
+/* =========================  
+   LOAD SETTINGS  
+========================= */  
+  
+await loadSettings();  
+  
+  
+}catch(error){  
+  
+console.error(  
+"Website loading error:",  
+error  
+);  
+  
+approvedPagesList.innerHTML = `  
+  
+<div class="error">  
+  
+<strong>  
+Unable to load pages and posts.  
+</strong>  
+  
+<br><br>  
+  
+${escapeHTML(  
+error.message  
+)}  
+  
+</div>  
+  
+`;  
+  
+}  
+  
+}  
+  
+  
+/* =========================  
+   DISPLAY PAGES  
+========================= */  
+  
+function displayPages(  
+pages  
+){  
+  
+approvedPagesList.innerHTML = "";  
+  
+  
+if(  
+pages.length === 0  
+){  
+  
+approvedPagesList.innerHTML = `  
+  
+<div class="loading">  
+  
+No approved pages yet.  
+  
+</div>  
+  
+`;  
+  
+return;  
+  
+}  
+  
+  
+/* =========================  
+   EACH PAGE  
+========================= */  
+  
+pages.forEach(  
+page=>{  
+  
+const data =  
+page.data;  
+  
+  
+const pageName =  
+data.pageName ||  
+"Business";  
+  
+  
+const logoURL =  
+data.logoURL ||  
+"images/default-logo.png";  
+  
+  
+const businessURL =  
+"business.html?id=" +  
+encodeURIComponent(  
+page.id  
+);  
+  
+  
+/* =========================  
+   FIND POSTS  
+========================= */  
+  
+const pagePosts =  
+allPosts.filter(  
+post =>  
+post.data.pageId ===  
+page.id  
+);  
+  
+  
+/* =========================  
+   LATEST POST  
+========================= */  
+  
+const latestPost =  
+pagePosts.length > 0  
+?  
+pagePosts[0]  
+:  
+null;  
+  
+  
+/* =========================  
+   CARD  
+========================= */  
+  
+const card =  
+document.createElement(  
+"div"  
+);  
+  
+card.className =  
+"page-card";  
+  
+  
+/* =========================  
+   PAGE HEADER  
+========================= */  
+  
+const pageHeader =  
+document.createElement(  
+"div"  
+);  
+  
+pageHeader.className =  
+"page-header";  
+  
+  
+pageHeader.innerHTML = `  
+  
+<a  
+href="${escapeAttribute(  
+businessURL  
+)}"  
+class="page-link"  
+>  
+  
+<img  
+src="${escapeAttribute(  
+logoURL  
+)}"  
+class="business-logo"  
+alt="${escapeAttribute(  
+pageName  
+)}"  
+>  
+  
+<div class="business-name">  
+  
+${escapeHTML(  
+pageName  
+)}  
+  
+</div>  
+  
+<div class="latest-label">  
+  
+Tap page to see all posts  
+  
+</div>  
+  
+</a>  
+  
+`;  
+  
+  
+card.appendChild(  
+pageHeader  
+);  
+  
+  
+/* =========================  
+   LATEST POST  
+========================= */  
+  
+const latestPostDiv =  
+document.createElement(  
+"div"  
+);  
+  
+latestPostDiv.className =  
+"latest-post";  
+  
+  
+if(  
+latestPost  
+){  
+  
+const postData =  
+latestPost.data;  
+  
+  
+let html = `  
+  
+<h4>  
+🆕 Latest Post  
+</h4>  
+  
+`;  
+  
+  
+/* POST TEXT */  
+  
+if(  
+postData.text  
+){  
+  
+html += `  
+  
+<p class="latest-post-text">  
+  
+${escapeHTML(  
+postData.text  
+)}  
+  
+</p>  
+  
+`;  
+  
+}  
+  
+  
+/* =========================  
+   IMAGE  
+========================= */  
+  
+if(  
+postData.mediaURL &&  
+postData.mediaType ===  
+"image"  
+){  
+  
+html += `  
+  
+<img  
+  
+src="${escapeAttribute(  
+postData.mediaURL  
+)}"  
+  
+class="latest-media"  
+  
+alt="Latest post"  
+  
+>  
+  
+`;  
+  
+}  
+  
+  
+/* =========================  
+   VIDEO  
+========================= */  
+  
+if(  
+postData.mediaURL &&  
+postData.mediaType ===  
+"video"  
+){  
+  
+html += `  
+  
+<video  
+  
+src="${escapeAttribute(  
+postData.mediaURL  
+)}"  
+  
+class="latest-media"  
+  
+controls  
+  
+playsinline  
+  
+>  
+  
+</video>  
+  
+`;  
+  
+}  
+  
+  
+/* =========================  
+   DATE  
+========================= */  
+  
+html += `  
+  
+<div class="post-date">  
+  
+${formatDate(  
+postData.createdAt  
+)}  
+  
+</div>  
+  
+`;  
+  
+  
+latestPostDiv.innerHTML =  
+html;  
+  
+  
+}else{  
+  
+  
+latestPostDiv.innerHTML = `  
+  
+<p class="no-post">  
+  
+No posts yet.  
+  
+</p>  
+  
+`;  
+  
+}  
+  
+  
+card.appendChild(  
+latestPostDiv  
+);  
+  
+  
+approvedPagesList.appendChild(  
+card  
+);  
+  
+});  
+  
+}  
+  
+  
+/* =========================  
+   LOAD SETTINGS  
+========================= */  
+  
+async function loadSettings(){  
+  
+try{  
+  
+/*  
+   Admin settings are saved in:  
+  
+   settings  
+      ↓  
+   website  
+  
+*/  
+  
+const settingsRef =  
+doc(  
+db,  
+"settings",  
+"website"  
+);  
+  
+  
+const settingsSnapshot =  
+await getDoc(  
+settingsRef  
+);  
+  
+  
+if(  
+!settingsSnapshot.exists()  
+){  
+  
+console.log(  
+"No website settings found yet."  
+);  
+  
+return;  
+  
+}  
+  
+  
+const settings =  
+settingsSnapshot.data();  
+  
+  
+/* =========================  
+   HOME SERVICES  
+========================= */  
+  
+  
+/* CLEANING */  
+  
+const serviceTitle1 =  
+document.getElementById(  
+"serviceTitle1"  
+);  
+  
+const serviceDescription1 =  
+document.getElementById(  
+"serviceDescription1"  
+);  
+  
+  
+if(  
+serviceTitle1 &&  
+settings.service1Title  
+){  
+  
+serviceTitle1.textContent =  
+settings.service1Title;  
+  
+}  
+  
+  
+if(  
+serviceDescription1 &&  
+settings.service1Description  
+){  
+  
+serviceDescription1.textContent =  
+settings.service1Description;  
+  
+}  
+  
+  
+/* =========================  
+   REPAIRS  
+========================= */  
+  
+const serviceTitle2 =  
+document.getElementById(  
+"serviceTitle2"  
+);  
+  
+const serviceDescription2 =  
+document.getElementById(  
+"serviceDescription2"  
+);  
+  
+  
+if(  
+serviceTitle2 &&  
+settings.service2Title  
+){  
+  
+serviceTitle2.textContent =  
+settings.service2Title;  
+  
+}  
+  
+  
+if(  
+serviceDescription2 &&  
+settings.service2Description  
+){  
+  
+serviceDescription2.textContent =  
+settings.service2Description;  
+  
+}  
+  
+  
+/* =========================  
+   DELIVERY  
+========================= */  
+  
+const serviceTitle3 =  
+document.getElementById(  
+"serviceTitle3"  
+);  
+  
+const serviceDescription3 =  
+document.getElementById(  
+"serviceDescription3"  
+);  
+  
+  
+if(  
+serviceTitle3 &&  
+settings.service3Title  
+){  
+  
+serviceTitle3.textContent =  
+settings.service3Title;  
+  
+}  
+  
+  
+if(  
+serviceDescription3 &&  
+settings.service3Description  
+){  
+  
+serviceDescription3.textContent =  
+settings.service3Description;  
+  
+}  
+  
+  
+/* =========================  
+   CONTACT  
+========================= */  
+  
+const contactPhone =  
+document.getElementById(  
+"contactPhone"  
+);  
+  
+const contactEmail =  
+document.getElementById(  
+"contactEmail"  
+);  
+  
+const contactWhatsapp =  
+document.getElementById(  
+"contactWhatsapp"  
+);  
+  
+  
+/* PHONE */  
+  
+if(  
+contactPhone &&  
+settings.phone  
+){  
+  
+contactPhone.textContent =  
+settings.phone;  
+  
+}  
+  
+  
+/* EMAIL */  
+  
+if(  
+contactEmail &&  
+settings.email  
+){  
+  
+contactEmail.textContent =  
+settings.email;  
+  
+}  
+  
+  
+/* WHATSAPP / ZANGI */  
+  
+if(  
+contactWhatsapp &&  
+settings.whatsapp  
+){  
+  
+contactWhatsapp.textContent =  
+settings.whatsapp;  
+  
+}  
+  
+  
+/* =========================  
+   ALSO SUPPORT ZANGI  
+========================= */  
+  
+if(  
+contactWhatsapp &&  
+settings.zangi  
+){  
+  
+if(  
+settings.whatsapp  
+){  
+  
+contactWhatsapp.textContent =  
+settings.whatsapp +  
+" / " +  
+settings.zangi;  
+  
+}else{  
+  
+contactWhatsapp.textContent =  
+settings.zangi;  
+  
+}  
+  
+}  
+  
+  
+console.log(  
+"Website settings loaded successfully."  
+);  
+  
+  
+}catch(error){  
+  
+console.error(  
+"Settings loading error:",  
+error  
+);  
+  
+}  
+  
+}  
+  
+  
+/* =========================  
+   SEARCH  
+========================= */  
+  
+function searchPages(){  
+  
+const search =  
+searchInput.value  
+.trim()  
+.toLowerCase();  
+  
+  
+if(  
+!search  
+){  
+  
+displayPages(  
+allPages  
+);  
+  
+return;  
+  
+}  
+  
+  
+const filtered =  
+allPages.filter(  
+page=>{  
+  
+const data =  
+page.data;  
+  
+  
+const pageName =  
+String(  
+data.pageName ||  
+""  
+)  
+.toLowerCase();  
+  
+  
+const category =  
+String(  
+data.category ||  
+""  
+)  
+.toLowerCase();  
+  
+  
+const description =  
+String(  
+data.description ||  
+""  
+)  
+.toLowerCase();  
+  
+  
+const matchingPosts =  
+allPosts.some(  
+post =>  
+  
+post.data.pageId ===  
+page.id &&  
+  
+String(  
+post.data.text ||  
+""  
+)  
+.toLowerCase()  
+.includes(  
+search  
+)  
+  
+);  
+  
+  
+return (  
+  
+pageName.includes(  
+search  
+)  
+  
+||  
+  
+category.includes(  
+search  
+)  
+  
+||  
+  
+description.includes(  
+search  
+)  
+  
+||  
+  
+matchingPosts  
+  
+);  
+  
+});  
+  
+  
+displayPages(  
+filtered  
+);  
+  
+}  
+  
+  
+/* =========================  
+   SEARCH BUTTON  
+========================= */  
+  
+searchBtn.addEventListener(  
+"click",  
+searchPages  
+);  
+  
+  
+/* =========================  
+   LIVE SEARCH  
+========================= */  
+  
+searchInput.addEventListener(  
+"input",  
+searchPages  
+);  
+  
+  
+/* =========================  
+   TIME  
+========================= */  
+  
+function getTime(  
+timestamp  
+){  
+  
+if(  
+timestamp &&  
+typeof timestamp.toMillis ===  
+"function"  
+){  
+  
+return timestamp.toMillis();  
+  
+}  
+  
+return 0;  
+  
+}  
+  
+  
+/* =========================  
+   DATE  
+========================= */  
+  
+function formatDate(  
+timestamp  
+){  
+  
+if(  
+!timestamp ||  
+typeof timestamp.toDate !==  
+"function"  
+){  
+  
+return "";  
+  
+}  
+  
+  
+return timestamp  
+.toDate()  
+.toLocaleString();  
+  
+}  
+  
+  
+/* =========================  
+   ESCAPE HTML  
+========================= */  
+  
+function escapeHTML(  
+value  
+){  
+  
+return String(  
+value  
+)  
+  
+.replace(  
+/&/g,  
+"&amp;"  
+)  
+  
+.replace(  
+/</g,  
+"&lt;"  
+)  
+  
+.replace(  
+/>/g,  
+"&gt;"  
+)  
+  
+.replace(  
+/"/g,  
+"&quot;"  
+)  
+  
+.replace(  
+/'/g,  
+"&#039;"  
+);  
+  
+}  
+  
+  
+/* =========================  
+   ESCAPE ATTRIBUTE  
+========================= */  
+  
+function escapeAttribute(  
+value  
+){  
+  
+return escapeHTML(  
+value  
+);  
+  
+}  
+  
+  
+/* =========================  
+   START  
+========================= */  
+  
+loadWebsite();  
+  
+</script>  
+  
+  
+</body>  
+  
+    </html>
