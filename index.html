@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
 
 <meta charset="UTF-8">
-
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
 <title>Logical World</title>
 
@@ -32,6 +29,7 @@ text-decoration:none;
 color:inherit;
 }
 
+
 /* =========================
    HEADER
 ========================= */
@@ -52,6 +50,7 @@ header p{
 margin:6px 0 0;
 font-size:14px;
 }
+
 
 /* =========================
    SEARCH
@@ -81,6 +80,7 @@ color:white;
 cursor:pointer;
 }
 
+
 /* =========================
    NAVIGATION
 ========================= */
@@ -104,6 +104,7 @@ font-size:14px;
 nav a:hover{
 background:#444;
 }
+
 
 /* =========================
    HERO
@@ -140,6 +141,7 @@ color:#666;
 margin-top:15px;
 }
 
+
 /* =========================
    SECTIONS
 ========================= */
@@ -152,6 +154,7 @@ section h2{
 text-align:center;
 margin-top:0;
 }
+
 
 /* =========================
    APPROVED PAGES
@@ -239,6 +242,7 @@ color:#777;
 margin-top:8px;
 }
 
+
 /* =========================
    GENERAL CARDS
 ========================= */
@@ -267,6 +271,7 @@ margin-top:0;
 line-height:1.5;
 }
 
+
 /* =========================
    LOADING
 ========================= */
@@ -277,6 +282,7 @@ padding:30px;
 color:#777;
 }
 
+
 /* =========================
    ERROR
 ========================= */
@@ -286,6 +292,7 @@ text-align:center;
 padding:20px;
 color:#c00;
 }
+
 
 /* =========================
    FOOTER
@@ -302,6 +309,7 @@ margin-top:30px;
 footer p{
 margin:5px 0;
 }
+
 
 /* =========================
    MOBILE
@@ -338,10 +346,6 @@ padding:25px 15px;
 
 <body>
 
-<!-- =========================
-     HEADER
-========================= -->
-
 <header>
 
 <h1>🌍 Logical World</h1>
@@ -349,11 +353,6 @@ padding:25px 15px;
 <p>Connecting People, Products &amp; Services.</p>
 
 </header>
-
-
-<!-- =========================
-     SEARCH
-========================= -->
 
 <div class="search-box">
 
@@ -369,15 +368,14 @@ Search
 
 </div>
 
-
-<!-- =========================
-     NAVIGATION
-========================= -->
-
 <nav>
 
 <a href="index.html">
 🏠 Home
+</a>
+
+<a href="gallery.html">
+📸 Gallery
 </a>
 
 <a href="videos.html">
@@ -392,16 +390,15 @@ Search
 🏠 Services
 </a>
 
+<a href="contact.html">
+📞 Contact
+</a>
+
 <a href="login.html">
 🔐 Login
 </a>
 
 </nav>
-
-
-<!-- =========================
-     HERO
-========================= -->
 
 <section class="hero">
 
@@ -410,8 +407,7 @@ Welcome to Logical World
 </h2>
 
 <p>
-Explore photos, videos, products and trusted
-services from different pages all in one place.
+Explore photos, videos, products and trusted services from different pages all in one place.
 </p>
 
 <a
@@ -422,16 +418,10 @@ Create Your Own Page
 </a>
 
 <p class="admin-note">
-All submitted pages are reviewed by the
-Logical World Admin before becoming public.
+All submitted pages are reviewed by the Logical World Admin before becoming public.
 </p>
 
 </section>
-
-
-<!-- =========================
-     APPROVED PAGES
-========================= -->
 
 <section>
 
@@ -450,24 +440,55 @@ Loading pages and latest posts...
 
 </div>
 
-  </section>
-  <!-- =========================
-     MARKETPLACE & SERVICES
+   </section>
+   <!-- =========================
+     HOME SERVICES
 ========================= -->
 
 <section>
 
 <h2>
-🛒🏠 Marketplace &amp; Services
+Home Services
 </h2>
 
-<div
-id="marketplaceServices"
-class="cards"
->
+<div class="cards">
 
-<div class="loading">
-Loading marketplace and services...
+<div class="card">
+
+<h3 id="serviceTitle1">
+Cleaning Services
+</h3>
+
+<p id="serviceDescription1">
+Professional cleaning services for homes and businesses.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3 id="serviceTitle2">
+Repairs
+</h3>
+
+<p id="serviceDescription2">
+Reliable repair services for different needs.
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3 id="serviceTitle3">
+Delivery
+</h3>
+
+<p id="serviceDescription3">
+Fast and trusted delivery services.
+</p>
+
 </div>
 
 </div>
@@ -476,22 +497,53 @@ Loading marketplace and services...
 
 
 <!-- =========================
-     VIDEOS
+     CONTACT US
 ========================= -->
 
 <section>
 
 <h2>
-🎥 Videos
+Contact Us
 </h2>
 
-<div
-id="homeVideos"
-class="cards"
->
+<div class="cards">
 
-<div class="loading">
-Loading videos...
+<div class="card">
+
+<h3>
+Phone
+</h3>
+
+<p id="contactPhone">
+Loading...
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Email
+</h3>
+
+<p id="contactEmail">
+Loading...
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+WhatsApp / Zangi
+</h3>
+
+<p id="contactWhatsapp">
+Loading...
+</p>
+
 </div>
 
 </div>
@@ -522,14 +574,11 @@ Connecting People, Products &amp; Services.
 
 <script type="module">
 
-/* =========================
-   FIREBASE
-========================= */
-
 import {
 db
 }
 from "./firebase.js";
+
 
 import {
 collection,
@@ -541,49 +590,27 @@ from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================
-   ELEMENTS
-========================= */
-
 const approvedPagesList =
 document.getElementById(
 "approvedPagesList"
 );
+
 
 const searchInput =
 document.getElementById(
 "searchInput"
 );
 
+
 const searchBtn =
 document.getElementById(
 "searchBtn"
 );
 
-const marketplaceServices =
-document.getElementById(
-"marketplaceServices"
-);
-
-const homeVideos =
-document.getElementById(
-"homeVideos"
-);
-
-
-/* =========================
-   DATA
-========================= */
 
 let allPages = [];
 
 let allPosts = [];
-
-let allMarketplace = [];
-
-let allServices = [];
-
-let allVideos = [];
 
 
 /* =========================
@@ -594,12 +621,14 @@ async function loadWebsite(){
 
 try{
 
-/* APPROVED PAGES */
-
 const pagesSnapshot =
 await getDocs(
-collection(db,"approvedPages")
+collection(
+db,
+"approvedPages"
+)
 );
+
 
 allPages =
 pagesSnapshot.docs.map(
@@ -610,12 +639,14 @@ id:doc.id,
 );
 
 
-/* POSTS */
-
 const postsSnapshot =
 await getDocs(
-collection(db,"posts")
+collection(
+db,
+"posts"
+)
 );
+
 
 allPosts =
 postsSnapshot.docs.map(
@@ -626,8 +657,6 @@ id:doc.id,
 );
 
 
-/* SORT POSTS */
-
 allPosts.sort(
 (a,b) =>
 getTime(b.createdAt) -
@@ -635,20 +664,10 @@ getTime(a.createdAt)
 );
 
 
-/* DISPLAY PAGES */
-
 displayPages(allPages);
 
 
-/* LOAD OTHER CONTENT */
-
-await loadMarketplace();
-
-await loadServices();
-
-await loadVideos();
-
-await loadSettings();
+loadSettings();
 
 }
 
@@ -659,435 +678,13 @@ console.error(error);
 approvedPagesList.innerHTML =
 `
 <div class="error">
-Unable to load website content.
+Unable to load pages.
 </div>
 `;
 
 }
 
 }
-
-
-/* =========================
-   MARKETPLACE
-========================= */
-
-async function loadMarketplace(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(db,"marketplace")
-);
-
-allMarketplace =
-snapshot.docs.map(
-doc => ({
-id:doc.id,
-...doc.data()
-})
-);
-
-displayMarketplaceServices();
-
-}
-
-catch(error){
-
-console.error(
-"Marketplace error:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   SERVICES
-========================= */
-
-async function loadServices(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(db,"services")
-);
-
-allServices =
-snapshot.docs.map(
-doc => ({
-id:doc.id,
-...doc.data()
-})
-);
-
-displayMarketplaceServices();
-
-}
-
-catch(error){
-
-console.error(
-"Services error:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   MARKETPLACE + SERVICES
-========================= */
-
-function displayMarketplaceServices(){
-
-if(!marketplaceServices)
-return;
-
-
-let content = "";
-
-
-/* MARKETPLACE */
-
-allMarketplace.forEach(
-item => {
-
-const title =
-escapeHTML(
-item.title ||
-item.name ||
-"Marketplace Item"
-);
-
-const description =
-escapeHTML(
-item.description ||
-item.details ||
-""
-);
-
-const image =
-item.imageURL ||
-item.imageUrl ||
-item.image ||
-"";
-
-
-content += `
-
-<div class="card">
-
-${
-image
-?
-`
-<img
-src="${escapeAttribute(image)}"
-style="
-width:100%;
-max-height:300px;
-object-fit:cover;
-border-radius:8px;
-margin-bottom:12px;
-"
->
-`
-:
-""
-}
-
-<h3>
-🛒 ${title}
-</h3>
-
-<p>
-${description}
-</p>
-
-</div>
-
-`;
-
-});
-
-
-/* SERVICES */
-
-allServices.forEach(
-service => {
-
-const title =
-escapeHTML(
-service.title ||
-service.name ||
-"Service"
-);
-
-const description =
-escapeHTML(
-service.description ||
-service.details ||
-""
-);
-
-const image =
-service.imageURL ||
-service.imageUrl ||
-service.image ||
-"";
-
-
-content += `
-
-<div class="card">
-
-${
-image
-?
-`
-<img
-src="${escapeAttribute(image)}"
-style="
-width:100%;
-max-height:300px;
-object-fit:cover;
-border-radius:8px;
-margin-bottom:12px;
-"
->
-`
-:
-""
-}
-
-<h3>
-🏠 ${title}
-</h3>
-
-<p>
-${description}
-</p>
-
-</div>
-
-`;
-
-});
-
-
-if(content === ""){
-
-marketplaceServices.innerHTML =
-`
-<div class="loading">
-No marketplace items or services yet.
-</div>
-`;
-
-}
-else{
-
-marketplaceServices.innerHTML =
-content;
-
-}
-
-}
-
-
-/* =========================
-   VIDEOS
-========================= */
-
-async function loadVideos(){
-
-try{
-
-const snapshot =
-await getDocs(
-collection(db,"siteVideos")
-);
-
-allVideos =
-snapshot.docs.map(
-doc => ({
-id:doc.id,
-...doc.data()
-})
-);
-
-
-/* NEWEST FIRST */
-
-allVideos.sort(
-(a,b) =>
-getTime(
-b.createdAt
-) -
-getTime(
-a.createdAt
-)
-);
-
-
-displayVideos();
-
-}
-
-catch(error){
-
-console.error(
-"Videos error:",
-error
-);
-
-homeVideos.innerHTML =
-`
-<div class="error">
-Unable to load videos.
-</div>
-`;
-
-}
-
-}
-
-
-/* =========================
-   DISPLAY VIDEOS
-========================= */
-
-function displayVideos(){
-
-if(!homeVideos)
-return;
-
-
-if(allVideos.length === 0){
-
-homeVideos.innerHTML =
-`
-<div class="loading">
-No videos available yet.
-</div>
-`;
-
-return;
-
-}
-
-
-homeVideos.innerHTML =
-allVideos.map(
-video => {
-
-const title =
-escapeHTML(
-video.title ||
-"Video"
-);
-
-const description =
-escapeHTML(
-video.description ||
-""
-);
-
-const videoURL =
-video.videoURL ||
-video.videoUrl ||
-video.url ||
-video.mediaURL ||
-video.secure_url ||
-video.secureUrl ||
-"";
-
-
-/*
-   The video itself is NOT placed
-   directly on the homepage.
-
-   Visitors tap the card first.
-*/
-
-return `
-
-<div
-class="card"
-style="cursor:pointer;"
-onclick="openVideo('${escapeAttribute(videoURL)}')"
->
-
-<div
-style="
-height:180px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:#eee;
-border-radius:8px;
-font-size:60px;
-"
->
-▶️
-</div>
-
-<h3>
-🎥 ${title}
-</h3>
-
-<p>
-${description}
-</p>
-
-<p
-style="
-font-size:13px;
-color:#777;
-"
->
-Tap to watch video
-</p>
-
-</div>
-
-`;
-
-}
-).join("");
-
-}
-
-
-/* =========================
-   OPEN VIDEO
-========================= */
-
-window.openVideo =
-function(videoURL){
-
-if(!videoURL)
-return;
-
-
-/*
-   Open the existing Videos page
-   with the selected video.
-*/
-
-window.location.href =
-"videos.html?video=" +
-encodeURIComponent(videoURL);
-
-};
 
 
 /* =========================
@@ -1116,7 +713,9 @@ return;
 pages.forEach(
 page => {
 
-const data = page;
+const data =
+page;
+
 
 const pageName =
 escapeHTML(
@@ -1124,9 +723,11 @@ data.pageName ||
 "Business"
 );
 
+
 const logoURL =
 data.logoURL ||
 "images/default-logo.png";
+
 
 const businessURL =
 "business.html?id=" +
@@ -1155,13 +756,6 @@ let postHTML = "";
 
 if(latestPost){
 
-const postText =
-escapeHTML(
-latestPost.text ||
-""
-);
-
-
 postHTML += `
 
 <div class="latest-post">
@@ -1171,7 +765,9 @@ postHTML += `
 </div>
 
 <div class="latest-post-text">
-${postText}
+${escapeHTML(
+latestPost.text || ""
+)}
 </div>
 
 `;
@@ -1300,6 +896,7 @@ db,
 "website"
 );
 
+
 const settingsSnap =
 await getDoc(
 settingsRef
@@ -1319,29 +916,52 @@ document.getElementById(
 "serviceTitle1"
 );
 
+
 const serviceDescription1 =
 document.getElementById(
 "serviceDescription1"
 );
+
 
 const serviceTitle2 =
 document.getElementById(
 "serviceTitle2"
 );
 
+
 const serviceDescription2 =
 document.getElementById(
 "serviceDescription2"
 );
+
 
 const serviceTitle3 =
 document.getElementById(
 "serviceTitle3"
 );
 
+
 const serviceDescription3 =
 document.getElementById(
 "serviceDescription3"
+);
+
+
+const contactPhone =
+document.getElementById(
+"contactPhone"
+);
+
+
+const contactEmail =
+document.getElementById(
+"contactEmail"
+);
+
+
+const contactWhatsapp =
+document.getElementById(
+"contactWhatsapp"
 );
 
 
@@ -1354,7 +974,7 @@ settings.cleaningTitle ||
 if(serviceDescription1)
 serviceDescription1.textContent =
 settings.cleaningDescription ||
-"";
+"Professional cleaning services for homes and businesses.";
 
 
 if(serviceTitle2)
@@ -1366,7 +986,7 @@ settings.repairsTitle ||
 if(serviceDescription2)
 serviceDescription2.textContent =
 settings.repairsDescription ||
-"";
+"Reliable repair services for different needs.";
 
 
 if(serviceTitle3)
@@ -1378,6 +998,24 @@ settings.deliveryTitle ||
 if(serviceDescription3)
 serviceDescription3.textContent =
 settings.deliveryDescription ||
+"Fast and trusted delivery services.";
+
+
+if(contactPhone)
+contactPhone.textContent =
+settings.phone ||
+"";
+
+
+if(contactEmail)
+contactEmail.textContent =
+settings.email ||
+"";
+
+
+if(contactWhatsapp)
+contactWhatsapp.textContent =
+settings.whatsapp ||
 "";
 
 }
@@ -1408,7 +1046,9 @@ searchInput.value
 
 if(!query){
 
-displayPages(allPages);
+displayPages(
+allPages
+);
 
 return;
 
@@ -1449,7 +1089,8 @@ pagePosts.some(
 post =>
 String(
 post.text || ""
-).toLowerCase()
+)
+.toLowerCase()
 .includes(query)
 );
 
@@ -1464,7 +1105,9 @@ postMatch
 });
 
 
-displayPages(filtered);
+displayPages(
+filtered
+);
 
 }
 
@@ -1490,6 +1133,7 @@ function getTime(timestamp){
 if(!timestamp)
 return 0;
 
+
 if(
 typeof timestamp.toMillis ===
 "function"
@@ -1498,6 +1142,7 @@ typeof timestamp.toMillis ===
 return timestamp.toMillis();
 
 }
+
 
 return 0;
 
@@ -1509,6 +1154,7 @@ function formatDate(timestamp){
 if(!timestamp)
 return "";
 
+
 if(
 typeof timestamp.toDate ===
 "function"
@@ -1519,6 +1165,7 @@ return timestamp
 .toLocaleString();
 
 }
+
 
 return "";
 
@@ -1559,4 +1206,4 @@ loadWebsite();
 
 </body>
 
-  </html>
+   </html>
