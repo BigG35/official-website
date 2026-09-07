@@ -10,7 +10,7 @@ name="viewport"
 content="width=device-width, initial-scale=1.0"
 >
 
-<title>Logical World</title>
+<title>Logical World - Videos</title>
 
 <style>
 
@@ -54,162 +54,83 @@ margin-top:8px;
 
 
 /* =========================
-   SEARCH
-========================= */
-
-.search-box{
-text-align:center;
-padding:15px;
-background:white;
-}
-
-.search-box input{
-width:70%;
-max-width:500px;
-padding:12px;
-border:1px solid #ccc;
-border-radius:6px;
-font-size:16px;
-}
-
-.search-box button{
-padding:12px 18px;
-border:none;
-border-radius:6px;
-background:#0a4ea3;
-color:white;
-font-weight:bold;
-cursor:pointer;
-}
-
-.search-box button:hover{
-background:#083d82;
-}
-
-
-/* =========================
    NAVIGATION
 ========================= */
 
 nav{
 background:#222;
+
 display:flex;
+
 justify-content:center;
+
 flex-wrap:wrap;
+
 padding:15px;
 }
 
 nav a{
 color:white;
+
 text-decoration:none;
+
 padding:10px 15px;
+
 font-weight:bold;
 }
 
 nav a:hover{
 background:#0a4ea3;
+
 border-radius:5px;
 }
 
 
 /* =========================
-   HERO
+   PAGE TITLE
 ========================= */
 
-.hero{
-background:
-linear-gradient(
-rgba(0,0,0,.55),
-rgba(0,0,0,.55)
-);
-
-min-height:400px;
-
-display:flex;
-
-justify-content:center;
-
-align-items:center;
-
+.page-title{
 text-align:center;
 
-color:white;
-
-padding:30px 20px;
+padding:40px 20px 20px;
 }
 
-.hero-content{
-max-width:800px;
-}
-
-.hero h2{
-font-size:42px;
-margin-bottom:15px;
-}
-
-.hero p{
-font-size:20px;
-margin-bottom:25px;
-}
-
-.button{
-display:inline-block;
-
-background:#0a4ea3;
-
-color:white;
-
-padding:15px 30px;
-
-text-decoration:none;
-
-border-radius:8px;
-
-font-size:18px;
-
-font-weight:bold;
-}
-
-.button:hover{
-background:#083b7a;
-}
-
-
-/* =========================
-   SECTIONS
-========================= */
-
-section{
-padding:50px 20px;
-max-width:1200px;
-margin:auto;
-}
-
-.section-title{
-text-align:center;
+.page-title h2{
 font-size:34px;
+
 color:#0a4ea3;
-margin-bottom:35px;
+}
+
+.page-title p{
+margin-top:8px;
+
+color:#666;
+
+font-size:16px;
 }
 
 
 /* =========================
-   APPROVED PAGES
+   VIDEO CONTAINER
 ========================= */
 
-.approved-grid{
-display:grid;
+.videos-container{
 
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(280px,1fr)
-);
+max-width:1200px;
 
-gap:20px;
+margin:auto;
+
+padding:20px;
 }
 
-.page-card{
+
+/* =========================
+   VIDEO CARD
+========================= */
+
+.video-card{
+
 background:white;
 
 border-radius:12px;
@@ -217,160 +138,108 @@ border-radius:12px;
 box-shadow:
 0 2px 10px rgba(0,0,0,.15);
 
+margin-bottom:30px;
+
 overflow:hidden;
 }
 
-.page-header{
-padding:18px;
-
-text-align:center;
-
-border-bottom:1px solid #eee;
-}
-
-.page-link{
-text-decoration:none;
-color:inherit;
-}
-
-.business-logo{
-width:110px;
-height:110px;
-
-border-radius:50%;
-
-object-fit:cover;
-
-display:block;
-
-margin:0 auto 12px;
-
-border:4px solid #0a4ea3;
-
-background:#eee;
-}
-
-.business-name{
-font-size:21px;
-
-font-weight:bold;
-
-color:#0a4ea3;
-}
-
-.latest-label{
-font-size:14px;
-
-font-weight:bold;
-
-color:#777;
-
-margin-top:4px;
-}
-
 
 /* =========================
-   LATEST POST
+   VIDEO AREA
 ========================= */
 
-.latest-post{
-padding:18px;
-}
+.video-area{
 
-.latest-post h4{
-font-size:18px;
-
-color:#0a4ea3;
-
-margin-bottom:8px;
-}
-
-.latest-post-text{
-font-size:16px;
-
-margin-bottom:12px;
-
-white-space:pre-wrap;
-}
-
-.latest-media{
 width:100%;
 
-max-height:400px;
+background:#000;
 
-object-fit:contain;
+display:flex;
 
-border-radius:10px;
+justify-content:center;
 
-background:#111;
+align-items:center;
+}
+
+
+/*
+   IMPORTANT:
+
+   We do NOT give the video
+   a fixed height.
+
+   The video's natural aspect
+   ratio is preserved.
+*/
+
+.video-player{
 
 display:block;
+
+width:auto;
+
+height:auto;
+
+max-width:100%;
+
+background:#000;
 }
 
-.post-date{
-font-size:13px;
 
-color:#777;
+/*
+   This allows videos to display
+   at their natural size while
+   preventing them from becoming
+   wider than the phone/screen.
+*/
 
-margin-top:10px;
-}
+.video-player{
 
-.no-post{
-text-align:center;
-
-color:#777;
-
-font-size:15px;
-
-padding:10px 0;
+max-height:none;
 }
 
 
 /* =========================
-   GENERAL CARDS
+   VIDEO INFORMATION
 ========================= */
 
-.cards{
-display:grid;
-
-grid-template-columns:
-repeat(
-auto-fit,
-minmax(250px,1fr)
-);
-
-gap:20px;
-}
-
-.card{
-background:white;
+.video-info{
 
 padding:20px;
-
-border-radius:10px;
-
-box-shadow:
-0 0 10px rgba(0,0,0,.15);
-
-text-align:center;
 }
 
-.card img{
-width:100%;
+.video-title{
 
-border-radius:10px;
+font-size:24px;
 
-margin-bottom:15px;
-}
+font-weight:bold;
 
-.card h3{
 color:#0a4ea3;
 
 margin-bottom:10px;
 }
 
-.card p{
-font-size:15px;
+.video-description{
+
+font-size:16px;
+
+white-space:pre-wrap;
+
+color:#444;
+
+margin-bottom:12px;
+}
+
+
+/* =========================
+   DATE
+========================= */
+
+.video-date{
+
+font-size:13px;
+
+color:#777;
 }
 
 
@@ -379,11 +248,35 @@ font-size:15px;
 ========================= */
 
 .loading{
+
 text-align:center;
 
-padding:30px;
+padding:40px;
 
 color:#666;
+
+font-size:18px;
+}
+
+
+/* =========================
+   NO VIDEOS
+========================= */
+
+.no-videos{
+
+background:white;
+
+padding:40px;
+
+text-align:center;
+
+border-radius:10px;
+
+box-shadow:
+0 2px 10px rgba(0,0,0,.10);
+
+color:#777;
 
 font-size:17px;
 }
@@ -394,15 +287,18 @@ font-size:17px;
 ========================= */
 
 .error{
-text-align:center;
-
-padding:30px;
-
-color:#842029;
 
 background:#f8d7da;
 
-border-radius:8px;
+color:#842029;
+
+padding:25px;
+
+border-radius:10px;
+
+text-align:center;
+
+margin:20px 0;
 }
 
 
@@ -411,6 +307,7 @@ border-radius:8px;
 ========================= */
 
 footer{
+
 background:#0a4ea3;
 
 color:white;
@@ -433,33 +330,40 @@ header h1{
 font-size:30px;
 }
 
-.hero h2{
-font-size:32px;
+header p{
+font-size:16px;
 }
 
-.hero p{
-font-size:17px;
+.page-title h2{
+font-size:28px;
 }
 
-.search-box input{
-width:65%;
+.videos-container{
+padding:10px;
 }
 
-.search-box button{
-padding:12px;
+.video-card{
+border-radius:8px;
 }
 
-.approved-grid{
-grid-template-columns:1fr;
+.video-info{
+padding:15px;
 }
 
-.business-logo{
-width:100px;
-height:100px;
+.video-title{
+font-size:20px;
 }
 
-.latest-media{
-max-height:350px;
+/*
+   On small screens the video
+   will shrink only when necessary
+   to fit the screen.
+*/
+
+.video-player{
+max-width:100%;
+width:auto;
+height:auto;
 }
 
 }
@@ -487,25 +391,6 @@ Connecting People, Products & Services.
 </p>
 
 </header>
-
-
-<!-- =========================
-     SEARCH
-========================= -->
-
-<div class="search-box">
-
-<input
-type="text"
-id="searchInput"
-placeholder="Search pages and posts..."
->
-
-<button id="searchBtn">
-Search
-</button>
-
-</div>
 
 
 <!-- =========================
@@ -546,64 +431,36 @@ Search
 
 
 <!-- =========================
-     HERO
+     TITLE
 ========================= -->
 
-<div class="hero">
-
-<div class="hero-content">
+<div class="page-title">
 
 <h2>
-Welcome to Logical World
+🎥 Videos
 </h2>
 
 <p>
-Explore photos, videos, products and trusted services from different pages all in one place.
+Watch videos uploaded to Logical World.
 </p>
-
-<a
-href="create-page.html"
-class="button"
->
-➕ Create Your Own Page
-</a>
-
-<p
-style="
-margin-top:15px;
-font-size:15px;
-"
->
-
-All submitted pages are reviewed by the Logical World Admin before becoming public.
-
-</p>
-
-</div>
 
 </div>
 
 
 <!-- =========================
-     APPROVED PAGES
+     VIDEOS
 ========================= -->
 
 <section>
 
-<h2 class="section-title">
-
-🌍 Pages & Latest Posts
-
-</h2>
-
 <div
-id="approvedPagesList"
-class="approved-grid"
+id="videosContainer"
+class="videos-container"
 >
 
 <div class="loading">
 
-Loading pages and latest posts...
+Loading videos...
 
 </div>
 
@@ -613,158 +470,6 @@ Loading pages and latest posts...
 
 
 <!-- =========================
-     HOME SERVICES
-========================= -->
-
-<section>
-
-<h2 class="section-title">
-
-Home Services
-
-</h2>
-
-<div class="cards">
-
-
-<!-- CLEANING -->
-
-<div class="card">
-
-<h3 id="serviceTitle1">
-
-Cleaning Services
-
-</h3>
-
-<p id="serviceDescription1">
-
-Book trusted cleaning services easily.
-
-</p>
-
-</div>
-
-
-<!-- REPAIRS -->
-
-<div class="card">
-
-<h3 id="serviceTitle2">
-
-Repairs
-
-</h3>
-
-<p id="serviceDescription2">
-
-Find reliable repair professionals.
-
-</p>
-
-</div>
-
-
-<!-- DELIVERY -->
-
-<div class="card">
-
-<h3 id="serviceTitle3">
-
-Delivery
-
-</h3>
-
-<p id="serviceDescription3">
-
-Fast and secure delivery services.
-
-</p>
-
-</div>
-
-
-</div>
-
-</section>
-
-
-<!-- =========================
-     CONTACT
-========================= -->
-
-<section>
-
-<h2 class="section-title">
-
-Contact Us
-
-</h2>
-
-<div class="cards">
-
-
-<!-- PHONE -->
-
-<div class="card">
-
-<h3>
-
-📞 Phone
-
-</h3>
-
-<p id="contactPhone">
-
-Your phone number will appear here.
-
-</p>
-
-</div>
-
-
-<!-- EMAIL -->
-
-<div class="card">
-
-<h3>
-
-📧 Email
-
-</h3>
-
-<p id="contactEmail">
-
-Your email address will appear here.
-
-</p>
-
-</div>
-
-
-<!-- WHATSAPP / ZANGI -->
-
-<div class="card">
-
-<h3>
-
-💬 WhatsApp / Zangi
-
-</h3>
-
-<p id="contactWhatsapp">
-
-Contact options will appear here.
-
-</p>
-
-</div>
-
-
-</div>
-
-    </section>
-    <!-- =========================
      FOOTER
 ========================= -->
 
@@ -793,6 +498,11 @@ Connecting People, Products & Services.
 
 <script type="module">
 
+
+/* =========================
+   FIREBASE
+========================= */
+
 import {
 db
 }
@@ -801,56 +511,35 @@ from "./firebase.js";
 
 import {
 collection,
-getDocs,
-doc,
-getDoc
+getDocs
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 /* =========================
-   ELEMENTS
+   ELEMENT
 ========================= */
 
-const approvedPagesList =
+const videosContainer =
 document.getElementById(
-"approvedPagesList"
-);
-
-const searchInput =
-document.getElementById(
-"searchInput"
-);
-
-const searchBtn =
-document.getElementById(
-"searchBtn"
+"videosContainer"
 );
 
 
 /* =========================
-   DATA
+   LOAD VIDEOS
 ========================= */
 
-let allPages = [];
-
-let allPosts = [];
-
-
-/* =========================
-   LOAD WEBSITE
-========================= */
-
-async function loadWebsite(){
+async function loadVideos(){
 
 try{
 
-approvedPagesList.innerHTML = `
+videosContainer.innerHTML = `
 
 <div class="loading">
 
-Loading pages and latest posts...
+Loading videos...
 
 </div>
 
@@ -858,33 +547,47 @@ Loading pages and latest posts...
 
 
 /* =========================
-   LOAD APPROVED PAGES
+   GET SITE VIDEOS
 ========================= */
 
-const pagesSnapshot =
+const snapshot =
 await getDocs(
 collection(
 db,
-"approvedPages"
+"siteVideos"
 )
 );
 
 
 /* =========================
-   LOAD POSTS
+   CHECK
 ========================= */
 
-const postsSnapshot =
-await getDocs(
-collection(
-db,
-"posts"
-)
-);
+if(
+snapshot.empty
+){
+
+videosContainer.innerHTML = `
+
+<div class="no-videos">
+
+🎥 No videos have been uploaded yet.
+
+</div>
+
+`;
+
+return;
+
+}
 
 
-allPages =
-pagesSnapshot.docs.map(
+/* =========================
+   CONVERT DATA
+========================= */
+
+const videos =
+snapshot.docs.map(
 docSnap => ({
 
 id:
@@ -897,25 +600,11 @@ docSnap.data()
 );
 
 
-allPosts =
-postsSnapshot.docs.map(
-docSnap => ({
-
-id:
-docSnap.id,
-
-data:
-docSnap.data()
-
-})
-);
-
-
 /* =========================
-   SORT POSTS
+   SORT NEWEST FIRST
 ========================= */
 
-allPosts.sort(
+videos.sort(
 (a,b)=>
 getTime(
 b.data.createdAt
@@ -931,31 +620,281 @@ a.data.createdAt
    DISPLAY
 ========================= */
 
-displayPages(
-allPages
+videosContainer.innerHTML = "";
+
+
+videos.forEach(
+video=>{
+
+const data =
+video.data;
+
+
+/*
+   Support the normal field
+   used by the admin uploader.
+*/
+
+const videoURL =
+data.videoURL ||
+data.videoUrl ||
+data.url ||
+data.mediaURL ||
+"";
+
+
+const title =
+data.title ||
+"Untitled Video";
+
+
+const description =
+data.description ||
+data.desc ||
+"";
+
+
+/* =========================
+   SKIP BROKEN VIDEO
+========================= */
+
+if(!videoURL){
+
+console.warn(
+"Video has no video URL:",
+video.id,
+data
+);
+
+return;
+
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+const card =
+document.createElement(
+"div"
+);
+
+card.className =
+"video-card";
+
+
+/* =========================
+   VIDEO AREA
+========================= */
+
+const videoArea =
+document.createElement(
+"div"
+);
+
+videoArea.className =
+"video-area";
+
+
+/* =========================
+   VIDEO
+========================= */
+
+const videoElement =
+document.createElement(
+"video"
+);
+
+videoElement.className =
+"video-player";
+
+videoElement.controls =
+true;
+
+videoElement.playsInline =
+true;
+
+videoElement.preload =
+"metadata";
+
+videoElement.src =
+videoURL;
+
+
+/*
+   IMPORTANT:
+
+   We allow the browser to use
+   the video's real dimensions.
+
+   We are NOT forcing:
+   height:400px
+   height:500px
+   aspect-ratio:16/9
+   object-fit:cover
+
+   Therefore the original video
+   shape is preserved.
+*/
+
+
+videoElement.addEventListener(
+"loadedmetadata",
+()=>{
+
+console.log(
+"Video dimensions:",
+videoElement.videoWidth,
+"x",
+videoElement.videoHeight
+);
+
+}
+);
+
+
+videoElement.addEventListener(
+"error",
+()=>{
+
+console.error(
+"Unable to play video:",
+videoURL
+);
+
+}
+);
+
+
+videoArea.appendChild(
+videoElement
 );
 
 
 /* =========================
-   LOAD SETTINGS
+   VIDEO INFORMATION
 ========================= */
 
-await loadSettings();
+const info =
+document.createElement(
+"div"
+);
+
+info.className =
+"video-info";
+
+
+let infoHTML = `
+
+<h3 class="video-title">
+
+${escapeHTML(
+title
+)}
+
+</h3>
+
+`;
+
+
+if(description){
+
+infoHTML += `
+
+<p class="video-description">
+
+${escapeHTML(
+description
+)}
+
+</p>
+
+`;
+
+}
+
+
+infoHTML += `
+
+<div class="video-date">
+
+${infoHTML += `
+
+<div class="video-date">
+
+${formatDate(
+data.createdAt
+)}
+
+</div>
+
+`;
+
+
+info.innerHTML =
+infoHTML;
+
+
+/* =========================
+   ADD TO CARD
+========================= */
+
+card.appendChild(
+videoArea
+);
+
+card.appendChild(
+info
+);
+
+
+/* =========================
+   ADD TO PAGE
+========================= */
+
+videosContainer.appendChild(
+card
+);
+
+});
+
+
+/* =========================
+   IF NO VALID VIDEOS
+========================= */
+
+if(
+videosContainer.children.length === 0
+){
+
+videosContainer.innerHTML = `
+
+<div class="no-videos">
+
+🎥 No playable videos found.
+
+</div>
+
+`;
+
+}
 
 
 }catch(error){
 
 console.error(
-"Website loading error:",
+"Video loading error:",
 error
 );
 
-approvedPagesList.innerHTML = `
+
+videosContainer.innerHTML = `
 
 <div class="error">
 
 <strong>
-Unable to load pages and posts.
+Unable to load videos.
 </strong>
 
 <br><br>
@@ -971,717 +910,6 @@ error.message
 }
 
 }
-
-
-/* =========================
-   DISPLAY PAGES
-========================= */
-
-function displayPages(
-pages
-){
-
-approvedPagesList.innerHTML = "";
-
-
-if(
-pages.length === 0
-){
-
-approvedPagesList.innerHTML = `
-
-<div class="loading">
-
-No approved pages yet.
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-/* =========================
-   EACH PAGE
-========================= */
-
-pages.forEach(
-page=>{
-
-const data =
-page.data;
-
-
-const pageName =
-data.pageName ||
-"Business";
-
-
-const logoURL =
-data.logoURL ||
-"images/default-logo.png";
-
-
-const businessURL =
-"business.html?id=" +
-encodeURIComponent(
-page.id
-);
-
-
-/* =========================
-   FIND POSTS
-========================= */
-
-const pagePosts =
-allPosts.filter(
-post =>
-post.data.pageId ===
-page.id
-);
-
-
-/* =========================
-   LATEST POST
-========================= */
-
-const latestPost =
-pagePosts.length > 0
-?
-pagePosts[0]
-:
-null;
-
-
-/* =========================
-   CARD
-========================= */
-
-const card =
-document.createElement(
-"div"
-);
-
-card.className =
-"page-card";
-
-
-/* =========================
-   PAGE HEADER
-========================= */
-
-const pageHeader =
-document.createElement(
-"div"
-);
-
-pageHeader.className =
-"page-header";
-
-
-pageHeader.innerHTML = `
-
-<a
-href="${escapeAttribute(
-businessURL
-)}"
-class="page-link"
->
-
-<img
-src="${escapeAttribute(
-logoURL
-)}"
-class="business-logo"
-alt="${escapeAttribute(
-pageName
-)}"
->
-
-<div class="business-name">
-
-${escapeHTML(
-pageName
-)}
-
-</div>
-
-<div class="latest-label">
-
-Tap page to see all posts
-
-</div>
-
-</a>
-
-`;
-
-
-card.appendChild(
-pageHeader
-);
-
-
-/* =========================
-   LATEST POST
-========================= */
-
-const latestPostDiv =
-document.createElement(
-"div"
-);
-
-latestPostDiv.className =
-"latest-post";
-
-
-if(
-latestPost
-){
-
-const postData =
-latestPost.data;
-
-
-let html = `
-
-<h4>
-🆕 Latest Post
-</h4>
-
-`;
-
-
-/* POST TEXT */
-
-if(
-postData.text
-){
-
-html += `
-
-<p class="latest-post-text">
-
-${escapeHTML(
-postData.text
-)}
-
-</p>
-
-`;
-
-}
-
-
-/* =========================
-   IMAGE
-========================= */
-
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"image"
-){
-
-html += `
-
-<img
-
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-
-class="latest-media"
-
-alt="Latest post"
-
->
-
-`;
-
-}
-
-
-/* =========================
-   VIDEO
-========================= */
-
-if(
-postData.mediaURL &&
-postData.mediaType ===
-"video"
-){
-
-html += `
-
-<video
-
-src="${escapeAttribute(
-postData.mediaURL
-)}"
-
-class="latest-media"
-
-controls
-
-playsinline
-
->
-
-</video>
-
-`;
-
-}
-
-
-/* =========================
-   DATE
-========================= */
-
-html += `
-
-<div class="post-date">
-
-${formatDate(
-postData.createdAt
-)}
-
-</div>
-
-`;
-
-
-latestPostDiv.innerHTML =
-html;
-
-
-}else{
-
-
-latestPostDiv.innerHTML = `
-
-<p class="no-post">
-
-No posts yet.
-
-</p>
-
-`;
-
-}
-
-
-card.appendChild(
-latestPostDiv
-);
-
-
-approvedPagesList.appendChild(
-card
-);
-
-});
-
-}
-
-
-/* =========================
-   LOAD SETTINGS
-========================= */
-
-async function loadSettings(){
-
-try{
-
-/*
-   Admin settings are saved in:
-
-   settings
-      ↓
-   website
-
-*/
-
-const settingsRef =
-doc(
-db,
-"settings",
-"website"
-);
-
-
-const settingsSnapshot =
-await getDoc(
-settingsRef
-);
-
-
-if(
-!settingsSnapshot.exists()
-){
-
-console.log(
-"No website settings found yet."
-);
-
-return;
-
-}
-
-
-const settings =
-settingsSnapshot.data();
-
-
-/* =========================
-   HOME SERVICES
-========================= */
-
-
-/* CLEANING */
-
-const serviceTitle1 =
-document.getElementById(
-"serviceTitle1"
-);
-
-const serviceDescription1 =
-document.getElementById(
-"serviceDescription1"
-);
-
-
-if(
-serviceTitle1 &&
-settings.service1Title
-){
-
-serviceTitle1.textContent =
-settings.service1Title;
-
-}
-
-
-if(
-serviceDescription1 &&
-settings.service1Description
-){
-
-serviceDescription1.textContent =
-settings.service1Description;
-
-}
-
-
-/* =========================
-   REPAIRS
-========================= */
-
-const serviceTitle2 =
-document.getElementById(
-"serviceTitle2"
-);
-
-const serviceDescription2 =
-document.getElementById(
-"serviceDescription2"
-);
-
-
-if(
-serviceTitle2 &&
-settings.service2Title
-){
-
-serviceTitle2.textContent =
-settings.service2Title;
-
-}
-
-
-if(
-serviceDescription2 &&
-settings.service2Description
-){
-
-serviceDescription2.textContent =
-settings.service2Description;
-
-}
-
-
-/* =========================
-   DELIVERY
-========================= */
-
-const serviceTitle3 =
-document.getElementById(
-"serviceTitle3"
-);
-
-const serviceDescription3 =
-document.getElementById(
-"serviceDescription3"
-);
-
-
-if(
-serviceTitle3 &&
-settings.service3Title
-){
-
-serviceTitle3.textContent =
-settings.service3Title;
-
-}
-
-
-if(
-serviceDescription3 &&
-settings.service3Description
-){
-
-serviceDescription3.textContent =
-settings.service3Description;
-
-}
-
-
-/* =========================
-   CONTACT
-========================= */
-
-const contactPhone =
-document.getElementById(
-"contactPhone"
-);
-
-const contactEmail =
-document.getElementById(
-"contactEmail"
-);
-
-const contactWhatsapp =
-document.getElementById(
-"contactWhatsapp"
-);
-
-
-/* PHONE */
-
-if(
-contactPhone &&
-settings.phone
-){
-
-contactPhone.textContent =
-settings.phone;
-
-}
-
-
-/* EMAIL */
-
-if(
-contactEmail &&
-settings.email
-){
-
-contactEmail.textContent =
-settings.email;
-
-}
-
-
-/* WHATSAPP / ZANGI */
-
-if(
-contactWhatsapp &&
-settings.whatsapp
-){
-
-contactWhatsapp.textContent =
-settings.whatsapp;
-
-}
-
-
-/* =========================
-   ALSO SUPPORT ZANGI
-========================= */
-
-if(
-contactWhatsapp &&
-settings.zangi
-){
-
-if(
-settings.whatsapp
-){
-
-contactWhatsapp.textContent =
-settings.whatsapp +
-" / " +
-settings.zangi;
-
-}else{
-
-contactWhatsapp.textContent =
-settings.zangi;
-
-}
-
-}
-
-
-console.log(
-"Website settings loaded successfully."
-);
-
-
-}catch(error){
-
-console.error(
-"Settings loading error:",
-error
-);
-
-}
-
-}
-
-
-/* =========================
-   SEARCH
-========================= */
-
-function searchPages(){
-
-const search =
-searchInput.value
-.trim()
-.toLowerCase();
-
-
-if(
-!search
-){
-
-displayPages(
-allPages
-);
-
-return;
-
-}
-
-
-const filtered =
-allPages.filter(
-page=>{
-
-const data =
-page.data;
-
-
-const pageName =
-String(
-data.pageName ||
-""
-)
-.toLowerCase();
-
-
-const category =
-String(
-data.category ||
-""
-)
-.toLowerCase();
-
-
-const description =
-String(
-data.description ||
-""
-)
-.toLowerCase();
-
-
-const matchingPosts =
-allPosts.some(
-post =>
-
-post.data.pageId ===
-page.id &&
-
-String(
-post.data.text ||
-""
-)
-.toLowerCase()
-.includes(
-search
-)
-
-);
-
-
-return (
-
-pageName.includes(
-search
-)
-
-||
-
-category.includes(
-search
-)
-
-||
-
-description.includes(
-search
-)
-
-||
-
-matchingPosts
-
-);
-
-});
-
-
-displayPages(
-filtered
-);
-
-}
-
-
-/* =========================
-   SEARCH BUTTON
-========================= */
-
-searchBtn.addEventListener(
-"click",
-searchPages
-);
-
-
-/* =========================
-   LIVE SEARCH
-========================= */
-
-searchInput.addEventListener(
-"input",
-searchPages
-);
 
 
 /* =========================
@@ -1774,29 +1002,15 @@ value
 
 
 /* =========================
-   ESCAPE ATTRIBUTE
-========================= */
-
-function escapeAttribute(
-value
-){
-
-return escapeHTML(
-value
-);
-
-}
-
-
-/* =========================
    START
 ========================= */
 
-loadWebsite();
+loadVideos();
+
 
 </script>
 
 
 </body>
 
-    </html>
+</html>
