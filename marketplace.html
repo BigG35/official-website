@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -92,13 +93,18 @@ padding:15px;
 box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.item-image{
+.item-image,
+.item-video{
 width:100%;
 height:230px;
 object-fit:cover;
 border-radius:9px;
-background:#eee;
+background:#000;
 display:block;
+}
+
+.item-video{
+object-fit:contain;
 }
 
 .item-title{
@@ -127,6 +133,12 @@ white-space:pre-wrap;
 font-size:18px;
 font-weight:bold;
 margin-top:12px;
+}
+
+.item-media-size{
+font-size:13px;
+color:#666;
+margin-top:8px;
 }
 
 .item-contact{
@@ -185,6 +197,11 @@ padding:15px 10px;
 grid-template-columns:1fr;
 }
 
+.item-image,
+.item-video{
+height:230px;
+}
+
 }
 
 </style>
@@ -220,11 +237,7 @@ Connecting People, Products &amp; Services.
 
 <a href="marketplace.html"
 class="active">
-🛒 Marketplace
-</a>
-
-<a href="contact.html">
-📞 Contact
+🛒 Marketplace &amp; Services
 </a>
 
 <a href="login.html">
@@ -293,7 +306,6 @@ orderBy
 }
 
 from
-
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -302,6 +314,10 @@ document.getElementById(
 "marketplaceList"
 );
 
+
+/* =========================
+ESCAPE TEXT
+========================= */
 
 function esc(value){
 
@@ -315,6 +331,10 @@ return String(value ?? "")
 
 }
 
+
+/* =========================
+FORMAT DATE
+========================= */
 
 function formatDate(value){
 
@@ -338,7 +358,6 @@ return "";
 
 return date.toLocaleString();
 
-
 }catch(e){
 
 return "";
@@ -347,6 +366,10 @@ return "";
 
 }
 
+
+/* =========================
+GET FIRST VALUE
+========================= */
 
 function getFirstValue(obj,names){
 
@@ -369,9 +392,181 @@ return "";
 }
 
 
+/* =========================
+FORMAT FILE SIZE
+========================= */
+
+function formatBytes(bytes){
+
+if(
+bytes === undefined ||
+bytes === null ||
+bytes === "" ||
+isNaN(Number(bytes))
+){
+
+return "";
+
+}
+
+bytes=Number(bytes);
+
+
+if(bytes===0)
+return "0 Bytes";
+
+
+const units=[
+"Bytes",
+"KB",
+"MB",
+"GB",
+"TB"
+];
+
+
+const i=Math.floor(
+Math.log(bytes)/Math.log(1024)
+);
+
+
+return (
+bytes/
+Math.pow(1024,i)
+).toFixed(i===0?0:2)
++
+" "
++
+units[i];
+
+}
+
+
+/* =========================
+DETECT VIDEO
+========================= */
+
+function isVideoMedia(item,url){
+
+const mediaType=
+String(
+getFirstValue(
+item,
+[
+"mediaType",
+"fileType",
+"contentType",
+"mimeType"
+]
+)
+).toLowerCase();
+
+
+if(
+mediaType==="video" ||
+mediaType.startsWith("video/")
+){
+
+return true;
+
+}
+
+
+const lowerUrl=
+String(url || "").toLowerCase();
+
+
+if(
+lowerUrl.includes(".mp4") ||
+lowerUrl.includes(".webm") ||
+lowerUrl.includes(".mov") ||
+lowerUrl.includes(".m4v") ||
+lowerUrl.includes(".avi") ||
+lowerUrl.includes(".mkv") ||
+lowerUrl.includes("res.cloudinary.com") &&
+lowerUrl.includes("/video/")
+){
+
+return true;
+
+}
+
+
+return false;
+
+}
+
+
+/* =========================
+CREATE MEDIA
+========================= */
+
+function createMediaHTML(
+item,
+mediaURL,
+title
+){
+
+if(!mediaURL)
+return "";
+
+
+const video=
+isVideoMedia(
+item,
+mediaURL
+);
+
+
+if(video){
+
+return `
+
+<video
+class="item-video"
+controls
+playsinline
+preload="metadata"
+>
+
+<source
+src="${esc(mediaURL)}"
+>
+
+Your browser does not support
+video playback.
+
+</video>
+
+`;
+
+}
+
+
+return `
+
+<img
+class="item-image"
+src="${esc(mediaURL)}"
+alt="${esc(
+title ||
+"Marketplace item"
+)}"
+loading="lazy"
+>
+
+`;
+
+}
+
+
+/* =========================
+LOAD MARKETPLACE
+========================= */
+
 async function loadMarketplace(){
 
-marketplaceList.innerHTML =
+marketplaceList.innerHTML=
 
 '<div class="loading">' +
 'Loading marketplace...' +
@@ -402,7 +597,7 @@ await getDocs(q);
 
 if(snapshot.empty){
 
-marketplaceList.innerHTML =
+marketplaceList.innerHTML=
 
 '<div class="empty">' +
 'No marketplace items or services available yet.' +
@@ -413,21 +608,24 @@ return;
 }
 
 
-marketplaceList.innerHTML = "";
+marketplaceList.innerHTML="";
 
 
-snapshot.forEach(docSnap => {
+snapshot.forEach(docSnap=>{
 
 
-const item =
+const item=
 docSnap.data();
 
 
-if(item.active === false)
+if(item.active===false)
 return;
 
 
-const title = getFirstValue(
+/* TITLE */
+
+const title=
+getFirstValue(
 item,
 [
 "title",
@@ -438,7 +636,9 @@ item,
 );
 
 
-const description =
+/* DESCRIPTION */
+
+const description=
 getFirstValue(
 item,
 [
@@ -450,7 +650,9 @@ item,
 );
 
 
-const type =
+/* TYPE */
+
+const type=
 getFirstValue(
 item,
 [
@@ -461,7 +663,9 @@ item,
 );
 
 
-const price =
+/* PRICE */
+
+const price=
 getFirstValue(
 item,
 [
@@ -471,13 +675,19 @@ item,
 );
 
 
-const image =
+/* MEDIA URL */
+
+const mediaURL=
 getFirstValue(
 item,
 [
 "imageURL",
 "imageUrl",
 "image",
+"videoURL",
+"videoUrl",
+"mediaURL",
+"mediaUrl",
 "photoURL",
 "photoUrl",
 "photo"
@@ -485,61 +695,101 @@ item,
 );
 
 
-const phone =
+/* SELLER */
+
+const seller=
 getFirstValue(
 item,
 [
-"phone",
-"phoneNumber",
-"contactPhone"
+"seller",
+"provider",
+"serviceProvider"
 ]
 );
 
 
-const date =
+/* CONTACT */
+
+const phone=
+getFirstValue(
+item,
+[
+"contact",
+"phone",
+"phoneNumber",
+"contactPhone",
+"whatsapp"
+]
+);
+
+
+/* FILE SIZE */
+
+const fileSize=
+getFirstValue(
+item,
+[
+"fileSize",
+"originalFileSize",
+"mediaSize"
+]
+);
+
+
+/* FILE SIZE TEXT */
+
+const fileSizeText=
+getFirstValue(
+item,
+[
+"fileSizeText",
+"originalFileSizeText"
+]
+);
+
+
+/* DATE */
+
+const date=
 formatDate(
 item.createdAt
 );
 
 
-const card =
+/* CARD */
+
+const card=
 document.createElement(
 "article"
 );
 
-
-card.className =
+card.className=
 "item-card";
 
 
-let imageHTML = "";
+/* MEDIA */
+
+const mediaHTML=
+createMediaHTML(
+item,
+mediaURL,
+title
+);
 
 
-if(image){
+/* TYPE */
 
-imageHTML = `
-
-<img
-class="item-image"
-src="${esc(image)}"
-alt="${esc(title || "Marketplace item")}"
-loading="lazy"
->
-
-`;
-
-}
-
-
-let typeHTML = "";
+let typeHTML="";
 
 
 if(type){
 
-typeHTML = `
+typeHTML=`
 
 <div class="item-type">
+
 ${esc(type)}
+
 </div>
 
 `;
@@ -547,15 +797,19 @@ ${esc(type)}
 }
 
 
-let priceHTML = "";
+/* PRICE */
+
+let priceHTML="";
 
 
-if(price !== ""){
+if(price!==""){
 
-priceHTML = `
+priceHTML=`
 
 <div class="item-price">
+
 ${esc(String(price))}
+
 </div>
 
 `;
@@ -563,24 +817,81 @@ ${esc(String(price))}
 }
 
 
-let contactHTML = "";
+/* FILE SIZE */
+
+let sizeHTML="";
+
+
+if(fileSizeText){
+
+sizeHTML=`
+
+<div class="item-media-size">
+
+Original file size:
+${esc(fileSizeText)}
+
+</div>
+
+`;
+
+}else if(fileSize){
+
+sizeHTML=`
+
+<div class="item-media-size">
+
+Original file size:
+${esc(formatBytes(fileSize))}
+
+</div>
+
+}
+
+
+/* SELLER */
+
+let sellerHTML="";
+
+
+if(seller){
+
+sellerHTML=`
+
+<div class="item-media-size">
+
+Seller / Provider:
+${esc(seller)}
+
+</div>
+
+`;
+
+}
+
+
+/* CONTACT */
+
+let contactHTML="";
 
 
 if(phone){
 
-const cleanPhone =
+const cleanPhone=
 String(phone)
 .replace(/[^\d+]/g,"");
 
 
-contactHTML = `
+contactHTML=`
 
 <div class="item-contact">
 
 <a
 href="tel:${esc(cleanPhone)}"
 >
+
 📞 Contact
+
 </a>
 
 </div>
@@ -590,9 +901,12 @@ href="tel:${esc(cleanPhone)}"
 }
 
 
-card.innerHTML = `
+/* CARD HTML */
 
-${imageHTML}
+card.innerHTML=`
+
+${mediaHTML}
+
 
 <div class="item-title">
 
@@ -603,31 +917,51 @@ title ||
 
 </div>
 
+
 ${typeHTML}
+
 
 ${
 description
 ?
 `
+
 <div class="item-description">
+
 ${esc(description)}
+
 </div>
+
 `
 :
 ""
 }
 
+
 ${priceHTML}
 
+
+${sizeHTML}
+
+
+${sellerHTML}
+
+
 ${contactHTML}
+
 
 ${
 date
 ?
 `
+
 <div class="item-date">
-Published: ${esc(date)}
+
+Published:
+${esc(date)}
+
 </div>
+
 `
 :
 ""
@@ -648,10 +982,12 @@ if(
 !marketplaceList.children.length
 ){
 
-marketplaceList.innerHTML =
+marketplaceList.innerHTML=
 
 '<div class="empty">' +
+
 'No active marketplace items or services available.' +
+
 '</div>';
 
 }
@@ -666,7 +1002,7 @@ error
 );
 
 
-marketplaceList.innerHTML =
+marketplaceList.innerHTML=
 
 '<div class="error">' +
 
@@ -681,10 +1017,16 @@ marketplaceList.innerHTML =
 }
 
 
+/* =========================
+START
+========================= */
+
 loadMarketplace();
+
 
 </script>
 
 
 </body>
-</html>
+
+  </html>
