@@ -563,9 +563,25 @@ user.uid
 );
 
 
+/*
+   USER INFORMATION
+   +
+   LOGICAL WORLD WALLET FOUNDATION
+
+   The wallet starts at ₦0.
+
+   The wallet account number is intentionally
+   null because a real account number must later
+   come from a proper payment provider.
+
+   We do NOT generate a fake bank account number.
+*/
+
 await setDoc(
 userRef,
 {
+
+/* USER INFORMATION */
 
 uid:
 user.uid,
@@ -583,14 +599,40 @@ accountStatus:
 "active",
 
 role:
-"user"
+"user",
+
+
+/* =================================================
+   WALLET INFORMATION
+================================================= */
+
+walletBalance:
+0,
+
+walletCurrency:
+"NGN",
+
+walletStatus:
+"active",
+
+walletAccountNumber:
+null,
+
+walletAccountName:
+fullName,
+
+walletCreatedAt:
+serverTimestamp(),
+
+walletUpdatedAt:
+serverTimestamp()
 
 }
 );
 
 
 console.log(
-"Firestore user document created:",
+"Firestore user document and wallet created:",
 user.uid
 );
 
@@ -632,14 +674,13 @@ error
 
 /* =================================================
    IMPORTANT
-=================================================
 
-If Firebase Authentication succeeded
-but Firestore failed, the Auth account
-already exists.
+   If Firebase Authentication succeeded
+   but Firestore failed, the Auth account
+   already exists.
 
-The user can still be recovered by
-creating their users document later.
+   The user can still be recovered by
+   creating their users document later.
 ================================================= */
 
 showMessage(
@@ -664,4 +705,4 @@ registerBtn.textContent =
 
 </body>
 
-   </html>
+</html>
