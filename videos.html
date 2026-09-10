@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
 
-<title>Logical World - Videos</title>
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Logical World - Marketplace</title>
 
 <style>
+
 *{
 box-sizing:border-box;
 }
@@ -65,58 +70,92 @@ padding:20px 15px;
 }
 
 .page-title{
-margin-top:0;
+margin:0 0 8px;
 font-size:25px;
 }
 
-.video-grid{
+.page-subtitle{
+margin:0 0 20px;
+color:#666;
+}
+
+.marketplace-grid{
 display:grid;
 grid-template-columns:
-repeat(auto-fit,minmax(280px,1fr));
+repeat(auto-fit,minmax(270px,1fr));
 gap:20px;
 }
 
-.video-card{
+.item-card{
 background:white;
 border-radius:12px;
 padding:15px;
 box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.video-card video{
+.item-image,
+.item-video{
 width:100%;
-max-height:420px;
-display:block;
-background:#000;
-border-radius:9px;
-}
-
-.video-thumbnail{
-width:100%;
-max-height:300px;
+height:230px;
 object-fit:cover;
 border-radius:9px;
+background:#000;
 display:block;
 }
 
-.video-title{
+.item-video{
+object-fit:contain;
+}
+
+.item-title{
 font-size:19px;
 font-weight:bold;
 margin:14px 0 8px;
 }
 
-.video-description{
-line-height:1.5;
-white-space:pre-wrap;
-color:#444;
-}
-
-.video-price{
+.item-type{
+display:inline-block;
+padding:5px 9px;
+border-radius:6px;
+background:#eef2f7;
+font-size:12px;
 font-weight:bold;
-margin-top:10px;
+margin-bottom:8px;
 }
 
-.video-date{
+.item-description{
+line-height:1.5;
+color:#444;
+white-space:pre-wrap;
+}
+
+.item-price{
+font-size:18px;
+font-weight:bold;
+margin-top:12px;
+}
+
+.item-media-size{
+font-size:13px;
+color:#666;
+margin-top:8px;
+}
+
+.item-contact{
+margin-top:12px;
+}
+
+.item-contact a{
+display:inline-block;
+text-decoration:none;
+background:#111827;
+color:white;
+padding:10px 14px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.item-date{
 font-size:12px;
 color:#777;
 margin-top:10px;
@@ -144,25 +183,40 @@ padding:25px 15px;
 margin-top:30px;
 }
 
+footer p{
+margin:5px 0;
+}
+
 @media(max-width:600px){
 
 main{
 padding:15px 10px;
 }
 
-.video-grid{
+.marketplace-grid{
 grid-template-columns:1fr;
 }
 
+.item-image,
+.item-video{
+height:230px;
 }
+
+}
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <header>
 
-<h1>🌍 Logical World</h1>
+<h1>
+🌍 Logical World
+</h1>
 
 <p>
 Connecting People, Products &amp; Services.
@@ -177,16 +231,13 @@ Connecting People, Products &amp; Services.
 🏠 Home
 </a>
 
-<a href="videos.html" class="active">
+<a href="videos.html">
 🎥 Videos
 </a>
 
-<a href="marketplace.html">
-🛒 Marketplace
-</a>
-
-<a href="contact.html">
-📞 Contact
+<a href="marketplace.html"
+class="active">
+🛒 Marketplace &amp; Services
 </a>
 
 <a href="login.html">
@@ -199,13 +250,21 @@ Connecting People, Products &amp; Services.
 <main>
 
 <h2 class="page-title">
-🎥 Videos
+🛒 Marketplace &amp; Services
 </h2>
 
-<div id="videosList" class="video-grid">
+<p class="page-subtitle">
+Find products and services available on Logical World.
+</p>
+
+
+<div
+id="marketplaceList"
+class="marketplace-grid"
+>
 
 <div class="loading">
-Loading videos...
+Loading marketplace...
 </div>
 
 </div>
@@ -232,25 +291,38 @@ Connecting People, Products &amp; Services.
 
 <script type="module">
 
-import {db} from "./firebase.js";
+
+import {db}
+from "./firebase.js";
+
 
 import {
+
 collection,
 getDocs,
 query,
 orderBy
+
 }
+
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-const videosList =
-document.getElementById("videosList");
+const marketplaceList =
+document.getElementById(
+"marketplaceList"
+);
 
+
+/* =========================
+ESCAPE TEXT
+========================= */
 
 function esc(value){
 
 return String(value ?? "")
+
 .replace(/&/g,"&amp;")
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;")
@@ -260,19 +332,29 @@ return String(value ?? "")
 }
 
 
+/* =========================
+FORMAT DATE
+========================= */
+
 function formatDate(value){
 
-if(!value) return "";
+if(!value)
+return "";
+
 
 try{
 
 const date =
 value.toDate
-? value.toDate()
-: new Date(value);
+?
+value.toDate()
+:
+new Date(value);
+
 
 if(isNaN(date.getTime()))
 return "";
+
 
 return date.toLocaleString();
 
@@ -285,93 +367,170 @@ return "";
 }
 
 
-async function loadVideos(){
+/* =========================
+GET FIRST VALUE
+========================= */
 
-videosList.innerHTML =
-'<div class="loading">Loading videos...</div>';
+function getFirstValue(obj,names){
 
+for(const name of names){
 
-try{
+if(
+obj[name] !== undefined &&
+obj[name] !== null &&
+obj[name] !== ""
+){
 
-const q = query(
+return obj[name];
 
-collection(db,"siteVideos"),
+}
 
-orderBy("createdAt","desc")
+}
 
-);
-
-
-const snapshot =
-await getDocs(q);
-
-
-if(snapshot.empty){
-
-videosList.innerHTML =
-'<div class="empty">No videos available yet.</div>';
-
-return;
+return "";
 
 }
 
 
-videosList.innerHTML = "";
+/* =========================
+FORMAT FILE SIZE
+========================= */
+
+function formatBytes(bytes){
+
+if(
+bytes === undefined ||
+bytes === null ||
+bytes === "" ||
+isNaN(Number(bytes))
+){
+
+return "";
+
+}
+
+bytes=Number(bytes);
 
 
-snapshot.forEach(docSnap => {
-
-const video =
-docSnap.data();
+if(bytes===0)
+return "0 Bytes";
 
 
-if(video.active === false)
-return;
+const units=[
+"Bytes",
+"KB",
+"MB",
+"GB",
+"TB"
+];
 
 
-const card =
-document.createElement("article");
-
-card.className =
-"video-card";
+const i=Math.floor(
+Math.log(bytes)/Math.log(1024)
+);
 
 
-const title =
-esc(video.title || "Untitled Video");
+return (
+bytes/
+Math.pow(1024,i)
+).toFixed(i===0?0:2)
++
+" "
++
+units[i];
+
+}
 
 
-const description =
-esc(video.description || "");
+/* =========================
+DETECT VIDEO
+========================= */
+
+function isVideoMedia(item,url){
+
+const mediaType=
+String(
+getFirstValue(
+item,
+[
+"mediaType",
+"fileType",
+"contentType",
+"mimeType"
+]
+)
+).toLowerCase();
 
 
-const date =
-formatDate(video.createdAt);
+if(
+mediaType==="video" ||
+mediaType.startsWith("video/")
+){
+
+return true;
+
+}
 
 
-let media = "";
+const lowerUrl=
+String(url || "").toLowerCase();
 
 
-if(video.videoURL){
+if(
+lowerUrl.includes(".mp4") ||
+lowerUrl.includes(".webm") ||
+lowerUrl.includes(".mov") ||
+lowerUrl.includes(".m4v") ||
+lowerUrl.includes(".avi") ||
+lowerUrl.includes(".mkv") ||
+lowerUrl.includes("res.cloudinary.com") &&
+lowerUrl.includes("/video/")
+){
 
-const poster =
-video.thumbnailURL
-?
-` poster="${esc(video.thumbnailURL)}"`
-:
-"";
+return true;
+
+}
 
 
-media = `
+return false;
+
+}
+
+
+/* =========================
+CREATE MEDIA
+========================= */
+
+function createMediaHTML(
+item,
+mediaURL,
+title
+){
+
+if(!mediaURL)
+return "";
+
+
+const video=
+isVideoMedia(
+item,
+mediaURL
+);
+
+
+if(video){
+
+return `
 
 <video
+class="item-video"
 controls
+playsinline
 preload="metadata"
-${poster}
 >
 
 <source
-src="${esc(video.videoURL)}"
-type="video/mp4"
+src="${esc(mediaURL)}"
 >
 
 Your browser does not support
@@ -384,14 +543,16 @@ video playback.
 }
 
 
-else if(video.thumbnailURL){
-
-media = `
+return `
 
 <img
-class="video-thumbnail"
-src="${esc(video.thumbnailURL)}"
-alt="${title}"
+class="item-image"
+src="${esc(mediaURL)}"
+alt="${esc(
+title ||
+"Marketplace item"
+)}"
+loading="lazy"
 >
 
 `;
@@ -399,30 +560,409 @@ alt="${title}"
 }
 
 
-card.innerHTML = `
+/* =========================
+LOAD MARKETPLACE
+========================= */
 
-${media}
+async function loadMarketplace(){
 
-<div class="video-title">
-${title}
+marketplaceList.innerHTML=
+
+'<div class="loading">' +
+'Loading marketplace...' +
+'</div>';
+
+
+try{
+
+
+const q = query(
+
+collection(
+db,
+"marketplace"
+),
+
+orderBy(
+"createdAt",
+"desc"
+)
+
+);
+
+
+const snapshot =
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+marketplaceList.innerHTML=
+
+'<div class="empty">' +
+'No marketplace items or services available yet.' +
+'</div>';
+
+return;
+
+}
+
+
+marketplaceList.innerHTML="";
+
+
+snapshot.forEach(docSnap=>{
+
+
+const item=
+docSnap.data();
+
+
+if(item.active===false)
+return;
+
+
+/* TITLE */
+
+const title=
+getFirstValue(
+item,
+[
+"title",
+"name",
+"productName",
+"serviceName"
+]
+);
+
+
+/* DESCRIPTION */
+
+const description=
+getFirstValue(
+item,
+[
+"description",
+"details",
+"productDescription",
+"serviceDescription"
+]
+);
+
+
+/* TYPE */
+
+const type=
+getFirstValue(
+item,
+[
+"type",
+"category",
+"itemType"
+]
+);
+
+
+/* PRICE */
+
+const price=
+getFirstValue(
+item,
+[
+"price",
+"amount"
+]
+);
+
+
+/* MEDIA URL */
+
+const mediaURL=
+getFirstValue(
+item,
+[
+"imageURL",
+"imageUrl",
+"image",
+"videoURL",
+"videoUrl",
+"mediaURL",
+"mediaUrl",
+"photoURL",
+"photoUrl",
+"photo"
+]
+);
+
+
+/* SELLER */
+
+const seller=
+getFirstValue(
+item,
+[
+"seller",
+"provider",
+"serviceProvider"
+]
+);
+
+
+/* CONTACT */
+
+const phone=
+getFirstValue(
+item,
+[
+"contact",
+"phone",
+"phoneNumber",
+"contactPhone",
+"whatsapp"
+]
+);
+
+
+/* FILE SIZE */
+
+const fileSize=
+getFirstValue(
+item,
+[
+"fileSize",
+"originalFileSize",
+"mediaSize"
+]
+);
+
+
+/* FILE SIZE TEXT */
+
+const fileSizeText=
+getFirstValue(
+item,
+[
+"fileSizeText",
+"originalFileSizeText"
+]
+);
+
+
+/* DATE */
+
+const date=
+formatDate(
+item.createdAt
+);
+
+
+/* CARD */
+
+const card=
+document.createElement(
+"article"
+);
+
+card.className=
+"item-card";
+
+
+/* MEDIA */
+
+const mediaHTML=
+createMediaHTML(
+item,
+mediaURL,
+title
+);
+
+
+/* TYPE */
+
+let typeHTML="";
+
+
+if(type){
+
+typeHTML=`
+
+<div class="item-type">
+
+${esc(type)}
+
 </div>
+
+`;
+
+}
+
+
+/* PRICE */
+
+let priceHTML="";
+
+
+if(price!==""){
+
+priceHTML=`
+
+<div class="item-price">
+
+${esc(String(price))}
+
+</div>
+
+`;
+
+}
+
+
+/* FILE SIZE */
+
+let sizeHTML="";
+
+
+if(fileSizeText){
+
+sizeHTML=`
+
+<div class="item-media-size">
+
+Original file size:
+${esc(fileSizeText)}
+
+</div>
+
+`;
+
+}else if(fileSize){
+
+sizeHTML=`
+
+<div class="item-media-size">
+
+Original file size:
+${esc(formatBytes(fileSize))}
+
+</div>
+
+}
+
+
+/* SELLER */
+
+let sellerHTML="";
+
+
+if(seller){
+
+sellerHTML=`
+
+<div class="item-media-size">
+
+Seller / Provider:
+${esc(seller)}
+
+</div>
+
+`;
+
+}
+
+
+/* CONTACT */
+
+let contactHTML="";
+
+
+if(phone){
+
+const cleanPhone=
+String(phone)
+.replace(/[^\d+]/g,"");
+
+
+contactHTML=`
+
+<div class="item-contact">
+
+<a
+href="tel:${esc(cleanPhone)}"
+>
+
+📞 Contact
+
+</a>
+
+</div>
+
+`;
+
+}
+
+
+/* CARD HTML */
+
+card.innerHTML=`
+
+${mediaHTML}
+
+
+<div class="item-title">
+
+${esc(
+title ||
+"Marketplace Item"
+)}
+
+</div>
+
+
+${typeHTML}
+
 
 ${
 description
 ?
-`<div class="video-description">
-${description}
-</div>`
+`
+
+<div class="item-description">
+
+${esc(description)}
+
+</div>
+
+`
 :
 ""
 }
 
+
+${priceHTML}
+
+
+${sizeHTML}
+
+
+${sellerHTML}
+
+
+${contactHTML}
+
+
 ${
 date
 ?
-`<div class="video-date">
-Published: ${esc(date)}
-</div>`
+`
+
+<div class="item-date">
+
+Published:
+${esc(date)}
+
+</div>
+
+`
 :
 ""
 }
@@ -430,31 +970,46 @@ Published: ${esc(date)}
 `;
 
 
-videosList.appendChild(card);
+marketplaceList.appendChild(
+card
+);
+
 
 });
 
 
-if(!videosList.children.length){
+if(
+!marketplaceList.children.length
+){
 
-videosList.innerHTML =
-'<div class="empty">No active videos available.</div>';
+marketplaceList.innerHTML=
+
+'<div class="empty">' +
+
+'No active marketplace items or services available.' +
+
+'</div>';
 
 }
 
 
 }catch(error){
 
+
 console.error(
-"Could not load videos:",
+"Could not load marketplace:",
 error
 );
 
 
-videosList.innerHTML =
+marketplaceList.innerHTML=
 
 '<div class="error">' +
-'Could not load videos. Please try again later.' +
+
+'Could not load marketplace. ' +
+
+'Please try again later.' +
+
 '</div>';
 
 }
@@ -462,9 +1017,16 @@ videosList.innerHTML =
 }
 
 
-loadVideos();
+/* =========================
+START
+========================= */
+
+loadMarketplace();
+
 
 </script>
 
+
 </body>
-</html>
+
+  </html>
