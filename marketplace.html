@@ -8,7 +8,7 @@
 <meta name="viewport"
 content="width=device-width,initial-scale=1.0">
 
-<title>Logical World - Marketplace</title>
+<title>Logical World - Marketplace & Services</title>
 
 <style>
 
@@ -93,19 +93,34 @@ padding:15px;
 box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-.item-image,
-.item-video{
+/* IMAGE */
+
+.item-image{
 width:100%;
-height:230px;
-object-fit:cover;
-border-radius:9px;
-background:#000;
+height:auto;
+max-width:100%;
 display:block;
+border-radius:9px;
 }
 
+/* VIDEO */
+
 .item-video{
-object-fit:contain;
+width:100%;
+height:auto;
+max-width:100%;
+display:block;
+background:#000;
+border-radius:9px;
 }
+
+/* Make video controls visible */
+
+.item-video::-webkit-media-controls{
+display:flex !important;
+}
+
+/* Text */
 
 .item-title{
 font-size:19px;
@@ -197,9 +212,19 @@ padding:15px 10px;
 grid-template-columns:1fr;
 }
 
-.item-image,
+/*
+Do not give the video a fixed height.
+It keeps its natural aspect ratio.
+*/
+
 .item-video{
-height:230px;
+width:100%;
+height:auto;
+}
+
+.item-image{
+width:100%;
+height:auto;
 }
 
 }
@@ -462,6 +487,10 @@ item,
 ).toLowerCase();
 
 
+/*
+If Admin saves mediaType=video
+*/
+
 if(
 mediaType==="video" ||
 mediaType.startsWith("video/")
@@ -471,6 +500,11 @@ return true;
 
 }
 
+
+/*
+Check the URL.
+This is important for Cloudinary videos.
+*/
 
 const lowerUrl=
 String(url || "").toLowerCase();
@@ -482,7 +516,19 @@ lowerUrl.includes(".webm") ||
 lowerUrl.includes(".mov") ||
 lowerUrl.includes(".m4v") ||
 lowerUrl.includes(".avi") ||
-lowerUrl.includes(".mkv") ||
+lowerUrl.includes(".mkv")
+){
+
+return true;
+
+}
+
+
+/*
+Cloudinary video URLs normally contain /video/
+*/
+
+if(
 lowerUrl.includes("res.cloudinary.com") &&
 lowerUrl.includes("/video/")
 ){
@@ -531,6 +577,7 @@ preload="metadata"
 
 <source
 src="${esc(mediaURL)}"
+type="video/mp4"
 >
 
 Your browser does not support
@@ -542,6 +589,10 @@ video playback.
 
 }
 
+
+/*
+Otherwise display it as an image.
+*/
 
 return `
 
@@ -617,6 +668,10 @@ snapshot.forEach(docSnap=>{
 const item=
 docSnap.data();
 
+
+/*
+Do not display disabled items.
+*/
 
 if(item.active===false)
 return;
@@ -846,6 +901,8 @@ ${esc(formatBytes(fileSize))}
 
 </div>
 
+`;
+
 }
 
 
@@ -901,7 +958,7 @@ href="tel:${esc(cleanPhone)}"
 }
 
 
-/* CARD HTML */
+/* CARD */
 
 card.innerHTML=`
 
