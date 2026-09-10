@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Logical World - Videos</title>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+color:#222;
+}
+
+header{
+background:#111827;
+color:white;
+padding:20px 15px;
+text-align:center;
+}
+
+header h1{
+margin:0 0 6px;
+font-size:25px;
+}
+
+header p{
+margin:0;
+opacity:.9;
+}
+
+nav{
+background:white;
+display:flex;
+gap:8px;
+padding:10px 12px;
+overflow-x:auto;
+border-bottom:1px solid #ddd;
+}
+
+nav a{
+text-decoration:none;
+color:#222;
+font-weight:bold;
+padding:10px 13px;
+border-radius:8px;
+white-space:nowrap;
+}
+
+nav a.active{
+background:#111827;
+color:white;
+}
+
+main{
+max-width:1100px;
+margin:auto;
+padding:20px 15px;
+}
+
+.page-title{
+margin-top:0;
+font-size:25px;
+}
+
+.video-grid{
+display:grid;
+grid-template-columns:
+repeat(auto-fit,minmax(280px,1fr));
+gap:20px;
+}
+
+.video-card{
+background:white;
+border-radius:12px;
+padding:15px;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+}
+
+.video-card video{
+width:100%;
+max-height:420px;
+display:block;
+background:#000;
+border-radius:9px;
+}
+
+.video-thumbnail{
+width:100%;
+max-height:300px;
+object-fit:cover;
+border-radius:9px;
+display:block;
+}
+
+.video-title{
+font-size:19px;
+font-weight:bold;
+margin:14px 0 8px;
+}
+
+.video-description{
+line-height:1.5;
+white-space:pre-wrap;
+color:#444;
+}
+
+.video-price{
+font-weight:bold;
+margin-top:10px;
+}
+
+.video-date{
+font-size:12px;
+color:#777;
+margin-top:10px;
+}
+
+.loading,
+.empty,
+.error{
+background:white;
+border-radius:10px;
+padding:25px;
+text-align:center;
+color:#777;
+}
+
+.error{
+color:#b91c1c;
+}
+
+footer{
+background:#111;
+color:white;
+text-align:center;
+padding:25px 15px;
+margin-top:30px;
+}
+
+@media(max-width:600px){
+
+main{
+padding:15px 10px;
+}
+
+.video-grid{
+grid-template-columns:1fr;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>🌍 Logical World</h1>
+
+<p>
+Connecting People, Products &amp; Services.
+</p>
+
+</header>
+
+
+<nav>
+
+<a href="index.html">
+🏠 Home
+</a>
+
+<a href="videos.html" class="active">
+🎥 Videos
+</a>
+
+<a href="marketplace.html">
+🛒 Marketplace
+</a>
+
+<a href="contact.html">
+📞 Contact
+</a>
+
+<a href="login.html">
+🔐 Login
+</a>
+
+</nav>
+
+
+<main>
+
+<h2 class="page-title">
+🎥 Videos
+</h2>
+
+<div id="videosList" class="video-grid">
+
+<div class="loading">
+Loading videos...
+</div>
+
+</div>
+
+</main>
+
+
+<footer>
+
+<h3>
+🌍 Logical World
+</h3>
+
+<p>
+Connecting People, Products &amp; Services.
+</p>
+
+<p>
+© 2026 Logical World. All Rights Reserved.
+</p>
+
+</footer>
+
+
+<script type="module">
+
+import {db} from "./firebase.js";
+
+import {
+collection,
+getDocs,
+query,
+orderBy
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+const videosList =
+document.getElementById("videosList");
+
+
+function esc(value){
+
+return String(value ?? "")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+
+function formatDate(value){
+
+if(!value) return "";
+
+try{
+
+const date =
+value.toDate
+? value.toDate()
+: new Date(value);
+
+if(isNaN(date.getTime()))
+return "";
+
+return date.toLocaleString();
+
+}catch(e){
+
+return "";
+
+}
+
+}
+
+
+async function loadVideos(){
+
+videosList.innerHTML =
+'<div class="loading">Loading videos...</div>';
+
+
+try{
+
+const q = query(
+
+collection(db,"siteVideos"),
+
+orderBy("createdAt","desc")
+
+);
+
+
+const snapshot =
+await getDocs(q);
+
+
+if(snapshot.empty){
+
+videosList.innerHTML =
+'<div class="empty">No videos available yet.</div>';
+
+return;
+
+}
+
+
+videosList.innerHTML = "";
+
+
+snapshot.forEach(docSnap => {
+
+const video =
+docSnap.data();
+
+
+if(video.active === false)
+return;
+
+
+const card =
+document.createElement("article");
+
+card.className =
+"video-card";
+
+
+const title =
+esc(video.title || "Untitled Video");
+
+
+const description =
+esc(video.description || "");
+
+
+const date =
+formatDate(video.createdAt);
+
+
+let media = "";
+
+
+if(video.videoURL){
+
+const poster =
+video.thumbnailURL
+?
+` poster="${esc(video.thumbnailURL)}"`
+:
+"";
+
+
+media = `
+
+<video
+controls
+preload="metadata"
+${poster}
+>
+
+<source
+src="${esc(video.videoURL)}"
+type="video/mp4"
+>
+
+Your browser does not support
+video playback.
+
+</video>
+
+`;
+
+}
+
+
+else if(video.thumbnailURL){
+
+media = `
+
+<img
+class="video-thumbnail"
+src="${esc(video.thumbnailURL)}"
+alt="${title}"
+>
+
+`;
+
+}
+
+
+card.innerHTML = `
+
+${media}
+
+<div class="video-title">
+${title}
+</div>
+
+${
+description
+?
+`<div class="video-description">
+${description}
+</div>`
+:
+""
+}
+
+${
+date
+?
+`<div class="video-date">
+Published: ${esc(date)}
+</div>`
+:
+""
+}
+
+`;
+
+
+videosList.appendChild(card);
+
+});
+
+
+if(!videosList.children.length){
+
+videosList.innerHTML =
+'<div class="empty">No active videos available.</div>';
+
+}
+
+
+}catch(error){
+
+console.error(
+"Could not load videos:",
+error
+);
+
+
+videosList.innerHTML =
+
+'<div class="error">' +
+'Could not load videos. Please try again later.' +
+'</div>';
+
+}
+
+}
+
+
+loadVideos();
+
+</script>
+
+</body>
+</html>
