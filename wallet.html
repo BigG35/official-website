@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Logical World Wallet</title>
+
+<style>
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#f4f6f8;
+color:#222;
+}
+
+header{
+background:#111;
+color:white;
+padding:16px;
+text-align:center;
+font-size:21px;
+font-weight:bold;
+}
+
+.container{
+max-width:600px;
+margin:auto;
+padding:18px;
+}
+
+.back{
+display:inline-block;
+margin-bottom:15px;
+text-decoration:none;
+color:#111;
+font-weight:bold;
+}
+
+.wallet-card{
+background:#111;
+color:white;
+border-radius:18px;
+padding:25px;
+box-shadow:0 5px 18px rgba(0,0,0,.15);
+}
+
+.wallet-label{
+font-size:14px;
+opacity:.8;
+}
+
+.balance{
+font-size:36px;
+font-weight:bold;
+margin:8px 0 20px;
+}
+
+.account{
+font-size:15px;
+padding-top:15px;
+border-top:1px solid rgba(255,255,255,.2);
+}
+
+.account strong{
+display:block;
+font-size:20px;
+margin-top:5px;
+}
+
+.actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:20px;
+}
+
+.action{
+border:0;
+border-radius:12px;
+padding:18px 10px;
+font-size:15px;
+font-weight:bold;
+background:white;
+box-shadow:0 2px 8px rgba(0,0,0,.08);
+cursor:pointer;
+}
+
+.action:active{
+transform:scale(.98);
+}
+
+.action span{
+display:block;
+font-size:25px;
+margin-bottom:7px;
+}
+
+.notice{
+background:#fff8df;
+border:1px solid #f0d879;
+padding:14px;
+border-radius:12px;
+margin-top:20px;
+font-size:14px;
+line-height:1.5;
+}
+
+.section{
+background:white;
+margin-top:20px;
+border-radius:15px;
+padding:18px;
+box-shadow:0 2px 8px rgba(0,0,0,.06);
+}
+
+.section h3{
+margin-top:0;
+}
+
+.row{
+display:flex;
+justify-content:space-between;
+padding:12px 0;
+border-bottom:1px solid #eee;
+font-size:14px;
+}
+
+.row:last-child{
+border-bottom:0;
+}
+
+.status{
+color:green;
+font-weight:bold;
+}
+
+.loading{
+text-align:center;
+padding:30px;
+}
+
+button{
+font-family:inherit;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🌍 Logical World Wallet
+</header>
+
+<div class="container">
+
+<a href="javascript:history.back()" class="back">
+← Back
+</a>
+
+<div id="loading" class="loading">
+Loading wallet...
+</div>
+
+<div id="walletContent" style="display:none;">
+
+<div class="wallet-card">
+
+<div class="wallet-label">
+Available Balance
+</div>
+
+<div class="balance" id="balance">
+₦0.00
+</div>
+
+<div class="account">
+Wallet Account Number
+<strong id="accountNumber">
+Not assigned yet
+</strong>
+</div>
+
+</div>
+
+
+<div class="actions">
+
+<button class="action" onclick="comingSoon('Add Money')">
+<span>➕</span>
+Add Money
+</button>
+
+<button class="action" onclick="comingSoon('Buy Airtime')">
+<span>📱</span>
+Buy Airtime
+</button>
+
+<button class="action" onclick="comingSoon('Buy Data')">
+<span>📶</span>
+Buy Data
+</button>
+
+<button class="action" onclick="comingSoon('Send Money')">
+<span>💸</span>
+Send Money
+</button>
+
+<button class="action" onclick="comingSoon('Withdraw')">
+<span>🏧</span>
+Withdraw
+</button>
+
+<button class="action" onclick="comingSoon('Transactions')">
+<span>📜</span>
+Transactions
+</button>
+
+</div>
+
+
+<div class="notice">
+<strong>Wallet setup</strong><br>
+Your Logical World wallet is currently connected to your account.
+Real deposits, withdrawals, transfers, airtime and data purchases will be connected to a licensed payment/VTU provider before they are activated.
+</div>
+
+
+<div class="section">
+
+<h3>Wallet Information</h3>
+
+<div class="row">
+<span>Name</span>
+<strong id="userName">-</strong>
+</div>
+
+<div class="row">
+<span>Email</span>
+<strong id="userEmail">-</strong>
+</div>
+
+<div class="row">
+<span>Currency</span>
+<strong id="currency">NGN</strong>
+</div>
+
+<div class="row">
+<span>Wallet Status</span>
+<strong class="status" id="walletStatus">
+-
+</strong>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script type="module">
+
+import {auth,db} from "./firebase.js";
+
+import {
+onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+doc,
+getDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+const loading =
+document.getElementById("loading");
+
+const walletContent =
+document.getElementById("walletContent");
+
+const balance =
+document.getElementById("balance");
+
+const accountNumber =
+document.getElementById("accountNumber");
+
+const userName =
+document.getElementById("userName");
+
+const userEmail =
+document.getElementById("userEmail");
+
+const currency =
+document.getElementById("currency");
+
+const walletStatus =
+document.getElementById("walletStatus");
+
+
+function formatMoney(amount){
+
+const number =
+Number(amount || 0);
+
+return "₦" +
+number.toLocaleString("en-NG",{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+
+}
+
+
+function showError(message){
+
+loading.innerHTML =
+`
+<div style="
+background:#fff0f0;
+color:#b00020;
+padding:18px;
+border-radius:12px;
+">
+${message}
+</div>
+`;
+
+}
+
+
+window.comingSoon=function(feature){
+
+alert(
+feature +
+" is not activated yet. We will connect the real payment/VTU system next."
+);
+
+};
+
+
+onAuthStateChanged(auth,async(user)=>{
+
+if(!user){
+
+window.location.href="login.html";
+
+return;
+
+}
+
+try{
+
+const userRef =
+doc(db,"users",user.uid);
+
+const snap =
+await getDoc(userRef);
+
+
+if(!snap.exists()){
+
+showError(
+"Your Logical World account information could not be found."
+);
+
+return;
+
+}
+
+
+const data =
+snap.data();
+
+
+userName.textContent =
+data.name ||
+user.displayName ||
+"User";
+
+userEmail.textContent =
+data.email ||
+user.email ||
+"-";
+
+
+const walletBalance =
+data.walletBalance ?? 0;
+
+balance.textContent =
+formatMoney(walletBalance);
+
+
+currency.textContent =
+data.walletCurrency ||
+"NGN";
+
+
+walletStatus.textContent =
+data.walletStatus ||
+"active";
+
+
+if(data.walletAccountNumber){
+
+accountNumber.textContent =
+data.walletAccountNumber;
+
+}else{
+
+accountNumber.textContent =
+"Not assigned yet";
+
+}
+
+
+loading.style.display="none";
+
+walletContent.style.display="block";
+
+
+}catch(error){
+
+console.error(error);
+
+showError(
+"Unable to load your wallet. Please try again."
+);
+
+}
+
+});
+
+</script>
+
+</body>
+</html>
