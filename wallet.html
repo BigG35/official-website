@@ -125,6 +125,7 @@ margin-top:0;
 .row{
 display:flex;
 justify-content:space-between;
+gap:15px;
 padding:12px 0;
 border-bottom:1px solid #eee;
 font-size:14px;
@@ -147,6 +148,124 @@ padding:30px;
 button{
 font-family:inherit;
 }
+
+
+/* WALLET REGISTRATION */
+
+.register-box{
+background:white;
+border-radius:16px;
+padding:20px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+margin-bottom:20px;
+}
+
+.register-box h2{
+margin-top:0;
+font-size:22px;
+}
+
+.register-box p{
+font-size:14px;
+line-height:1.5;
+color:#555;
+}
+
+.form-group{
+margin-bottom:16px;
+}
+
+.form-group label{
+display:block;
+font-weight:bold;
+font-size:14px;
+margin-bottom:7px;
+}
+
+.form-group input{
+width:100%;
+padding:13px;
+border:1px solid #ccc;
+border-radius:9px;
+font-size:15px;
+outline:none;
+}
+
+.form-group input:focus{
+border-color:#111;
+}
+
+.form-group input[readonly]{
+background:#f1f1f1;
+}
+
+.checkbox-row{
+display:flex;
+align-items:flex-start;
+gap:9px;
+font-size:13px;
+line-height:1.5;
+margin:15px 0;
+}
+
+.checkbox-row input{
+margin-top:3px;
+}
+
+.register-button{
+width:100%;
+border:0;
+background:#111;
+color:white;
+padding:15px;
+border-radius:10px;
+font-size:16px;
+font-weight:bold;
+cursor:pointer;
+}
+
+.register-button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.register-message{
+display:none;
+padding:12px;
+border-radius:9px;
+margin-bottom:15px;
+font-size:14px;
+line-height:1.4;
+}
+
+.register-message.error{
+display:block;
+background:#fff0f0;
+color:#b00020;
+}
+
+.register-message.success{
+display:block;
+background:#effff2;
+color:#08752b;
+}
+
+.phone-help{
+font-size:12px;
+color:#777;
+margin-top:5px;
+}
+
+.wallet-created{
+background:#effff2;
+border:1px solid #a8dfb6;
+color:#176b2e;
+padding:14px;
+border-radius:10px;
+margin-bottom:20px;
+font-size:14px;
+line-height:1.5;
+}
 </style>
 </head>
 
@@ -166,7 +285,104 @@ font-family:inherit;
 Loading wallet...
 </div>
 
+
 <div id="walletContent" style="display:none;">
+
+
+<!-- WALLET REGISTRATION -->
+
+<div id="walletRegistration" class="register-box">
+
+<h2>💰 Create Your Wallet</h2>
+
+<p>
+Create your Logical World Wallet using your real details.
+Your email is automatically taken from your existing Logical World account.
+</p>
+
+<div id="registerMessage" class="register-message"></div>
+
+
+<div class="form-group">
+
+<label for="walletName">
+Real Full Name
+</label>
+
+<input
+type="text"
+id="walletName"
+placeholder="Enter your real full name"
+autocomplete="name"
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="walletEmail">
+Email
+</label>
+
+<input
+type="email"
+id="walletEmail"
+readonly
+>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="walletPhone">
+Phone Number
+</label>
+
+<input
+type="tel"
+id="walletPhone"
+placeholder="Enter your phone number"
+autocomplete="tel"
+inputmode="tel"
+>
+
+<div class="phone-help">
+Use the real phone number that you want to receive wallet transaction alerts on.
+</div>
+
+</div>
+
+
+<div class="checkbox-row">
+
+<input
+type="checkbox"
+id="realDetails"
+>
+
+<label for="realDetails">
+I confirm that the full name and phone number I provided are my real details and belong to me.
+</label>
+
+</div>
+
+
+<button
+class="register-button"
+id="registerWalletBtn"
+>
+Create My Wallet
+</button>
+
+</div>
+
+
+<!-- WALLET DASHBOARD -->
+
+<div id="walletDashboard" style="display:none;">
+
 
 <div class="wallet-card">
 
@@ -224,9 +440,13 @@ Transactions
 
 
 <div class="notice">
+
 <strong>Wallet setup</strong><br>
-Your Logical World wallet is currently connected to your account.
+
+Your Logical World wallet is connected to your account.
+
 Real deposits, withdrawals, transfers, airtime and data purchases will be connected to a licensed payment/VTU provider before they are activated.
+
 </div>
 
 
@@ -234,27 +454,66 @@ Real deposits, withdrawals, transfers, airtime and data purchases will be connec
 
 <h3>Wallet Information</h3>
 
+
 <div class="row">
+
 <span>Name</span>
-<strong id="userName">-</strong>
-</div>
 
-<div class="row">
-<span>Email</span>
-<strong id="userEmail">-</strong>
-</div>
-
-<div class="row">
-<span>Currency</span>
-<strong id="currency">NGN</strong>
-</div>
-
-<div class="row">
-<span>Wallet Status</span>
-<strong class="status" id="walletStatus">
+<strong id="userName">
 -
 </strong>
+
 </div>
+
+
+<div class="row">
+
+<span>Phone</span>
+
+<strong id="userPhone">
+-
+</strong>
+
+</div>
+
+
+<div class="row">
+
+<span>Email</span>
+
+<strong id="userEmail">
+-
+</strong>
+
+</div>
+
+
+<div class="row">
+
+<span>Currency</span>
+
+<strong id="currency">
+NGN
+</strong>
+
+</div>
+
+
+<div class="row">
+
+<span>Wallet Status</span>
+
+<strong
+class="status"
+id="walletStatus"
+>
+-
+</strong>
+
+</div>
+
+</div>
+
 
 </div>
 
@@ -273,7 +532,9 @@ onAuthStateChanged
 
 import {
 doc,
-getDoc
+getDoc,
+setDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
@@ -282,6 +543,30 @@ document.getElementById("loading");
 
 const walletContent =
 document.getElementById("walletContent");
+
+const walletRegistration =
+document.getElementById("walletRegistration");
+
+const walletDashboard =
+document.getElementById("walletDashboard");
+
+const walletName =
+document.getElementById("walletName");
+
+const walletEmail =
+document.getElementById("walletEmail");
+
+const walletPhone =
+document.getElementById("walletPhone");
+
+const realDetails =
+document.getElementById("realDetails");
+
+const registerWalletBtn =
+document.getElementById("registerWalletBtn");
+
+const registerMessage =
+document.getElementById("registerMessage");
 
 const balance =
 document.getElementById("balance");
@@ -292,6 +577,9 @@ document.getElementById("accountNumber");
 const userName =
 document.getElementById("userName");
 
+const userPhone =
+document.getElementById("userPhone");
+
 const userEmail =
 document.getElementById("userEmail");
 
@@ -300,6 +588,9 @@ document.getElementById("currency");
 
 const walletStatus =
 document.getElementById("walletStatus");
+
+
+let currentUser=null;
 
 
 function formatMoney(amount){
@@ -333,6 +624,40 @@ ${message}
 }
 
 
+function showRegisterMessage(message,type){
+
+registerMessage.textContent =
+message;
+
+registerMessage.className =
+"register-message " + type;
+
+}
+
+
+function cleanPhone(phone){
+
+return String(phone || "")
+.replace(/[^\d+]/g,"")
+.trim();
+
+}
+
+
+function validPhone(phone){
+
+const cleaned =
+cleanPhone(phone);
+
+const digits =
+cleaned.replace(/\D/g,"");
+
+return digits.length >= 10 &&
+digits.length <= 15;
+
+}
+
+
 window.comingSoon=function(feature){
 
 alert(
@@ -343,15 +668,191 @@ feature +
 };
 
 
-onAuthStateChanged(auth,async(user)=>{
+async function registerWallet(){
 
-if(!user){
-
-window.location.href="login.html";
+if(!currentUser){
 
 return;
 
 }
+
+
+const name =
+walletName.value.trim();
+
+const phone =
+cleanPhone(walletPhone.value);
+
+const confirmed =
+realDetails.checked;
+
+
+if(name.length < 3){
+
+showRegisterMessage(
+"Please enter your real full name.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!validPhone(phone)){
+
+showRegisterMessage(
+"Please enter a valid phone number.",
+"error"
+);
+
+return;
+
+}
+
+
+if(!confirmed){
+
+showRegisterMessage(
+"Please confirm that your name and phone number are your real details.",
+"error"
+);
+
+return;
+
+}
+
+
+registerWalletBtn.disabled=true;
+
+registerWalletBtn.textContent=
+"Creating Wallet...";
+
+
+try{
+
+const userRef =
+doc(db,"users",currentUser.uid);
+
+const snap =
+await getDoc(userRef);
+
+
+if(!snap.exists()){
+
+throw new Error(
+"Your Logical World account could not be found."
+);
+
+}
+
+
+const data =
+snap.data();
+
+
+if(
+data.walletRegistered === true ||
+data.walletPhoneNumber
+){
+
+showRegisterMessage(
+"This account already has a wallet registration.",
+"error"
+);
+
+registerWalletBtn.disabled=false;
+
+registerWalletBtn.textContent=
+"Create My Wallet";
+
+return;
+
+}
+
+
+/*
+Save the wallet registration
+to the same user document.
+*/
+
+await setDoc(
+userRef,
+{
+
+walletRegistered:true,
+
+walletAccountName:name,
+
+walletPhoneNumber:phone,
+
+walletCurrency:"NGN",
+
+walletStatus:"active",
+
+walletAccountNumber:
+data.walletAccountNumber || null,
+
+walletBalance:
+data.walletBalance ?? 0,
+
+walletCreatedAt:
+data.walletCreatedAt || serverTimestamp(),
+
+walletUpdatedAt:
+serverTimestamp()
+
+},
+{
+merge:true
+}
+);
+
+
+showRegisterMessage(
+"Your wallet registration was created successfully.",
+"success"
+);
+
+
+/*
+Show the dashboard after
+successful registration.
+*/
+
+setTimeout(()=>{
+
+loadWallet(currentUser);
+
+},700);
+
+
+}catch(error){
+
+console.error(error);
+
+showRegisterMessage(
+"Wallet registration failed. Please try again.",
+"error"
+);
+
+registerWalletBtn.disabled=false;
+
+registerWalletBtn.textContent=
+"Create My Wallet";
+
+}
+
+}
+
+
+registerWalletBtn.addEventListener(
+"click",
+registerWallet
+);
+
+
+async function loadWallet(user){
 
 try{
 
@@ -377,16 +878,81 @@ const data =
 snap.data();
 
 
+/*
+Email comes directly from the
+existing Logical World account.
+*/
+
+const email =
+data.email ||
+user.email ||
+"";
+
+
+walletEmail.value =
+email;
+
+
+/*
+Use wallet name if already registered.
+Otherwise use existing account name
+as the starting name.
+*/
+
+walletName.value =
+data.walletAccountName ||
+data.name ||
+user.displayName ||
+"";
+
+
 userName.textContent =
+data.walletAccountName ||
 data.name ||
 user.displayName ||
 "User";
 
-userEmail.textContent =
-data.email ||
-user.email ||
-"-";
 
+userEmail.textContent =
+email;
+
+
+/*
+Show phone only after wallet
+registration.
+*/
+
+if(
+data.walletRegistered === true ||
+data.walletPhoneNumber
+){
+
+walletPhone.value =
+data.walletPhoneNumber || "";
+
+userPhone.textContent =
+data.walletPhoneNumber || "-";
+
+walletRegistration.style.display=
+"none";
+
+walletDashboard.style.display=
+"block";
+
+}else{
+
+walletRegistration.style.display=
+"block";
+
+walletDashboard.style.display=
+"none";
+
+}
+
+
+/*
+Wallet balance
+*/
 
 const walletBalance =
 data.walletBalance ?? 0;
@@ -395,15 +961,28 @@ balance.textContent =
 formatMoney(walletBalance);
 
 
+/*
+Currency
+*/
+
 currency.textContent =
 data.walletCurrency ||
 "NGN";
 
 
+/*
+Wallet status
+*/
+
 walletStatus.textContent =
 data.walletStatus ||
 "active";
 
+
+/*
+Real account number will later
+come from the payment provider.
+*/
 
 if(data.walletAccountNumber){
 
@@ -418,9 +997,11 @@ accountNumber.textContent =
 }
 
 
-loading.style.display="none";
+loading.style.display=
+"none";
 
-walletContent.style.display="block";
+walletContent.style.display=
+"block";
 
 
 }catch(error){
@@ -433,9 +1014,30 @@ showError(
 
 }
 
-});
+}
+
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+if(!user){
+
+window.location.href=
+"login.html";
+
+return;
+
+}
+
+currentUser=user;
+
+await loadWallet(user);
+
+}
+);
 
 </script>
 
 </body>
-</html>
+  </html>
