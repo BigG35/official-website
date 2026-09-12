@@ -309,14 +309,120 @@ Ready. Select a video and tap Upload Video.
 </div>
 
 </div>
-
-</section>
-
 <section id="settings" class="section">
 
 <h2 class="section-title">Website Settings</h2>
 
+<!-- =========================
+     LOGICAL WORLD ACCOUNT
+========================= -->
+
 <div class="page-card">
+
+<h3>💰 Logical World Account</h3>
+
+<p class="small">
+This is the official business account for income that belongs to Logical World.
+User wallet balances are separate from this account.
+</p>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<h3>Available Balance</h3>
+<strong id="lwAvailableBalance">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Total Income</h3>
+<strong id="lwTotalIncome">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Airtime Income</h3>
+<strong id="lwAirtimeIncome">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Data Income</h3>
+<strong id="lwDataIncome">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Marketplace / Services</h3>
+<strong id="lwMarketplaceIncome">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Other Income</h3>
+<strong id="lwOtherIncome">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Total Expenses</h3>
+<strong id="lwExpenses">₦0.00</strong>
+</div>
+
+<div class="stat-card">
+<h3>Total Withdrawals</h3>
+<strong id="lwWithdrawals">₦0.00</strong>
+</div>
+
+</div>
+
+<div class="item-card">
+
+<h3>Account Information</h3>
+
+<p>
+<strong>Account:</strong>
+Logical World Business Account
+</p>
+
+<p>
+<strong>Purpose:</strong>
+All income belonging to Logical World.
+</p>
+
+<p class="small">
+This account is separate from customer wallets.
+Customer wallet money must never be counted as Logical World income.
+</p>
+
+</div>
+
+<div class="form-row">
+
+<button class="primary" onclick="loadLogicalWorldAccount()">
+Reload Account
+</button>
+
+</div>
+
+<div id="logicalWorldAccountMessage" class="small"></div>
+
+<hr>
+
+<h3>💳 Logical World Account Transactions</h3>
+
+<p class="small">
+Income, expenses and withdrawals will appear here.
+</p>
+
+<div id="logicalWorldTransactions">
+<div class="empty">No transactions yet.</div>
+</div>
+
+</div>
+
+
+<!-- =========================
+     WEBSITE SETTINGS
+========================= -->
+
+<div class="page-card">
+
+<h3>Website Settings</h3>
 
 <p class="small">
 These settings are saved in <strong>siteSettings/general</strong>.
@@ -372,9 +478,13 @@ These settings are saved in <strong>siteSettings/general</strong>.
 
 <div class="form-row">
 
-<button class="primary" onclick="saveSettings()">Save Settings</button>
+<button class="primary" onclick="saveSettings()">
+Save Settings
+</button>
 
-<button class="secondary" onclick="loadSettings()">Reload</button>
+<button class="secondary" onclick="loadSettings()">
+Reload
+</button>
 
 </div>
 
@@ -506,6 +616,8 @@ if(id==='settings')loadSettings();
 
 async function loadAll(){
 
+async function loadAll(){
+
 await Promise.all([
 loadPending(),
 loadApproved(),
@@ -515,11 +627,11 @@ loadReports(),
 loadVideos(),
 loadMarketplace(),
 loadMarketplaceMessages(),
-loadSettings()
+loadSettings(),
+loadLogicalWorldAccount()
 ]);
 
 }
-
 
 /* =========================
    PAGES
@@ -1900,7 +2012,194 @@ alert(e.message);
 /* =========================
    SETTINGS
 ========================= */
+/* =========================
+   LOGICAL WORLD ACCOUNT
+========================= */
 
+async function loadLogicalWorldAccount(){
+
+try{
+
+const accountRef =
+doc(db,'siteSettings','logicalWorldAccount');
+
+const accountSnap =
+await getDoc(accountRef);
+
+const a = accountSnap.exists()
+? accountSnap.data()
+:{
+availableBalance:0,
+totalIncome:0,
+airtimeIncome:0,
+dataIncome:0,
+marketplaceIncome:0,
+otherIncome:0,
+expenses:0,
+withdrawals:0
+};
+
+
+$('lwAvailableBalance').textContent =
+naira(a.availableBalance);
+
+$('lwTotalIncome').textContent =
+naira(a.totalIncome);
+
+$('lwAirtimeIncome').textContent =
+naira(a.airtimeIncome);
+
+$('lwDataIncome').textContent =
+naira(a.dataIncome);
+
+$('lwMarketplaceIncome').textContent =
+naira(a.marketplaceIncome);
+
+$('lwOtherIncome').textContent =
+naira(a.otherIncome);
+
+$('lwExpenses').textContent =
+naira(a.expenses);
+
+$('lwWithdrawals').textContent =
+naira(a.withdrawals);
+
+await loadLogicalWorldTransactions();
+
+}catch(e){
+
+console.error(
+'Could not load Logical World Account:',
+e
+);
+
+$('logicalWorldAccountMessage').textContent =
+'Could not load Logical World Account: '+e.message;
+
+}
+
+}
+
+
+/* =========================
+   LOGICAL WORLD TRANSACTIONS
+========================= */
+
+async function loadLogicalWorldTransactions(){
+
+const c =
+$('logicalWorldTransactions');
+
+try{
+
+const s =
+await getDocs(
+
+query(
+collection(db,'logicalWorldTransactions'),
+orderBy('createdAt','desc')
+)
+
+);
+
+if(s.empty){
+
+c.innerHTML =
+'<div class="empty">No transactions yet.</div>';
+
+return;
+
+}
+
+c.innerHTML='';
+
+s.forEach(d=>{
+
+const t=d.data();
+
+const amount =
+Number(t.amount||0);
+
+const type =
+t.type||'income';
+
+const sign =
+type==='income'
+?'+'
+:'-';
+
+const e =
+document.createElement('div');
+
+e.className='item-card';
+
+e.innerHTML=`
+
+<h3>
+${esc(t.description||'Logical World Transaction')}
+</h3>
+
+<p>
+<strong>Type:</strong>
+${esc(type)}
+</p>
+
+<p>
+<strong>Category:</strong>
+${esc(t.category||'other')}
+</p>
+
+<p>
+<strong>Amount:</strong>
+${sign}${naira(amount)}
+</p>
+
+<p class="small">
+${t.createdAt
+&& t.createdAt.toDate
+?esc(t.createdAt.toDate().toLocaleString())
+:'Date not available'}
+</p>
+
+`;
+
+c.appendChild(e);
+
+});
+
+}catch(e){
+
+console.error(e);
+
+c.innerHTML =
+'<div class="empty">No transactions available yet.</div>';
+
+}
+
+}
+
+
+/* =========================
+   NAIRA FORMAT
+========================= */
+
+function naira(amount){
+
+return '₦'+Number(amount||0)
+.toLocaleString('en-NG',{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+});
+
+}
+
+
+/* =========================
+   MAKE ACCOUNT AVAILABLE
+========================= */
+
+window.loadLogicalWorldAccount =
+loadLogicalWorldAccount;
 async function loadSettings(){
 
 try{
