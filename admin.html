@@ -1429,9 +1429,6 @@ alert(
 }
 
 }
-
-
-
 window.deletePage=
 async(id,col)=>{
 
@@ -1439,8 +1436,36 @@ if(
 !confirm(
 'Delete this page permanently?'
 )
-)retwindow.deletePage=
-async(id,col)=>{
+)return;
+
+try{
+
+await deleteDoc(
+doc(db,col,id)
+);
+
+alert(
+'Page deleted.'
+);
+
+if(col==='approvedPages'){
+
+loadApproved();
+
+}else{
+
+loadRejected();
+
+}
+
+}catch(e){
+
+alert(e.message);
+
+}
+
+};
+
 
 if(
 !confirm(
