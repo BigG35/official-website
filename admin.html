@@ -55,6 +55,30 @@ textarea{min-height:100px;resize:vertical}
 .status{display:inline-block;padding:5px 9px;border-radius:6px;background:#eef2f7;font-size:12px;font-weight:bold}
 .message-card{border-left:4px solid #111827;background:#fafafa;padding:14px;border-radius:8px;margin-top:10px}
 
+.account-balance{
+font-size:32px;
+font-weight:bold;
+margin-top:5px;
+}
+
+.income-card{
+border-left:4px solid #16a34a;
+}
+
+.expense-card{
+border-left:4px solid #dc2626;
+}
+
+.transaction-income{
+color:#15803d;
+font-weight:bold;
+}
+
+.transaction-expense{
+color:#b91c1c;
+font-weight:bold;
+}
+
 @media(max-width:600px){
 header{align-items:flex-start}
 main{padding:12px}
@@ -88,7 +112,12 @@ main{padding:12px}
 
 <main>
 
+<!-- =========================
+     DASHBOARD
+========================= -->
+
 <section id="dashboard" class="section active">
+
 <h2 class="section-title">Dashboard</h2>
 
 <div class="stats-grid">
@@ -122,46 +151,99 @@ main{padding:12px}
 
 <div class="page-card">
 <h3>Welcome to Logical World Admin</h3>
-<p>Use this dashboard to manage pages, users, reports, videos, marketplace products and services.</p>
-<p>Customer marketplace enquiries are handled by the administrator.</p>
+
+<p>
+Use this dashboard to manage pages, users, reports,
+videos, marketplace products and services.
+</p>
+
+<p>
+Customer marketplace enquiries are handled by the administrator.
+</p>
+
 </div>
 
 </section>
 
+
+<!-- =========================
+     PENDING PAGES
+========================= -->
+
 <section id="pending" class="section">
+
 <h2 class="section-title">Pending Pages</h2>
+
 <div id="pendingList" class="list">
 <div class="loading">Loading pending pages...</div>
 </div>
+
 </section>
 
+
+<!-- =========================
+     APPROVED PAGES
+========================= -->
+
 <section id="approved" class="section">
+
 <h2 class="section-title">Approved Pages</h2>
+
 <div id="approvedList" class="list">
 <div class="loading">Loading approved pages...</div>
 </div>
+
 </section>
 
+
+<!-- =========================
+     REJECTED PAGES
+========================= -->
+
 <section id="rejected" class="section">
+
 <h2 class="section-title">Rejected Pages</h2>
+
 <div id="rejectedList" class="list">
 <div class="loading">Loading rejected pages...</div>
 </div>
+
 </section>
 
+
+<!-- =========================
+     USERS
+========================= -->
+
 <section id="users" class="section">
+
 <h2 class="section-title">Registered Users</h2>
+
 <div id="usersList" class="list">
 <div class="loading">Loading users...</div>
 </div>
+
 </section>
 
+
+<!-- =========================
+     REPORTS
+========================= -->
+
 <section id="reports" class="section">
+
 <h2 class="section-title">Reports</h2>
+
 <div id="reportsList" class="list">
 <div class="loading">Loading reports...</div>
 </div>
+
 </section>
+
+
+<!-- =========================
+     VIDEOS
+========================= -->
 
 <section id="videos" class="section">
 
@@ -172,7 +254,8 @@ main{padding:12px}
 <h3>Admin Video Management</h3>
 
 <p class="small">
-Upload videos using Cloudinary. Add a title, description, optional thumbnail and price.
+Upload videos using Cloudinary. Add a title, description,
+optional thumbnail and price.
 </p>
 
 <div class="form-grid">
@@ -190,7 +273,11 @@ Upload videos using Cloudinary. Add a title, description, optional thumbnail and
 </div>
 
 <label>Description</label>
-<textarea id="videoDescription" placeholder="Write about the video..."></textarea>
+
+<textarea
+id="videoDescription"
+placeholder="Write about the video...">
+</textarea>
 
 <div class="form-grid">
 
@@ -207,27 +294,59 @@ Upload videos using Cloudinary. Add a title, description, optional thumbnail and
 </div>
 
 <div class="form-row">
-<button class="primary" id="uploadVideoBtn" onclick="uploadVideo()">Upload Video</button>
+
+<button
+class="primary"
+id="uploadVideoBtn"
+onclick="uploadVideo()">
+Upload Video
+</button>
+
 </div>
 
-<div id="videoProgress" class="small" style="margin-top:10px">
+<div
+id="videoProgress"
+class="small"
+style="margin-top:10px">
+
 Ready. Select a video and tap Upload Video.
+
 </div>
 
-<div style="height:14px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin-top:8px">
-<div id="videoProgressBar" style="height:100%;width:0%;transition:width .15s"></div>
+<div
+style="height:14px;background:#e5e7eb;border-radius:8px;overflow:hidden;margin-top:8px">
+
+<div
+id="videoProgressBar"
+style="height:100%;width:0%;transition:width .15s">
 </div>
 
-<div id="videoProgressDetails" class="small" style="margin-top:6px"></div>
+</div>
+
+<div
+id="videoProgressDetails"
+class="small"
+style="margin-top:6px">
+</div>
 
 <hr>
 
 <div id="videoAdminArea">
-<div class="loading">Loading videos...</div>
+
+<div class="loading">
+Loading videos...
 </div>
 
 </div>
+
+</div>
+
 </section>
+
+
+<!-- =========================
+     MARKETPLACE
+========================= -->
 
 <section id="marketplace" class="section">
 
@@ -241,48 +360,97 @@ Ready. Select a video and tap Upload Video.
 
 <div>
 <label>Type</label>
+
 <select id="marketType">
-<option value="product">Product</option>
-<option value="service">Service</option>
+
+<option value="product">
+Product
+</option>
+
+<option value="service">
+Service
+</option>
+
 </select>
+
 </div>
 
 <div>
 <label>Name</label>
-<input id="marketName" placeholder="Product or service name">
+
+<input
+id="marketName"
+placeholder="Product or service name">
+
 </div>
 
 <div>
 <label>Price</label>
-<input id="marketPrice" type="number" min="0" step="0.01" placeholder="0">
+
+<input
+id="marketPrice"
+type="number"
+min="0"
+step="0.01"
+placeholder="0">
+
 </div>
 
 </div>
 
 <label>Description</label>
-<textarea id="marketDescription" placeholder="Describe the product or service..."></textarea>
+
+<textarea
+id="marketDescription"
+placeholder="Describe the product or service...">
+</textarea>
 
 <div class="form-grid">
 
 <div>
+
 <label>Image (optional)</label>
-<input id="marketImage" type="file" accept="image/*">
+
+<input
+id="marketImage"
+type="file"
+accept="image/*">
+
 </div>
 
 <div>
+
 <label>Seller / Provider</label>
-<input id="marketSeller" placeholder="Seller or service provider">
+
+<input
+id="marketSeller"
+placeholder="Seller or service provider">
+
 </div>
 
 <div>
+
 <label>Contact</label>
-<input id="marketContact" placeholder="Phone, email or WhatsApp">
+
+<input
+id="marketContact"
+placeholder="Phone, email or WhatsApp">
+
 </div>
 
 </div>
 
 <div class="form-row">
-<button class="primary" id="saveMarketBtn" onclick="saveMarketplaceItem()">Add to Marketplace</button>
+
+<button
+class="primary"
+id="saveMarketBtn"
+onclick="saveMarketplaceItem()">
+
+Add to Marketplace
+
+</button>
+
 </div>
 
 <div id="marketProgress" class="small"></div>
@@ -290,95 +458,385 @@ Ready. Select a video and tap Upload Video.
 <hr>
 
 <div id="marketplaceAdminArea">
-<div class="loading">Loading marketplace...</div>
+
+<div class="loading">
+Loading marketplace...
 </div>
 
 </div>
+
+</div>
+
 </section>
+
+
+<!-- =========================
+     MARKETPLACE MESSAGES
+========================= -->
 
 <section id="messages" class="section">
 
-<h2 class="section-title">Marketplace Customer Messages</h2>
+<h2 class="section-title">
+Marketplace Customer Messages
+</h2>
 
 <div class="page-card">
 
-<p>Customer enquiries from Marketplace are shown here for the administrator.</p>
+<p>
+Customer enquiries from Marketplace are shown here
+for the administrator.
+</p>
 
 <div id="marketplaceMessagesList">
-<div class="loading">Loading marketplace messages...</div>
+
+<div class="loading">
+Loading marketplace messages...
+</div>
+
 </div>
 
 </div>
 
 </section>
 
+
+<!-- =========================
+     SETTINGS
+========================= -->
+
 <section id="settings" class="section">
 
-<h2 class="section-title">Website Settings</h2>
+<h2 class="section-title">
+Website Settings
+</h2>
+
+
+<!-- =========================
+     LOGICAL WORLD ACCOUNT
+========================= -->
 
 <div class="page-card">
 
+<h3>💰 Logical World Account</h3>
+
 <p class="small">
-These settings are saved in <strong>siteSettings/general</strong>.
+This is the official business account for income
+that belongs to Logical World.
 </p>
 
-<div class="form-grid">
+<p class="small">
+Customer wallet balances are completely separate
+from this account.
+</p>
 
-<div>
-<label>Cleaning Services Title</label>
-<input id="cleaningTitle">
-</div>
 
-<div>
-<label>Repairs Title</label>
-<input id="repairsTitle">
-</div>
+<div class="stats-grid">
 
-<div>
-<label>Delivery Title</label>
-<input id="deliveryTitle">
-</div>
 
-<div>
-<label>Contact Phone</label>
-<input id="contactPhone">
-</div>
+<div class="stat-card">
 
-<div>
-<label>Contact Email</label>
-<input id="contactEmail">
-</div>
+<h3>Available Balance</h3>
 
-<div>
-<label>WhatsApp</label>
-<input id="contactWhatsApp">
-</div>
+<strong
+id="lwAvailableBalance"
+class="account-balance">
 
-<div>
-<label>Zangi</label>
-<input id="contactZangi">
-</div>
+₦0.00
+
+</strong>
 
 </div>
 
-<label>Cleaning Services Description</label>
-<textarea id="cleaningDescription"></textarea>
 
-<label>Repairs Description</label>
-<textarea id="repairsDescription"></textarea>
+<div class="stat-card income-card">
 
-<label>Delivery Description</label>
-<textarea id="deliveryDescription"></textarea>
+<h3>Total Income</h3>
+
+<strong id="lwTotalIncome">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card income-card">
+
+<h3>Airtime Income</h3>
+
+<strong id="lwAirtimeIncome">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card income-card">
+
+<h3>Data Income</h3>
+
+<strong id="lwDataIncome">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card income-card">
+
+<h3>Marketplace / Services</h3>
+
+<strong id="lwMarketplaceIncome">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card income-card">
+
+<h3>Other Income</h3>
+
+<strong id="lwOtherIncome">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card expense-card">
+
+<h3>Total Expenses</h3>
+
+<strong id="lwExpenses">
+₦0.00
+</strong>
+
+</div>
+
+
+<div class="stat-card expense-card">
+
+<h3>Total Withdrawals</h3>
+
+<strong id="lwWithdrawals">
+₦0.00
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="item-card">
+
+<h3>Account Information</h3>
+
+<p>
+<strong>Account:</strong>
+Logical World Business Account
+</p>
+
+<p>
+<strong>Purpose:</strong>
+All income belonging to Logical World.
+</p>
+
+<p class="small">
+This account is separate from customer wallets.
+Customer wallet money is not counted as Logical World income.
+</p>
+
+</div>
+
 
 <div class="form-row">
 
-<button class="primary" onclick="saveSettings()">Save Settings</button>
+<button
+class="primary"
+onclick="loadLogicalWorldAccount()">
 
-<button class="secondary" onclick="loadSettings()">Reload</button>
+Reload Account
+
+</button>
 
 </div>
 
-<div id="settingsMessage" class="small"></div>
+
+<div
+id="logicalWorldAccountMessage"
+class="small">
+</div>
+
+
+<hr>
+
+
+<h3>
+💳 Logical World Account Transactions
+</h3>
+
+<p class="small">
+Income, expenses and withdrawals will appear here.
+</p>
+
+
+<div id="logicalWorldTransactions">
+
+<div class="empty">
+No transactions yet.
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =========================
+     WEBSITE SETTINGS
+========================= -->
+
+<div class="page-card">
+
+<h3>Website Settings</h3>
+
+<p class="small">
+These settings are saved in
+<strong>siteSettings/general</strong>.
+</p>
+
+
+<div class="form-grid">
+
+
+<div>
+
+<label>
+Cleaning Services Title
+</label>
+
+<input id="cleaningTitle">
+
+</div>
+
+
+<div>
+
+<label>
+Repairs Title
+</label>
+
+<input id="repairsTitle">
+
+</div>
+
+
+<div>
+
+<label>
+Delivery Title
+</label>
+
+<input id="deliveryTitle">
+
+</div>
+
+
+<div>
+
+<label>
+Contact Phone
+</label>
+
+<input id="contactPhone">
+
+</div>
+
+
+<div>
+
+<label>
+Contact Email
+</label>
+
+<input id="contactEmail">
+
+</div>
+
+
+<div>
+
+<label>
+WhatsApp
+</label>
+
+<input id="contactWhatsApp">
+
+</div>
+
+
+<div>
+
+<label>
+Zangi
+</label>
+
+<input id="contactZangi">
+
+</div>
+
+</div>
+
+
+<label>
+Cleaning Services Description
+</label>
+
+<textarea id="cleaningDescription">
+</textarea>
+
+
+<label>
+Repairs Description
+</label>
+
+<textarea id="repairsDescription">
+</textarea>
+
+
+<label>
+Delivery Description
+</label>
+
+<textarea id="deliveryDescription">
+</textarea>
+
+
+<div class="form-row">
+
+<button
+class="primary"
+onclick="saveSettings()">
+
+Save Settings
+
+</button>
+
+
+<button
+class="secondary"
+onclick="loadSettings()">
+
+Reload
+
+</button>
+
+</div>
+
+
+<div
+id="settingsMessage"
+class="small">
+</div>
 
 </div>
 
@@ -386,28 +844,51 @@ These settings are saved in <strong>siteSettings/general</strong>.
 
 </main>
 
+
+<!-- =========================
+     VIEW MODAL
+========================= -->
+
 <div id="viewModal" class="modal">
 
 <div class="modal-box">
 
-<button class="close-modal" onclick="closeModal()">Close</button>
+<button
+class="close-modal"
+onclick="closeModal()">
 
-<h2 id="modalTitle">Page Details</h2>
+Close
 
-<div id="modalContent"></div>
+</button>
 
+<h2 id="modalTitle">
+Page Details
+</h2>
+
+<div id="modalContent">
 </div>
 
 </div>
+
+</div>
+
 
 <script type="module">
 
-import {auth,db} from "./firebase.js";
+import {
+auth,
+db
+}
+from "./firebase.js";
+
 
 import {
 onAuthStateChanged,
 signOut
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
 collection,
@@ -421,7 +902,10 @@ deleteDoc,
 serverTimestamp,
 query,
 orderBy
-} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
 
 
 /* =========================
@@ -429,7 +913,9 @@ orderBy
 ========================= */
 
 const CLOUDINARY_CLOUD_NAME="rkcnhhdb";
+
 const CLOUDINARY_UPLOAD_PRESET="logicalworld_pages";
+
 
 
 /* =========================
@@ -438,23 +924,36 @@ const CLOUDINARY_UPLOAD_PRESET="logicalworld_pages";
 
 const ADMIN_EMAIL="alagoagodstime@gmail.com";
 
-const $=id=>document.getElementById(id);
+const $=id=>
+document.getElementById(id);
+
 
 
 /* =========================
    LOGIN CHECK
 ========================= */
 
-onAuthStateChanged(auth,async user=>{
+onAuthStateChanged(
+auth,
+async user=>{
 
 if(!user){
+
 location.href="login.html";
+
 return;
+
 }
 
-if((user.email||"").toLowerCase()!==ADMIN_EMAIL.toLowerCase()){
 
-alert("Access denied. Admin only.");
+if(
+(user.email||"").toLowerCase()
+!==ADMIN_EMAIL.toLowerCase()
+){
+
+alert(
+"Access denied. Admin only."
+);
 
 await signOut(auth);
 
@@ -464,11 +963,15 @@ return;
 
 }
 
-$("adminEmail").textContent="Logged in as: "+user.email;
+
+$("adminEmail").textContent=
+"Logged in as: "+user.email;
+
 
 await loadAll();
 
 });
+
 
 
 /* =========================
@@ -477,27 +980,60 @@ await loadAll();
 
 window.showSection=function(id,b){
 
-document.querySelectorAll('.section')
-.forEach(s=>s.classList.remove('active'));
+document
+.querySelectorAll('.section')
+.forEach(
+s=>s.classList.remove('active')
+);
+
 
 $(id).classList.add('active');
 
-document.querySelectorAll('.admin-nav button')
-.forEach(x=>x.classList.remove('active'));
+
+document
+.querySelectorAll('.admin-nav button')
+.forEach(
+x=>x.classList.remove('active')
+);
+
 
 if(b)b.classList.add('active');
 
-if(id==='pending')loadPending();
-if(id==='approved')loadApproved();
-if(id==='rejected')loadRejected();
-if(id==='users')loadUsers();
-if(id==='reports')loadReports();
-if(id==='videos')loadVideos();
-if(id==='marketplace')loadMarketplace();
-if(id==='messages')loadMarketplaceMessages();
-if(id==='settings')loadSettings();
+
+if(id==='pending')
+loadPending();
+
+if(id==='approved')
+loadApproved();
+
+if(id==='rejected')
+loadRejected();
+
+if(id==='users')
+loadUsers();
+
+if(id==='reports')
+loadReports();
+
+if(id==='videos')
+loadVideos();
+
+if(id==='marketplace')
+loadMarketplace();
+
+if(id==='messages')
+loadMarketplaceMessages();
+
+if(id==='settings'){
+
+loadSettings();
+
+loadLogicalWorldAccount();
+
+}
 
 };
+
 
 
 /* =========================
@@ -507,91 +1043,184 @@ if(id==='settings')loadSettings();
 async function loadAll(){
 
 await Promise.all([
+
 loadPending(),
+
 loadApproved(),
+
 loadRejected(),
+
 loadUsers(),
+
 loadReports(),
+
 loadVideos(),
+
 loadMarketplace(),
+
 loadMarketplaceMessages(),
-loadSettings()
+
+loadSettings(),
+
+loadLogicalWorldAccount()
+
 ]);
 
 }
+
 
 
 /* =========================
    PAGES
 ========================= */
 
-async function loadPages(col,cid,count,status){
+async function loadPages(
+col,
+cid,
+count,
+status
+){
 
 const c=$(cid);
 
-c.innerHTML='<div class="loading">Loading...</div>';
+c.innerHTML=
+'<div class="loading">Loading...</div>';
+
 
 try{
 
-const s=await getDocs(collection(db,col));
+const s=
+await getDocs(
+collection(db,col)
+);
 
-if(count)$(count).textContent=s.size;
+
+if(count)
+$(count).textContent=s.size;
+
 
 if(s.empty){
 
-c.innerHTML='<div class="empty">No '+status+' pages.</div>';
+c.innerHTML=
+'<div class="empty">No '
++status+
+' pages.</div>';
 
 return;
 
 }
 
+
 c.innerHTML='';
 
+
 s.forEach(d=>
-c.appendChild(pageCard(d.id,d.data(),status))
+
+c.appendChild(
+pageCard(
+d.id,
+d.data(),
+status
+)
+)
+
 );
+
 
 }catch(e){
 
 console.error(e);
 
-c.innerHTML='<div class="empty">Could not load '+status+' pages.</div>';
+c.innerHTML=
+'<div class="empty">Could not load '
++status+
+' pages.</div>';
 
 }
 
 }
+
 
 
 const loadPending=()=>
-loadPages('pendingPages','pendingList','pendingCount','pending');
+loadPages(
+'pendingPages',
+'pendingList',
+'pendingCount',
+'pending'
+);
+
 
 const loadApproved=()=>
-loadPages('approvedPages','approvedList','approved');
+loadPages(
+'approvedPages',
+'approvedList',
+'approved'
+);
+
 
 const loadRejected=()=>
-loadPages('rejectedPages','rejectedList','rejected');
+loadPages(
+'rejectedPages',
+'rejectedList',
+'rejected'
+);
 
 
-function pageCard(id,p,status){
 
-const card=document.createElement('div');
+function pageCard(
+id,
+p,
+status
+){
+
+const card=
+document.createElement('div');
 
 card.className='page-card';
 
-const logo=p.logoURL||p.logo||'https://via.placeholder.com/100';
 
-const name=p.pageName||p.name||'Unnamed Page';
+const logo=
+p.logoURL||
+p.logo||
+'https://via.placeholder.com/100';
 
-let b='<button class="view-btn" onclick=\'viewPage('+JSON.stringify(JSON.stringify(p))+')\'>View</button>';
+
+const name=
+p.pageName||
+p.name||
+'Unnamed Page';
+
+
+let b=
+'<button class="view-btn" onclick=\'viewPage('
++
+JSON.stringify(
+JSON.stringify(p)
+)
++
+')\'>View</button>';
+
 
 if(status==='pending')
-b+=`<button class="approve-btn" onclick="approvePage('${id}')">Approve</button><button class="reject-btn" onclick="rejectPage('${id}')">Reject</button>`;
+
+b+=
+`<button class="approve-btn" onclick="approvePage('${id}')">Approve</button>
+<button class="reject-btn" onclick="rejectPage('${id}')">Reject</button>`;
+
 
 if(status==='approved')
-b+=`<button class="delete-btn" onclick="deletePage('${id}','approvedPages')">Delete</button>`;
+
+b+=
+`<button class="delete-btn" onclick="deletePage('${id}','approvedPages')">Delete</button>`;
+
 
 if(status==='rejected')
-b+=`<button class="approve-btn" onclick="restorePage('${id}')">Restore</button><button class="delete-btn" onclick="deletePage('${id}','rejectedPages')">Delete</button>`;
+
+b+=
+`<button class="approve-btn" onclick="restorePage('${id}')">Restore</button>
+<button class="delete-btn" onclick="deletePage('${id}','rejectedPages')">Delete</button>`;
+
 
 card.innerHTML=`
 
@@ -607,11 +1236,17 @@ onerror="this.src='https://via.placeholder.com/100'"
 
 <h3>${esc(name)}</h3>
 
-<p>${esc(p.description||p.about||'')}</p>
+<p>
+${esc(p.description||p.about||'')}
+</p>
 
 <p>
 Owner:
-${esc(p.ownerEmail||p.email||'Not provided')}
+${esc(
+p.ownerEmail||
+p.email||
+'Not provided'
+)}
 </p>
 
 </div>
@@ -624,9 +1259,11 @@ ${b}
 
 `;
 
+
 return card;
 
 }
+
 
 
 /* =========================
@@ -635,41 +1272,66 @@ return card;
 
 window.viewPage=s=>{
 
-const p=JSON.parse(s);
+const p=
+JSON.parse(s);
+
 
 $('modalTitle').textContent=
-p.pageName||p.name||'Page Details';
+p.pageName||
+p.name||
+'Page Details';
+
 
 $('modalContent').innerHTML=`
 
 <p>
 <strong>Name:</strong>
-${esc(p.pageName||p.name||'')}
+${esc(
+p.pageName||
+p.name||
+''
+)}
 </p>
 
 <p>
 <strong>Email:</strong>
-${esc(p.ownerEmail||p.email||'Not provided')}
+${esc(
+p.ownerEmail||
+p.email||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Description:</strong>
-${esc(p.description||p.about||'Not provided')}
+${esc(
+p.description||
+p.about||
+'Not provided'
+)}
 </p>
 
-${p.logoURL?
-`<img src="${esc(p.logoURL)}" style="max-width:200px;border-radius:10px">`
-:''}
+${
+p.logoURL
+?
+`<img
+src="${esc(p.logoURL)}"
+style="max-width:200px;border-radius:10px">`
+:''
+}
 
 `;
+
 
 $('viewModal').style.display='block';
 
 };
 
 
+
 window.closeModal=()=>
 $('viewModal').style.display='none';
+
 
 
 /* =========================
@@ -677,64 +1339,138 @@ $('viewModal').style.display='none';
 ========================= */
 
 window.approvePage=async id=>
-movePage(id,'pendingPages','approvedPages','approved');
+movePage(
+id,
+'pendingPages',
+'approvedPages',
+'approved'
+);
+
 
 window.rejectPage=async id=>
-movePage(id,'pendingPages','rejectedPages','rejected');
+movePage(
+id,
+'pendingPages',
+'rejectedPages',
+'rejected'
+);
+
 
 window.restorePage=async id=>
-movePage(id,'rejectedPages','pendingPages','pending');
+movePage(
+id,
+'rejectedPages',
+'pendingPages',
+'pending'
+);
 
 
-async function movePage(id,from,to,status){
 
-if(!confirm('Continue with this page action?'))return;
+async function movePage(
+id,
+from,
+to,
+status
+){
+
+if(
+!confirm(
+'Continue with this page action?'
+)
+)return;
+
 
 try{
 
-const d=await getDoc(doc(db,from,id));
+const d=
+await getDoc(
+doc(db,from,id)
+);
+
 
 if(!d.exists())return;
 
+
 await setDoc(
+
 doc(db,to,id),
+
 {
 ...d.data(),
 status,
 statusAt:serverTimestamp()
 }
+
 );
 
-await deleteDoc(doc(db,from,id));
+
+await deleteDoc(
+doc(db,from,id)
+);
+
 
 alert('Done.');
 
+
 loadPending();
+
 loadApproved();
+
 loadRejected();
+
 
 }catch(e){
 
-alert('Could not complete action: '+e.message);
+alert(
+'Could not complete action: '
++e.message
+);
 
 }
 
 }
 
 
-window.deletePage=async(id,col)=>{
 
-if(!confirm('Delete this page permanently?'))return;
+window.deletePage=
+async(id,col)=>{
+
+if(
+!confirm(
+'Delete this page permanently?'
+)
+)retwindow.deletePage=
+async(id,col)=>{
+
+if(
+!confirm(
+'Delete this page permanently?'
+)
+)return;
+
 
 try{
 
-await deleteDoc(doc(db,col,id));
+await deleteDoc(
+doc(db,col,id)
+);
 
-alert('Page deleted.');
 
-col==='approvedPages'
-?loadApproved()
-:loadRejected();
+alert(
+'Page deleted.'
+);
+
+
+if(col==='approvedPages'){
+
+loadApproved();
+
+}else{
+
+loadRejected();
+
+}
+
 
 }catch(e){
 
@@ -745,6 +1481,7 @@ alert(e.message);
 };
 
 
+
 /* =========================
    USERS
 ========================= */
@@ -753,37 +1490,60 @@ async function loadUsers(){
 
 const c=$('usersList');
 
+
 try{
 
-const s=await getDocs(collection(db,'users'));
+const s=
+await getDocs(
+collection(db,'users')
+);
 
-$('usersCount').textContent=s.size;
+
+$('usersCount').textContent=
+s.size;
+
 
 if(s.empty){
 
-c.innerHTML='<div class="empty">No registered users.</div>';
+c.innerHTML=
+'<div class="empty">No registered users.</div>';
 
 return;
 
 }
 
+
 c.innerHTML='';
+
 
 s.forEach(d=>{
 
 const u=d.data();
 
-const e=document.createElement('div');
+
+const e=
+document.createElement('div');
+
 
 e.className='user-card';
 
+
 e.innerHTML=`
 
-<h3>${esc(u.name||u.displayName||'User')}</h3>
+<h3>
+${esc(
+u.name||
+u.displayName||
+'User'
+)}
+</h3>
 
 <p>
 <strong>Email:</strong>
-${esc(u.email||'Not provided')}
+${esc(
+u.email||
+'Not provided'
+)}
 </p>
 
 <p>
@@ -793,17 +1553,21 @@ ${esc(d.id)}
 
 `;
 
+
 c.appendChild(e);
 
 });
 
+
 }catch(e){
 
-c.innerHTML='<div class="empty">Could not load users.</div>';
+c.innerHTML=
+'<div class="empty">Could not load users.</div>';
 
 }
 
 }
+
 
 
 /* =========================
@@ -814,29 +1578,43 @@ async function loadReports(){
 
 const c=$('reportsList');
 
+
 try{
 
-const s=await getDocs(collection(db,'reports'));
+const s=
+await getDocs(
+collection(db,'reports')
+);
 
-$('reportsCount').textContent=s.size;
+
+$('reportsCount').textContent=
+s.size;
+
 
 if(s.empty){
 
-c.innerHTML='<div class="empty">No reports.</div>';
+c.innerHTML=
+'<div class="empty">No reports.</div>';
 
 return;
 
 }
 
+
 c.innerHTML='';
+
 
 s.forEach(d=>{
 
 const r=d.data();
 
-const e=document.createElement('div');
+
+const e=
+document.createElement('div');
+
 
 e.className='report-card';
+
 
 e.innerHTML=`
 
@@ -844,37 +1622,57 @@ e.innerHTML=`
 
 <p>
 <strong>Reason:</strong>
-${esc(r.reason||r.message||'Not provided')}
+${esc(
+r.reason||
+r.message||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Reporter:</strong>
-${esc(r.reporterEmail||r.email||'Not provided')}
+${esc(
+r.reporterEmail||
+r.email||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Reported:</strong>
-${esc(r.reportedEmail||r.targetEmail||r.pageName||'Not provided')}
+${esc(
+r.reportedEmail||
+r.targetEmail||
+r.pageName||
+'Not provided'
+)}
 </p>
 
 <p>
 Status:
-${esc(r.status||'pending')}
+${esc(
+r.status||
+'pending'
+)}
 </p>
 
 `;
+
 
 c.appendChild(e);
 
 });
 
+
 }catch(e){
 
-c.innerHTML='<div class="empty">Could not load reports.</div>';
+c.innerHTML=
+'<div class="empty">Could not load reports.</div>';
 
 }
 
 }
+
 
 
 /* =========================
@@ -883,52 +1681,91 @@ c.innerHTML='<div class="empty">Could not load reports.</div>';
 
 function formatBytes(bytes){
 
-if(!bytes)return '0 B';
+if(!bytes)
+return '0 B';
 
-const units=['B','KB','MB','GB','TB'];
 
-const i=Math.floor(
-Math.log(bytes)/Math.log(1024)
+const units=[
+'B',
+'KB',
+'MB',
+'GB',
+'TB'
+];
+
+
+const i=
+Math.floor(
+Math.log(bytes)/
+Math.log(1024)
 );
 
+
 return (
-bytes/Math.pow(1024,i)
-).toFixed(i?2:0)+' '+units[i];
+bytes/
+Math.pow(1024,i)
+).toFixed(
+i?2:0
+)
++
+' '+
+units[i];
 
 }
+
 
 
 /* =========================
    CLOUDINARY UPLOAD
 ========================= */
 
-function uploadFile(file,path,progress){
+function uploadFile(
+file,
+path,
+progress
+){
 
-return new Promise(async(resolve,reject)=>{
+return new Promise(
+async(resolve,reject)=>{
+
 
 if(!file){
 
-reject(new Error("No file selected."));
+reject(
+new Error(
+"No file selected."
+)
+);
 
 return;
 
 }
 
+
 try{
 
-const formData=new FormData();
+const formData=
+new FormData();
 
-formData.append("file",file);
+
+formData.append(
+"file",
+file
+);
+
 
 formData.append(
 "upload_preset",
 CLOUDINARY_UPLOAD_PRESET
 );
 
+
 const resourceType=
 file.type.startsWith("video/")
-?"video"
-:"image";
+?
+"video"
+:
+"image";
 
 
 if(progress){
@@ -943,7 +1780,8 @@ file.size||1,
 }
 
 
-const response=await fetch(
+const response=
+await fetch(
 
 `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
 
@@ -959,26 +1797,37 @@ if(!response.ok){
 
 let message="";
 
+
 try{
 
-const data=await response.json();
+const data=
+await response.json();
 
-if(data.error&&data.error.message){
 
-message=" — "+data.error.message;
+if(
+data.error&&
+data.error.message
+){
+
+message=
+" — "+
+data.error.message;
 
 }
 
 }catch(e){}
 
+
 throw new Error(
-"Cloudinary upload failed"+message
+"Cloudinary upload failed"+
+message
 );
 
 }
 
 
-const result=await response.json();
+const result=
+await response.json();
 
 
 if(!result.secure_url){
@@ -1002,7 +1851,9 @@ file.size||1,
 }
 
 
-resolve(result.secure_url);
+resolve(
+result.secure_url
+);
 
 
 }catch(error){
@@ -1016,37 +1867,58 @@ reject(error);
 }
 
 
+
 /* =========================
    UPLOAD ERROR
 ========================= */
 
 function friendlyUploadError(e){
 
-const msg=e&&e.message||'Unknown error';
+const msg=
+e&&e.message||
+'Unknown error';
+
 
 return msg;
 
 }
 
 
+
 /* =========================
    VIDEO UPLOAD
 ========================= */
 
-window.uploadVideo=async()=>{
+window.uploadVideo=
+async()=>{
 
-const title=$('videoTitle').value.trim();
+const title=
+$('videoTitle')
+.value
+.trim();
 
-const desc=$('videoDescription').value.trim();
+
+const desc=
+$('videoDescription')
+.value
+.trim();
+
 
 const price=
-Number($('videoPrice').value||0);
+Number(
+$('videoPrice')
+.value||0
+);
+
 
 const file=
-$('videoFile').files[0];
+$('videoFile')
+.files[0];
+
 
 const thumb=
-$('videoThumbnail').files[0];
+$('videoThumbnail')
+.files[0];
 
 
 if(!title||!file){
@@ -1060,34 +1932,49 @@ return;
 }
 
 
-const btn=$('uploadVideoBtn');
+const btn=
+$('uploadVideoBtn');
 
-const progress=$('videoProgress');
 
-const bar=$('videoProgressBar');
+const progress=
+$('videoProgress');
 
-const details=$('videoProgressDetails');
+
+const bar=
+$('videoProgressBar');
+
+
+const details=
+$('videoProgressDetails');
 
 
 btn.disabled=true;
 
+
 bar.style.width='0%';
 
+
 progress.className='small';
+
 
 progress.textContent=
 'Starting video upload...';
 
+
 details.textContent=
-'Preparing '+formatBytes(file.size)+' video...';
+'Preparing '+
+formatBytes(file.size)+
+' video...';
 
 
 try{
 
-const stamp=Date.now();
+const stamp=
+Date.now();
 
 
-const url=await uploadFile(
+const url=
+await uploadFile(
 
 file,
 
@@ -1095,10 +1982,15 @@ file,
 
 (p,done,total,state)=>{
 
-bar.style.width=p+'%';
+bar.style.width=
+p+'%';
+
 
 progress.textContent=
-'Video upload: '+p+'%';
+'Video upload: '+
+p+
+'%';
+
 
 details.textContent=
 formatBytes(done)+
@@ -1120,10 +2012,12 @@ if(thumb){
 progress.textContent=
 'Uploading thumbnail...';
 
+
 bar.style.width='0%';
 
 
-thumbnailURL=await uploadFile(
+thumbnailURL=
+await uploadFile(
 
 thumb,
 
@@ -1131,10 +2025,15 @@ thumb,
 
 (p,done,total)=>{
 
-bar.style.width=p+'%';
+bar.style.width=
+p+'%';
+
 
 progress.textContent=
-'Thumbnail upload: '+p+'%';
+'Thumbnail upload: '+
+p+
+'%';
+
 
 details.textContent=
 formatBytes(done)+
@@ -1154,7 +2053,10 @@ progress.textContent=
 
 await addDoc(
 
-collection(db,'siteVideos'),
+collection(
+db,
+'siteVideos'
+),
 
 {
 title,
@@ -1163,8 +2065,10 @@ price,
 videoURL:url,
 thumbnailURL,
 active:true,
-createdAt:serverTimestamp(),
-updatedAt:serverTimestamp()
+createdAt:
+serverTimestamp(),
+updatedAt:
+serverTimestamp()
 }
 
 );
@@ -1183,13 +2087,18 @@ $('videoThumbnail').value='';
 
 bar.style.width='100%';
 
+
 progress.className=
 'small upload-ok';
+
 
 progress.textContent=
 'Video uploaded successfully.';
 
-details.textContent='Ready.';
+
+details.textContent=
+'Ready.';
+
 
 loadVideos();
 
@@ -1201,17 +2110,22 @@ console.error(
 e
 );
 
+
 const message=
 friendlyUploadError(e);
+
 
 progress.className=
 'small upload-error';
 
+
 progress.textContent=
 'VIDEO UPLOAD FAILED';
 
+
 details.textContent=
 message;
+
 
 alert(
 'Video upload failed.\n\n'+
@@ -1227,21 +2141,31 @@ btn.disabled=false;
 };
 
 
+
 /* =========================
    LOAD VIDEOS
 ========================= */
 
 async function loadVideos(){
 
-const c=$('videoAdminArea');
+const c=
+$('videoAdminArea');
+
 
 try{
 
-const s=await getDocs(
+const s=
+await getDocs(
 
 query(
-collection(db,'siteVideos'),
-orderBy('createdAt','desc')
+collection(
+db,
+'siteVideos'
+),
+orderBy(
+'createdAt',
+'desc'
+)
 )
 
 );
@@ -1264,18 +2188,28 @@ s.forEach(d=>{
 
 const v=d.data();
 
-const e=document.createElement('div');
+
+const e=
+document.createElement('div');
+
 
 e.className='item-card';
+
 
 e.innerHTML=`
 
 <h3>
-${esc(v.title||'Untitled Video')}
+${esc(
+v.title||
+'Untitled Video'
+)}
 </h3>
 
 <p>
-${esc(v.description||'')}
+${esc(
+v.description||
+''
+)}
 </p>
 
 <p>
@@ -1283,7 +2217,9 @@ ${esc(v.description||'')}
 ${price(v.price)}
 </p>
 
-${v.videoURL?
+${
+v.videoURL
+?
 `
 <video
 class="video-preview"
@@ -1291,7 +2227,8 @@ controls
 src="${esc(v.videoURL)}">
 </video>
 `
-:''}
+:''
+}
 
 <div class="actions">
 
@@ -1311,9 +2248,11 @@ Delete
 
 `;
 
+
 c.appendChild(e);
 
 });
+
 
 }catch(e){
 
@@ -1325,19 +2264,29 @@ c.innerHTML=
 }
 
 
+
 /* =========================
    EDIT VIDEO
 ========================= */
 
-window.editVideo=async id=>{
+window.editVideo=
+async id=>{
 
-const d=await getDoc(
-doc(db,'siteVideos',id)
+const d=
+await getDoc(
+doc(
+db,
+'siteVideos',
+id
+)
 );
+
 
 if(!d.exists())return;
 
+
 const v=d.data();
+
 
 const title=
 prompt(
@@ -1345,7 +2294,9 @@ prompt(
 v.title||''
 );
 
+
 if(title===null)return;
+
 
 const desc=
 prompt(
@@ -1353,13 +2304,16 @@ prompt(
 v.description||''
 );
 
+
 if(desc===null)return;
+
 
 const p=
 prompt(
 'Price:',
 v.price??0
 );
+
 
 if(p===null)return;
 
@@ -1368,18 +2322,25 @@ try{
 
 await updateDoc(
 
-doc(db,'siteVideos',id),
+doc(
+db,
+'siteVideos',
+id
+),
 
 {
 title,
 description:desc,
 price:Number(p)||0,
-updatedAt:serverTimestamp()
+updatedAt:
+serverTimestamp()
 }
 
 );
 
+
 loadVideos();
+
 
 }catch(e){
 
@@ -1388,23 +2349,36 @@ alert(e.message);
 }
 
 };
+
 
 
 /* =========================
    DELETE VIDEO
 ========================= */
 
-window.deleteVideo=async id=>{
+window.deleteVideo=
+async id=>{
 
-if(!confirm('Delete this video?'))return;
+if(
+!confirm(
+'Delete this video?'
+)
+)return;
+
 
 try{
 
 await deleteDoc(
-doc(db,'siteVideos',id)
+doc(
+db,
+'siteVideos',
+id
+)
 );
 
+
 loadVideos();
+
 
 }catch(e){
 
@@ -1415,31 +2389,52 @@ alert(e.message);
 };
 
 
+
 /* =========================
    MARKETPLACE
 ========================= */
 
-window.saveMarketplaceItem=async()=>{
+window.saveMarketplaceItem=
+async()=>{
 
-const type=$('marketType').value;
+const type=
+$('marketType').value;
+
 
 const name=
-$('marketName').value.trim();
+$('marketName')
+.value
+.trim();
+
 
 const description=
-$('marketDescription').value.trim();
+$('marketDescription')
+.value
+.trim();
+
 
 const p=
-Number($('marketPrice').value||0);
+Number(
+$('marketPrice')
+.value||0
+);
+
 
 const file=
-$('marketImage').files[0];
+$('marketImage')
+.files[0];
+
 
 const seller=
-$('marketSeller').value.trim();
+$('marketSeller')
+.value
+.trim();
+
 
 const contact=
-$('marketContact').value.trim();
+$('marketContact')
+.value
+.trim();
 
 
 if(!name){
@@ -1453,7 +2448,9 @@ return;
 }
 
 
-const btn=$('saveMarketBtn');
+const btn=
+$('saveMarketBtn');
+
 
 btn.disabled=true;
 
@@ -1465,15 +2462,19 @@ let imageURL='';
 
 if(file){
 
-imageURL=await uploadFile(
+imageURL=
+await uploadFile(
 
 file,
 
 `marketplace/${Date.now()}_${fn(file.name)}`,
 
 x=>
-$('marketProgress').textContent=
-'Image upload: '+x+'%'
+$('marketProgress')
+.textContent=
+'Image upload: '+
+x+
+'%'
 
 );
 
@@ -1482,7 +2483,10 @@ $('marketProgress').textContent=
 
 await addDoc(
 
-collection(db,'marketplace'),
+collection(
+db,
+'marketplace'
+),
 
 {
 type,
@@ -1493,8 +2497,10 @@ imageURL,
 seller,
 contact,
 active:true,
-createdAt:serverTimestamp(),
-updatedAt:serverTimestamp()
+createdAt:
+serverTimestamp(),
+updatedAt:
+serverTimestamp()
 }
 
 );
@@ -1512,8 +2518,10 @@ $('marketSeller').value='';
 
 $('marketContact').value='';
 
+
 $('marketProgress').textContent=
 'Marketplace item added.';
+
 
 loadMarketplace();
 
@@ -1531,21 +2539,31 @@ btn.disabled=false;
 };
 
 
+
 /* =========================
    LOAD MARKETPLACE
 ========================= */
 
 async function loadMarketplace(){
 
-const c=$('marketplaceAdminArea');
+const c=
+$('marketplaceAdminArea');
+
 
 try{
 
-const s=await getDocs(
+const s=
+await getDocs(
 
 query(
-collection(db,'marketplace'),
-orderBy('createdAt','desc')
+collection(
+db,
+'marketplace'
+),
+orderBy(
+'createdAt',
+'desc'
+)
 )
 
 );
@@ -1568,22 +2586,35 @@ s.forEach(d=>{
 
 const m=d.data();
 
-const e=document.createElement('div');
+
+const e=
+document.createElement('div');
+
 
 e.className='item-card';
+
 
 e.innerHTML=`
 
 <span class="status">
-${esc((m.type||'product').toUpperCase())}
+${esc(
+(m.type||'product')
+.toUpperCase()
+)}
 </span>
 
 <h3>
-${esc(m.name||'Unnamed')}
+${esc(
+m.name||
+'Unnamed'
+)}
 </h3>
 
 <p>
-${esc(m.description||'')}
+${esc(
+m.description||
+''
+)}
 </p>
 
 <p>
@@ -1593,17 +2624,26 @@ ${price(m.price)}
 
 <p>
 <strong>Seller/Provider:</strong>
-${esc(m.seller||'Not provided')}
+${esc(
+m.seller||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Contact:</strong>
-${esc(m.contact||'Not provided')}
+${esc(
+m.contact||
+'Not provided'
+)}
 </p>
 
-${m.imageURL?
+${
+m.imageURL
+?
 `<img src="${esc(m.imageURL)}">`
-:''}
+:''
+}
 
 <div class="actions">
 
@@ -1623,9 +2663,11 @@ Delete
 
 `;
 
+
 c.appendChild(e);
 
 });
+
 
 }catch(e){
 
@@ -1637,17 +2679,26 @@ c.innerHTML=
 }
 
 
+
 /* =========================
    EDIT MARKETPLACE
 ========================= */
 
-window.editMarketplace=async id=>{
+window.editMarketplace=
+async id=>{
 
-const d=await getDoc(
-doc(db,'marketplace',id)
+const d=
+await getDoc(
+doc(
+db,
+'marketplace',
+id
+)
 );
 
+
 if(!d.exists())return;
+
 
 const m=d.data();
 
@@ -1658,6 +2709,7 @@ prompt(
 m.name||''
 );
 
+
 if(name===null)return;
 
 
@@ -1666,6 +2718,7 @@ prompt(
 'Description:',
 m.description||''
 );
+
 
 if(desc===null)return;
 
@@ -1676,6 +2729,7 @@ prompt(
 m.price??0
 );
 
+
 if(p===null)return;
 
 
@@ -1685,6 +2739,7 @@ prompt(
 m.contact||''
 );
 
+
 if(contact===null)return;
 
 
@@ -1692,19 +2747,26 @@ try{
 
 await updateDoc(
 
-doc(db,'marketplace',id),
+doc(
+db,
+'marketplace',
+id
+),
 
 {
 name,
 description:desc,
 price:Number(p)||0,
 contact,
-updatedAt:serverTimestamp()
+updatedAt:
+serverTimestamp()
 }
 
 );
 
+
 loadMarketplace();
+
 
 }catch(e){
 
@@ -1713,26 +2775,36 @@ alert(e.message);
 }
 
 };
+
 
 
 /* =========================
    DELETE MARKETPLACE
 ========================= */
 
-window.deleteMarketplace=async id=>{
+window.deleteMarketplace=
+async id=>{
 
-if(!confirm(
+if(
+!confirm(
 'Delete this marketplace item?'
-))return;
+)
+)return;
 
 
 try{
 
 await deleteDoc(
-doc(db,'marketplace',id)
+doc(
+db,
+'marketplace',
+id
+)
 );
 
+
 loadMarketplace();
+
 
 }catch(e){
 
@@ -1741,6 +2813,7 @@ alert(e.message);
 }
 
 };
+
 
 
 /* =========================
@@ -1749,15 +2822,24 @@ alert(e.message);
 
 async function loadMarketplaceMessages(){
 
-const c=$('marketplaceMessagesList');
+const c=
+$('marketplaceMessagesList');
+
 
 try{
 
-const s=await getDocs(
+const s=
+await getDocs(
 
 query(
-collection(db,'marketplaceMessages'),
-orderBy('createdAt','desc')
+collection(
+db,
+'marketplaceMessages'
+),
+orderBy(
+'createdAt',
+'desc'
+)
 )
 
 );
@@ -1780,35 +2862,59 @@ s.forEach(d=>{
 
 const m=d.data();
 
-const e=document.createElement('div');
 
-e.className='message-card';
+const e=
+document.createElement('div');
+
+
+e.className=
+'message-card';
+
 
 e.innerHTML=`
 
 <p>
 <strong>Customer:</strong>
-${esc(m.customerEmail||m.email||'Not provided')}
+${esc(
+m.customerEmail||
+m.email||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Item:</strong>
-${esc(m.productName||m.itemName||'Not provided')}
+${esc(
+m.productName||
+m.itemName||
+'Not provided'
+)}
 </p>
 
 <p>
 <strong>Message:</strong><br>
-${esc(m.message||m.text||'')}
+${esc(
+m.message||
+m.text||
+''
+)}
 </p>
 
 <p>
 <strong>Contact:</strong>
-${esc(m.phone||m.contact||'Not provided')}
+${esc(
+m.phone||
+m.contact||
+'Not provided'
+)}
 </p>
 
 <p>
 Status:
-${esc(m.status||'new')}
+${esc(
+m.status||
+'new'
+)}
 </p>
 
 <div class="actions">
@@ -1829,9 +2935,11 @@ Delete
 
 `;
 
+
 c.appendChild(e);
 
 });
+
 
 }catch(e){
 
@@ -1843,26 +2951,35 @@ c.innerHTML=
 }
 
 
+
 /* =========================
    MESSAGE ACTIONS
 ========================= */
 
-window.markMessageRead=async id=>{
+window.markMessageRead=
+async id=>{
 
 try{
 
 await updateDoc(
 
-doc(db,'marketplaceMessages',id),
+doc(
+db,
+'marketplaceMessages',
+id
+),
 
 {
 status:'read',
-readAt:serverTimestamp()
+readAt:
+serverTimestamp()
 }
 
 );
 
+
 loadMarketplaceMessages();
+
 
 }catch(e){
 
@@ -1873,20 +2990,30 @@ alert(e.message);
 };
 
 
-window.deleteMarketplaceMessage=async id=>{
 
-if(!confirm(
+window.deleteMarketplaceMessage=
+async id=>{
+
+if(
+!confirm(
 'Delete this customer message?'
-))return;
+)
+)return;
 
 
 try{
 
 await deleteDoc(
-doc(db,'marketplaceMessages',id)
+doc(
+db,
+'marketplaceMessages',
+id
+)
 );
 
+
 loadMarketplaceMessages();
+
 
 }catch(e){
 
@@ -1895,6 +3022,319 @@ alert(e.message);
 }
 
 };
+
+
+
+/* =========================
+   LOGICAL WORLD ACCOUNT
+========================= */
+
+async function loadLogicalWorldAccount(){
+
+try{
+
+const accountRef=
+doc(
+db,
+'siteSettings',
+'logicalWorldAccount'
+);
+
+
+const accountSnap=
+await getDoc(
+accountRef
+);
+
+
+const a=
+accountSnap.exists()
+?
+accountSnap.data()
+:
+{
+
+availableBalance:0,
+
+totalIncome:0,
+
+airtimeIncome:0,
+
+dataIncome:0,
+
+marketplaceIncome:0,
+
+otherIncome:0,
+
+expenses:0,
+
+withdrawals:0
+
+};
+
+
+
+$('lwAvailableBalance')
+.textContent=
+naira(
+a.availableBalance
+);
+
+
+$('lwTotalIncome')
+.textContent=
+naira(
+a.totalIncome
+);
+
+
+$('lwAirtimeIncome')
+.textContent=
+naira(
+a.airtimeIncome
+);
+
+
+$('lwDataIncome')
+.textContent=
+naira(
+a.dataIncome
+);
+
+
+$('lwMarketplaceIncome')
+.textContent=
+naira(
+a.marketplaceIncome
+);
+
+
+$('lwOtherIncome')
+.textContent=
+naira(
+a.otherIncome
+);
+
+
+$('lwExpenses')
+.textContent=
+naira(
+a.expenses
+);
+
+
+$('lwWithdrawals')
+.textContent=
+naira(
+a.withdrawals
+);
+
+
+await loadLogicalWorldTransactions();
+
+
+}catch(e){
+
+console.error(
+'Could not load Logical World Account:',
+e
+);
+
+
+if(
+$('logicalWorldAccountMessage')
+){
+
+$('logicalWorldAccountMessage')
+.textContent=
+'Could not load Logical World Account: '
++
+e.message;
+
+}
+
+}
+
+}
+
+
+
+/* =========================
+   LOGICAL WORLD TRANSACTIONS
+========================= */
+
+async function loadLogicalWorldTransactions(){
+
+const c=
+$('logicalWorldTransactions');
+
+
+try{
+
+const s=
+await getDocs(
+
+query(
+collection(
+db,
+'logicalWorldTransactions'
+),
+orderBy(
+'createdAt',
+'desc'
+)
+)
+
+);
+
+
+if(s.empty){
+
+c.innerHTML=
+'<div class="empty">No transactions yet.</div>';
+
+return;
+
+}
+
+
+c.innerHTML='';
+
+
+s.forEach(d=>{
+
+const t=d.data();
+
+
+const amount=
+Number(
+t.amount||0
+);
+
+
+const type=
+t.type||
+'income';
+
+
+const isIncome=
+type==='income';
+
+
+const sign=
+isIncome
+?
+'+'
+:
+'-';
+
+
+const e=
+document.createElement('div');
+
+
+e.className=
+'item-card';
+
+
+e.innerHTML=`
+
+<h3>
+${esc(
+t.description||
+'Logical World Transaction'
+)}
+</h3>
+
+<p>
+<strong>Type:</strong>
+${esc(type)}
+</p>
+
+<p>
+<strong>Category:</strong>
+${esc(
+t.category||
+'other'
+)}
+</p>
+
+<p>
+<strong>Amount:</strong>
+
+<span class="${
+isIncome
+?
+'transaction-income'
+:
+'transaction-expense'
+}">
+
+${sign}${naira(amount)}
+
+</span>
+
+</p>
+
+<p class="small">
+
+${
+t.createdAt &&
+t.createdAt.toDate
+?
+esc(
+t.createdAt
+.toDate()
+.toLocaleString()
+)
+:
+'Date not available'
+}
+
+</p>
+
+`;
+
+
+c.appendChild(e);
+
+});
+
+
+}catch(e){
+
+console.error(e);
+
+
+c.innerHTML=
+'<div class="empty">No transactions available yet.</div>';
+
+}
+
+}
+
+
+
+/* =========================
+   NAIRA FORMAT
+========================= */
+
+function naira(amount){
+
+return '₦'+
+Number(
+amount||0
+)
+.toLocaleString(
+'en-NG',
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
+
+}
+
 
 
 /* =========================
@@ -1905,98 +3345,166 @@ async function loadSettings(){
 
 try{
 
-const d=await getDoc(
-doc(db,'siteSettings','general')
+const d=
+await getDoc(
+doc(
+db,
+'siteSettings',
+'general'
+)
 );
 
-const s=d.exists()
-?d.data()
-:{};
+
+const s=
+d.exists()
+?
+d.data()
+:
+{};
 
 
 $('cleaningTitle').value=
-s.cleaningTitle||'';
+s.cleaningTitle||
+'';
+
 
 $('cleaningDescription').value=
-s.cleaningDescription||'';
+s.cleaningDescription||
+'';
+
 
 $('repairsTitle').value=
-s.repairsTitle||'';
+s.repairsTitle||
+'';
+
 
 $('repairsDescription').value=
-s.repairsDescription||'';
+s.repairsDescription||
+'';
+
 
 $('deliveryTitle').value=
-s.deliveryTitle||'';
+s.deliveryTitle||
+'';
+
 
 $('deliveryDescription').value=
-s.deliveryDescription||'';
+s.deliveryDescription||
+'';
+
 
 $('contactPhone').value=
-s.contactPhone||'';
+s.contactPhone||
+'';
+
 
 $('contactEmail').value=
-s.contactEmail||'';
+s.contactEmail||
+'';
+
 
 $('contactWhatsApp').value=
-s.contactWhatsApp||'';
+s.contactWhatsApp||
+'';
+
 
 $('contactZangi').value=
-s.contactZangi||'';
+s.contactZangi||
+'';
 
 
 }catch(e){
 
-$('settingsMessage').textContent=
-'Could not load settings: '+e.message;
+$('settingsMessage')
+.textContent=
+'Could not load settings: '
++
+e.message;
 
 }
 
 }
+
 
 
 /* =========================
    SAVE SETTINGS
 ========================= */
 
-window.saveSettings=async()=>{
+window.saveSettings=
+async()=>{
 
 try{
 
 await setDoc(
 
-doc(db,'siteSettings','general'),
+doc(
+db,
+'siteSettings',
+'general'
+),
 
 {
+
 cleaningTitle:
-$('cleaningTitle').value.trim(),
+$('cleaningTitle')
+.value
+.trim(),
+
 
 cleaningDescription:
-$('cleaningDescription').value.trim(),
+$('cleaningDescription')
+.value
+.trim(),
+
 
 repairsTitle:
-$('repairsTitle').value.trim(),
+$('repairsTitle')
+.value
+.trim(),
+
 
 repairsDescription:
-$('repairsDescription').value.trim(),
+$('repairsDescription')
+.value
+.trim(),
+
 
 deliveryTitle:
-$('deliveryTitle').value.trim(),
+$('deliveryTitle')
+.value
+.trim(),
+
 
 deliveryDescription:
-$('deliveryDescription').value.trim(),
+$('deliveryDescription')
+.value
+.trim(),
+
 
 contactPhone:
-$('contactPhone').value.trim(),
+$('contactPhone')
+.value
+.trim(),
+
 
 contactEmail:
-$('contactEmail').value.trim(),
+$('contactEmail')
+.value
+.trim(),
+
 
 contactWhatsApp:
-$('contactWhatsApp').value.trim(),
+$('contactWhatsApp')
+.value
+.trim(),
+
 
 contactZangi:
-$('contactZangi').value.trim(),
+$('contactZangi')
+.value
+.trim(),
+
 
 updatedAt:
 serverTimestamp()
@@ -2010,31 +3518,39 @@ merge:true
 );
 
 
-$('settingsMessage').textContent=
+$('settingsMessage')
+.textContent=
 'Settings saved successfully.';
 
 
 }catch(e){
 
-$('settingsMessage').textContent=
-'Could not save settings: '+e.message;
+$('settingsMessage')
+.textContent=
+'Could not save settings: '
++
+e.message;
 
 }
 
 };
 
 
+
 /* =========================
    LOGOUT
 ========================= */
 
-window.logout=async()=>{
+window.logout=
+async()=>{
 
 await signOut(auth);
 
-location.href='login.html';
+location.href=
+'login.html';
 
 };
+
 
 
 /* =========================
@@ -2045,32 +3561,64 @@ function esc(v){
 
 return String(v??'')
 
-.replace(/&/g,'&amp;')
-.replace(/</g,'&lt;')
-.replace(/>/g,'&gt;')
-.replace(/"/g,'&quot;')
-.replace(/'/g,'&#039;');
+.replace(
+/&/g,
+'&amp;'
+)
+
+.replace(
+/</g,
+'&lt;'
+)
+
+.replace(
+/>/g,
+'&gt;'
+)
+
+.replace(
+/"/g,
+'&quot;'
+)
+
+.replace(
+/'/g,
+'&#039;'
+);
 
 }
+
 
 
 function fn(v){
 
-return String(v||'file')
-.replace(/[^a-zA-Z0-9._-]/g,'_');
+return String(
+v||'file'
+)
+
+.replace(
+/[^a-zA-Z0-9._-]/g,
+'_'
+);
 
 }
+
 
 
 function price(v){
 
-const n=Number(v||0);
+const n=
+Number(v||0);
+
 
 return n>0
-?'$'+n.toFixed(2)
-:'Free';
+?
+'₦'+n.toFixed(2)
+:
+'Free';
 
 }
+
 
 </script>
 
