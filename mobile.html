@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>Logical World Mobile</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f4f4f4;
+color:#222;
+font-size:16px;
+}
+
+.header{
+background:#0a4ea3;
+color:white;
+padding:14px 10px;
+text-align:center;
+}
+
+.header h1{
+font-size:22px;
+margin-bottom:4px;
+}
+
+.header p{
+font-size:13px;
+}
+
+.container{
+width:100%;
+max-width:420px;
+margin:0 auto;
+padding:10px;
+}
+
+.account-box{
+background:white;
+border:1px solid #ddd;
+padding:12px;
+margin-bottom:10px;
+border-radius:5px;
+}
+
+.account-name{
+font-weight:bold;
+font-size:17px;
+margin-bottom:4px;
+}
+
+.account-phone{
+font-size:13px;
+color:#666;
+}
+
+.menu{
+background:white;
+border:1px solid #ddd;
+border-radius:5px;
+overflow:hidden;
+}
+
+.menu-title{
+background:#eee;
+padding:10px;
+font-weight:bold;
+}
+
+.menu a{
+display:block;
+padding:15px 12px;
+border-top:1px solid #ddd;
+text-decoration:none;
+color:#0a4ea3;
+font-weight:bold;
+}
+
+.menu a:active{
+background:#eee;
+}
+
+.wallet-box{
+background:white;
+border:1px solid #ddd;
+border-radius:5px;
+padding:14px;
+margin-top:10px;
+}
+
+.wallet-title{
+font-weight:bold;
+margin-bottom:5px;
+}
+
+.wallet-balance{
+font-size:22px;
+font-weight:bold;
+color:#0a4ea3;
+}
+
+.wallet-link{
+display:block;
+margin-top:10px;
+text-decoration:none;
+color:#0a4ea3;
+font-weight:bold;
+}
+
+.logout{
+width:100%;
+padding:13px;
+margin-top:10px;
+background:#b00020;
+color:white;
+border:0;
+border-radius:5px;
+font-size:16px;
+font-weight:bold;
+}
+
+#loading{
+text-align:center;
+padding:30px 10px;
+}
+
+#error{
+display:none;
+background:#f8d7da;
+color:#842029;
+padding:12px;
+border-radius:5px;
+margin-top:10px;
+line-height:1.5;
+}
+
+.footer{
+text-align:center;
+color:#777;
+font-size:12px;
+padding:20px 5px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="header">
+
+<h1>🌍 Logical World</h1>
+
+<p>Mobile & Button Phone</p>
+
+</div>
+
+
+<div class="container">
+
+
+<div id="loading">
+
+Loading your account...
+
+</div>
+
+
+<div id="app" style="display:none;">
+
+
+<div class="account-box">
+
+<div
+class="account-name"
+id="userName"
+>
+User
+</div>
+
+<div
+class="account-phone"
+id="userPhone"
+>
+Loading phone number...
+</div>
+
+</div>
+
+
+<div class="menu">
+
+<div class="menu-title">
+MAIN MENU
+</div>
+
+
+<a href="mobile-chat.html">
+1. 💬 Chat
+</a>
+
+
+<a href="mobile-posts.html">
+2. 📝 Posts
+</a>
+
+
+<a href="mobile-profile.html">
+3. 👤 My Profile
+</a>
+
+
+<a href="mobile-wallet.html">
+4. 💰 Wallet
+</a>
+
+
+<a href="mobile-notifications.html">
+5. 🔔 Notifications
+</a>
+
+
+</div>
+
+
+<div class="wallet-box">
+
+<div class="wallet-title">
+Wallet Balance
+</div>
+
+<div
+class="wallet-balance"
+id="walletBalance"
+>
+₦0.00
+</div>
+
+<a
+class="wallet-link"
+href="mobile-wallet.html"
+>
+Open Wallet
+</a>
+
+</div>
+
+
+<button
+class="logout"
+id="logoutBtn"
+>
+Logout
+</button>
+
+
+<div id="error"></div>
+
+
+</div>
+
+
+<div class="footer">
+
+Logical World
+
+</div>
+
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+onAuthStateChanged,
+signOut
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+doc,
+getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const loading =
+document.getElementById(
+"loading"
+);
+
+const app =
+document.getElementById(
+"app"
+);
+
+const userName =
+document.getElementById(
+"userName"
+);
+
+const userPhone =
+document.getElementById(
+"userPhone"
+);
+
+const walletBalance =
+document.getElementById(
+"walletBalance"
+);
+
+const errorBox =
+document.getElementById(
+"error"
+);
+
+const logoutBtn =
+document.getElementById(
+"logoutBtn"
+);
+
+
+/* =====================================================
+   FORMAT MONEY
+===================================================== */
+
+function formatMoney(
+amount
+){
+
+const number =
+Number(amount) || 0;
+
+return "₦" +
+number.toLocaleString(
+"en-NG",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
+
+}
+
+
+/* =====================================================
+   LOAD USER
+===================================================== */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+
+if(!user){
+
+location.href =
+"mobile-register.html";
+
+return;
+
+}
+
+
+try{
+
+
+const userRef =
+doc(
+db,
+"users",
+user.uid
+);
+
+
+const userSnapshot =
+await getDoc(
+userRef
+);
+
+
+if(
+!userSnapshot.exists()
+){
+
+throw new Error(
+"Your Logical World account information could not be found."
+);
+
+}
+
+
+const data =
+userSnapshot.data();
+
+
+/* =================================================
+   USER INFORMATION
+================================================= */
+
+userName.textContent =
+
+data.name ||
+
+data.displayName ||
+
+user.displayName ||
+
+"User";
+
+
+userPhone.textContent =
+
+data.phoneNumber ||
+
+user.phoneNumber ||
+
+"Phone number not available";
+
+
+/* =================================================
+   WALLET
+================================================= */
+
+walletBalance.textContent =
+
+formatMoney(
+data.walletBalance
+);
+
+
+/* =================================================
+   SHOW APP
+================================================= */
+
+loading.style.display =
+"none";
+
+app.style.display =
+"block";
+
+
+}catch(error){
+
+console.error(
+"Mobile account loading error:",
+error
+);
+
+
+loading.style.display =
+"none";
+
+errorBox.style.display =
+"block";
+
+errorBox.textContent =
+
+"Could not load your account. " +
+error.message;
+
+}
+
+});
+
+
+/* =====================================================
+   LOGOUT
+===================================================== */
+
+logoutBtn.addEventListener(
+"click",
+async()=>{
+
+
+try{
+
+
+logoutBtn.disabled =
+true;
+
+logoutBtn.textContent =
+"Logging out...";
+
+
+await signOut(
+auth
+);
+
+
+location.href =
+"login.html";
+
+
+}catch(error){
+
+console.error(
+"Logout error:",
+error
+);
+
+
+logoutBtn.disabled =
+false;
+
+logoutBtn.textContent =
+"Logout";
+
+
+alert(
+"Could not logout. Please try again."
+);
+
+}
+
+});
+
+
+</script>
+
+
+</body>
+
+</html>
