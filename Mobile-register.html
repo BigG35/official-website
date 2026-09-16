@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+name="viewport"
+content="width=device-width,initial-scale=1.0"
+>
+
+<title>Logical World - Mobile Register</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+body{
+font-family:Arial,sans-serif;
+background:#f5f5f5;
+color:#222;
+min-height:100vh;
+padding:10px;
+}
+
+.container{
+width:100%;
+max-width:420px;
+margin:0 auto;
+background:white;
+padding:18px;
+border-radius:8px;
+}
+
+h1{
+text-align:center;
+color:#0a4ea3;
+font-size:24px;
+margin-bottom:8px;
+}
+
+.subtitle{
+text-align:center;
+color:#666;
+font-size:14px;
+margin-bottom:18px;
+}
+
+label{
+display:block;
+font-weight:bold;
+margin-top:12px;
+margin-bottom:5px;
+}
+
+input{
+width:100%;
+padding:11px;
+border:1px solid #bbb;
+border-radius:5px;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:12px;
+border:0;
+border-radius:5px;
+background:#0a4ea3;
+color:white;
+font-size:16px;
+font-weight:bold;
+}
+
+button:disabled{
+opacity:.6;
+}
+
+.secondary{
+background:#555;
+}
+
+#photoPreview{
+display:none;
+width:80px;
+height:80px;
+object-fit:cover;
+border-radius:50%;
+margin:10px auto;
+}
+
+#message{
+display:none;
+margin-top:12px;
+padding:10px;
+border-radius:5px;
+font-size:14px;
+line-height:1.5;
+}
+
+.success{
+display:block !important;
+background:#d1e7dd;
+color:#0f5132;
+}
+
+.error{
+display:block !important;
+background:#f8d7da;
+color:#842029;
+}
+
+#otpSection{
+display:none;
+margin-top:15px;
+padding-top:10px;
+border-top:1px solid #ddd;
+}
+
+.small{
+font-size:12px;
+color:#666;
+margin-top:5px;
+}
+
+.login{
+text-align:center;
+margin-top:18px;
+font-size:14px;
+}
+
+.login a{
+color:#0a4ea3;
+font-weight:bold;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<h1>🌍 Logical World</h1>
+
+<p class="subtitle">
+Create your mobile account
+</p>
+
+
+<label for="fullName">
+Real Name
+</label>
+
+<input
+type="text"
+id="fullName"
+placeholder="Enter your real name"
+autocomplete="name"
+>
+
+
+<label for="age">
+Age
+</label>
+
+<input
+type="number"
+id="age"
+placeholder="Enter your age"
+min="13"
+max="120"
+>
+
+
+<label for="phone">
+Phone Number
+</label>
+
+<input
+type="tel"
+id="phone"
+placeholder="+2348012345678"
+autocomplete="tel"
+>
+
+<p class="small">
+Use your Nigerian number with +234.
+</p>
+
+
+<label for="profilePic">
+Profile Picture
+</label>
+
+<input
+type="file"
+id="profilePic"
+accept="image/*"
+>
+
+<img
+id="photoPreview"
+alt="Profile preview"
+>
+
+
+<button
+id="sendCodeBtn"
+>
+Send Verification Code
+</button>
+
+
+<div id="otpSection">
+
+<label for="otp">
+Verification Code
+</label>
+
+<input
+type="number"
+id="otp"
+placeholder="Enter SMS code"
+inputmode="numeric"
+autocomplete="one-time-code"
+>
+
+<button
+id="verifyBtn"
+>
+Verify & Create Account
+</button>
+
+</div>
+
+
+<div id="recaptcha-container"></div>
+
+
+<div id="message"></div>
+
+
+<div class="login">
+
+Already have an account?
+
+<a href="login.html">
+Login
+</a>
+
+</div>
+
+
+</div>
+
+
+<script type="module">
+
+
+/* =====================================================
+   FIREBASE
+===================================================== */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+
+import {
+RecaptchaVerifier,
+signInWithPhoneNumber,
+updateProfile
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+
+import {
+doc,
+setDoc,
+serverTimestamp
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =====================================================
+   ELEMENTS
+===================================================== */
+
+const fullNameInput =
+document.getElementById("fullName");
+
+const ageInput =
+document.getElementById("age");
+
+const phoneInput =
+document.getElementById("phone");
+
+const profilePicInput =
+document.getElementById("profilePic");
+
+const photoPreview =
+document.getElementById("photoPreview");
+
+const sendCodeBtn =
+document.getElementById("sendCodeBtn");
+
+const verifyBtn =
+document.getElementById("verifyBtn");
+
+const otpSection =
+document.getElementById("otpSection");
+
+const otpInput =
+document.getElementById("otp");
+
+const message =
+document.getElementById("message");
+
+
+let confirmationResult = null;
+
+
+/* =====================================================
+   MESSAGE
+===================================================== */
+
+function showMessage(
+text,
+type
+){
+
+message.textContent =
+text;
+
+message.className =
+type;
+
+}
+
+
+/* =====================================================
+   PHONE FORMAT
+===================================================== */
+
+function formatNigerianPhone(
+phone
+){
+
+phone =
+phone.trim();
+
+
+/*
+   08012345678
+   becomes
+   +2348012345678
+*/
+
+if(
+phone.startsWith("0")
+){
+
+phone =
+"+234" +
+phone.substring(1);
+
+}
+
+
+/*
+   2348012345678
+   becomes
+   +2348012345678
+*/
+
+if(
+phone.startsWith("234")
+){
+
+phone =
+"+" +
+phone;
+
+}
+
+
+return phone;
+
+}
+
+
+/* =====================================================
+   PROFILE PHOTO PREVIEW
+===================================================== */
+
+profilePicInput.addEventListener(
+"change",
+()=>{
+
+const file =
+profilePicInput.files[0];
+
+
+if(!file){
+
+photoPreview.style.display =
+"none";
+
+return;
+
+}
+
+
+const reader =
+new FileReader();
+
+
+reader.onload =
+function(event){
+
+photoPreview.src =
+event.target.result;
+
+photoPreview.style.display =
+"block";
+
+};
+
+
+reader.readAsDataURL(file);
+
+});
+
+
+/* =====================================================
+   RECAPTCHA
+===================================================== */
+
+let recaptchaVerifier;
+
+
+try{
+
+recaptchaVerifier =
+new RecaptchaVerifier(
+auth,
+"recaptcha-container",
+{
+
+size:
+"normal"
+
+}
+);
+
+}catch(error){
+
+console.error(
+"reCAPTCHA setup error:",
+error
+);
+
+}
+
+
+/* =====================================================
+   SEND SMS CODE
+===================================================== */
+
+sendCodeBtn.addEventListener(
+"click",
+async()=>{
+
+
+const fullName =
+fullNameInput.value.trim();
+
+
+const age =
+Number(
+ageInput.value
+);
+
+
+const phone =
+formatNigerianPhone(
+phoneInput.value
+);
+
+
+message.className =
+"";
+
+message.textContent =
+"";
+
+
+if(
+fullName.length < 2
+){
+
+showMessage(
+"Please enter your real name.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!age ||
+age < 13 ||
+age > 120
+){
+
+showMessage(
+"Please enter a valid age.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!phone.startsWith("+234") ||
+phone.length !== 14
+){
+
+showMessage(
+"Please enter a valid Nigerian phone number.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+!recaptchaVerifier
+){
+
+showMessage(
+"Security verification could not start. Please reload the page and try again.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+
+sendCodeBtn.disabled =
+true;
+
+sendCodeBtn.textContent =
+"Sending...";
+
+
+confirmationResult =
+
+await signInWithPhoneNumber(
+auth,
+phone,
+recaptchaVerifier
+);
+
+
+otpSection.style.display =
+"block";
+
+
+showMessage(
+"Verification code sent to " +
+phone +
+". Enter the code below.",
+"success"
+);
+
+
+sendCodeBtn.textContent =
+"Code Sent";
+
+
+}catch(error){
+
+console.error(
+"SMS ERROR:",
+error
+);
+
+
+showMessage(
+getFirebaseErrorMessage(error),
+"error"
+);
+
+
+sendCodeBtn.disabled =
+false;
+
+sendCodeBtn.textContent =
+"Send Verification Code";
+
+
+/*
+Reset reCAPTCHA after failure.
+*/
+
+try{
+
+recaptchaVerifier.clear();
+
+recaptchaVerifier =
+new RecaptchaVerifier(
+auth,
+"recaptcha-container",
+{
+
+size:
+"normal"
+
+}
+);
+
+}catch(recaptchaError){
+
+console.warn(
+"Could not reset reCAPTCHA:",
+recaptchaError
+);
+
+}
+
+}
+
+});
+
+
+/* =====================================================
+   VERIFY OTP
+===================================================== */
+
+verifyBtn.addEventListener(
+"click",
+async()=>{
+
+
+const fullName =
+fullNameInput.value.trim();
+
+
+const age =
+Number(
+ageInput.value
+);
+
+
+const phone =
+formatNigerianPhone(
+phoneInput.value
+);
+
+
+const otp =
+otpInput.value.trim();
+
+
+if(
+!confirmationResult
+){
+
+showMessage(
+"Please request a verification code first.",
+"error"
+);
+
+return;
+
+}
+
+
+if(
+otp.length < 4
+){
+
+showMessage(
+"Please enter the verification code.",
+"error"
+);
+
+return;
+
+}
+
+
+try{
+
+
+verifyBtn.disabled =
+true;
+
+verifyBtn.textContent =
+"Creating Account...";
+
+
+/* =================================================
+   VERIFY PHONE NUMBER
+================================================= */
+
+const result =
+
+await confirmationResult.confirm(
+otp
+);
+
+
+const user =
+result.user;
+
+
+console.log(
+"Phone account created:",
+user.uid
+);
+
+
+/* =================================================
+   SAVE NAME TO FIREBASE AUTH PROFILE
+================================================= */
+
+try{
+
+await updateProfile(
+user,
+{
+
+displayName:
+fullName
+
+}
+);
+
+}catch(profileError){
+
+console.warn(
+"Could not update profile:",
+profileError
+);
+
+}
+
+
+/* =================================================
+   PROFILE PICTURE
+================================================= */
+
+let profilePhotoURL =
+"";
+
+
+const photoFile =
+profilePicInput.files[0];
+
+
+if(
+photoFile
+){
+
+try{
+
+
+/*
+   Logical World Cloudinary account
+*/
+
+const cloudName =
+"rkcnhhdb";
+
+const uploadPreset =
+"logicalworld_pages";
+
+
+const formData =
+new FormData();
+
+
+formData.append(
+"file",
+photoFile
+);
+
+formData.append(
+"upload_preset",
+uploadPreset
+);
+
+
+const uploadResponse =
+
+await fetch(
+
+"https://api.cloudinary.com/v1_1/" +
+cloudName +
+"/image/upload",
+
+{
+
+method:
+"POST",
+
+body:
+formData
+
+}
+
+);
+
+
+if(
+!uploadResponse.ok
+){
+
+throw new Error(
+"Profile picture upload failed."
+);
+
+}
+
+
+const uploadData =
+await uploadResponse.json();
+
+
+profilePhotoURL =
+uploadData.secure_url ||
+"";
+
+
+}catch(photoError){
+
+console.warn(
+"Profile picture upload failed:",
+photoError
+);
+
+/*
+   Account creation continues even
+   if the picture upload fails.
+*/
+
+}
+
+}
+
+
+/* =================================================
+   CREATE USER DOCUMENT
+================================================= */
+
+const userRef =
+doc(
+db,
+"users",
+user.uid
+);
+
+
+await setDoc(
+
+userRef,
+
+{
+
+/* USER INFORMATION */
+
+uid:
+user.uid,
+
+name:
+fullName,
+
+displayName:
+fullName,
+
+phoneNumber:
+phone,
+
+age:
+age,
+
+profilePhotoURL:
+profilePhotoURL,
+
+accountStatus:
+"active",
+
+role:
+"user",
+
+accountType:
+"mobile-user",
+
+createdAt:
+serverTimestamp(),
+
+updatedAt:
+serverTimestamp(),
+
+
+/* =================================================
+   WALLET FOUNDATION
+================================================= */
+
+walletBalance:
+0,
+
+walletCurrency:
+"NGN",
+
+walletStatus:
+"active",
+
+walletAccountNumber:
+null,
+
+walletAccountName:
+fullName,
+
+walletCreatedAt:
+serverTimestamp(),
+
+walletUpdatedAt:
+serverTimestamp()
+
+},
+
+{
+
+merge:
+true
+
+}
+
+);
+
+
+console.log(
+"Mobile user and wallet created:",
+user.uid
+);
+
+
+/* =================================================
+   SUCCESS
+================================================= */
+
+showMessage(
+"Account created successfully! Opening Logical World...",
+"success"
+);
+
+
+setTimeout(
+()=>{
+
+location.href =
+"mobile.html";
+
+},
+1500
+);
+
+
+}catch(error){
+
+console.error(
+"ACCOUNT CREATION ERROR:",
+error
+);
+
+
+showMessage(
+getFirebaseErrorMessage(error),
+"error"
+);
+
+
+verifyBtn.disabled =
+false;
+
+verifyBtn.textContent =
+"Verify & Create Account";
+
+}
+
+});
+
+
+/* =====================================================
+   FIREBASE ERROR MESSAGES
+===================================================== */
+
+function getFirebaseErrorMessage(
+error
+){
+
+switch(
+error.code
+){
+
+case "auth/invalid-phone-number":
+
+return "The phone number is invalid.";
+
+case "auth/too-many-requests":
+
+return "Too many attempts. Please wait and try again later.";
+
+case "auth/quota-exceeded":
+
+return "SMS verification limit has been reached. Please try again later.";
+
+case "auth/invalid-verification-code":
+
+return "The verification code is incorrect.";
+
+case "auth/code-expired":
+
+return "The verification code has expired. Please request a new code.";
+
+case "auth/network-request-failed":
+
+return "Network error. Please check your internet connection.";
+
+case "auth/operation-not-allowed":
+
+return "Phone authentication is not enabled in Firebase.";
+
+case "auth/captcha-check-failed":
+
+return "Security verification failed. Please reload the page and try again.";
+
+default:
+
+return error.message ||
+"Registration failed. Please try again.";
+
+}
+
+}
+
+
+</script>
+
+
+</body>
+
+  </html>
