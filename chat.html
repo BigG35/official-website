@@ -197,6 +197,13 @@ word-break:break-word;
 margin-top:4px;
 }
 
+.user-phone{
+font-size:13px;
+color:#555;
+word-break:break-word;
+margin-top:4px;
+}
+
 .user-card button{
 flex-shrink:0;
 }
@@ -354,6 +361,11 @@ class="hidden"
 </p>
 
 <p>
+<strong>Phone:</strong>
+<span id="currentUserPhone">Not available</span>
+</p>
+
+<p>
 
 Daily chat allowance:
 
@@ -408,7 +420,7 @@ for="userSearch"
 <input
 type="text"
 id="userSearch"
-placeholder="Search by name..."
+placeholder="Search by name, email or phone..."
 autocomplete="off"
 >
 
@@ -536,6 +548,7 @@ where,
 getDocs,
 addDoc,
 doc,
+getDoc,
 updateDoc,
 serverTimestamp,
 orderBy
@@ -562,6 +575,9 @@ document.getElementById("currentUserName");
 
 const currentUserEmail =
 document.getElementById("currentUserEmail");
+
+const currentUserPhone =
+document.getElementById("currentUserPhone");
 
 const wordCounter =
 document.getElementById("wordCounter");
@@ -614,6 +630,8 @@ let currentOtherUserId = null;
 let currentOtherName = "";
 
 let currentOtherEmail = "";
+
+let currentOtherPhone = "";
 
 let allUsers = [];
 
@@ -755,6 +773,44 @@ user.displayName || "User";
 currentUserEmail.textContent =
 user.email || "";
 
+try{
+
+const userRef =
+doc(
+db,
+"users",
+user.uid
+);
+
+const userSnap =
+await getDoc(userRef);
+
+if(userSnap.exists()){
+
+const data =
+userSnap.data();
+
+currentUserName.textContent =
+data.name ||
+data.displayName ||
+user.displayName ||
+"User";
+
+currentUserPhone.textContent =
+data.phoneNumber ||
+"Not available";
+
+}
+
+}catch(error){
+
+console.error(
+"Load current user error:",
+error
+);
+
+}
+
 updateWordCounter();
 
 await loadUsers();
@@ -805,6 +861,14 @@ data.displayName ||
 
 email:
 data.email ||
+"",
+
+phone:
+data.phoneNumber ||
+"",
+
+profilePhotoURL:
+data.profilePhotoURL ||
 ""
 
 });
@@ -868,11 +932,49 @@ card.className =
 "user-card";
 
 
+/* USER INFO */
+
 const info =
 document.createElement("div");
 
 info.className =
 "user-info";
+
+
+/* PROFILE PHOTO */
+
+if(user.profilePhotoURL){
+
+const photo =
+document.createElement("img");
+
+photo.src =
+user.profilePhotoURL;
+
+photo.alt =
+user.name;
+
+photo.style.width =
+"48px";
+
+photo.style.height =
+"48px";
+
+photo.style.borderRadius =
+"50%";
+
+photo.style.objectFit =
+"cover";
+
+photo.style.float =
+"left";
+
+photo.style.marginRight =
+"10px";
+
+info.appendChild(photo);
+
+}
 
 
 const name =
@@ -895,9 +997,25 @@ email.textContent =
 user.email;
 
 
+const phone =
+document.createElement("div");
+
+phone.className =
+"user-phone";
+
+phone.textContent =
+user.phone;
+
+
 info.appendChild(name);
 
 info.appendChild(email);
+
+if(user.phone){
+
+info.appendChild(phone);
+
+}
 
 
 /* CHAT BUTTON */
@@ -952,9 +1070,23 @@ return;
 const filtered =
 allUsers.filter(
 (user)=>
+
 user.name
 .toLowerCase()
 .includes(search)
+
+||
+
+user.email
+.toLowerCase()
+.includes(search)
+
+||
+
+user.phone
+.toLowerCase()
+.includes(search)
+
 );
 
 renderUsers(filtered);
@@ -985,28 +1117,23 @@ performSearch();
 });
 
 
-/* START CHAT */
+/* CREATE / FIND CONVERSATION */
 
-async function startChatWithUser(user){
+async function getOrCreateConversation(user){
 
-if(!currentUser){
+/*
+Important:
 
-alert(
-"Please login first."
-);
+The button-phone chat creates a conversation ID
+using the two Firebase user IDs sorted alphabetically.
 
-return;
+This function first checks the existing
+conversations collection.
 
-}
-
-currentOtherUserId =
-user.id;
-
-currentOtherName =
-user.name;
-
-currentOtherEmail =
-user.email;
+If no existing conversation is found,
+it uses the same deterministic ID used
+by the button-phone chat.
+*/
 
 try{
 
@@ -1048,7 +1175,7 @@ Array.isArray(data.members)
 &&
 
 data.members.includes(
-currentOtherUserId
+user.id
 )
 
 ){
@@ -1063,31 +1190,73 @@ conversationDoc;
 
 if(existingConversation){
 
-currentConversationId =
-existingConversation.id;
+return existingConversation.id;
 
-}else{
+}
 
-const conversationRef =
-await addDoc(
 
-collection(
+/*
+Same conversation ID format as mobile-chat.html
+*/
+
+const memberIds = [
+
+currentUser.uid,
+user.id
+
+];
+
+memberIds.sort();
+
+const compatibleConversationId =
+memberIds.join("_");
+
+
+/*
+Check whether a conversation with this
+deterministic ID already exists.
+*/
+
+const compatibleRef =
+doc(
 db,
-"conversations"
-),
+"conversations",
+compatibleConversationId
+);
 
-{
+const compatibleSnap =
+await getDoc(
+compatibleRef
+);
+
+if(compatibleSnap.exists()){
+
+return compatibleConversationId;
+
+}
+
+
+/*
+Create the conversation using the deterministic ID.
+*/
+
+const conversationData = {
 
 type:"normal",
 
 members:[
 currentUser.uid,
-currentOtherUserId
+user.id
 ],
 
 memberEmails:[
 currentUser.email || "",
-currentOtherEmail
+user.email || ""
+],
+
+memberPhones:[
+currentUserPhone.textContent || "",
+user.phone || ""
 ],
 
 createdAt:
@@ -1100,14 +1269,73 @@ lastMessage:"",
 
 lastSenderId:""
 
-}
+};
 
+
+await import(
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js"
+)
+.then(async(module)=>{
+
+const setDoc =
+module.setDoc;
+
+await setDoc(
+compatibleRef,
+conversationData
 );
 
-currentConversationId =
-conversationRef.id;
+});
+
+
+return compatibleConversationId;
+
+
+}catch(error){
+
+console.error(
+"Get/create conversation error:",
+error
+);
+
+throw error;
 
 }
+
+}
+
+
+/* START CHAT */
+
+async function startChatWithUser(user){
+
+if(!currentUser){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
+currentOtherUserId =
+user.id;
+
+currentOtherName =
+user.name;
+
+currentOtherEmail =
+user.email;
+
+currentOtherPhone =
+user.phone;
+
+
+try{
+
+currentConversationId =
+await getOrCreateConversation(user);
 
 
 chatTitle.textContent =
@@ -1160,6 +1388,16 @@ Loading messages...
 
 try{
 
+/*
+We deliberately do NOT use orderBy here.
+
+The button-phone chat stores messages
+with the same conversationId.
+
+Sorting in JavaScript avoids requiring
+a Firestore composite index.
+*/
+
 const messagesSnapshot =
 await getDocs(
 
@@ -1171,20 +1409,53 @@ where(
 "conversationId",
 "==",
 currentConversationId
-),
-
-orderBy(
-"createdAt",
-"asc"
 )
 
 )
 
 );
 
+const messages = [];
+
+messagesSnapshot.forEach(
+(messageDoc)=>{
+
+messages.push({
+id:messageDoc.id,
+...messageDoc.data()
+});
+
+});
+
+
+messages.sort(
+(a,b)=>{
+
+const aTime =
+a.createdAt &&
+a.createdAt.toMillis
+?
+a.createdAt.toMillis()
+:
+0;
+
+const bTime =
+b.createdAt &&
+b.createdAt.toMillis
+?
+b.createdAt.toMillis()
+:
+0;
+
+return aTime - bTime;
+
+}
+);
+
+
 chatBox.innerHTML = "";
 
-if(messagesSnapshot.empty){
+if(messages.length === 0){
 
 chatBox.innerHTML = `
 <div class="empty">
@@ -1196,11 +1467,8 @@ return;
 
 }
 
-messagesSnapshot.forEach(
-(messageDoc)=>{
-
-const data =
-messageDoc.data();
+messages.forEach(
+(data)=>{
 
 const message =
 document.createElement("div");
@@ -1363,8 +1631,17 @@ senderEmail:
 currentUser.email || "",
 
 senderName:
+currentUserName.textContent ||
 currentUser.displayName ||
 "User",
+
+senderPhone:
+currentUserPhone.textContent ===
+"Not available"
+?
+""
+:
+currentUserPhone.textContent,
 
 receiverId:
 currentOtherUserId,
@@ -1375,9 +1652,14 @@ currentOtherEmail,
 receiverName:
 currentOtherName,
 
+receiverPhone:
+currentOtherPhone,
+
 text:text,
 
 wordCount:words,
+
+read:false,
 
 createdAt:
 serverTimestamp()
@@ -1393,6 +1675,12 @@ used + words
 
 updateWordCounter();
 
+
+/*
+Update conversation summary.
+*/
+
+try{
 
 await updateDoc(
 
@@ -1415,6 +1703,15 @@ serverTimestamp()
 }
 
 );
+
+}catch(conversationError){
+
+console.warn(
+"Conversation update warning:",
+conversationError
+);
+
+}
 
 
 messageInput.value = "";
@@ -1446,6 +1743,27 @@ sendBtn.textContent =
 });
 
 
+/* ENTER TO SEND */
+
+messageInput.addEventListener(
+"keydown",
+(event)=>{
+
+if(
+event.key === "Enter"
+&&
+!event.shiftKey
+){
+
+event.preventDefault();
+
+sendBtn.click();
+
+}
+
+});
+
+
 /* BACK */
 
 function backToUsers(){
@@ -1461,6 +1779,8 @@ currentOtherUserId = null;
 currentOtherName = "";
 
 currentOtherEmail = "";
+
+currentOtherPhone = "";
 
 messageInput.value = "";
 
