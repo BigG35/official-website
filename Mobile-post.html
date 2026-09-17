@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>Posts - Logical World</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
+
+body{
+margin:0;
+background:#f4f6f8;
+color:#222;
+}
+
+header{
+background:#111;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+header h1{
+margin:0;
+font-size:22px;
+}
+
+header p{
+margin:6px 0 0;
+font-size:14px;
+}
+
+.container{
+max-width:700px;
+margin:auto;
+padding:12px;
+}
+
+.card{
+background:white;
+border-radius:10px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+
+h2{
+margin-top:0;
+color:#111;
+font-size:20px;
+}
+
+textarea{
+width:100%;
+min-height:100px;
+padding:12px;
+border:1px solid #ccc;
+border-radius:7px;
+font-size:16px;
+resize:vertical;
+}
+
+input[type="file"]{
+width:100%;
+padding:10px 0;
+font-size:15px;
+}
+
+button{
+border:0;
+border-radius:7px;
+padding:12px 16px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:disabled{
+opacity:.6;
+cursor:not-allowed;
+}
+
+.primary{
+background:#111;
+color:white;
+}
+
+.secondary{
+background:#555;
+color:white;
+}
+
+.danger{
+background:#c62828;
+color:white;
+}
+
+.hidden{
+display:none !important;
+}
+
+.info{
+background:#f0f4f8;
+padding:10px;
+border-left:4px solid #111;
+margin-bottom:12px;
+font-size:14px;
+}
+
+.error{
+color:#c62828;
+}
+
+.success{
+color:#16803c;
+font-weight:bold;
+}
+
+.small{
+font-size:13px;
+color:#666;
+}
+
+.empty{
+text-align:center;
+padding:25px;
+color:#777;
+}
+
+.top-buttons{
+display:flex;
+gap:8px;
+flex-wrap:wrap;
+margin-bottom:15px;
+}
+
+.top-buttons button{
+flex:1;
+min-width:120px;
+}
+
+/* PROFILE */
+
+.profile-row{
+display:flex;
+align-items:center;
+gap:10px;
+margin-bottom:12px;
+}
+
+.profile-photo{
+width:48px;
+height:48px;
+border-radius:50%;
+object-fit:cover;
+background:#ddd;
+}
+
+.profile-name{
+font-weight:bold;
+font-size:16px;
+}
+
+.profile-date{
+font-size:12px;
+color:#777;
+margin-top:3px;
+}
+
+/* POSTS */
+
+.post-card{
+background:white;
+border-radius:10px;
+padding:15px;
+margin-bottom:15px;
+box-shadow:0 2px 7px rgba(0,0,0,.12);
+}
+
+.post-text{
+font-size:16px;
+line-height:1.5;
+white-space:pre-wrap;
+word-wrap:break-word;
+margin-bottom:12px;
+}
+
+.post-image{
+display:block;
+width:100%;
+height:auto;
+max-height:none;
+object-fit:contain;
+border-radius:8px;
+cursor:pointer;
+background:#eee;
+}
+
+.post-image-note{
+font-size:12px;
+color:#666;
+margin-top:6px;
+text-align:center;
+}
+
+/* UPLOAD */
+
+.preview{
+display:none;
+width:100%;
+height:auto;
+margin-top:10px;
+border-radius:8px;
+}
+
+.progress-wrap{
+display:none;
+margin-top:12px;
+}
+
+.progress-bar{
+width:100%;
+height:10px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+}
+
+.progress-fill{
+height:100%;
+width:0%;
+background:#111;
+}
+
+.progress-text{
+font-size:13px;
+margin-top:5px;
+color:#555;
+}
+
+/* FULL SCREEN */
+
+.fullscreen{
+position:fixed;
+left:0;
+top:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.95);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:9999;
+padding:10px;
+}
+
+.fullscreen.show{
+display:flex;
+}
+
+.fullscreen img{
+max-width:100%;
+max-height:100%;
+width:auto;
+height:auto;
+object-fit:contain;
+}
+
+.close-fullscreen{
+position:absolute;
+right:15px;
+top:15px;
+background:white;
+color:#111;
+font-size:18px;
+padding:10px 14px;
+border-radius:50%;
+}
+
+/* MOBILE */
+
+@media(max-width:500px){
+
+.container{
+padding:8px;
+}
+
+.card{
+padding:12px;
+}
+
+.post-card{
+padding:12px;
+}
+
+button{
+width:100%;
+}
+
+.top-buttons button{
+width:auto;
+flex:1;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌍 Logical World</h1>
+
+<p>📝 Posts</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- LOGIN -->
+
+<div
+id="loginArea"
+class="card hidden"
+>
+
+<h2>🔐 Login Required</h2>
+
+<p>
+Please login to create and view your Logical World posts.
+</p>
+
+<button
+class="primary"
+onclick="location.href='login.html'"
+>
+Login
+</button>
+
+</div>
+
+
+<!-- MAIN -->
+
+<div
+id="mainArea"
+class="hidden"
+>
+
+
+<!-- NAVIGATION -->
+
+<div class="card">
+
+<div class="top-buttons">
+
+<button
+class="secondary"
+onclick="location.href='mobile.html'"
+>
+← Home
+</button>
+
+<button
+class="secondary"
+onclick="location.href='mobile-profile.html'"
+>
+👤 Profile
+</button>
+
+<button
+class="secondary"
+onclick="location.href='mobile-chat.html'"
+>
+💬 Chat
+</button>
+
+</div>
+
+</div>
+
+
+<!-- CREATE POST -->
+
+<div class="card">
+
+<h2>
+📝 Create Post
+</h2>
+
+<div class="info">
+
+Write something for Logical World.
+You can optionally add a photo.
+
+</div>
+
+<textarea
+id="postText"
+placeholder="What's on your mind?"
+></textarea>
+
+<br>
+
+<label
+for="postImage"
+style="display:block;font-weight:bold;margin-top:12px;"
+>
+📷 Photo
+</label>
+
+<input
+type="file"
+id="postImage"
+accept="image/*"
+>
+
+<img
+id="imagePreview"
+class="preview"
+alt="Photo preview"
+>
+
+<div
+id="progressWrap"
+class="progress-wrap"
+>
+
+<div class="progress-bar">
+
+<div
+id="progressFill"
+class="progress-fill"
+></div>
+
+</div>
+
+<div
+id="progressText"
+class="progress-text"
+>
+Preparing...
+</div>
+
+</div>
+
+<p
+id="postStatus"
+class="small"
+></p>
+
+<button
+id="postButton"
+class="primary"
+>
+📤 Publish Post
+</button>
+
+</div>
+
+
+<!-- POSTS -->
+
+<div class="card">
+
+<h2>
+🌍 Latest Posts
+</h2>
+
+<div
+id="postsList"
+>
+
+<div class="empty">
+Loading posts...
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<!-- FULL SCREEN IMAGE -->
+
+<div
+id="fullscreenViewer"
+class="fullscreen"
+>
+
+<button
+id="closeFullscreen"
+class="close-fullscreen"
+>
+✕
+</button>
+
+<img
+id="fullscreenImage"
+alt="Full size post"
+>
+
+</div>
+
+
+<script type="module">
+
+
+/* FIREBASE */
+
+import {
+auth,
+db
+}
+from "./firebase.js";
+
+import {
+onAuthStateChanged
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+collection,
+addDoc,
+getDocs,
+query,
+orderBy,
+limit,
+serverTimestamp,
+doc,
+getDoc
+}
+from
+"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* CLOUDINARY */
+
+const CLOUDINARY_CLOUD_NAME =
+"rkcnhhdb";
+
+const CLOUDINARY_UPLOAD_PRESET =
+"logicalworld_pages";
+
+
+/* ELEMENTS */
+
+const loginArea =
+document.getElementById("loginArea");
+
+const mainArea =
+document.getElementById("mainArea");
+
+const postText =
+document.getElementById("postText");
+
+const postImage =
+document.getElementById("postImage");
+
+const imagePreview =
+document.getElementById("imagePreview");
+
+const postButton =
+document.getElementById("postButton");
+
+const postStatus =
+document.getElementById("postStatus");
+
+const postsList =
+document.getElementById("postsList");
+
+const progressWrap =
+document.getElementById("progressWrap");
+
+const progressFill =
+document.getElementById("progressFill");
+
+const progressText =
+document.getElementById("progressText");
+
+const fullscreenViewer =
+document.getElementById("fullscreenViewer");
+
+const fullscreenImage =
+document.getElementById("fullscreenImage");
+
+const closeFullscreen =
+document.getElementById("closeFullscreen");
+
+
+/* VARIABLES */
+
+let currentUser = null;
+
+let currentUserData = null;
+
+
+/* AUTH */
+
+onAuthStateChanged(
+auth,
+async(user)=>{
+
+if(!user){
+
+currentUser = null;
+
+loginArea.classList.remove(
+"hidden"
+);
+
+mainArea.classList.add(
+"hidden"
+);
+
+return;
+
+}
+
+currentUser = user;
+
+loginArea.classList.add(
+"hidden"
+);
+
+mainArea.classList.remove(
+"hidden"
+);
+
+
+/* LOAD USER PROFILE */
+
+try{
+
+const userRef =
+doc(
+db,
+"users",
+user.uid
+);
+
+const userSnap =
+await getDoc(
+userRef
+);
+
+if(userSnap.exists()){
+
+currentUserData =
+userSnap.data();
+
+}else{
+
+currentUserData = {};
+
+}
+
+}catch(error){
+
+console.error(
+"User profile error:",
+error
+);
+
+currentUserData = {};
+
+}
+
+
+/* LOAD POSTS */
+
+await loadPosts();
+
+}
+);
+
+
+/* IMAGE PREVIEW */
+
+postImage.addEventListener(
+"change",
+()=>{
+
+const file =
+postImage.files[0];
+
+if(!file){
+
+imagePreview.src = "";
+
+imagePreview.style.display =
+"none";
+
+return;
+
+}
+
+if(
+!file.type.startsWith("image/")
+){
+
+alert(
+"Please select an image file."
+);
+
+postImage.value = "";
+
+imagePreview.src = "";
+
+imagePreview.style.display =
+"none";
+
+return;
+
+}
+
+
+/* Local preview */
+
+const reader =
+new FileReader();
+
+reader.onload =
+function(event){
+
+imagePreview.src =
+event.target.result;
+
+imagePreview.style.display =
+"block";
+
+};
+
+reader.readAsDataURL(file);
+
+}
+);
+
+
+/* CLOUDINARY UPLOAD */
+
+async function uploadImage(file){
+
+const formData =
+new FormData();
+
+formData.append(
+"file",
+file
+);
+
+formData.append(
+"upload_preset",
+CLOUDINARY_UPLOAD_PRESET
+);
+
+
+progressWrap.style.display =
+"block";
+
+progressFill.style.width =
+"10%";
+
+progressText.textContent =
+"Uploading photo...";
+
+
+const response =
+await fetch(
+
+"https://api.cloudinary.com/v1_1/" +
+CLOUDINARY_CLOUD_NAME +
+"/image/upload",
+
+{
+
+method:"POST",
+
+body:formData
+
+}
+
+);
+
+
+progressFill.style.width =
+"90%";
+
+
+if(!response.ok){
+
+throw new Error(
+"Photo upload failed."
+);
+
+}
+
+
+const result =
+await response.json();
+
+
+progressFill.style.width =
+"100%";
+
+progressText.textContent =
+"Photo uploaded.";
+
+return {
+
+url:
+result.secure_url,
+
+publicId:
+result.public_id,
+
+width:
+result.width || null,
+
+height:
+result.height || null,
+
+format:
+result.format || null,
+
+bytes:
+result.bytes || null
+
+};
+
+}
+
+
+/* CREATE POST */
+
+postButton.addEventListener(
+"click",
+async()=>{
+
+if(!currentUser){
+
+alert(
+"Please login first."
+);
+
+return;
+
+}
+
+const text =
+postText.value.trim();
+
+const imageFile =
+postImage.files[0] || null;
+
+
+/* Require either text or photo */
+
+if(!text && !imageFile){
+
+alert(
+"Write something or select a photo first."
+);
+
+return;
+
+}
+
+
+/* Image size check */
+
+if(imageFile){
+
+/*
+Keep a reasonable browser upload limit.
+This does not resize the image.
+*/
+
+const maxSize =
+25 * 1024 * 1024;
+
+if(imageFile.size > maxSize){
+
+alert(
+"Please choose an image smaller than 25 MB."
+);
+
+return;
+
+}
+
+}
+
+
+try{
+
+postButton.disabled = true;
+
+postButton.textContent =
+"Publishing...";
+
+postStatus.textContent =
+"";
+
+progressWrap.style.display =
+"none";
+
+progressFill.style.width =
+"0%";
+
+
+/* USER DETAILS */
+
+const name =
+currentUserData?.name ||
+currentUserData?.displayName ||
+currentUser.displayName ||
+"User";
+
+const email =
+currentUserData?.email ||
+currentUser.email ||
+"";
+
+const phone =
+currentUserData?.phoneNumber ||
+"";
+
+const profilePhotoURL =
+currentUserData?.profilePhotoURL ||
+"";
+
+
+/* IMAGE */
+
+let imageData = null;
+
+if(imageFile){
+
+imageData =
+await uploadImage(
+imageFile
+);
+
+}
+
+
+/* SAVE POST */
+
+const postData = {
+
+uid:
+currentUser.uid,
+
+userId:
+currentUser.uid,
+
+authorId:
+currentUser.uid,
+
+authorName:
+name,
+
+userName:
+name,
+
+authorEmail:
+email,
+
+authorPhone:
+phone,
+
+profilePhotoURL:
+profilePhotoURL,
+
+text:
+text,
+
+description:
+text,
+
+imageUrl:
+imageData
+?
+imageData.url
+:
+"",
+
+photoURL:
+imageData
+?
+imageData.url
+:
+"",
+
+imagePublicId:
+imageData
+?
+imageData.publicId
+:
+"",
+
+imageWidth:
+imageData
+?
+imageData.width
+:
+null,
+
+imageHeight:
+imageData
+?
+imageData.height
+:
+null,
+
+imageFormat:
+imageData
+?
+imageData.format
+:
+null,
+
+imageBytes:
+imageData
+?
+imageData.bytes
+:
+null,
+
+createdAt:
+serverTimestamp(),
+
+status:
+"published",
+
+visibility:
+"public"
+
+};
+
+
+await addDoc(
+collection(db,"posts"),
+postData
+);
+
+
+/* CLEAR FORM */
+
+postText.value = "";
+
+postImage.value = "";
+
+imagePreview.src = "";
+
+imagePreview.style.display =
+"none";
+
+progressWrap.style.display =
+"none";
+
+progressFill.style.width =
+"0%";
+
+
+postStatus.textContent =
+"Post published successfully.";
+
+postStatus.className =
+"success";
+
+
+/* Reload */
+
+await loadPosts();
+
+
+}catch(error){
+
+console.error(
+"Create post error:",
+error
+);
+
+postStatus.textContent =
+"Post failed: " +
+error.message;
+
+postStatus.className =
+"error";
+
+alert(
+"Could not publish post: " +
+error.message
+);
+
+}finally{
+
+postButton.disabled = false;
+
+postButton.textContent =
+"📤 Publish Post";
+
+}
+
+});
+
+
+/* LOAD POSTS */
+
+async function loadPosts(){
+
+postsList.innerHTML = `
+<div class="empty">
+Loading posts...
+</div>
+`;
+
+try{
+
+let snapshot;
+
+
+/*
+Try newest posts first.
+*/
+
+try{
+
+snapshot =
+await getDocs(
+
+query(
+
+collection(db,"posts"),
+
+orderBy(
+"createdAt",
+"desc"
+),
+
+limit(50)
+
+)
+
+);
+
+}catch(orderError){
+
+/*
+Fallback if an existing Firestore
+index/order issue occurs.
+*/
+
+console.warn(
+"Ordered post query failed. Using fallback.",
+orderError
+);
+
+snapshot =
+await getDocs(
+collection(db,"posts")
+);
+
+}
+
+
+/* Convert documents to array */
+
+const posts = [];
+
+snapshot.forEach(
+(postDoc)=>{
+
+posts.push({
+
+id:
+postDoc.id,
+
+...postDoc.data()
+
+});
+
+});
+
+
+/* Sort client-side */
+
+posts.sort(
+(a,b)=>{
+
+const aTime =
+getTimestampMillis(
+a.createdAt
+);
+
+const bTime =
+getTimestampMillis(
+b.createdAt
+);
+
+return bTime - aTime;
+
+}
+);
+
+
+postsList.innerHTML = "";
+
+
+if(posts.length === 0){
+
+postsList.innerHTML = `
+<div class="empty">
+No posts yet.
+</div>
+`;
+
+return;
+
+}
+
+
+/* Display */
+
+posts.forEach(
+(post)=>{
+
+renderPost(post);
+
+});
+
+}catch(error){
+
+console.error(
+"Load posts error:",
+error
+);
+
+postsList.innerHTML = `
+<div class="empty error">
+Could not load posts.
+<br><br>
+${escapeHTML(error.message)}
+</div>
+`;
+
+}
+
+}
+
+
+/* RENDER POST */
+
+function renderPost(post){
+
+const card =
+document.createElement("div");
+
+card.className =
+"post-card";
+
+
+/* PROFILE */
+
+const profileRow =
+document.createElement("div");
+
+profileRow.className =
+"profile-row";
+
+
+const photo =
+document.createElement("img");
+
+photo.className =
+"profile-photo";
+
+photo.alt =
+"Profile";
+
+
+const profileURL =
+post.profilePhotoURL ||
+post.authorPhotoURL ||
+post.userPhotoURL ||
+"";
+
+
+if(profileURL){
+
+photo.src =
+profileURL;
+
+}else{
+
+/*
+Simple fallback image.
+*/
+
+photo.src =
+"data:image/svg+xml;charset=UTF-8," +
+encodeURIComponent(
+`<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100">
+<rect width="100" height="100" fill="#dddddd"/>
+<text x="50" y="58" text-anchor="middle" font-size="40">👤</text>
+</svg>`
+);
+
+}
+
+
+const profileInfo =
+document.createElement("div");
+
+
+const name =
+document.createElement("div");
+
+name.className =
+"profile-name";
+
+name.textContent =
+post.authorName ||
+post.userName ||
+post.name ||
+"User";
+
+
+const date =
+document.createElement("div");
+
+date.className =
+"profile-date";
+
+date.textContent =
+formatTimestamp(
+post.createdAt
+);
+
+
+profileInfo.appendChild(name);
+
+profileInfo.appendChild(date);
+
+profileRow.appendChild(photo);
+
+profileRow.appendChild(profileInfo);
+
+
+/* TEXT */
+
+const text =
+document.createElement("div");
+
+text.className =
+"post-text";
+
+const postTextValue =
+post.text ||
+post.description ||
+post.content ||
+"";
+
+text.textContent =
+postTextValue;
+
+
+/* IMAGE */
+
+const imageURL =
+post.imageUrl ||
+post.photoURL ||
+post.imageURL ||
+post.photo ||
+"";
+
+
+card.appendChild(
+profileRow
+);
+
+
+if(postTextValue){
+
+card.appendChild(
+text
+);
+
+}
+
+
+if(imageURL){
+
+const image =
+document.createElement("img");
+
+image.className =
+"post-image";
+
+image.src =
+imageURL;
+
+image.alt =
+"Logical World post";
+
+image.loading =
+"lazy";
+
+
+/*
+Tap/click opens the ORIGINAL
+Cloudinary image URL full-size.
+*/
+
+image.addEventListener(
+"click",
+()=>{
+
+openFullscreen(
+imageURL
+);
+
+});
+
+
+card.appendChild(
+image
+);
+
+
+const note =
+document.createElement("div");
+
+note.className =
+"post-image-note";
+
+note.textContent =
+"Tap photo to view full-size";
+
+card.appendChild(
+note
+);
+
+}
+
+
+/* Only display a post if it has content */
+
+postsList.appendChild(
+card
+);
+
+}
+
+
+/* FULL SCREEN */
+
+function openFullscreen(url){
+
+fullscreenImage.src =
+url;
+
+fullscreenViewer.classList.add(
+"show"
+);
+
+document.body.style.overflow =
+"hidden";
+
+}
+
+
+function closeFull(){
+
+fullscreenViewer.classList.remove(
+"show"
+);
+
+fullscreenImage.src =
+"";
+
+document.body.style.overflow =
+"";
+
+}
+
+
+closeFullscreen.addEventListener(
+"click",
+closeFull
+);
+
+
+fullscreenViewer.addEventListener(
+"click",
+(event)=>{
+
+if(
+event.target ===
+fullscreenViewer
+){
+
+closeFull();
+
+}
+
+});
+
+
+document.addEventListener(
+"keydown",
+(event)=>{
+
+if(
+event.key === "Escape"
+){
+
+closeFull();
+
+}
+
+});
+
+
+/* TIMESTAMP */
+
+function getTimestampMillis(timestamp){
+
+if(
+timestamp &&
+typeof timestamp.toMillis === "function"
+){
+
+return timestamp.toMillis();
+
+}
+
+if(
+timestamp &&
+typeof timestamp.toDate === "function"
+){
+
+return timestamp.toDate().getTime();
+
+}
+
+if(timestamp instanceof Date){
+
+return timestamp.getTime();
+
+}
+
+if(
+typeof timestamp === "number"
+){
+
+return timestamp;
+
+}
+
+if(
+typeof timestamp === "string"
+){
+
+const parsed =
+Date.parse(timestamp);
+
+return Number.isNaN(parsed)
+?
+0
+:
+parsed;
+
+}
+
+return 0;
+
+}
+
+
+/* FORMAT DATE */
+
+function formatTimestamp(timestamp){
+
+const millis =
+getTimestampMillis(
+timestamp
+);
+
+if(!millis){
+
+return "Just now";
+
+}
+
+return new Date(
+millis
+).toLocaleString();
+
+}
+
+
+/* ESCAPE */
+
+function escapeHTML(value){
+
+return String(value)
+
+.replace(
+/&/g,
+"&amp;"
+)
+
+.replace(
+/</g,
+"&lt;"
+)
+
+.replace(
+/>/g,
+"&gt;"
+)
+
+.replace(
+/"/g,
+"&quot;"
+)
+
+.replace(
+/'/g,
+"&#039;"
+);
+
+}
+
+</script>
+
+</body>
+
+</html>
