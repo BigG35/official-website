@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Logical World Wallet</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  padding:0;
+  font-family:Arial,sans-serif;
+  background:#f4f4f4;
+  color:#222;
+}
+
+header{
+  background:#111;
+  color:white;
+  padding:12px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:10px;
+}
+
+.loading{
+  text-align:center;
+  padding:30px 10px;
+}
+
+.wallet{
+  background:white;
+  border:1px solid #ccc;
+  padding:12px;
+  margin-bottom:10px;
+}
+
+.wallet-title{
+  font-size:14px;
+  color:#555;
+}
+
+.balance{
+  font-size:28px;
+  font-weight:bold;
+  margin:5px 0 12px;
+}
+
+.account{
+  border-top:1px solid #ddd;
+  padding-top:10px;
+  font-size:13px;
+}
+
+.account strong{
+  display:block;
+  font-size:17px;
+  margin-top:4px;
+}
+
+.menu{
+  background:white;
+  border:1px solid #ccc;
+  margin-bottom:10px;
+}
+
+.menu button{
+  width:100%;
+  padding:13px 10px;
+  border:0;
+  border-bottom:1px solid #ddd;
+  background:white;
+  text-align:left;
+  font-size:15px;
+  cursor:pointer;
+}
+
+.menu button:last-child{
+  border-bottom:0;
+}
+
+.menu button:active{
+  background:#eee;
+}
+
+.message{
+  display:none;
+  background:#fff4d6;
+  border:1px solid #e0c56c;
+  padding:10px;
+  margin-bottom:10px;
+  font-size:13px;
+  line-height:1.4;
+}
+
+.info{
+  background:white;
+  border:1px solid #ccc;
+  padding:12px;
+  margin-bottom:10px;
+  font-size:13px;
+  line-height:1.5;
+}
+
+.row{
+  padding:9px 0;
+  border-bottom:1px solid #eee;
+}
+
+.row:last-child{
+  border-bottom:0;
+}
+
+.label{
+  color:#666;
+  font-size:12px;
+}
+
+.value{
+  font-weight:bold;
+  margin-top:3px;
+  word-break:break-word;
+}
+
+.back{
+  width:100%;
+  padding:12px;
+  border:0;
+  background:#333;
+  color:white;
+  font-size:15px;
+  cursor:pointer;
+  margin-top:5px;
+}
+
+.status-active{
+  color:green;
+}
+
+.status-other{
+  color:#b00020;
+}
+
+.small{
+  font-size:11px;
+  color:#777;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🌍 Logical World Wallet
+</header>
+
+<div class="container">
+
+  <div id="loading" class="loading">
+    Loading wallet...
+  </div>
+
+  <div id="walletContent" style="display:none;">
+
+    <div id="message" class="message"></div>
+
+    <!-- BALANCE -->
+
+    <div class="wallet">
+
+      <div class="wallet-title">
+        Available Balance
+      </div>
+
+      <div
+        class="balance"
+        id="balance">
+        ₦0.00
+      </div>
+
+      <div class="account">
+
+        Wallet Account Number
+
+        <strong id="accountNumber">
+          Not assigned yet
+        </strong>
+
+      </div>
+
+    </div>
+
+
+    <!-- WALLET ACTIONS -->
+
+    <div class="menu">
+
+      <button onclick="comingSoon('Add Money')">
+        ➕ Add Money
+      </button>
+
+      <button onclick="comingSoon('Buy Airtime')">
+        📱 Buy Airtime
+      </button>
+
+      <button onclick="comingSoon('Buy Data')">
+        📶 Buy Data
+      </button>
+
+      <button onclick="comingSoon('Send Money')">
+        💸 Send Money
+      </button>
+
+      <button onclick="comingSoon('Withdraw')">
+        🏧 Withdraw
+      </button>
+
+      <button onclick="comingSoon('Transactions')">
+        📜 Transactions
+      </button>
+
+      <button onclick="comingSoon('USSD Wallet')">
+        📞 USSD Wallet
+      </button>
+
+    </div>
+
+
+    <!-- WALLET INFORMATION -->
+
+    <div class="info">
+
+      <div class="row">
+
+        <div class="label">
+          Name
+        </div>
+
+        <div
+          class="value"
+          id="userName">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Phone
+        </div>
+
+        <div
+          class="value"
+          id="userPhone">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Email
+        </div>
+
+        <div
+          class="value"
+          id="userEmail">
+          -
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Currency
+        </div>
+
+        <div
+          class="value"
+          id="currency">
+          NGN
+        </div>
+
+      </div>
+
+
+      <div class="row">
+
+        <div class="label">
+          Wallet Status
+        </div>
+
+        <div
+          class="value"
+          id="walletStatus">
+          -
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- NOTICE -->
+
+    <div class="info">
+
+      <strong>Wallet Information</strong>
+
+      <p>
+        This button-phone wallet uses the same
+        Logical World account and wallet information
+        used on the main website.
+      </p>
+
+      <p class="small">
+        Real deposits, transfers, airtime, data,
+        withdrawals and USSD services will only work
+        after the appropriate payment or VTU provider
+        is connected.
+      </p>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
+
+    <div class="menu">
+
+      <button onclick="location.href='mobile.html'">
+        🏠 Home
+      </button>
+
+      <button onclick="location.href='mobile-posts.html'">
+        📝 Posts
+      </button>
+
+      <button onclick="location.href='mobile-chat.html'">
+        💬 Chat
+      </button>
+
+      <button onclick="location.href='mobile-profile.html'">
+        👤 Profile
+      </button>
+
+    </div>
+
+
+    <button
+      class="back"
+      onclick="location.href='mobile.html'">
+      ← Back to Menu
+    </button>
+
+  </div>
+
+</div>
+
+
+<script type="module">
+
+import {
+  auth,
+  db
+} from "./firebase.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  doc,
+  getDoc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const loading =
+  document.getElementById("loading");
+
+const walletContent =
+  document.getElementById("walletContent");
+
+const message =
+  document.getElementById("message");
+
+const balance =
+  document.getElementById("balance");
+
+const accountNumber =
+  document.getElementById("accountNumber");
+
+const userName =
+  document.getElementById("userName");
+
+const userPhone =
+  document.getElementById("userPhone");
+
+const userEmail =
+  document.getElementById("userEmail");
+
+const currency =
+  document.getElementById("currency");
+
+const walletStatus =
+  document.getElementById("walletStatus");
+
+
+/* =========================
+   MONEY FORMAT
+========================= */
+
+function formatMoney(amount){
+
+  const number =
+    Number(amount || 0);
+
+  return "₦" +
+    number.toLocaleString(
+      "en-NG",
+      {
+        minimumFractionDigits:2,
+        maximumFractionDigits:2
+      }
+    );
+
+}
+
+
+/* =========================
+   COMING SOON
+========================= */
+
+window.comingSoon =
+function(feature){
+
+  message.style.display =
+    "block";
+
+  message.innerHTML =
+    "<strong>" +
+    feature +
+    "</strong><br>" +
+    "This service is not activated yet. " +
+    "It will be connected to the appropriate " +
+    "payment/VTU provider before real transactions are enabled.";
+
+  window.scrollTo(
+    0,
+    0
+  );
+
+};
+
+
+/* =========================
+   LOAD WALLET
+========================= */
+
+async function loadWallet(user){
+
+  try{
+
+    const userRef =
+      doc(
+        db,
+        "users",
+        user.uid
+      );
+
+
+    const snapshot =
+      await getDoc(userRef);
+
+
+    if(!snapshot.exists()){
+
+      loading.innerHTML =
+        `
+        <div style="
+          background:#fff0f0;
+          border:1px solid #e0aaaa;
+          padding:15px;
+          line-height:1.5;
+        ">
+          Your Logical World account
+          could not be found.
+        </div>
+        `;
+
+      return;
+
+    }
+
+
+    const data =
+      snapshot.data();
+
+
+    /* =========================
+       BALANCE
+    ========================= */
+
+    balance.textContent =
+      formatMoney(
+        data.walletBalance ?? 0
+      );
+
+
+    /* =========================
+       ACCOUNT NUMBER
+    ========================= */
+
+    if(data.walletAccountNumber){
+
+      accountNumber.textContent =
+        data.walletAccountNumber;
+
+    }else{
+
+      accountNumber.textContent =
+        "Not assigned yet";
+
+    }
+
+
+    /* =========================
+       NAME
+    ========================= */
+
+    userName.textContent =
+      data.walletAccountName ||
+      data.name ||
+      data.displayName ||
+      user.displayName ||
+      "-";
+
+
+    /* =========================
+       PHONE
+    ========================= */
+
+    userPhone.textContent =
+      data.walletPhoneNumber ||
+      data.phoneNumber ||
+      user.phoneNumber ||
+      "-";
+
+
+    /* =========================
+       EMAIL
+    ========================= */
+
+    userEmail.textContent =
+      data.email ||
+      user.email ||
+      "-";
+
+
+    /* =========================
+       CURRENCY
+    ========================= */
+
+    currency.textContent =
+      data.walletCurrency ||
+      "NGN";
+
+
+    /* =========================
+       STATUS
+    ========================= */
+
+    const status =
+      data.walletStatus ||
+      "active";
+
+    walletStatus.textContent =
+      status;
+
+
+    if(
+      String(status).toLowerCase() ===
+      "active"
+    ){
+
+      walletStatus.className =
+        "value status-active";
+
+    }else{
+
+      walletStatus.className =
+        "value status-other";
+
+    }
+
+
+    /* =========================
+       SHOW PAGE
+    ========================= */
+
+    loading.style.display =
+      "none";
+
+    walletContent.style.display =
+      "block";
+
+
+  }catch(error){
+
+    console.error(
+      "Wallet loading error:",
+      error
+    );
+
+
+    loading.innerHTML =
+      `
+      <div style="
+        background:#fff0f0;
+        border:1px solid #e0aaaa;
+        padding:15px;
+        line-height:1.5;
+      ">
+        Unable to load your wallet.
+        Please try again.
+      </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async(user)=>{
+
+    if(!user){
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    await loadWallet(user);
+
+  }
+);
+
+</script>
+
+</body>
+</html>
