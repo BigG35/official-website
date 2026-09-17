@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+<title>Notifications - Logical World</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f4f4;
+  color:#222;
+}
+
+header{
+  background:#111;
+  color:white;
+  padding:13px;
+  text-align:center;
+  font-size:18px;
+  font-weight:bold;
+}
+
+.container{
+  max-width:420px;
+  margin:auto;
+  padding:10px;
+}
+
+.top-buttons{
+  display:flex;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+.top-buttons button{
+  flex:1;
+  padding:11px;
+  border:0;
+  background:#333;
+  color:white;
+  font-size:14px;
+  border-radius:5px;
+}
+
+.notification{
+  background:white;
+  border:1px solid #ccc;
+  padding:12px;
+  margin-bottom:8px;
+  border-radius:5px;
+}
+
+.notification.unread{
+  border-left:4px solid #111;
+  background:#fafafa;
+}
+
+.notification-title{
+  font-weight:bold;
+  font-size:15px;
+  margin-bottom:5px;
+}
+
+.notification-text{
+  font-size:14px;
+  line-height:1.4;
+}
+
+.notification-time{
+  font-size:11px;
+  color:#777;
+  margin-top:7px;
+}
+
+.empty{
+  background:white;
+  border:1px solid #ccc;
+  padding:25px 10px;
+  text-align:center;
+  color:#666;
+}
+
+.loading{
+  text-align:center;
+  padding:30px 10px;
+}
+
+.error{
+  background:#fff0f0;
+  border:1px solid #e0aaaa;
+  color:#a00000;
+  padding:12px;
+  line-height:1.4;
+}
+
+button{
+  font-family:inherit;
+  cursor:pointer;
+}
+
+.action-button{
+  width:100%;
+  padding:11px;
+  border:0;
+  background:#111;
+  color:white;
+  border-radius:5px;
+  margin-bottom:10px;
+  font-size:14px;
+}
+
+.back{
+  background:#333;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+🌍 Logical World<br>
+<span style="font-size:13px;font-weight:normal;">
+Notifications
+</span>
+</header>
+
+
+<div class="container">
+
+  <div class="top-buttons">
+
+    <button
+      onclick="location.href='mobile.html'">
+      ← Home
+    </button>
+
+    <button
+      onclick="markAllAsRead()">
+      Mark All Read
+    </button>
+
+  </div>
+
+
+  <button
+    class="action-button"
+    onclick="location.reload()">
+    🔄 Refresh Notifications
+  </button>
+
+
+  <div id="loading" class="loading">
+    Loading notifications...
+  </div>
+
+
+  <div
+    id="notificationList"
+    style="display:none;">
+  </div>
+
+
+  <button
+    class="action-button back"
+    onclick="location.href='mobile.html'">
+    ← Back to Menu
+  </button>
+
+</div>
+
+
+<script type="module">
+
+import {
+  auth,
+  db
+} from "./firebase.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  limit,
+  getDocs,
+  doc,
+  updateDoc,
+  writeBatch
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const loading =
+  document.getElementById("loading");
+
+const notificationList =
+  document.getElementById("notificationList");
+
+
+/* =========================
+   CURRENT USER
+========================= */
+
+let currentUser = null;
+
+let notifications = [];
+
+
+/* =========================
+   FORMAT DATE
+========================= */
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "";
+  }
+
+  try{
+
+    const date =
+      timestamp.toDate
+        ? timestamp.toDate()
+        : new Date(timestamp);
+
+    return date.toLocaleString(
+      "en-NG",
+      {
+        day:"2-digit",
+        month:"short",
+        year:"numeric",
+        hour:"2-digit",
+        minute:"2-digit"
+      }
+    );
+
+  }catch(error){
+
+    return "";
+
+  }
+
+}
+
+
+/* =========================
+   LOAD NOTIFICATIONS
+========================= */
+
+async function loadNotifications(user){
+
+  try{
+
+    /*
+      First try the normal ordered query.
+      This expects notifications to contain
+      a receiverId field.
+    */
+
+    let snapshot;
+
+    try{
+
+      const notificationQuery =
+        query(
+          collection(db,"notifications"),
+          where(
+            "receiverId",
+            "==",
+            user.uid
+          ),
+          orderBy(
+            "createdAt",
+            "desc"
+          ),
+          limit(50)
+        );
+
+      snapshot =
+        await getDocs(
+          notificationQuery
+        );
+
+    }catch(firstError){
+
+      /*
+        Fallback without orderBy.
+        This helps avoid Firestore index
+        problems.
+      */
+
+      console.log(
+        "Ordered notification query failed. Using fallback.",
+        firstError
+      );
+
+      const notificationQuery =
+        query(
+          collection(db,"notifications"),
+          where(
+            "receiverId",
+            "==",
+            user.uid
+          ),
+          limit(50)
+        );
+
+      snapshot =
+        await getDocs(
+          notificationQuery
+        );
+
+    }
+
+
+    notifications = [];
+
+
+    snapshot.forEach(
+      notificationDoc=>{
+
+        notifications.push({
+
+          id:notificationDoc.id,
+
+          ...notificationDoc.data()
+
+        });
+
+      }
+    );
+
+
+    /*
+      Sort on the phone/browser too.
+    */
+
+    notifications.sort(
+      (a,b)=>{
+
+        const aTime =
+          a.createdAt &&
+          a.createdAt.toMillis
+            ? a.createdAt.toMillis()
+            : 0;
+
+        const bTime =
+          b.createdAt &&
+          b.createdAt.toMillis
+            ? b.createdAt.toMillis()
+            : 0;
+
+        return bTime - aTime;
+
+      }
+    );
+
+
+    renderNotifications();
+
+
+  }catch(error){
+
+    console.error(
+      "Notification loading error:",
+      error
+    );
+
+
+    loading.innerHTML =
+      `
+      <div class="error">
+        Notifications could not be loaded.
+        Please try again.
+      </div>
+      `;
+
+  }
+
+}
+
+
+/* =========================
+   RENDER NOTIFICATIONS
+========================= */
+
+function renderNotifications(){
+
+  loading.style.display =
+    "none";
+
+  notificationList.style.display =
+    "block";
+
+
+  if(notifications.length === 0){
+
+    notificationList.innerHTML =
+      `
+      <div class="empty">
+        🔔<br><br>
+        You have no notifications yet.
+      </div>
+      `;
+
+    return;
+
+  }
+
+
+  notificationList.innerHTML =
+    "";
+
+
+  notifications.forEach(
+    notification=>{
+
+      const item =
+        document.createElement("div");
+
+
+      item.className =
+        "notification" +
+        (
+          notification.read === true
+            ? ""
+            : " unread"
+        );
+
+
+      const title =
+        notification.title ||
+        "Logical World";
+
+
+      const text =
+        notification.text ||
+        notification.message ||
+        "You have a new notification.";
+
+
+      const time =
+        formatDate(
+          notification.createdAt
+        );
+
+
+      item.innerHTML =
+        `
+        <div class="notification-title">
+          ${escapeHTML(title)}
+        </div>
+
+        <div class="notification-text">
+          ${escapeHTML(text)}
+        </div>
+
+        ${
+          time
+          ?
+          `
+          <div class="notification-time">
+            ${escapeHTML(time)}
+          </div>
+          `
+          :
+          ""
+        }
+        `;
+
+
+      /*
+        Mark an individual notification
+        as read when the user opens/taps it.
+      */
+
+      item.addEventListener(
+        "click",
+        ()=>{
+
+          markNotificationAsRead(
+            notification.id
+          );
+
+        }
+      );
+
+
+      notificationList.appendChild(
+        item
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================
+   ESCAPE TEXT
+========================= */
+
+function escapeHTML(value){
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    String(value || "");
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================
+   MARK ONE AS READ
+========================= */
+
+async function markNotificationAsRead(
+  notificationId
+){
+
+  try{
+
+    const notificationRef =
+      doc(
+        db,
+        "notifications",
+        notificationId
+      );
+
+
+    await updateDoc(
+      notificationRef,
+      {
+        read:true
+      }
+    );
+
+
+    const found =
+      notifications.find(
+        item =>
+          item.id === notificationId
+      );
+
+
+    if(found){
+
+      found.read = true;
+
+    }
+
+
+    renderNotifications();
+
+
+  }catch(error){
+
+    console.error(
+      "Could not mark notification as read:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   MARK ALL AS READ
+========================= */
+
+window.markAllAsRead =
+async function(){
+
+  if(!currentUser){
+    return;
+  }
+
+
+  const unread =
+    notifications.filter(
+      notification =>
+        notification.read !== true
+    );
+
+
+  if(unread.length === 0){
+
+    alert(
+      "There are no unread notifications."
+    );
+
+    return;
+
+  }
+
+
+  try{
+
+    const batch =
+      writeBatch(db);
+
+
+    unread.forEach(
+      notification=>{
+
+        const notificationRef =
+          doc(
+            db,
+            "notifications",
+            notification.id
+          );
+
+
+        batch.update(
+          notificationRef,
+          {
+            read:true
+          }
+        );
+
+      }
+    );
+
+
+    await batch.commit();
+
+
+    unread.forEach(
+      notification=>{
+
+        notification.read = true;
+
+      }
+    );
+
+
+    renderNotifications();
+
+
+    alert(
+      "All notifications marked as read."
+    );
+
+
+  }catch(error){
+
+    console.error(
+      "Mark all as read error:",
+      error
+    );
+
+
+    alert(
+      "Could not mark all notifications as read."
+    );
+
+  }
+
+};
+
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+onAuthStateChanged(
+  auth,
+  async(user)=>{
+
+    if(!user){
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    currentUser =
+      user;
+
+
+    await loadNotifications(
+      user
+    );
+
+  }
+);
+
+</script>
+
+</body>
+</html>
