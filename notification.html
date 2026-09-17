@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Logical World Notifications</title>
+
+<style>
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f4f6f8;
+  color:#222;
+}
+
+header{
+  background:#111;
+  color:white;
+  padding:14px;
+  text-align:center;
+}
+
+header h2{
+  margin:0;
+  font-size:20px;
+}
+
+.container{
+  width:100%;
+  max-width:700px;
+  margin:auto;
+  padding:12px;
+}
+
+.top-buttons{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+button{
+  border:0;
+  padding:10px 12px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.back-btn{
+  background:#333;
+  color:white;
+}
+
+.read-btn{
+  background:#16803c;
+  color:white;
+  margin-left:auto;
+}
+
+.notification{
+  background:white;
+  border:1px solid #ddd;
+  border-radius:8px;
+  padding:13px;
+  margin-bottom:9px;
+  cursor:pointer;
+}
+
+.notification.unread{
+  border-left:5px solid #16803c;
+  background:#f0fff5;
+}
+
+.notification-title{
+  font-weight:bold;
+  font-size:16px;
+  margin-bottom:6px;
+}
+
+.notification-text{
+  font-size:14px;
+  line-height:1.4;
+}
+
+.notification-date{
+  font-size:12px;
+  color:#777;
+  margin-top:8px;
+}
+
+.empty{
+  background:white;
+  padding:20px;
+  text-align:center;
+  border-radius:8px;
+  color:#666;
+}
+
+.loading{
+  text-align:center;
+  padding:20px;
+  color:#666;
+}
+
+@media(max-width:420px){
+  header h2{
+    font-size:18px;
+  }
+
+  .container{
+    padding:8px;
+  }
+
+  button{
+    font-size:13px;
+    padding:9px;
+  }
+
+  .notification{
+    padding:11px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h2>🔔 Logical World Notifications</h2>
+</header>
+
+<div class="container">
+
+  <div class="top-buttons">
+    <button class="back-btn" onclick="goBack()">← Back</button>
+    <button class="read-btn" onclick="markAllRead()">Mark All Read</button>
+  </div>
+
+  <div id="notificationList">
+    <div class="loading">Loading notifications...</div>
+  </div>
+
+</div>
+
+<script type="module">
+
+import {
+  auth,
+  db
+} from "./firebase.js";
+
+import {
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+import {
+  collection,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  updateDoc,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+
+const notificationList =
+  document.getElementById("notificationList");
+
+let currentUser = null;
+let notifications = [];
+
+
+/* =========================
+   LOGIN CHECK
+========================= */
+
+onAuthStateChanged(auth, async (user) => {
+
+  if(!user){
+    window.location.href = "login.html";
+    return;
+  }
+
+  currentUser = user;
+
+  await loadNotifications();
+
+});
+
+
+/* =========================
+   LOAD NOTIFICATIONS
+========================= */
+
+async function loadNotifications(){
+
+  notificationList.innerHTML =
+    '<div class="loading">Loading notifications...</div>';
+
+  try{
+
+    let snapshot;
+
+    try{
+
+      const q = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", currentUser.uid),
+        orderBy("createdAt", "desc")
+      );
+
+      snapshot = await getDocs(q);
+
+    }catch(error){
+
+      console.log(
+        "Ordered notification query failed. Using fallback.",
+        error
+      );
+
+      const q = query(
+        collection(db, "notifications"),
+        where("receiverId", "==", currentUser.uid)
+      );
+
+      snapshot = await getDocs(q);
+    }
+
+
+    notifications = [];
+
+    snapshot.forEach((notificationDoc) => {
+
+      notifications.push({
+        id: notificationDoc.id,
+        ...notificationDoc.data()
+      });
+
+    });
+
+
+    /* Sort newest first */
+
+    notifications.sort((a,b) => {
+
+      const aTime =
+        a.createdAt?.toMillis ?
+        a.createdAt.toMillis() : 0;
+
+      const bTime =
+        b.createdAt?.toMillis ?
+        b.createdAt.toMillis() : 0;
+
+      return bTime - aTime;
+
+    });
+
+
+    renderNotifications();
+
+  }catch(error){
+
+    console.error(error);
+
+    notificationList.innerHTML =
+      '<div class="empty">Unable to load notifications.</div>';
+  }
+
+}
+
+
+/* =========================
+   DISPLAY NOTIFICATIONS
+========================= */
+
+function renderNotifications(){
+
+  if(notifications.length === 0){
+
+    notificationList.innerHTML =
+      '<div class="empty">No notifications yet.</div>';
+
+    return;
+  }
+
+
+  notificationList.innerHTML = "";
+
+
+  notifications.forEach((notification) => {
+
+    const item =
+      document.createElement("div");
+
+    item.className =
+      "notification" +
+      (notification.read === false ? " unread" : "");
+
+
+    const title =
+      document.createElement("div");
+
+    title.className =
+      "notification-title";
+
+    title.textContent =
+      notification.title || "Logical World";
+
+
+    const text =
+      document.createElement("div");
+
+    text.className =
+      "notification-text";
+
+    text.textContent =
+      notification.text ||
+      notification.message ||
+      "";
+
+
+    const date =
+      document.createElement("div");
+
+    date.className =
+      "notification-date";
+
+    date.textContent =
+      formatDate(notification.createdAt);
+
+
+    item.appendChild(title);
+    item.appendChild(text);
+    item.appendChild(date);
+
+
+    item.addEventListener("click", async () => {
+
+      await markNotificationRead(notification);
+
+    });
+
+
+    notificationList.appendChild(item);
+
+  });
+
+}
+
+
+/* =========================
+   MARK ONE READ
+========================= */
+
+async function markNotificationRead(notification){
+
+  if(notification.read === true){
+    return;
+  }
+
+  try{
+
+    await updateDoc(
+      doc(db, "notifications", notification.id),
+      {
+        read:true
+      }
+    );
+
+    notification.read = true;
+
+    renderNotifications();
+
+  }catch(error){
+
+    console.error(
+      "Could not mark notification as read:",
+      error
+    );
+
+  }
+
+}
+
+
+/* =========================
+   MARK ALL READ
+========================= */
+
+window.markAllRead = async function(){
+
+  const unread =
+    notifications.filter(
+      notification => notification.read !== true
+    );
+
+
+  if(unread.length === 0){
+    return;
+  }
+
+
+  try{
+
+    for(const notification of unread){
+
+      await updateDoc(
+        doc(db, "notifications", notification.id),
+        {
+          read:true
+        }
+      );
+
+      notification.read = true;
+    }
+
+
+    renderNotifications();
+
+  }catch(error){
+
+    console.error(
+      "Could not mark all notifications as read:",
+      error
+    );
+
+  }
+
+};
+
+
+/* =========================
+   DATE
+========================= */
+
+function formatDate(timestamp){
+
+  if(!timestamp){
+    return "";
+  }
+
+  try{
+
+    const date =
+      timestamp.toDate ?
+      timestamp.toDate() :
+      new Date(timestamp);
+
+    return date.toLocaleString();
+
+  }catch(error){
+
+    return "";
+
+  }
+
+}
+
+
+/* =========================
+   BACK
+========================= */
+
+window.goBack = function(){
+
+  if(
+    document.referrer &&
+    document.referrer.includes(location.hostname)
+  ){
+
+    history.back();
+
+  }else{
+
+    window.location.href = "index.html";
+
+  }
+
+};
+
+</script>
+
+</body>
+  </html>
