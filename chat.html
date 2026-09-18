@@ -1613,6 +1613,10 @@ sendBtn.textContent =
 "Sending...";
 
 
+/*
+SAVE MESSAGE
+*/
+
 await addDoc(
 
 collection(db,"messages"),
@@ -1667,6 +1671,74 @@ serverTimestamp()
 }
 
 );
+
+
+/*
+CREATE NOTIFICATION
+FOR THE RECEIVER
+
+This uses the shared notifications
+collection used by notifications.html
+and mobile-notifications.html.
+*/
+
+try{
+
+await addDoc(
+
+collection(db,"notifications"),
+
+{
+
+receiverId:
+currentOtherUserId,
+
+senderId:
+currentUser.uid,
+
+title:
+"New message",
+
+text:
+(
+currentUserName.textContent ||
+currentUser.displayName ||
+currentUser.email ||
+"User"
+) +
+": " +
+text,
+
+read:false,
+
+type:"message",
+
+conversationId:
+currentConversationId,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+}catch(notificationError){
+
+/*
+If notification creation fails,
+the actual chat message has already
+been saved successfully.
+
+Therefore we do not stop the message.
+*/
+
+console.warn(
+"Notification creation warning:",
+notificationError
+);
+
+}
 
 
 setUsedWords(
@@ -1819,4 +1891,4 @@ return String(value)
 </script>
 
 </body>
-</html>
+  </html>
