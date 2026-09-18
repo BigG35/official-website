@@ -1132,6 +1132,10 @@ db,
 );
 
 
+/* =================================================
+   SEND THE ACTUAL MESSAGE
+================================================= */
+
 await addDoc(
 
 messagesRef,
@@ -1147,6 +1151,7 @@ currentUser.uid,
 senderName:
 
 currentUser.displayName ||
+currentUser.email ||
 "User",
 
 receiverId:
@@ -1170,6 +1175,78 @@ serverTimestamp()
 }
 
 );
+
+
+/* =================================================
+   CREATE NOTIFICATION FOR RECIPIENT
+================================================= */
+
+try{
+
+const notificationsRef =
+collection(
+db,
+"notifications"
+);
+
+
+await addDoc(
+
+notificationsRef,
+
+{
+
+receiverId:
+selectedUser.uid,
+
+senderId:
+currentUser.uid,
+
+title:
+"New message",
+
+text:
+(
+currentUser.displayName ||
+currentUser.email ||
+"User"
+) +
+": " +
+text,
+
+read:
+false,
+
+type:
+"message",
+
+conversationId:
+conversationId,
+
+createdAt:
+serverTimestamp()
+
+}
+
+);
+
+
+}catch(notificationError){
+
+/*
+   If notification creation fails,
+   the message has already been sent.
+
+   We do NOT show a message-send error
+   because the actual chat message succeeded.
+*/
+
+console.error(
+"Notification creation error:",
+notificationError
+);
+
+}
 
 
 messageInput.value =
