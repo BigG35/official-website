@@ -1,6 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0"><title>Logical World - Mobile Registration</title><style>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Logical World - Mobile Registration</title>
 
+<style>
 *{
 box-sizing:border-box;
 font-family:Arial,sans-serif;
@@ -130,7 +135,7 @@ margin-top:18px;
 display:flex;
 justify-content:center;
 min-height:78px;
-overflow:hidden;
+overflow:visible;
 }
 
 .otp-section{
@@ -165,126 +170,166 @@ text-decoration:none;
 .hidden{
 display:none !important;
 }
+</style>
+</head>
 
-</style></head><body><div class="container"><div class="card"><div class="logo">
+<body>
+
+<div class="container">
+<div class="card">
+
+<div class="logo">
 🌍 Logical World
-</div><div class="subtitle">
+</div>
+
+<div class="subtitle">
 Create your mobile account
-</div><!-- REGISTRATION --><div id="registrationSection"><label for="fullName">
+</div>
+
+<!-- REGISTRATION -->
+<div id="registrationSection">
+
+<label for="fullName">
 Real Name
-</label><input
+</label>
+
+<input
 type="text"
 id="fullName"
 placeholder="Enter your real name"
 autocomplete="name"
-
-«»
+>
 
 <label for="age">
 Age
-</label><input
+</label>
+
+<input
 type="number"
 id="age"
 placeholder="Enter your age"
 min="13"
 max="120"
-
-«»
+>
 
 <label for="phoneNumber">
 Phone Number
-</label><input
+</label>
+
+<input
 type="tel"
 id="phoneNumber"
 placeholder="08012345678"
 autocomplete="tel"
-
-«»
+>
 
 <div class="small">
 Use your Nigerian number. Example:
 08012345678
-</div><label for="profilePicture">
+</div>
+
+<label for="profilePicture">
 Profile Picture
-</label><input
+</label>
+
+<input
 type="file"
 id="profilePicture"
 accept="image/*"
-
-«»
+>
 
 <img
 id="photoPreview"
 class="photo-preview hidden"
 alt="Profile preview"
+>
 
-«»
+<!-- RECAPTCHA -->
 
-<!-- RECAPTCHA --><div
+<div
 id="recaptchaStatus"
 class="small"
 style="text-align:center;margin-top:15px;"
 >
 Loading security verification...
-</div><div
+</div>
+
+<div
 id="recaptcha-container"
 class="recaptcha-box"
-></div><button
+></div>
+
+<button
 id="sendOtpBtn"
 class="primary"
 disabled
-
-«»
-
+>
 Send Verification Code
 </button>
 
 <div
 id="statusMessage"
 class="status"
-></div></div><!-- OTP --><div
+></div>
+
+</div>
+
+<!-- OTP -->
+
+<div
 id="otpSection"
 class="otp-section"
-><label for="otpCode">
+>
+
+<label for="otpCode">
 SMS Verification Code
-</label><input
+</label>
+
+<input
 type="text"
 id="otpCode"
 placeholder="Enter the 6-digit code"
 inputmode="numeric"
 maxlength="6"
 autocomplete="one-time-code"
-
-«»
+>
 
 <div class="small">
 Enter the verification code sent to your phone.
-</div><button
+</div>
+
+<button
 id="verifyBtn"
 class="primary"
-
-«»
-
+>
 Verify & Create Account
 </button>
 
 <button
 id="changeNumberBtn"
 class="secondary"
-
-«»
-
+>
 Change Phone Number
 </button>
 
-</div><div
+</div>
+
+<div
 id="finalStatus"
 class="status"
-></div><div class="login-link">Already have an account?
+></div>
 
+<div class="login-link">
+Already have an account?
 <a href="login.html">
 Login
-</a></div></div></div><script type="module">
+</a>
+</div>
+
+</div>
+</div>
+
+<script type="module">
 
 /* =========================================
    FIREBASE
@@ -296,23 +341,19 @@ db
 }
 from "./firebase.js";
 
-
 import {
 RecaptchaVerifier,
 signInWithPhoneNumber,
 updateProfile
 }
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
-
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
 doc,
 setDoc,
 serverTimestamp
 }
-from
-"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
 /* =========================================
@@ -381,37 +422,26 @@ document.getElementById("recaptcha-container");
 ========================================= */
 
 let recaptchaVerifier = null;
-
 let confirmationResult = null;
-
 let recaptchaReady = false;
 
 
 /* =========================================
-   STATUS MESSAGE
+   STATUS
 ========================================= */
 
-function showStatus(
-element,
-message,
-type
-){
+function showStatus(element,message,type){
 
 if(!message){
 
 element.textContent = "";
-
 element.className = "status";
-
 return;
 
 }
 
-element.textContent =
-message;
-
-element.className =
-"status " + type;
+element.textContent = message;
+element.className = "status " + type;
 
 }
 
@@ -420,46 +450,27 @@ element.className =
    NORMALIZE NIGERIAN PHONE
 ========================================= */
 
-function normalizeNigerianPhone(
-value
-){
+function normalizeNigerianPhone(value){
 
 let phone =
 String(value || "").trim();
 
 phone =
-phone.replace(
-/[\s()-]/g,
-""
-);
+phone.replace(/[\s()-]/g,"");
 
-if(
-phone.startsWith("+234")
-){
-
+if(phone.startsWith("+234")){
 return phone;
-
 }
 
-if(
-phone.startsWith("234")
-){
-
+if(phone.startsWith("234")){
 return "+" + phone;
-
 }
 
-if(
-phone.startsWith("0")
-){
-
-return "+234" +
-phone.substring(1);
-
+if(phone.startsWith("0")){
+return "+234" + phone.substring(1);
 }
 
 return phone;
-
 }
 
 
@@ -467,9 +478,7 @@ return phone;
    VALIDATE NIGERIAN PHONE
 ========================================= */
 
-function isValidNigerianPhone(
-phone
-){
+function isValidNigerianPhone(phone){
 
 return /^\+234\d{10}$/.test(phone);
 
@@ -490,18 +499,12 @@ profilePicture.files[0];
 if(!file){
 
 photoPreview.src = "";
-
-photoPreview.classList.add(
-"hidden"
-);
-
+photoPreview.classList.add("hidden");
 return;
 
 }
 
-if(
-!file.type.startsWith("image/")
-){
+if(!file.type.startsWith("image/")){
 
 showStatus(
 statusMessage,
@@ -510,20 +513,14 @@ statusMessage,
 );
 
 profilePicture.value = "";
-
 photoPreview.src = "";
-
-photoPreview.classList.add(
-"hidden"
-);
+photoPreview.classList.add("hidden");
 
 return;
 
 }
 
-if(
-file.size > 25 * 1024 * 1024
-){
+if(file.size > 25 * 1024 * 1024){
 
 showStatus(
 statusMessage,
@@ -532,12 +529,8 @@ statusMessage,
 );
 
 profilePicture.value = "";
-
 photoPreview.src = "";
-
-photoPreview.classList.add(
-"hidden"
-);
+photoPreview.classList.add("hidden");
 
 return;
 
@@ -552,9 +545,7 @@ function(){
 photoPreview.src =
 reader.result;
 
-photoPreview.classList.remove(
-"hidden"
-);
+photoPreview.classList.remove("hidden");
 
 };
 
@@ -564,7 +555,7 @@ reader.readAsDataURL(file);
 
 
 /* =========================================
-   CREATE RECAPTCHA
+   SETUP RECAPTCHA
 ========================================= */
 
 async function setupRecaptcha(){
@@ -572,49 +563,26 @@ async function setupRecaptcha(){
 try{
 
 recaptchaReady = false;
-
 sendOtpBtn.disabled = true;
 
 recaptchaStatus.textContent =
 "Loading security verification...";
 
-
-/*
-If an old verifier exists, remove it.
-*/
-
-if(
-recaptchaVerifier
-){
+if(recaptchaVerifier){
 
 try{
-
 recaptchaVerifier.clear();
-
 }catch(error){
-
 console.warn(
 "Could not clear old reCAPTCHA:",
 error
 );
-
 }
 
 recaptchaVerifier = null;
-
 }
 
-
-/*
-Clear the container.
-*/
-
 recaptchaContainer.innerHTML = "";
-
-
-/*
-Create Firebase reCAPTCHA.
-*/
 
 recaptchaVerifier =
 new RecaptchaVerifier(
@@ -624,8 +592,7 @@ auth,
 
 size:"normal",
 
-callback:
-function(){
+callback:function(){
 
 recaptchaReady = true;
 
@@ -636,8 +603,7 @@ sendOtpBtn.disabled = false;
 
 },
 
-"expired-callback":
-function(){
+"expired-callback":function(){
 
 recaptchaReady = false;
 
@@ -648,8 +614,7 @@ recaptchaStatus.textContent =
 
 },
 
-"error-callback":
-function(error){
+"error-callback":function(error){
 
 console.error(
 "reCAPTCHA error:",
@@ -666,7 +631,6 @@ recaptchaStatus.textContent =
 }
 
 });
-
 
 await recaptchaVerifier.render();
 
@@ -718,7 +682,6 @@ return;
 
 }
 
-
 const name =
 fullName.value.trim();
 
@@ -730,12 +693,13 @@ normalizeNigerianPhone(
 phoneNumber.value.trim()
 );
 
+const photoFile =
+profilePicture.files[0];
+
 
 /* NAME */
 
-if(
-name.length < 2
-){
+if(name.length < 2){
 
 showStatus(
 statusMessage,
@@ -751,10 +715,8 @@ return;
 /* AGE */
 
 if(
-!Number.isInteger(userAge)
-||
-userAge < 13
-||
+!Number.isInteger(userAge) ||
+userAge < 13 ||
 userAge > 120
 ){
 
@@ -771,9 +733,7 @@ return;
 
 /* PHONE */
 
-if(
-!isValidNigerianPhone(phone)
-){
+if(!isValidNigerianPhone(phone)){
 
 showStatus(
 statusMessage,
@@ -787,9 +747,6 @@ return;
 
 
 /* PHOTO */
-
-const photoFile =
-profilePicture.files[0];
 
 if(!photoFile){
 
@@ -817,26 +774,12 @@ statusMessage,
 "info"
 );
 
-
-/*
-IMPORTANT:
-
-Do NOT automatically recreate
-the reCAPTCHA here if Firebase
-returns an error.
-*/
-
 confirmationResult =
 await signInWithPhoneNumber(
 auth,
 phone,
 recaptchaVerifier
 );
-
-
-/*
-SMS SENT
-*/
 
 showStatus(
 statusMessage,
@@ -846,15 +789,12 @@ phone +
 "success"
 );
 
-otpSection.classList.add(
-"show"
-);
+otpSection.classList.add("show");
 
 sendOtpBtn.textContent =
 "SMS Code Sent";
 
 otpCode.focus();
-
 
 }catch(error){
 
@@ -873,95 +813,63 @@ console.error(
 error.message
 );
 
-
-/*
-DO NOT automatically rebuild
-the reCAPTCHA here.
-
-This prevents the endless
-reCAPTCHA loop.
-*/
-
 sendOtpBtn.disabled = true;
 
 sendOtpBtn.textContent =
 "Send Verification Code";
 
-
 let message =
 "Could not send the verification code.";
 
-
-if(
-error.code ===
-"auth/operation-not-allowed"
-){
+if(error.code === "auth/operation-not-allowed"){
 
 message =
-"Firebase Phone Authentication is being rejected. Phone is enabled, so we need to check the Firebase web app/domain configuration.";
+"Firebase Phone Authentication is being rejected. Phone authentication is enabled, but Firebase is rejecting this web request.";
 
 }
 
-else if(
-error.code ===
-"auth/quota-exceeded"
-){
+else if(error.code === "auth/quota-exceeded"){
 
 message =
 "Firebase SMS quota has been reached. Please try again later.";
 
 }
 
-else if(
-error.code ===
-"auth/too-many-requests"
-){
+else if(error.code === "auth/too-many-requests"){
 
 message =
 "Too many requests. Please wait and try again later.";
 
 }
 
-else if(
-error.code ===
-"auth/invalid-phone-number"
-){
+else if(error.code === "auth/invalid-phone-number"){
 
 message =
 "The phone number is invalid. Please enter a Nigerian number such as 08012345678.";
 
 }
 
-else if(
-error.code ===
-"auth/captcha-check-failed"
-){
+else if(error.code === "auth/captcha-check-failed"){
 
 message =
 "Firebase rejected the security check. Please reload the page and complete the security check again.";
 
 }
 
-else if(
-error.code ===
-"auth/network-request-failed"
-){
+else if(error.code === "auth/network-request-failed"){
 
 message =
 "Network connection failed. Please check your internet connection and try again.";
 
 }
 
-else if(
-error.code
-){
+else if(error.code){
 
 message +=
 " Firebase: " +
 error.code;
 
 }
-
 
 showStatus(
 statusMessage,
@@ -992,13 +900,10 @@ return;
 
 }
 
-
 const code =
 otpCode.value.trim();
 
-if(
-! /^\d{6}$/.test(code)
-){
+if(!/^\d{6}$/.test(code)){
 
 showStatus(
 finalStatus,
@@ -1009,7 +914,6 @@ finalStatus,
 return;
 
 }
-
 
 const name =
 fullName.value.trim();
@@ -1024,7 +928,6 @@ phoneNumber.value.trim()
 
 const photoFile =
 profilePicture.files[0];
-
 
 if(!photoFile){
 
@@ -1053,22 +956,16 @@ finalStatus,
 );
 
 
-/*
-Confirm SMS.
-*/
+/* CONFIRM SMS */
 
 const result =
-await confirmationResult.confirm(
-code
-);
+await confirmationResult.confirm(code);
 
 const user =
 result.user;
 
 
-/*
-Update Firebase profile.
-*/
+/* UPDATE PROFILE */
 
 try{
 
@@ -1089,9 +986,7 @@ profileError
 }
 
 
-/*
-Upload profile picture.
-*/
+/* CLOUDINARY UPLOAD */
 
 verifyBtn.textContent =
 "Uploading picture...";
@@ -1101,7 +996,6 @@ finalStatus,
 "Phone verified. Uploading your profile picture...",
 "info"
 );
-
 
 const formData =
 new FormData();
@@ -1116,7 +1010,6 @@ formData.append(
 CLOUDINARY_UPLOAD_PRESET
 );
 
-
 const cloudinaryResponse =
 await fetch(
 "https://api.cloudinary.com/v1_1/" +
@@ -1128,17 +1021,13 @@ body:formData
 }
 );
 
-
-if(
-!cloudinaryResponse.ok
-){
+if(!cloudinaryResponse.ok){
 
 throw new Error(
 "Profile picture upload failed."
 );
 
 }
-
 
 const cloudinaryData =
 await cloudinaryResponse.json();
@@ -1147,9 +1036,7 @@ const profilePhotoURL =
 cloudinaryData.secure_url || "";
 
 
-/*
-Save account to Firestore.
-*/
+/* FIRESTORE */
 
 verifyBtn.textContent =
 "Creating account...";
@@ -1159,7 +1046,6 @@ finalStatus,
 "Saving your Logical World account...",
 "info"
 );
-
 
 await setDoc(
 doc(
@@ -1217,9 +1103,7 @@ merge:true
 );
 
 
-/*
-ACCOUNT CREATED
-*/
+/* SUCCESS */
 
 showStatus(
 finalStatus,
@@ -1227,13 +1111,9 @@ finalStatus,
 "success"
 );
 
-registrationSection.classList.add(
-"hidden"
-);
+registrationSection.classList.add("hidden");
 
-otpSection.classList.remove(
-"show"
-);
+otpSection.classList.remove("show");
 
 setTimeout(
 function(){
@@ -1263,10 +1143,8 @@ verifyBtn.disabled = false;
 verifyBtn.textContent =
 "Verify & Create Account";
 
-
 let message =
 "Account creation failed.";
-
 
 if(
 error.code ===
@@ -1298,15 +1176,12 @@ message =
 
 }
 
-else if(
-error.message
-){
+else if(error.message){
 
 message =
 error.message;
 
 }
-
 
 showStatus(
 finalStatus,
@@ -1331,9 +1206,7 @@ confirmationResult = null;
 
 otpCode.value = "";
 
-otpSection.classList.remove(
-"show"
-);
+otpSection.classList.remove("show");
 
 verifyBtn.disabled = false;
 
@@ -1351,13 +1224,6 @@ statusMessage,
 "",
 ""
 );
-
-
-/*
-Only when the user deliberately
-changes the number do we create
-a fresh reCAPTCHA.
-*/
 
 await setupRecaptcha();
 
@@ -1403,4 +1269,7 @@ phoneNumber.value.replace(
 
 setupRecaptcha();
 
-</script></body></html>
+</script>
+
+</body>
+   </html>
