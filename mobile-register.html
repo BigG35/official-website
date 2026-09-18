@@ -170,7 +170,7 @@ display:none !important;
 🌍 Logical World
 </div><div class="subtitle">
 Create your mobile account
-</div><!-- REGISTRATION FORM --><div id="registrationSection"><label for="fullName">
+</div><!-- REGISTRATION --><div id="registrationSection"><label for="fullName">
 Real Name
 </label><input
 type="text"
@@ -242,7 +242,7 @@ Send Verification Code
 <div
 id="statusMessage"
 class="status"
-></div></div><!-- OTP SECTION --><div
+></div></div><!-- OTP --><div
 id="otpSection"
 class="otp-section"
 ><label for="otpCode">
@@ -296,6 +296,7 @@ db
 }
 from "./firebase.js";
 
+
 import {
 RecaptchaVerifier,
 signInWithPhoneNumber,
@@ -303,6 +304,7 @@ updateProfile
 }
 from
 "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
 
 import {
 doc,
@@ -370,6 +372,9 @@ document.getElementById("finalStatus");
 const recaptchaStatus =
 document.getElementById("recaptchaStatus");
 
+const recaptchaContainer =
+document.getElementById("recaptcha-container");
+
 
 /* =========================================
    VARIABLES
@@ -381,11 +386,9 @@ let confirmationResult = null;
 
 let recaptchaReady = false;
 
-let recaptchaWidgetId = null;
-
 
 /* =========================================
-   STATUS
+   STATUS MESSAGE
 ========================================= */
 
 function showStatus(
@@ -479,7 +482,7 @@ return /^\+234\d{10}$/.test(phone);
 
 profilePicture.addEventListener(
 "change",
-()=>{
+function(){
 
 const file =
 profilePicture.files[0];
@@ -561,25 +564,37 @@ reader.readAsDataURL(file);
 
 
 /* =========================================
-   DESTROY RECAPTCHA
+   CREATE RECAPTCHA
 ========================================= */
 
-function destroyRecaptcha(){
+async function setupRecaptcha(){
 
 try{
+
+recaptchaReady = false;
+
+sendOtpBtn.disabled = true;
+
+recaptchaStatus.textContent =
+"Loading security verification...";
+
+
+/*
+If an old verifier exists, remove it.
+*/
 
 if(
 recaptchaVerifier
 ){
 
-recaptchaVerifier.clear();
+try{
 
-}
+recaptchaVerifier.clear();
 
 }catch(error){
 
 console.warn(
-"reCAPTCHA clear warning:",
+"Could not clear old reCAPTCHA:",
 error
 );
 
@@ -587,27 +602,19 @@ error
 
 recaptchaVerifier = null;
 
-recaptchaWidgetId = null;
-
-recaptchaReady = false;
-
 }
 
 
-/* =========================================
-   CREATE RECAPTCHA
-========================================= */
+/*
+Clear the container.
+*/
 
-async function setupRecaptcha(){
+recaptchaContainer.innerHTML = "";
 
-destroyRecaptcha();
 
-sendOtpBtn.disabled = true;
-
-recaptchaStatus.textContent =
-"Loading security verification...";
-
-try{
+/*
+Create Firebase reCAPTCHA.
+*/
 
 recaptchaVerifier =
 new RecaptchaVerifier(
@@ -642,20 +649,25 @@ recaptchaStatus.textContent =
 },
 
 "error-callback":
-function(){
+function(error){
+
+console.error(
+"reCAPTCHA error:",
+error
+);
 
 recaptchaReady = false;
 
 sendOtpBtn.disabled = true;
 
 recaptchaStatus.textContent =
-"Security check failed. Please reload the page and try again.";
+"Security check failed. Please reload the page.";
 
 }
 
 });
 
-recaptchaWidgetId =
+
 await recaptchaVerifier.render();
 
 recaptchaStatus.textContent =
@@ -668,14 +680,16 @@ console.error(
 error
 );
 
-destroyRecaptcha();
+recaptchaReady = false;
+
+sendOtpBtn.disabled = true;
 
 recaptchaStatus.textContent =
 "Security verification could not load.";
 
 showStatus(
 statusMessage,
-"Security verification could not load. Please reload the page.",
+"Could not load the security verification. Please reload the page.",
 "error"
 );
 
@@ -685,65 +699,7 @@ statusMessage,
 
 
 /* =========================================
-   GET FRIENDLY FIREBASE ERROR
-========================================= */
-
-function getPhoneAuthErrorMessage(
-error
-){
-
-if(!error){
-
-return "Could not send the verification code.";
-
-}
-
-switch(error.code){
-
-case "auth/operation-not-allowed":
-
-return "Firebase Phone Authentication is not available for this web app. Please check that Phone is enabled in Firebase Authentication and that this website domain is authorized.";
-
-case "auth/invalid-phone-number":
-
-return "The phone number is invalid. Enter a Nigerian number such as 08012345678.";
-
-case "auth/missing-phone-number":
-
-return "Please enter your phone number.";
-
-case "auth/quota-exceeded":
-
-return "The Firebase SMS sending quota has been reached. Please try again later.";
-
-case "auth/too-many-requests":
-
-return "Too many requests were made. Please wait and try again later.";
-
-case "auth/captcha-check-failed":
-
-return "The security check failed. Please complete the reCAPTCHA again.";
-
-case "auth/network-request-failed":
-
-return "Network connection failed. Check your internet connection and try again.";
-
-case "auth/invalid-app-credential":
-
-return "The security verification could not be accepted. Please reload the page and try again.";
-
-default:
-
-return "Could not send the verification code. Firebase: " +
-(error.code || "unknown-error");
-
-}
-
-}
-
-
-/* =========================================
-   SEND OTP
+   SEND SMS
 ========================================= */
 
 sendOtpBtn.addEventListener(
@@ -754,7 +710,7 @@ if(!recaptchaReady){
 
 showStatus(
 statusMessage,
-"Please complete the security verification first.",
+"Please complete the security check first.",
 "error"
 );
 
@@ -762,18 +718,16 @@ return;
 
 }
 
+
 const name =
 fullName.value.trim();
 
 const userAge =
 Number(age.value);
 
-const rawPhone =
-phoneNumber.value.trim();
-
 const phone =
 normalizeNigerianPhone(
-rawPhone
+phoneNumber.value.trim()
 );
 
 
@@ -832,7 +786,7 @@ return;
 }
 
 
-/* PROFILE PICTURE */
+/* PHOTO */
 
 const photoFile =
 profilePicture.files[0];
@@ -859,13 +813,17 @@ sendOtpBtn.textContent =
 
 showStatus(
 statusMessage,
-"Preparing phone verification...",
+"Sending your verification code...",
 "info"
 );
 
 
 /*
-Request Firebase SMS verification.
+IMPORTANT:
+
+Do NOT automatically recreate
+the reCAPTCHA here if Firebase
+returns an error.
 */
 
 confirmationResult =
@@ -877,12 +835,12 @@ recaptchaVerifier
 
 
 /*
-SUCCESS
+SMS SENT
 */
 
 showStatus(
 statusMessage,
-"Verification code sent to " +
+"✓ Verification code sent to " +
 phone +
 ". Check your SMS messages.",
 "success"
@@ -901,7 +859,7 @@ otpCode.focus();
 }catch(error){
 
 console.error(
-"Send OTP error:",
+"Firebase SMS error:",
 error
 );
 
@@ -910,32 +868,112 @@ console.error(
 error.code
 );
 
+console.error(
+"Firebase error message:",
+error.message
+);
+
 
 /*
-Firebase recommends resetting the
-reCAPTCHA after a failed request.
+DO NOT automatically rebuild
+the reCAPTCHA here.
+
+This prevents the endless
+reCAPTCHA loop.
 */
 
-destroyRecaptcha();
-
-await setupRecaptcha();
+sendOtpBtn.disabled = true;
 
 sendOtpBtn.textContent =
 "Send Verification Code";
 
-showStatus(
-statusMessage,
-getPhoneAuthErrorMessage(error),
-"error"
-);
+
+let message =
+"Could not send the verification code.";
+
+
+if(
+error.code ===
+"auth/operation-not-allowed"
+){
+
+message =
+"Firebase Phone Authentication is being rejected. Phone is enabled, so we need to check the Firebase web app/domain configuration.";
 
 }
+
+else if(
+error.code ===
+"auth/quota-exceeded"
+){
+
+message =
+"Firebase SMS quota has been reached. Please try again later.";
+
+}
+
+else if(
+error.code ===
+"auth/too-many-requests"
+){
+
+message =
+"Too many requests. Please wait and try again later.";
+
+}
+
+else if(
+error.code ===
+"auth/invalid-phone-number"
+){
+
+message =
+"The phone number is invalid. Please enter a Nigerian number such as 08012345678.";
+
+}
+
+else if(
+error.code ===
+"auth/captcha-check-failed"
+){
+
+message =
+"Firebase rejected the security check. Please reload the page and complete the security check again.";
+
+}
+
+else if(
+error.code ===
+"auth/network-request-failed"
+){
+
+message =
+"Network connection failed. Please check your internet connection and try again.";
+
+}
+
+else if(
+error.code
+){
+
+message +=
+" Firebase: " +
+error.code;
+
+}
+
+
+showStatus(
+statusMessage,
+message,
+"error"
+);
 
 });
 
 
 /* =========================================
-   VERIFY OTP
+   VERIFY SMS
 ========================================= */
 
 verifyBtn.addEventListener(
@@ -954,6 +992,7 @@ return;
 
 }
 
+
 const code =
 otpCode.value.trim();
 
@@ -971,6 +1010,7 @@ return;
 
 }
 
+
 const name =
 fullName.value.trim();
 
@@ -984,6 +1024,7 @@ phoneNumber.value.trim()
 
 const photoFile =
 profilePicture.files[0];
+
 
 if(!photoFile){
 
@@ -1013,7 +1054,7 @@ finalStatus,
 
 
 /*
-Confirm SMS code.
+Confirm SMS.
 */
 
 const result =
@@ -1026,7 +1067,7 @@ result.user;
 
 
 /*
-Update Firebase Auth display name.
+Update Firebase profile.
 */
 
 try{
@@ -1107,7 +1148,7 @@ cloudinaryData.secure_url || "";
 
 
 /*
-Save user profile to Firestore.
+Save account to Firestore.
 */
 
 verifyBtn.textContent =
@@ -1177,7 +1218,7 @@ merge:true
 
 
 /*
-SUCCESS
+ACCOUNT CREATED
 */
 
 showStatus(
@@ -1226,6 +1267,7 @@ verifyBtn.textContent =
 let message =
 "Account creation failed.";
 
+
 if(
 error.code ===
 "auth/invalid-verification-code"
@@ -1252,7 +1294,7 @@ error.code ===
 ){
 
 message =
-"Too many verification attempts. Please wait and try again later.";
+"Too many verification attempts. Please wait and try again.";
 
 }
 
@@ -1310,6 +1352,13 @@ statusMessage,
 ""
 );
 
+
+/*
+Only when the user deliberately
+changes the number do we create
+a fresh reCAPTCHA.
+*/
+
 await setupRecaptcha();
 
 });
@@ -1339,10 +1388,6 @@ phoneNumber.addEventListener(
 "input",
 function(){
 
-/*
-Allow only numbers, + and spaces while typing.
-*/
-
 phoneNumber.value =
 phoneNumber.value.replace(
 /[^0-9+\s()-]/g,
@@ -1353,7 +1398,7 @@ phoneNumber.value.replace(
 
 
 /* =========================================
-   START PAGE
+   START
 ========================================= */
 
 setupRecaptcha();
