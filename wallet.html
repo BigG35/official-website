@@ -9,96 +9,90 @@
 *{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f2f4f7;
-  color:#222;
+margin:0;
+font-family:Arial,sans-serif;
+background:#f2f4f7;
+color:#222
 }
 
 header{
-  background:#075e54;
-  color:white;
-  padding:16px;
-  text-align:center;
-  font-size:22px;
-  font-weight:bold;
+background:#075e54;
+color:white;
+padding:16px;
+text-align:center;
+font-size:22px;
+font-weight:bold
 }
 
 .container{
-  max-width:600px;
-  margin:auto;
-  padding:20px;
+max-width:600px;
+margin:auto;
+padding:20px
 }
 
 .card{
-  background:white;
-  border-radius:14px;
-  padding:20px;
-  margin-bottom:18px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
+background:white;
+border-radius:14px;
+padding:20px;
+margin-bottom:18px;
+box-shadow:0 2px 8px rgba(0,0,0,.08)
 }
 
 h2{margin-top:0}
 
 .balance{
-  font-size:32px;
-  font-weight:bold;
-  color:#075e54;
-  margin:12px 0;
+font-size:32px;
+font-weight:bold;
+color:#075e54;
+margin:12px 0
 }
 
-.info{
-  line-height:1.9;
-}
+.info{line-height:1.9}
 
 input{
-  width:100%;
-  padding:13px;
-  margin:8px 0;
-  border:1px solid #ccc;
-  border-radius:8px;
-  font-size:16px;
+width:100%;
+padding:13px;
+margin:8px 0;
+border:1px solid #ccc;
+border-radius:8px;
+font-size:16px
 }
 
 button{
-  width:100%;
-  padding:14px;
-  margin-top:10px;
-  border:0;
-  border-radius:8px;
-  background:#075e54;
-  color:white;
-  font-size:16px;
-  font-weight:bold;
+width:100%;
+padding:14px;
+margin-top:10px;
+border:0;
+border-radius:8px;
+background:#075e54;
+color:white;
+font-size:16px;
+font-weight:bold
 }
 
-button:disabled{
-  opacity:.6;
-}
+button:disabled{opacity:.6}
 
-.hidden{
-  display:none;
-}
+.hidden{display:none}
 
 .message{
-  padding:12px;
-  margin-top:12px;
-  border-radius:8px;
+padding:12px;
+margin-top:12px;
+border-radius:8px
 }
 
 .success{
-  background:#eaf8ee;
-  color:#087f23;
+background:#eaf8ee;
+color:#087f23
 }
 
 .error{
-  background:#ffecec;
-  color:#b00020;
+background:#ffecec;
+color:#b00020
 }
 
 .small{
-  font-size:13px;
-  color:#666;
+font-size:13px;
+color:#666
 }
 </style>
 </head>
@@ -112,118 +106,112 @@ Logical World Wallet
 <div class="container">
 
 <div id="loadingCard" class="card">
-  <h2>Loading wallet...</h2>
-  <p>Please wait.</p>
+<h2>Loading wallet...</h2>
+<p>Please wait.</p>
 </div>
-
 
 <div id="registerCard" class="card hidden">
 
-  <h2>Create Your Wallet</h2>
+<h2>Create Your Wallet</h2>
 
-  <p>
-    Create your Logical World wallet to receive and use money on Logical World.
-  </p>
+<p>
+Create your Logical World wallet to receive and use money on Logical World.
+</p>
 
-  <input
-    type="text"
-    id="walletName"
-    placeholder="Full name"
-  >
+<input
+type="text"
+id="walletName"
+placeholder="Full name"
+>
 
-  <input
-    type="tel"
-    id="walletPhone"
-    placeholder="Phone number"
-  >
+<input
+type="tel"
+id="walletPhone"
+placeholder="Phone number"
+>
 
-  <button id="createWalletBtn">
-    Create Wallet
-  </button>
+<button id="createWalletBtn">
+Create Wallet
+</button>
 
-  <div id="registerMessage"></div>
+<div id="registerMessage"></div>
 
 </div>
-
 
 <div id="walletCard" class="hidden">
 
-  <div class="card">
+<div class="card">
 
-    <h2>Wallet Balance</h2>
+<h2>Wallet Balance</h2>
 
-    <div class="balance" id="walletBalance">
-      ₦0.00
-    </div>
+<div class="balance" id="walletBalance">
+₦0.00
+</div>
 
-    <div class="info">
+<div class="info">
 
-      <strong>Account Name:</strong>
-      <span id="accountName">-</span>
+<strong>Account Name:</strong>
+<span id="accountName">-</span>
 
-      <br>
+<br>
 
-      <strong>Account Number:</strong>
-      <span id="accountNumber">-</span>
+<strong>Account Number:</strong>
+<span id="accountNumber">-</span>
 
-      <br>
+<br>
 
-      <strong>Status:</strong>
-      <span id="walletStatus">-</span>
-
-    </div>
-
-  </div>
-
-
-  <div class="card">
-
-    <h2>Add Money</h2>
-
-    <input
-      type="number"
-      id="amount"
-      placeholder="Enter amount e.g. 100"
-      min="50"
-      step="1"
-    >
-
-    <button id="addMoneyBtn">
-      Add Money
-    </button>
-
-    <div id="paymentMessage"></div>
-
-    <p class="small">
-      Minimum amount: ₦50
-    </p>
-
-  </div>
+<strong>Status:</strong>
+<span id="walletStatus">-</span>
 
 </div>
 
 </div>
 
+<div class="card">
+
+<h2>Add Money</h2>
+
+<input
+type="number"
+id="amount"
+placeholder="Enter amount e.g. 100"
+min="50"
+step="1"
+>
+
+<button id="addMoneyBtn">
+Add Money
+</button>
+
+<div id="paymentMessage"></div>
+
+<p class="small">
+Minimum amount: ₦50
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 <script type="module">
 
 import { auth, db } from "./firebase.js";
 
 import {
-  onAuthStateChanged
+onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
-  doc,
-  getDoc,
-  setDoc,
-  serverTimestamp
+doc,
+getDoc,
+setDoc,
+serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
 
 const PAYSTACK_WORKER =
 "https://logical-world-paystack.alagoagodstime.workers.dev";
-
 
 const loadingCard =
 document.getElementById("loadingCard");
@@ -267,698 +255,537 @@ document.getElementById("addMoneyBtn");
 const paymentMessage =
 document.getElementById("paymentMessage");
 
-
 let currentUser = null;
-
-
-/* ==============================
-   MESSAGES
-============================== */
 
 function showRegisterMessage(message,error=false){
 
-  registerMessage.className =
-    error ? "message error" : "message success";
+registerMessage.className =
+error ? "message error" : "message success";
 
-  registerMessage.textContent =
-    message;
+registerMessage.textContent = message;
 
 }
-
 
 function showPaymentMessage(message,error=false){
 
-  paymentMessage.className =
-    error ? "message error" : "message success";
+paymentMessage.className =
+error ? "message error" : "message success";
 
-  paymentMessage.textContent =
-    message;
+paymentMessage.textContent = message;
 
 }
-
-
-/* ==============================
-   MONEY
-============================== */
 
 function formatMoney(amount){
 
-  return "₦" +
-    Number(amount || 0).toLocaleString(
-      "en-NG",
-      {
-        minimumFractionDigits:2,
-        maximumFractionDigits:2
-      }
-    );
+return "₦" +
+Number(amount || 0).toLocaleString(
+"en-NG",
+{
+minimumFractionDigits:2,
+maximumFractionDigits:2
+}
+);
 
 }
-
-
-/* ==============================
-   ACCOUNT NUMBER
-============================== */
 
 function generateWalletAccountNumber(uid){
 
-  /*
-    Create a permanent Logical World
-    wallet number from the Firebase UID.
-  */
+let clean =
+uid.replace(/[^0-9]/g,"");
 
-  let clean =
-    uid.replace(/[^0-9]/g,"");
+if(clean.length < 8){
 
-  /*
-    Firebase UIDs can contain very few
-    numbers, so add characters from the
-    UID if necessary.
-  */
+let letters =
+uid.replace(/[^a-zA-Z]/g,"").toUpperCase();
 
-  if(clean.length < 8){
+let converted = "";
 
-    let letters =
-      uid.replace(/[^a-zA-Z]/g,"")
-         .toUpperCase();
+for(let i=0;i<letters.length;i++){
 
-    let converted = "";
-
-    for(let i=0;i<letters.length;i++){
-
-      converted +=
-        (letters.charCodeAt(i)-55)
-        .toString();
-
-    }
-
-    clean += converted;
-
-  }
-
-  clean =
-    clean.slice(-10).padStart(10,"0");
-
-  return "LW" + clean;
+converted +=
+(letters.charCodeAt(i)-55).toString();
 
 }
 
+clean += converted;
 
-/* ==============================
-   LOAD WALLET
-============================== */
+}
+
+clean =
+clean.slice(-10).padStart(10,"0");
+
+return "LW" + clean;
+
+}
 
 async function loadWallet(){
 
-  if(!currentUser){
-    return;
-  }
+if(!currentUser){
+return;
+}
 
-  try{
+try{
 
-    const userRef =
-      doc(
-        db,
-        "users",
-        currentUser.uid
-      );
+const userRef =
+doc(db,"users",currentUser.uid);
 
-    const snap =
-      await getDoc(userRef);
+const snap =
+await getDoc(userRef);
 
+if(!snap.exists()){
 
-    if(!snap.exists()){
+loadingCard.classList.add("hidden");
+registerCard.classList.remove("hidden");
+walletCard.classList.add("hidden");
 
-      loadingCard.classList.add("hidden");
-
-      registerCard.classList.remove("hidden");
-
-      walletCard.classList.add("hidden");
-
-      return;
-
-    }
-
-
-    const data =
-      snap.data();
-
-
-    /*
-      If the wallet does not exist,
-      show wallet registration.
-    */
-
-    if(!data.walletRegistered){
-
-      loadingCard.classList.add("hidden");
-
-      registerCard.classList.remove("hidden");
-
-      walletCard.classList.add("hidden");
-
-      return;
-
-    }
-
-
-    /*
-      Wallet exists.
-    */
-
-    loadingCard.classList.add("hidden");
-
-    registerCard.classList.add("hidden");
-
-    walletCard.classList.remove("hidden");
-
-
-    /*
-      FIX MISSING ACCOUNT NUMBER
-    */
-
-    let walletNumber =
-      data.walletAccountNumber;
-
-
-    if(!walletNumber){
-
-      walletNumber =
-        generateWalletAccountNumber(
-          currentUser.uid
-        );
-
-
-      /*
-        Save the missing account number
-        without changing the balance.
-      */
-
-      await setDoc(
-        userRef,
-        {
-          walletAccountNumber:walletNumber,
-          walletUpdatedAt:serverTimestamp()
-        },
-        {
-          merge:true
-        }
-      );
-
-    }
-
-
-    const balance =
-      Number(data.walletBalance || 0);
-
-
-    walletBalance.textContent =
-      formatMoney(balance);
-
-
-    accountName.textContent =
-      data.walletAccountName ||
-      currentUser.displayName ||
-      "-";
-
-
-    accountNumber.textContent =
-      walletNumber;
-
-
-    walletStatus.textContent =
-      data.walletStatus ||
-      "active";
-
-
-  }catch(error){
-
-    console.error(
-      "Wallet loading error:",
-      error
-    );
-
-    loadingCard.classList.add("hidden");
-
-    walletCard.classList.add("hidden");
-
-    registerCard.classList.remove("hidden");
-
-    showRegisterMessage(
-      "Unable to load wallet: " +
-      error.message,
-      true
-    );
-
-  }
+return;
 
 }
 
+const data =
+snap.data();
 
-/* ==============================
-   CREATE WALLET
-============================== */
+if(!data.walletRegistered){
+
+loadingCard.classList.add("hidden");
+registerCard.classList.remove("hidden");
+walletCard.classList.add("hidden");
+
+return;
+
+}
+
+loadingCard.classList.add("hidden");
+registerCard.classList.add("hidden");
+walletCard.classList.remove("hidden");
+
+let walletNumber =
+data.walletAccountNumber;
+
+if(!walletNumber){
+
+walletNumber =
+generateWalletAccountNumber(
+currentUser.uid
+);
+
+await setDoc(
+userRef,
+{
+walletAccountNumber:walletNumber,
+walletUpdatedAt:serverTimestamp()
+},
+{
+merge:true
+}
+);
+
+}
+
+const balance =
+Number(data.walletBalance || 0);
+
+walletBalance.textContent =
+formatMoney(balance);
+
+accountName.textContent =
+data.walletAccountName ||
+currentUser.displayName ||
+"-";
+
+accountNumber.textContent =
+walletNumber;
+
+walletStatus.textContent =
+data.walletStatus ||
+"active";
+
+}catch(error){
+
+console.error(
+"Wallet loading error:",
+error
+);
+
+loadingCard.classList.add("hidden");
+walletCard.classList.add("hidden");
+registerCard.classList.remove("hidden");
+
+showRegisterMessage(
+"Unable to load wallet: " +
+error.message,
+true
+);
+
+}
+
+}
 
 createWalletBtn.addEventListener(
 "click",
 async()=>{
 
-  if(!currentUser){
+if(!currentUser){
 
-    showRegisterMessage(
-      "Please login first.",
-      true
-    );
+showRegisterMessage(
+"Please login first.",
+true
+);
 
-    return;
+return;
 
-  }
+}
 
+const name =
+walletName.value.trim();
 
-  const name =
-    walletName.value.trim();
+const phone =
+walletPhone.value.trim();
 
-  const phone =
-    walletPhone.value.trim();
+if(!name){
 
+showRegisterMessage(
+"Please enter your full name.",
+true
+);
 
-  if(!name){
+return;
 
-    showRegisterMessage(
-      "Please enter your full name.",
-      true
-    );
+}
 
-    return;
+if(!phone){
 
-  }
+showRegisterMessage(
+"Please enter your phone number.",
+true
+);
 
+return;
 
-  if(!phone){
+}
 
-    showRegisterMessage(
-      "Please enter your phone number.",
-      true
-    );
+createWalletBtn.disabled = true;
 
-    return;
+createWalletBtn.textContent =
+"Creating wallet...";
 
-  }
+try{
 
+const walletNumber =
+generateWalletAccountNumber(
+currentUser.uid
+);
 
-  createWalletBtn.disabled = true;
+const userRef =
+doc(
+db,
+"users",
+currentUser.uid
+);
 
-  createWalletBtn.textContent =
-    "Creating wallet...";
+await setDoc(
+userRef,
+{
+walletRegistered:true,
+walletAccountName:name,
+walletPhoneNumber:phone,
+walletCurrency:"NGN",
+walletStatus:"active",
+walletAccountNumber:walletNumber,
+walletBalance:0,
+walletCreatedAt:serverTimestamp(),
+walletUpdatedAt:serverTimestamp()
+},
+{
+merge:true
+}
+);
 
+showRegisterMessage(
+"Wallet created successfully."
+);
 
-  try{
+await loadWallet();
 
-    const walletNumber =
-      generateWalletAccountNumber(
-        currentUser.uid
-      );
+}catch(error){
 
+console.error(
+"Wallet creation error:",
+error
+);
 
-    const userRef =
-      doc(
-        db,
-        "users",
-        currentUser.uid
-      );
+showRegisterMessage(
+"Wallet creation failed: " +
+error.message,
+true
+);
 
+}
 
-    await setDoc(
-      userRef,
-      {
-        walletRegistered:true,
-        walletAccountName:name,
-        walletPhoneNumber:phone,
-        walletCurrency:"NGN",
-        walletStatus:"active",
-        walletAccountNumber:walletNumber,
-        walletBalance:0,
-        walletCreatedAt:serverTimestamp(),
-        walletUpdatedAt:serverTimestamp()
-      },
-      {
-        merge:true
-      }
-    );
+createWalletBtn.disabled = false;
 
-
-    showRegisterMessage(
-      "Wallet created successfully."
-    );
-
-
-    await loadWallet();
-
-
-  }catch(error){
-
-    console.error(
-      "Wallet creation error:",
-      error
-    );
-
-    showRegisterMessage(
-      "Wallet creation failed: " +
-      error.message,
-      true
-    );
-
-  }
-
-
-  createWalletBtn.disabled = false;
-
-  createWalletBtn.textContent =
-    "Create Wallet";
+createWalletBtn.textContent =
+"Create Wallet";
 
 });
-
-
-/* ==============================
-   ADD MONEY
-============================== */
 
 addMoneyBtn.addEventListener(
 "click",
 async()=>{
 
-  if(!currentUser){
+if(!currentUser){
 
-    showPaymentMessage(
-      "Please login first.",
-      true
-    );
+showPaymentMessage(
+"Please login first.",
+true
+);
 
-    return;
-
-  }
-
-
-  const amount =
-    Number(amountInput.value);
-
-
-  if(!amount || amount < 50){
-
-    showPaymentMessage(
-      "Please enter an amount of at least ₦50.",
-      true
-    );
-
-    return;
-
-  }
-
-
-  addMoneyBtn.disabled = true;
-
-  addMoneyBtn.textContent =
-    "Starting payment...";
-
-
-  showPaymentMessage(
-    "Connecting to Paystack..."
-  );
-
-
-  try{
-
-    const response =
-      await fetch(
-        PAYSTACK_WORKER,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json"
-          },
-
-          body:JSON.stringify({
-
-            email:currentUser.email,
-
-            amount:amount,
-
-            userId:currentUser.uid
-
-          })
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    console.log(
-      "Paystack initialize:",
-      result
-    );
-
-
-    if(
-      !response.ok ||
-      !result.status ||
-      !result.data ||
-      !result.data.authorization_url
-    ){
-
-      throw new Error(
-        result.message ||
-        "Payment could not start."
-      );
-
-    }
-
-
-    /*
-      Remember that payment was started.
-    */
-
-    sessionStorage.setItem(
-      "logicalWorldPaymentStarted",
-      "yes"
-    );
-
-
-    window.location.href =
-      result.data.authorization_url;
-
-
-  }catch(error){
-
-    console.error(
-      "Payment error:",
-      error
-    );
-
-    showPaymentMessage(
-      "Payment could not start: " +
-      error.message,
-      true
-    );
-
-
-    addMoneyBtn.disabled = false;
-
-    addMoneyBtn.textContent =
-      "Add Money";
-
-  }
-
-});
-
-
-/* ==============================
-   VERIFY PAYSTACK RETURN
-============================== */
-
-async function verifyReturnedPayment(){
-
-  const params =
-    new URLSearchParams(
-      window.location.search
-    );
-
-
-  let reference =
-    params.get("reference");
-
-
-  if(!reference){
-
-    reference =
-      params.get("trxref");
-
-  }
-
-
-  /*
-    No Paystack reference means this
-    is just a normal wallet visit.
-  */
-
-  if(!reference){
-
-    return;
-
-  }
-
-
-  const paymentStarted =
-    sessionStorage.getItem(
-      "logicalWorldPaymentStarted"
-    );
-
-
-  if(paymentStarted !== "yes"){
-
-    return;
-
-  }
-
-
-  sessionStorage.removeItem(
-    "logicalWorldPaymentStarted"
-  );
-
-
-  showPaymentMessage(
-    "Verifying your payment..."
-  );
-
-
-  try{
-
-    const response =
-      await fetch(
-        PAYSTACK_WORKER,
-        {
-          method:"POST",
-
-          headers:{
-            "Content-Type":"application/json"
-          },
-
-          body:JSON.stringify({
-
-            action:"verify",
-
-            reference:reference
-
-          })
-        }
-      );
-
-
-    const result =
-      await response.json();
-
-
-    console.log(
-      "Payment verification:",
-      result
-    );
-
-
-    if(
-      !response.ok ||
-      !result.status
-    ){
-
-      throw new Error(
-        result.message ||
-        "Payment verification failed."
-      );
-
-    }
-
-
-    showPaymentMessage(
-      "Payment successful! " +
-      formatMoney(result.amount) +
-      " has been added to your wallet."
-    );
-
-
-    window.history.replaceState(
-      {},
-      document.title,
-      window.location.pathname
-    );
-
-
-    await loadWallet();
-
-
-  }catch(error){
-
-    console.error(
-      "Verification error:",
-      error
-    );
-
-
-    showPaymentMessage(
-      "Payment verification failed: " +
-      error.message,
-      true
-    );
-
-  }
+return;
 
 }
 
+const amount =
+Number(amountInput.value);
 
-/* ==============================
-   FIREBASE AUTH
-============================== */
+if(!amount || amount < 50){
+
+showPaymentMessage(
+"Please enter an amount of at least ₦50.",
+true
+);
+
+return;
+
+}
+
+addMoneyBtn.disabled = true;
+
+addMoneyBtn.textContent =
+"Starting payment...";
+
+showPaymentMessage(
+"Connecting to Paystack..."
+);
+
+try{
+
+const response =
+await fetch(
+PAYSTACK_WORKER,
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+email:currentUser.email,
+
+amount:amount,
+
+userId:currentUser.uid
+
+})
+}
+);
+
+const result =
+await response.json();
+
+console.log(
+"Paystack initialize:",
+result
+);
+
+if(
+!response.ok ||
+!result.status ||
+!result.data ||
+!result.data.authorization_url
+){
+
+throw new Error(
+result.message ||
+"Payment could not start."
+);
+
+}
+
+sessionStorage.setItem(
+"logicalWorldPaymentStarted",
+"yes"
+);
+
+window.location.href =
+result.data.authorization_url;
+
+}catch(error){
+
+console.error(
+"Payment error:",
+error
+);
+
+showPaymentMessage(
+"Payment could not start: " +
+error.message,
+true
+);
+
+addMoneyBtn.disabled = false;
+
+addMoneyBtn.textContent =
+"Add Money";
+
+}
+
+});
+
+async function verifyReturnedPayment(){
+
+const params =
+new URLSearchParams(
+window.location.search
+);
+
+let reference =
+params.get("reference");
+
+if(!reference){
+
+reference =
+params.get("trxref");
+
+}
+
+if(!reference){
+return;
+}
+
+const paymentStarted =
+sessionStorage.getItem(
+"logicalWorldPaymentStarted"
+);
+
+if(paymentStarted !== "yes"){
+return;
+}
+
+sessionStorage.removeItem(
+"logicalWorldPaymentStarted"
+);
+
+showPaymentMessage(
+"Verifying your payment..."
+);
+
+try{
+
+const response =
+await fetch(
+PAYSTACK_WORKER,
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+action:"verify",
+
+reference:reference
+
+})
+}
+);
+
+const result =
+await response.json();
+
+console.log(
+"Payment verification:",
+result
+);
+
+if(
+!response.ok ||
+!result.status
+){
+
+throw new Error(
+result.message ||
+"Payment verification failed."
+);
+
+}
+
+showPaymentMessage(
+"Payment successful! " +
+formatMoney(result.amount) +
+" has been added to your wallet."
+);
+
+window.history.replaceState(
+{},
+document.title,
+window.location.pathname
+);
+
+await loadWallet();
+
+}catch(error){
+
+console.error(
+"Verification error:",
+error
+);
+
+showPaymentMessage(
+"Payment verification failed: " +
+error.message,
+true
+);
+
+}
+
+}
 
 onAuthStateChanged(
-  auth,
-  async(user)=>{
+auth,
+async(user)=>{
 
-    if(!user){
+if(!user){
 
-      currentUser = null;
+currentUser = null;
 
-      loadingCard.classList.add("hidden");
+loadingCard.classList.add("hidden");
 
-      walletCard.classList.add("hidden");
+walletCard.classList.add("hidden");
 
-      registerCard.classList.remove("hidden");
+registerCard.classList.remove("hidden");
 
-      showRegisterMessage(
-        "Please login to use your Logical World wallet.",
-        true
-      );
-
-      return;
-
-    }
-
-
-    currentUser = user;
-
-
-    await loadWallet();
-
-
-    /*
-      This only runs when Paystack has
-      returned a real payment reference.
-    */
-
-    await verifyReturnedPayment();
-
-  }
+showRegisterMessage(
+"Please login to use your Logical World wallet.",
+true
 );
+
+return;
+
+}
+
+currentUser = user;
+
+await loadWallet();
+
+await verifyReturnedPayment();
+
+});
 
 </script>
 
 </body>
-</html>
+  </html>
