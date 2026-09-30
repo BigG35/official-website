@@ -3,13 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Logical World Wallet</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
@@ -41,9 +38,7 @@ header{
   box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 
-h2{
-  margin-top:0;
-}
+h2{margin-top:0}
 
 .balance{
   font-size:32px;
@@ -53,7 +48,7 @@ h2{
 }
 
 .info{
-  line-height:1.8;
+  line-height:1.9;
 }
 
 input{
@@ -116,14 +111,12 @@ Logical World Wallet
 
 <div class="container">
 
-<!-- LOADING -->
 <div id="loadingCard" class="card">
   <h2>Loading wallet...</h2>
   <p>Please wait.</p>
 </div>
 
 
-<!-- CREATE WALLET -->
 <div id="registerCard" class="card hidden">
 
   <h2>Create Your Wallet</h2>
@@ -153,7 +146,6 @@ Logical World Wallet
 </div>
 
 
-<!-- WALLET DASHBOARD -->
 <div id="walletCard" class="hidden">
 
   <div class="card">
@@ -183,8 +175,6 @@ Logical World Wallet
 
   </div>
 
-
-  <!-- ADD MONEY -->
 
   <div class="card">
 
@@ -217,11 +207,6 @@ Logical World Wallet
 
 <script type="module">
 
-/* =========================================================
-   FIREBASE
-   SAME VERSION AS firebase.js
-   ========================================================= */
-
 import { auth, db } from "./firebase.js";
 
 import {
@@ -236,17 +221,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 
-/* =========================================================
-   PAYSTACK WORKER
-   ========================================================= */
-
 const PAYSTACK_WORKER =
 "https://logical-world-paystack.alagoagodstime.workers.dev";
 
-
-/* =========================================================
-   PAGE ELEMENTS
-   ========================================================= */
 
 const loadingCard =
 document.getElementById("loadingCard");
@@ -291,16 +268,12 @@ const paymentMessage =
 document.getElementById("paymentMessage");
 
 
-/* =========================================================
-   CURRENT USER
-   ========================================================= */
-
 let currentUser = null;
 
 
-/* =========================================================
-   MESSAGE FUNCTIONS
-   ========================================================= */
+/* ==============================
+   MESSAGES
+============================== */
 
 function showRegisterMessage(message,error=false){
 
@@ -324,9 +297,9 @@ function showPaymentMessage(message,error=false){
 }
 
 
-/* =========================================================
-   MONEY FORMAT
-   ========================================================= */
+/* ==============================
+   MONEY
+============================== */
 
 function formatMoney(amount){
 
@@ -342,26 +315,57 @@ function formatMoney(amount){
 }
 
 
-/* =========================================================
-   WALLET ACCOUNT NUMBER
-   ========================================================= */
+/* ==============================
+   ACCOUNT NUMBER
+============================== */
 
 function generateWalletAccountNumber(uid){
 
-  const cleanUid =
+  /*
+    Create a permanent Logical World
+    wallet number from the Firebase UID.
+  */
+
+  let clean =
     uid.replace(/[^0-9]/g,"");
 
-  const lastDigits =
-    cleanUid.slice(-8).padStart(8,"0");
+  /*
+    Firebase UIDs can contain very few
+    numbers, so add characters from the
+    UID if necessary.
+  */
 
-  return "LW" + lastDigits;
+  if(clean.length < 8){
+
+    let letters =
+      uid.replace(/[^a-zA-Z]/g,"")
+         .toUpperCase();
+
+    let converted = "";
+
+    for(let i=0;i<letters.length;i++){
+
+      converted +=
+        (letters.charCodeAt(i)-55)
+        .toString();
+
+    }
+
+    clean += converted;
+
+  }
+
+  clean =
+    clean.slice(-10).padStart(10,"0");
+
+  return "LW" + clean;
 
 }
 
 
-/* =========================================================
+/* ==============================
    LOAD WALLET
-   ========================================================= */
+============================== */
 
 async function loadWallet(){
 
@@ -372,7 +376,11 @@ async function loadWallet(){
   try{
 
     const userRef =
-      doc(db,"users",currentUser.uid);
+      doc(
+        db,
+        "users",
+        currentUser.uid
+      );
 
     const snap =
       await getDoc(userRef);
@@ -387,6 +395,7 @@ async function loadWallet(){
       walletCard.classList.add("hidden");
 
       return;
+
     }
 
 
@@ -395,8 +404,8 @@ async function loadWallet(){
 
 
     /*
-      If wallet has not been created yet,
-      show the creation form.
+      If the wallet does not exist,
+      show wallet registration.
     */
 
     if(!data.walletRegistered){
@@ -408,11 +417,12 @@ async function loadWallet(){
       walletCard.classList.add("hidden");
 
       return;
+
     }
 
 
     /*
-      Wallet already exists.
+      Wallet exists.
     */
 
     loadingCard.classList.add("hidden");
@@ -420,6 +430,41 @@ async function loadWallet(){
     registerCard.classList.add("hidden");
 
     walletCard.classList.remove("hidden");
+
+
+    /*
+      FIX MISSING ACCOUNT NUMBER
+    */
+
+    let walletNumber =
+      data.walletAccountNumber;
+
+
+    if(!walletNumber){
+
+      walletNumber =
+        generateWalletAccountNumber(
+          currentUser.uid
+        );
+
+
+      /*
+        Save the missing account number
+        without changing the balance.
+      */
+
+      await setDoc(
+        userRef,
+        {
+          walletAccountNumber:walletNumber,
+          walletUpdatedAt:serverTimestamp()
+        },
+        {
+          merge:true
+        }
+      );
+
+    }
 
 
     const balance =
@@ -431,15 +476,18 @@ async function loadWallet(){
 
 
     accountName.textContent =
-      data.walletAccountName || "-";
+      data.walletAccountName ||
+      currentUser.displayName ||
+      "-";
 
 
     accountNumber.textContent =
-      data.walletAccountNumber || "-";
+      walletNumber;
 
 
     walletStatus.textContent =
-      data.walletStatus || "active";
+      data.walletStatus ||
+      "active";
 
 
   }catch(error){
@@ -451,12 +499,12 @@ async function loadWallet(){
 
     loadingCard.classList.add("hidden");
 
-    registerCard.classList.remove("hidden");
-
     walletCard.classList.add("hidden");
 
+    registerCard.classList.remove("hidden");
+
     showRegisterMessage(
-      "Unable to load your wallet: " +
+      "Unable to load wallet: " +
       error.message,
       true
     );
@@ -466,9 +514,9 @@ async function loadWallet(){
 }
 
 
-/* =========================================================
+/* ==============================
    CREATE WALLET
-   ========================================================= */
+============================== */
 
 createWalletBtn.addEventListener(
 "click",
@@ -482,6 +530,7 @@ async()=>{
     );
 
     return;
+
   }
 
 
@@ -500,6 +549,7 @@ async()=>{
     );
 
     return;
+
   }
 
 
@@ -511,6 +561,7 @@ async()=>{
     );
 
     return;
+
   }
 
 
@@ -522,7 +573,7 @@ async()=>{
 
   try{
 
-    const accountNumber =
+    const walletNumber =
       generateWalletAccountNumber(
         currentUser.uid
       );
@@ -544,7 +595,7 @@ async()=>{
         walletPhoneNumber:phone,
         walletCurrency:"NGN",
         walletStatus:"active",
-        walletAccountNumber:accountNumber,
+        walletAccountNumber:walletNumber,
         walletBalance:0,
         walletCreatedAt:serverTimestamp(),
         walletUpdatedAt:serverTimestamp()
@@ -559,11 +610,6 @@ async()=>{
       "Wallet created successfully."
     );
 
-
-    /*
-      Wait briefly and then display
-      the wallet dashboard.
-    */
 
     await loadWallet();
 
@@ -592,9 +638,9 @@ async()=>{
 });
 
 
-/* =========================================================
+/* ==============================
    ADD MONEY
-   ========================================================= */
+============================== */
 
 addMoneyBtn.addEventListener(
 "click",
@@ -608,6 +654,7 @@ async()=>{
     );
 
     return;
+
   }
 
 
@@ -623,6 +670,7 @@ async()=>{
     );
 
     return;
+
   }
 
 
@@ -667,7 +715,7 @@ async()=>{
 
 
     console.log(
-      "Paystack response:",
+      "Paystack initialize:",
       result
     );
 
@@ -688,8 +736,7 @@ async()=>{
 
 
     /*
-      Remember that the user actually
-      started a payment.
+      Remember that payment was started.
     */
 
     sessionStorage.setItem(
@@ -698,10 +745,6 @@ async()=>{
     );
 
 
-    /*
-      Go to Paystack.
-    */
-
     window.location.href =
       result.data.authorization_url;
 
@@ -709,10 +752,9 @@ async()=>{
   }catch(error){
 
     console.error(
-      "Payment start error:",
+      "Payment error:",
       error
     );
-
 
     showPaymentMessage(
       "Payment could not start: " +
@@ -731,19 +773,11 @@ async()=>{
 });
 
 
-/* =========================================================
-   VERIFY RETURNED PAYSTACK PAYMENT
-   ========================================================= */
+/* ==============================
+   VERIFY PAYSTACK RETURN
+============================== */
 
 async function verifyReturnedPayment(){
-
-  /*
-    We ONLY verify when Paystack has
-    returned a reference.
-
-    Opening wallet normally will not
-    trigger verification.
-  */
 
   const params =
     new URLSearchParams(
@@ -764,7 +798,8 @@ async function verifyReturnedPayment(){
 
 
   /*
-    No reference = normal wallet opening.
+    No Paystack reference means this
+    is just a normal wallet visit.
   */
 
   if(!reference){
@@ -773,11 +808,6 @@ async function verifyReturnedPayment(){
 
   }
 
-
-  /*
-    Make sure the user actually started
-    a payment from this wallet.
-  */
 
   const paymentStarted =
     sessionStorage.getItem(
@@ -791,11 +821,6 @@ async function verifyReturnedPayment(){
 
   }
 
-
-  /*
-    Prevent the same payment from being
-    repeatedly verified on refresh.
-  */
 
   sessionStorage.removeItem(
     "logicalWorldPaymentStarted"
@@ -835,7 +860,7 @@ async function verifyReturnedPayment(){
 
 
     console.log(
-      "Verification response:",
+      "Payment verification:",
       result
     );
 
@@ -860,11 +885,6 @@ async function verifyReturnedPayment(){
     );
 
 
-    /*
-      Remove Paystack information from
-      the browser address bar.
-    */
-
     window.history.replaceState(
       {},
       document.title,
@@ -872,17 +892,13 @@ async function verifyReturnedPayment(){
     );
 
 
-    /*
-      Reload wallet balance.
-    */
-
     await loadWallet();
 
 
   }catch(error){
 
     console.error(
-      "Payment verification error:",
+      "Verification error:",
       error
     );
 
@@ -898,9 +914,9 @@ async function verifyReturnedPayment(){
 }
 
 
-/* =========================================================
-   FIREBASE LOGIN
-   ========================================================= */
+/* ==============================
+   FIREBASE AUTH
+============================== */
 
 onAuthStateChanged(
   auth,
@@ -922,23 +938,19 @@ onAuthStateChanged(
       );
 
       return;
+
     }
 
 
     currentUser = user;
 
 
-    /*
-      Load the user's wallet.
-    */
-
     await loadWallet();
 
 
     /*
-      Only verify if Paystack actually
-      returned the user to this page
-      with a payment reference.
+      This only runs when Paystack has
+      returned a real payment reference.
     */
 
     await verifyReturnedPayment();
