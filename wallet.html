@@ -38,7 +38,9 @@ margin-bottom:18px;
 box-shadow:0 2px 8px rgba(0,0,0,.08)
 }
 
-h2{margin-top:0}
+h2{
+margin-top:0
+}
 
 .balance{
 font-size:32px;
@@ -47,15 +49,18 @@ color:#075e54;
 margin:12px 0
 }
 
-.info{line-height:1.9}
+.info{
+line-height:1.9
+}
 
-input{
+input,select{
 width:100%;
 padding:13px;
 margin:8px 0;
 border:1px solid #ccc;
 border-radius:8px;
-font-size:16px
+font-size:16px;
+background:white
 }
 
 button{
@@ -70,9 +75,13 @@ font-size:16px;
 font-weight:bold
 }
 
-button:disabled{opacity:.6}
+button:disabled{
+opacity:.6
+}
 
-.hidden{display:none}
+.hidden{
+display:none
+}
 
 .message{
 padding:12px;
@@ -138,6 +147,30 @@ background:#eee;
 color:#075e54;
 font-size:14px;
 padding:10px
+}
+
+.airtime-network{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:8px
+}
+
+.airtime-network button{
+margin-top:0
+}
+
+.network-selected{
+background:#128c7e
+}
+
+.test-note{
+background:#fff8e1;
+color:#795500;
+padding:12px;
+border-radius:8px;
+font-size:13px;
+line-height:1.5;
+margin-top:10px
 }
 </style>
 </head>
@@ -238,6 +271,78 @@ Minimum amount: ₦50
 
 <div class="card">
 
+<h2>Buy Airtime</h2>
+
+<p class="small">
+Select a network, enter the phone number and amount.
+</p>
+
+<label>
+<strong>Network</strong>
+</label>
+
+<select id="airtimeNetwork">
+
+<option value="">
+Select Network
+</option>
+
+<option value="9mobile">
+9mobile
+</option>
+
+<option value="airtel">
+Airtel
+</option>
+
+<option value="glo">
+Glo
+</option>
+
+<option value="mtn">
+MTN
+</option>
+
+</select>
+
+<label>
+<strong>Phone Number</strong>
+</label>
+
+<input
+type="tel"
+id="airtimePhone"
+placeholder="08012345678"
+maxlength="11"
+>
+
+<label>
+<strong>Amount</strong>
+</label>
+
+<input
+type="number"
+id="airtimeAmount"
+placeholder="Enter airtime amount"
+min="50"
+step="1"
+>
+
+<button id="buyAirtimeBtn">
+Buy Airtime
+</button>
+
+<div id="airtimeMessage"></div>
+
+<div class="test-note">
+<strong>Testing mode:</strong>
+VTUGATE is currently connected using the Sandbox/Test API key. This test does not send real airtime or charge your real VTUGATE wallet.
+</div>
+
+</div>
+
+<div class="card">
+
 <h2>Transaction History</h2>
 
 <div id="transactionList">
@@ -272,13 +377,18 @@ setDoc,
 serverTimestamp,
 collection,
 query,
+where,
 orderBy,
 limit,
-getDocs
+getDocs,
+addDoc
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
 const PAYSTACK_WORKER =
 "https://logical-world-paystack.alagoagodstime.workers.dev";
+
+const VTUGATE_WORKER =
+"https://logical-world-vtu.alagoagodstime.workers.dev";
 
 const loadingCard =
 document.getElementById("loadingCard");
@@ -328,6 +438,21 @@ document.getElementById("transactionList");
 const refreshTransactionsBtn =
 document.getElementById("refreshTransactionsBtn");
 
+const airtimeNetwork =
+document.getElementById("airtimeNetwork");
+
+const airtimePhone =
+document.getElementById("airtimePhone");
+
+const airtimeAmount =
+document.getElementById("airtimeAmount");
+
+const buyAirtimeBtn =
+document.getElementById("buyAirtimeBtn");
+
+const airtimeMessage =
+document.getElementById("airtimeMessage");
+
 let currentUser = null;
 
 function showRegisterMessage(message,error=false){
@@ -345,6 +470,15 @@ paymentMessage.className =
 error ? "message error" : "message success";
 
 paymentMessage.textContent = message;
+
+}
+
+function showAirtimeMessage(message,error=false){
+
+airtimeMessage.className =
+error ? "message error" : "message success";
+
+airtimeMessage.textContent = message;
 
 }
 
@@ -443,6 +577,7 @@ db,
 const transactionsQuery =
 query(
 transactionsRef,
+where("userId","==",currentUser.uid),
 orderBy("createdAt","desc"),
 limit(20)
 );
@@ -471,22 +606,38 @@ transactionDoc.data();
 const amount =
 Number(data.amount || 0);
 
+const type =
+data.type || "Transaction";
+
+const status =
+data.status || "Successful";
+
 const transaction =
 document.createElement("div");
 
 transaction.className =
 "transaction";
 
+const amountPrefix =
+type.toLowerCase().includes("airtime")
+? "-"
+: "+";
+
+const amountClass =
+type.toLowerCase().includes("airtime")
+? "transaction-amount"
+: "transaction-amount";
+
 transaction.innerHTML = `
 <div class="transaction-top">
-<span>Money Added</span>
-<span class="transaction-amount">
-+${formatMoney(amount)}
+<span>${type}</span>
+<span class="${amountClass}">
+${amountPrefix}${formatMoney(amount)}
 </span>
 </div>
 
 <div class="transaction-status">
-Successful
+${status}
 </div>
 
 <div class="transaction-date">
@@ -964,6 +1115,178 @@ true
 }
 
 }
+
+buyAirtimeBtn.addEventListener(
+"click",
+async()=>{
+
+if(!currentUser){
+
+showAirtimeMessage(
+"Please login first.",
+true
+);
+
+return;
+
+}
+
+const network =
+airtimeNetwork.value.trim().toLowerCase();
+
+const phone =
+airtimePhone.value.trim();
+
+const amount =
+Number(airtimeAmount.value);
+
+if(!network){
+
+showAirtimeMessage(
+"Please select a network.",
+true
+);
+
+return;
+
+}
+
+if(!/^[0-9]{11}$/.test(phone)){
+
+showAirtimeMessage(
+"Please enter a valid 11-digit Nigerian phone number.",
+true
+);
+
+return;
+
+}
+
+if(!amount || amount < 50){
+
+showAirtimeMessage(
+"Please enter an airtime amount of at least ₦50.",
+true
+);
+
+return;
+
+}
+
+buyAirtimeBtn.disabled = true;
+
+buyAirtimeBtn.textContent =
+"Processing...";
+
+showAirtimeMessage(
+"Connecting to VTUGATE..."
+);
+
+try{
+
+const response =
+await fetch(
+VTUGATE_WORKER,
+{
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+network:network,
+
+phone_number:phone,
+
+amount:amount
+
+})
+}
+);
+
+const result =
+await response.json();
+
+console.log(
+"VTUGATE airtime response:",
+result
+);
+
+if(!response.ok || !result.status){
+
+throw new Error(
+result.message ||
+result.error ||
+"Airtime purchase failed."
+);
+
+}
+
+const transactionData =
+result.data || {};
+
+const transactionId =
+transactionData.transaction_id || "";
+
+const networkName =
+transactionData.network_name ||
+network.toUpperCase();
+
+const providerMessage =
+transactionData.provider_message ||
+result.message ||
+"Airtime purchase successful.";
+
+await addDoc(
+collection(db,"walletTransactions"),
+{
+userId:currentUser.uid,
+type:"Airtime Purchase",
+amount:amount,
+phoneNumber:phone,
+network:networkName,
+transactionId:String(transactionId),
+status:"Successful",
+description:providerMessage,
+createdAt:serverTimestamp()
+}
+);
+
+showAirtimeMessage(
+"Airtime request successful for " +
+phone +
+". Transaction ID: " +
+(transactionId || "Pending")
+);
+
+airtimePhone.value = "";
+airtimeAmount.value = "";
+
+await loadTransactions();
+
+}catch(error){
+
+console.error(
+"Airtime purchase error:",
+error
+);
+
+showAirtimeMessage(
+"Airtime purchase failed: " +
+error.message,
+true
+);
+
+}
+
+buyAirtimeBtn.disabled = false;
+
+buyAirtimeBtn.textContent =
+"Buy Airtime";
+
+});
 
 refreshTransactionsBtn.addEventListener(
 "click",
