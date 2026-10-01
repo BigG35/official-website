@@ -4,174 +4,32 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Logical World Wallet</title>
-
 <style>
 *{box-sizing:border-box}
-
-body{
-margin:0;
-font-family:Arial,sans-serif;
-background:#f2f4f7;
-color:#222
-}
-
-header{
-background:#075e54;
-color:white;
-padding:16px;
-text-align:center;
-font-size:22px;
-font-weight:bold
-}
-
-.container{
-max-width:600px;
-margin:auto;
-padding:20px
-}
-
-.card{
-background:white;
-border-radius:14px;
-padding:20px;
-margin-bottom:18px;
-box-shadow:0 2px 8px rgba(0,0,0,.08)
-}
-
-h2{
-margin-top:0
-}
-
-.balance{
-font-size:32px;
-font-weight:bold;
-color:#075e54;
-margin:12px 0
-}
-
-.info{
-line-height:1.9
-}
-
-input,select{
-width:100%;
-padding:13px;
-margin:8px 0;
-border:1px solid #ccc;
-border-radius:8px;
-font-size:16px;
-background:white
-}
-
-button{
-width:100%;
-padding:14px;
-margin-top:10px;
-border:0;
-border-radius:8px;
-background:#075e54;
-color:white;
-font-size:16px;
-font-weight:bold
-}
-
-button:disabled{
-opacity:.6
-}
-
-.hidden{
-display:none
-}
-
-.message{
-padding:12px;
-margin-top:12px;
-border-radius:8px
-}
-
-.success{
-background:#eaf8ee;
-color:#087f23
-}
-
-.error{
-background:#ffecec;
-color:#b00020
-}
-
-.small{
-font-size:13px;
-color:#666
-}
-
-.transaction{
-border-bottom:1px solid #eee;
-padding:13px 0
-}
-
-.transaction:last-child{
-border-bottom:0
-}
-
-.transaction-top{
-display:flex;
-justify-content:space-between;
-gap:10px;
-font-weight:bold
-}
-
-.transaction-amount{
-color:#087f23
-}
-
-.transaction-status{
-font-size:13px;
-color:#087f23;
-margin-top:5px
-}
-
-.transaction-date{
-font-size:12px;
-color:#777;
-margin-top:4px
-}
-
-.empty{
-color:#777;
-text-align:center;
-padding:15px 0
-}
-
-.refresh{
-background:#eee;
-color:#075e54;
-font-size:14px;
-padding:10px
-}
-
-.airtime-network{
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:8px
-}
-
-.airtime-network button{
-margin-top:0
-}
-
-.network-selected{
-background:#128c7e
-}
-
-.test-note{
-background:#fff8e1;
-color:#795500;
-padding:12px;
-border-radius:8px;
-font-size:13px;
-line-height:1.5;
-margin-top:10px
-}
+body{margin:0;font-family:Arial,sans-serif;background:#f2f4f7;color:#222}
+header{background:#075e54;color:white;padding:16px;text-align:center;font-size:22px;font-weight:bold}
+.container{max-width:600px;margin:auto;padding:20px}
+.card{background:white;border-radius:14px;padding:20px;margin-bottom:18px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+h2{margin-top:0}
+.balance{font-size:32px;font-weight:bold;color:#075e54;margin:12px 0}
+.info{line-height:1.9}
+input,select{width:100%;padding:13px;margin:8px 0;border:1px solid #ccc;border-radius:8px;font-size:16px;background:white}
+button{width:100%;padding:14px;margin-top:10px;border:0;border-radius:8px;background:#075e54;color:white;font-size:16px;font-weight:bold}
+button:disabled{opacity:.6}
+.hidden{display:none}
+.message{padding:12px;margin-top:12px;border-radius:8px}
+.success{background:#eaf8ee;color:#087f23}
+.error{background:#ffecec;color:#b00020}
+.small{font-size:13px;color:#666}
+.transaction{border-bottom:1px solid #eee;padding:13px 0}
+.transaction:last-child{border-bottom:0}
+.transaction-top{display:flex;justify-content:space-between;gap:10px;font-weight:bold}
+.transaction-amount{color:#087f23}
+.transaction-status{font-size:13px;color:#087f23;margin-top:5px}
+.transaction-date{font-size:12px;color:#777;margin-top:4px}
+.empty{color:#777;text-align:center;padding:15px 0}
+.refresh{background:#eee;color:#075e54;font-size:14px;padding:10px}
+.test-note{background:#fff8e1;color:#795500;padding:12px;border-radius:8px;font-size:13px;line-height:1.5;margin-top:10px}
 </style>
 </head>
 
@@ -189,177 +47,97 @@ Logical World Wallet
 </div>
 
 <div id="registerCard" class="card hidden">
-
 <h2>Create Your Wallet</h2>
+<p>Create your Logical World wallet to receive and use money on Logical World.</p>
 
-<p>
-Create your Logical World wallet to receive and use money on Logical World.
-</p>
+<input type="text" id="walletName" placeholder="Full name">
+<input type="tel" id="walletPhone" placeholder="Phone number">
 
-<input
-type="text"
-id="walletName"
-placeholder="Full name"
->
-
-<input
-type="tel"
-id="walletPhone"
-placeholder="Phone number"
->
-
-<button id="createWalletBtn">
-Create Wallet
-</button>
+<button id="createWalletBtn">Create Wallet</button>
 
 <div id="registerMessage"></div>
-
 </div>
 
 <div id="walletCard" class="hidden">
 
 <div class="card">
-
 <h2>Wallet Balance</h2>
 
-<div class="balance" id="walletBalance">
-₦0.00
-</div>
+<div class="balance" id="walletBalance">₦0.00</div>
 
 <div class="info">
-
 <strong>Account Name:</strong>
 <span id="accountName">-</span>
-
 <br>
-
 <strong>Account Number:</strong>
 <span id="accountNumber">-</span>
-
 <br>
-
 <strong>Status:</strong>
 <span id="walletStatus">-</span>
-
 </div>
-
 </div>
 
 <div class="card">
-
 <h2>Add Money</h2>
 
-<input
-type="number"
-id="amount"
-placeholder="Enter amount e.g. 100"
-min="50"
-step="1"
->
+<input type="number" id="amount" placeholder="Enter amount e.g. 100" min="50" step="1">
 
-<button id="addMoneyBtn">
-Add Money
-</button>
+<button id="addMoneyBtn">Add Money</button>
 
 <div id="paymentMessage"></div>
 
-<p class="small">
-Minimum amount: ₦50
-</p>
-
+<p class="small">Minimum amount: ₦50</p>
 </div>
 
 <div class="card">
-
 <h2>Buy Airtime</h2>
 
 <p class="small">
-Select a network, enter the phone number and amount.
+Your Logical World wallet balance will be checked before the purchase.
 </p>
 
-<label>
-<strong>Network</strong>
-</label>
+<label><strong>Network</strong></label>
 
 <select id="airtimeNetwork">
-
-<option value="">
-Select Network
-</option>
-
-<option value="9mobile">
-9mobile
-</option>
-
-<option value="airtel">
-Airtel
-</option>
-
-<option value="glo">
-Glo
-</option>
-
-<option value="mtn">
-MTN
-</option>
-
+<option value="">Select Network</option>
+<option value="9mobile">9mobile</option>
+<option value="airtel">Airtel</option>
+<option value="glo">Glo</option>
+<option value="mtn">MTN</option>
 </select>
 
-<label>
-<strong>Phone Number</strong>
-</label>
+<label><strong>Phone Number</strong></label>
 
-<input
-type="tel"
-id="airtimePhone"
-placeholder="08012345678"
-maxlength="11"
->
+<input type="tel" id="airtimePhone" placeholder="08012345678" maxlength="11">
 
-<label>
-<strong>Amount</strong>
-</label>
+<label><strong>Amount</strong></label>
 
-<input
-type="number"
-id="airtimeAmount"
-placeholder="Enter airtime amount"
-min="50"
-step="1"
->
+<input type="number" id="airtimeAmount" placeholder="Enter airtime amount" min="50" step="1">
 
-<button id="buyAirtimeBtn">
-Buy Airtime
-</button>
+<button id="buyAirtimeBtn">Buy Airtime</button>
 
 <div id="airtimeMessage"></div>
 
 <div class="test-note">
 <strong>Testing mode:</strong>
-VTUGATE is currently connected using the Sandbox/Test API key. This test does not send real airtime or charge your real VTUGATE wallet.
+VTUGATE is currently connected using the Sandbox/Test API key.
+This test does not send real airtime or charge your real VTUGATE wallet.
 </div>
-
 </div>
 
 <div class="card">
-
 <h2>Transaction History</h2>
 
 <div id="transactionList">
 <p class="empty">Loading transactions...</p>
 </div>
 
-<button
-id="refreshTransactionsBtn"
-class="refresh"
->
+<button id="refreshTransactionsBtn" class="refresh">
 Refresh Transactions
 </button>
-
 </div>
 
 </div>
-
 </div>
 
 <script type="module">
@@ -380,299 +158,171 @@ query,
 where,
 orderBy,
 limit,
-getDocs,
-addDoc
+getDocs
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-const PAYSTACK_WORKER =
-"https://logical-world-paystack.alagoagodstime.workers.dev";
+const PAYSTACK_WORKER="https://logical-world-paystack.alagoagodstime.workers.dev";
+const VTUGATE_WORKER="https://logical-world-vtu.alagoagodstime.workers.dev";
 
-const VTUGATE_WORKER =
-"https://logical-world-vtu.alagoagodstime.workers.dev";
+const loadingCard=document.getElementById("loadingCard");
+const registerCard=document.getElementById("registerCard");
+const walletCard=document.getElementById("walletCard");
 
-const loadingCard =
-document.getElementById("loadingCard");
+const walletName=document.getElementById("walletName");
+const walletPhone=document.getElementById("walletPhone");
+const createWalletBtn=document.getElementById("createWalletBtn");
+const registerMessage=document.getElementById("registerMessage");
 
-const registerCard =
-document.getElementById("registerCard");
+const walletBalance=document.getElementById("walletBalance");
+const accountName=document.getElementById("accountName");
+const accountNumber=document.getElementById("accountNumber");
+const walletStatus=document.getElementById("walletStatus");
 
-const walletCard =
-document.getElementById("walletCard");
+const amountInput=document.getElementById("amount");
+const addMoneyBtn=document.getElementById("addMoneyBtn");
+const paymentMessage=document.getElementById("paymentMessage");
 
-const walletName =
-document.getElementById("walletName");
+const transactionList=document.getElementById("transactionList");
+const refreshTransactionsBtn=document.getElementById("refreshTransactionsBtn");
 
-const walletPhone =
-document.getElementById("walletPhone");
+const airtimeNetwork=document.getElementById("airtimeNetwork");
+const airtimePhone=document.getElementById("airtimePhone");
+const airtimeAmount=document.getElementById("airtimeAmount");
+const buyAirtimeBtn=document.getElementById("buyAirtimeBtn");
+const airtimeMessage=document.getElementById("airtimeMessage");
 
-const createWalletBtn =
-document.getElementById("createWalletBtn");
-
-const registerMessage =
-document.getElementById("registerMessage");
-
-const walletBalance =
-document.getElementById("walletBalance");
-
-const accountName =
-document.getElementById("accountName");
-
-const accountNumber =
-document.getElementById("accountNumber");
-
-const walletStatus =
-document.getElementById("walletStatus");
-
-const amountInput =
-document.getElementById("amount");
-
-const addMoneyBtn =
-document.getElementById("addMoneyBtn");
-
-const paymentMessage =
-document.getElementById("paymentMessage");
-
-const transactionList =
-document.getElementById("transactionList");
-
-const refreshTransactionsBtn =
-document.getElementById("refreshTransactionsBtn");
-
-const airtimeNetwork =
-document.getElementById("airtimeNetwork");
-
-const airtimePhone =
-document.getElementById("airtimePhone");
-
-const airtimeAmount =
-document.getElementById("airtimeAmount");
-
-const buyAirtimeBtn =
-document.getElementById("buyAirtimeBtn");
-
-const airtimeMessage =
-document.getElementById("airtimeMessage");
-
-let currentUser = null;
+let currentUser=null;
 
 function showRegisterMessage(message,error=false){
-
-registerMessage.className =
-error ? "message error" : "message success";
-
-registerMessage.textContent = message;
-
+registerMessage.className=error?"message error":"message success";
+registerMessage.textContent=message;
 }
 
 function showPaymentMessage(message,error=false){
-
-paymentMessage.className =
-error ? "message error" : "message success";
-
-paymentMessage.textContent = message;
-
+paymentMessage.className=error?"message error":"message success";
+paymentMessage.textContent=message;
 }
 
 function showAirtimeMessage(message,error=false){
-
-airtimeMessage.className =
-error ? "message error" : "message success";
-
-airtimeMessage.textContent = message;
-
+airtimeMessage.className=error?"message error":"message success";
+airtimeMessage.textContent=message;
 }
 
 function formatMoney(amount){
-
-return "₦" +
-Number(amount || 0).toLocaleString(
-"en-NG",
-{
-minimumFractionDigits:2,
-maximumFractionDigits:2
-}
-);
-
+return "₦"+Number(amount||0).toLocaleString("en-NG",{minimumFractionDigits:2,maximumFractionDigits:2});
 }
 
 function generateWalletAccountNumber(uid){
 
-let clean =
-uid.replace(/[^0-9]/g,"");
+let clean=uid.replace(/[^0-9]/g,"");
 
-if(clean.length < 8){
+if(clean.length<8){
 
-let letters =
-uid.replace(/[^a-zA-Z]/g,"").toUpperCase();
-
-let converted = "";
+let letters=uid.replace(/[^a-zA-Z]/g,"").toUpperCase();
+let converted="";
 
 for(let i=0;i<letters.length;i++){
-
-converted +=
-(letters.charCodeAt(i)-55).toString();
-
+converted+=(letters.charCodeAt(i)-55).toString();
 }
 
-clean += converted;
-
+clean+=converted;
 }
 
-clean =
-clean.slice(-10).padStart(10,"0");
+clean=clean.slice(-10).padStart(10,"0");
 
-return "LW" + clean;
-
+return "LW"+clean;
 }
 
 function formatTransactionDate(timestamp){
 
-if(!timestamp){
-return "Date unavailable";
-}
+if(!timestamp)return"Date unavailable";
 
 try{
 
 let date;
 
-if(typeof timestamp.toDate === "function"){
-date = timestamp.toDate();
+if(typeof timestamp.toDate==="function"){
+date=timestamp.toDate();
 }else{
-date = new Date(timestamp);
+date=new Date(timestamp);
 }
 
-return date.toLocaleString(
-"en-NG",
-{
-dateStyle:"medium",
-timeStyle:"short"
-}
-);
+return date.toLocaleString("en-NG",{dateStyle:"medium",timeStyle:"short"});
 
 }catch(error){
 
-return "Date unavailable";
+return"Date unavailable";
 
 }
-
 }
 
 async function loadTransactions(){
 
-if(!currentUser){
-return;
-}
+if(!currentUser)return;
 
-transactionList.innerHTML =
-'<p class="empty">Loading transactions...</p>';
+transactionList.innerHTML='<p class="empty">Loading transactions...</p>';
 
 try{
 
-const transactionsRef =
-collection(
-db,
-"walletTransactions"
-);
+const transactionsRef=collection(db,"walletTransactions");
 
-const transactionsQuery =
-query(
+const transactionsQuery=query(
 transactionsRef,
 where("userId","==",currentUser.uid),
 orderBy("createdAt","desc"),
 limit(20)
 );
 
-const snapshot =
-await getDocs(transactionsQuery);
+const snapshot=await getDocs(transactionsQuery);
 
 if(snapshot.empty){
 
-transactionList.innerHTML =
-'<p class="empty">No transactions yet.</p>';
-
+transactionList.innerHTML='<p class="empty">No transactions yet.</p>';
 return;
 
 }
 
-transactionList.innerHTML = "";
+transactionList.innerHTML="";
 
-let found = 0;
+snapshot.forEach(transactionDoc=>{
 
-snapshot.forEach((transactionDoc)=>{
+const data=transactionDoc.data();
 
-const data =
-transactionDoc.data();
+const amount=Number(data.amount||0);
+const type=data.type||"Transaction";
+const status=data.status||"Successful";
 
-const amount =
-Number(data.amount || 0);
+const transaction=document.createElement("div");
+transaction.className="transaction";
 
-const type =
-data.type || "Transaction";
+const isAirtime=type.toLowerCase().includes("airtime");
+const amountPrefix=isAirtime?"-":"+";
 
-const status =
-data.status || "Successful";
-
-const transaction =
-document.createElement("div");
-
-transaction.className =
-"transaction";
-
-const amountPrefix =
-type.toLowerCase().includes("airtime")
-? "-"
-: "+";
-
-const amountClass =
-type.toLowerCase().includes("airtime")
-? "transaction-amount"
-: "transaction-amount";
-
-transaction.innerHTML = `
+transaction.innerHTML=`
 <div class="transaction-top">
 <span>${type}</span>
-<span class="${amountClass}">
+<span class="transaction-amount">
 ${amountPrefix}${formatMoney(amount)}
 </span>
 </div>
-
 <div class="transaction-status">
 ${status}
 </div>
-
 <div class="transaction-date">
 ${formatTransactionDate(data.createdAt)}
 </div>
 `;
 
-transactionList.appendChild(
-transaction
-);
-
-found++;
+transactionList.appendChild(transaction);
 
 });
 
-if(found === 0){
-
-transactionList.innerHTML =
-'<p class="empty">No transactions yet.</p>';
-
-}
-
 }catch(error){
 
-console.error(
-"Transaction history error:",
-error
-);
+console.error("Transaction history error:",error);
 
-transactionList.innerHTML =
-`
-<p class="empty">
-Unable to load transaction history.
-</p>
-`;
+transactionList.innerHTML=
+'<p class="empty">Unable to load transaction history.</p>';
 
 }
 
@@ -680,37 +330,29 @@ Unable to load transaction history.
 
 async function loadWallet(){
 
-if(!currentUser){
-return;
-}
+if(!currentUser)return;
 
 try{
 
-const userRef =
-doc(db,"users",currentUser.uid);
-
-const snap =
-await getDoc(userRef);
+const userRef=doc(db,"users",currentUser.uid);
+const snap=await getDoc(userRef);
 
 if(!snap.exists()){
 
 loadingCard.classList.add("hidden");
 registerCard.classList.remove("hidden");
 walletCard.classList.add("hidden");
-
 return;
 
 }
 
-const data =
-snap.data();
+const data=snap.data();
 
 if(!data.walletRegistered){
 
 loadingCard.classList.add("hidden");
 registerCard.classList.remove("hidden");
 walletCard.classList.add("hidden");
-
 return;
 
 }
@@ -719,15 +361,11 @@ loadingCard.classList.add("hidden");
 registerCard.classList.add("hidden");
 walletCard.classList.remove("hidden");
 
-let walletNumber =
-data.walletAccountNumber;
+let walletNumber=data.walletAccountNumber;
 
 if(!walletNumber){
 
-walletNumber =
-generateWalletAccountNumber(
-currentUser.uid
-);
+walletNumber=generateWalletAccountNumber(currentUser.uid);
 
 await setDoc(
 userRef,
@@ -735,47 +373,31 @@ userRef,
 walletAccountNumber:walletNumber,
 walletUpdatedAt:serverTimestamp()
 },
-{
-merge:true
-}
+{merge:true}
 );
 
 }
 
-const balance =
-Number(data.walletBalance || 0);
+const balance=Number(data.walletBalance||0);
 
-walletBalance.textContent =
-formatMoney(balance);
+walletBalance.textContent=formatMoney(balance);
 
-accountName.textContent =
-data.walletAccountName ||
-currentUser.displayName ||
-"-";
-
-accountNumber.textContent =
-walletNumber;
-
-walletStatus.textContent =
-data.walletStatus ||
-"active";
+accountName.textContent=data.walletAccountName||currentUser.displayName||"-";
+accountNumber.textContent=walletNumber;
+walletStatus.textContent=data.walletStatus||"active";
 
 await loadTransactions();
 
 }catch(error){
 
-console.error(
-"Wallet loading error:",
-error
-);
+console.error("Wallet loading error:",error);
 
 loadingCard.classList.add("hidden");
 walletCard.classList.add("hidden");
 registerCard.classList.remove("hidden");
 
 showRegisterMessage(
-"Unable to load wallet: " +
-error.message,
+"Unable to load wallet: "+error.message,
 true
 );
 
@@ -783,67 +405,40 @@ true
 
 }
 
-createWalletBtn.addEventListener(
-"click",
-async()=>{
+createWalletBtn.addEventListener("click",async()=>{
 
 if(!currentUser){
 
-showRegisterMessage(
-"Please login first.",
-true
-);
-
+showRegisterMessage("Please login first.",true);
 return;
 
 }
 
-const name =
-walletName.value.trim();
-
-const phone =
-walletPhone.value.trim();
+const name=walletName.value.trim();
+const phone=walletPhone.value.trim();
 
 if(!name){
 
-showRegisterMessage(
-"Please enter your full name.",
-true
-);
-
+showRegisterMessage("Please enter your full name.",true);
 return;
 
 }
 
 if(!phone){
 
-showRegisterMessage(
-"Please enter your phone number.",
-true
-);
-
+showRegisterMessage("Please enter your phone number.",true);
 return;
 
 }
 
-createWalletBtn.disabled = true;
-
-createWalletBtn.textContent =
-"Creating wallet...";
+createWalletBtn.disabled=true;
+createWalletBtn.textContent="Creating wallet...";
 
 try{
 
-const walletNumber =
-generateWalletAccountNumber(
-currentUser.uid
-);
+const walletNumber=generateWalletAccountNumber(currentUser.uid);
 
-const userRef =
-doc(
-db,
-"users",
-currentUser.uid
-);
+const userRef=doc(db,"users",currentUser.uid);
 
 await setDoc(
 userRef,
@@ -858,58 +453,41 @@ walletBalance:0,
 walletCreatedAt:serverTimestamp(),
 walletUpdatedAt:serverTimestamp()
 },
-{
-merge:true
-}
+{merge:true}
 );
 
-showRegisterMessage(
-"Wallet created successfully."
-);
+showRegisterMessage("Wallet created successfully.");
 
 await loadWallet();
 
 }catch(error){
 
-console.error(
-"Wallet creation error:",
-error
-);
+console.error("Wallet creation error:",error);
 
 showRegisterMessage(
-"Wallet creation failed: " +
-error.message,
+"Wallet creation failed: "+error.message,
 true
 );
 
 }
 
-createWalletBtn.disabled = false;
-
-createWalletBtn.textContent =
-"Create Wallet";
+createWalletBtn.disabled=false;
+createWalletBtn.textContent="Create Wallet";
 
 });
 
-addMoneyBtn.addEventListener(
-"click",
-async()=>{
+addMoneyBtn.addEventListener("click",async()=>{
 
 if(!currentUser){
 
-showPaymentMessage(
-"Please login first.",
-true
-);
-
+showPaymentMessage("Please login first.",true);
 return;
 
 }
 
-const amount =
-Number(amountInput.value);
+const amount=Number(amountInput.value);
 
-if(!amount || amount < 50){
+if(!amount||amount<50){
 
 showPaymentMessage(
 "Please enter an amount of at least ₦50.",
@@ -920,57 +498,37 @@ return;
 
 }
 
-addMoneyBtn.disabled = true;
+addMoneyBtn.disabled=true;
+addMoneyBtn.textContent="Starting payment...";
 
-addMoneyBtn.textContent =
-"Starting payment...";
-
-showPaymentMessage(
-"Connecting to Paystack..."
-);
+showPaymentMessage("Connecting to Paystack...");
 
 try{
 
-const response =
-await fetch(
+const response=await fetch(
 PAYSTACK_WORKER,
 {
 method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-
 email:currentUser.email,
-
 amount:amount,
-
 userId:currentUser.uid
-
 })
 }
 );
 
-const result =
-await response.json();
-
-console.log(
-"Paystack initialize:",
-result
-);
+const result=await response.json();
 
 if(
-!response.ok ||
-!result.status ||
-!result.data ||
+!response.ok||
+!result.status||
+!result.data||
 !result.data.authorization_url
 ){
 
 throw new Error(
-result.message ||
-"Payment could not start."
+result.message||"Payment could not start."
 );
 
 }
@@ -980,26 +538,19 @@ sessionStorage.setItem(
 "yes"
 );
 
-window.location.href =
-result.data.authorization_url;
+window.location.href=result.data.authorization_url;
 
 }catch(error){
 
-console.error(
-"Payment error:",
-error
-);
+console.error("Payment error:",error);
 
 showPaymentMessage(
-"Payment could not start: " +
-error.message,
+"Payment could not start: "+error.message,
 true
 );
 
-addMoneyBtn.disabled = false;
-
-addMoneyBtn.textContent =
-"Add Money";
+addMoneyBtn.disabled=false;
+addMoneyBtn.textContent="Add Money";
 
 }
 
@@ -1007,87 +558,55 @@ addMoneyBtn.textContent =
 
 async function verifyReturnedPayment(){
 
-const params =
-new URLSearchParams(
-window.location.search
-);
+const params=new URLSearchParams(window.location.search);
 
-let reference =
-params.get("reference");
+let reference=params.get("reference");
 
 if(!reference){
-
-reference =
-params.get("trxref");
-
+reference=params.get("trxref");
 }
 
-if(!reference){
-return;
-}
+if(!reference)return;
 
-const paymentStarted =
-sessionStorage.getItem(
+const paymentStarted=sessionStorage.getItem(
 "logicalWorldPaymentStarted"
 );
 
-if(paymentStarted !== "yes"){
-return;
-}
+if(paymentStarted!=="yes")return;
 
 sessionStorage.removeItem(
 "logicalWorldPaymentStarted"
 );
 
-showPaymentMessage(
-"Verifying your payment..."
-);
+showPaymentMessage("Verifying your payment...");
 
 try{
 
-const response =
-await fetch(
+const response=await fetch(
 PAYSTACK_WORKER,
 {
 method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
+headers:{"Content-Type":"application/json"},
 body:JSON.stringify({
-
 action:"verify",
-
 reference:reference
-
 })
 }
 );
 
-const result =
-await response.json();
+const result=await response.json();
 
-console.log(
-"Payment verification:",
-result
-);
-
-if(
-!response.ok ||
-!result.status
-){
+if(!response.ok||!result.status){
 
 throw new Error(
-result.message ||
-"Payment verification failed."
+result.message||"Payment verification failed."
 );
 
 }
 
 showPaymentMessage(
-"Payment successful! " +
-formatMoney(result.amount) +
+"Payment successful! "+
+formatMoney(result.amount)+
 " has been added to your wallet."
 );
 
@@ -1101,14 +620,10 @@ await loadWallet();
 
 }catch(error){
 
-console.error(
-"Verification error:",
-error
-);
+console.error("Verification error:",error);
 
 showPaymentMessage(
-"Payment verification failed: " +
-error.message,
+"Payment verification failed: "+error.message,
 true
 );
 
@@ -1116,37 +631,22 @@ true
 
 }
 
-buyAirtimeBtn.addEventListener(
-"click",
-async()=>{
+buyAirtimeBtn.addEventListener("click",async()=>{
 
 if(!currentUser){
 
-showAirtimeMessage(
-"Please login first.",
-true
-);
-
+showAirtimeMessage("Please login first.",true);
 return;
 
 }
 
-const network =
-airtimeNetwork.value.trim().toLowerCase();
-
-const phone =
-airtimePhone.value.trim();
-
-const amount =
-Number(airtimeAmount.value);
+const network=airtimeNetwork.value.trim().toLowerCase();
+const phone=airtimePhone.value.trim();
+const amount=Number(airtimeAmount.value);
 
 if(!network){
 
-showAirtimeMessage(
-"Please select a network.",
-true
-);
-
+showAirtimeMessage("Please select a network.",true);
 return;
 
 }
@@ -1162,7 +662,7 @@ return;
 
 }
 
-if(!amount || amount < 50){
+if(!amount||amount<50){
 
 showAirtimeMessage(
 "Please enter an airtime amount of at least ₦50.",
@@ -1173,118 +673,89 @@ return;
 
 }
 
-buyAirtimeBtn.disabled = true;
-
-buyAirtimeBtn.textContent =
-"Processing...";
+buyAirtimeBtn.disabled=true;
+buyAirtimeBtn.textContent="Processing...";
 
 showAirtimeMessage(
-"Connecting to VTUGATE..."
+"Checking wallet balance and connecting to VTUGATE..."
 );
 
 try{
 
-const response =
-await fetch(
+const idToken=await currentUser.getIdToken();
+
+const response=await fetch(
 VTUGATE_WORKER,
 {
 method:"POST",
-
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+"Authorization":"Bearer "+idToken
 },
-
 body:JSON.stringify({
-
 network:network,
-
 phone_number:phone,
-
 amount:amount
-
 })
 }
 );
 
-const result =
-await response.json();
+const result=await response.json();
 
 console.log(
-"VTUGATE airtime response:",
+"Secure VTUGATE response:",
 result
 );
 
-if(!response.ok || !result.status){
+if(!response.ok||!result.status){
 
 throw new Error(
-result.message ||
-result.error ||
+result.message||
+result.error||
 "Airtime purchase failed."
 );
 
 }
 
-const transactionData =
-result.data || {};
-
-const transactionId =
-transactionData.transaction_id || "";
-
-const networkName =
-transactionData.network_name ||
-network.toUpperCase();
-
-const providerMessage =
-transactionData.provider_message ||
-result.message ||
-"Airtime purchase successful.";
-
-await addDoc(
-collection(db,"walletTransactions"),
-{
-userId:currentUser.uid,
-type:"Airtime Purchase",
-amount:amount,
-phoneNumber:phone,
-network:networkName,
-transactionId:String(transactionId),
-status:"Successful",
-description:providerMessage,
-createdAt:serverTimestamp()
-}
-);
+const transactionData=result.data||{};
+const transactionId=
+transactionData.transaction_id||
+transactionData.transactionId||
+"";
 
 showAirtimeMessage(
-"Airtime request successful for " +
-phone +
-". Transaction ID: " +
-(transactionId || "Pending")
+"Airtime request successful for "+
+phone+
+". Transaction ID: "+
+(transactionId||"Pending")
 );
 
-airtimePhone.value = "";
-airtimeAmount.value = "";
+airtimePhone.value="";
+airtimeAmount.value="";
+
+if(typeof result.walletBalance!=="undefined"){
+walletBalance.textContent=
+formatMoney(result.walletBalance);
+}
 
 await loadTransactions();
 
 }catch(error){
 
 console.error(
-"Airtime purchase error:",
+"Secure airtime purchase error:",
 error
 );
 
 showAirtimeMessage(
-"Airtime purchase failed: " +
-error.message,
+"Airtime purchase failed: "+error.message,
 true
 );
 
 }
 
-buyAirtimeBtn.disabled = false;
-
-buyAirtimeBtn.textContent =
-"Buy Airtime";
+buyAirtimeBtn.disabled=false;
+buyAirtimeBtn.textContent="Buy Airtime";
 
 });
 
@@ -1292,32 +763,24 @@ refreshTransactionsBtn.addEventListener(
 "click",
 async()=>{
 
-refreshTransactionsBtn.disabled = true;
-
-refreshTransactionsBtn.textContent =
-"Refreshing...";
+refreshTransactionsBtn.disabled=true;
+refreshTransactionsBtn.textContent="Refreshing...";
 
 await loadTransactions();
 
-refreshTransactionsBtn.disabled = false;
-
-refreshTransactionsBtn.textContent =
-"Refresh Transactions";
+refreshTransactionsBtn.disabled=false;
+refreshTransactionsBtn.textContent="Refresh Transactions";
 
 });
 
-onAuthStateChanged(
-auth,
-async(user)=>{
+onAuthStateChanged(auth,async(user)=>{
 
 if(!user){
 
-currentUser = null;
+currentUser=null;
 
 loadingCard.classList.add("hidden");
-
 walletCard.classList.add("hidden");
-
 registerCard.classList.remove("hidden");
 
 showRegisterMessage(
@@ -1329,10 +792,9 @@ return;
 
 }
 
-currentUser = user;
+currentUser=user;
 
 await loadWallet();
-
 await verifyReturnedPayment();
 
 });
