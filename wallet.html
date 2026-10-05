@@ -5,7 +5,44 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Logical World Wallet</title>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}.top{background:#0b57d0;color:#fff;padding:18px;text-align:center;font-size:22px;font-weight:bold}.screen{display:none;padding:16px;padding-bottom:90px}.screen.active{display:block}.card{background:#fff;border-radius:15px;padding:16px;margin:12px 0;box-shadow:0 2px 10px #0001}.balance{background:#0b57d0;color:#fff;border-radius:18px;padding:22px;text-align:center}.balance .amount{font-size:32px;font-weight:bold;margin:10px 0}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.service{background:#fff;border:0;border-radius:15px;padding:18px;text-align:center;font-size:16px;box-shadow:0 2px 8px #0001}.service div{font-size:30px;margin-bottom:7px}.back{border:0;background:#fff;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:15px}.service-header{padding:20px;border-radius:16px;background:#0b57d0;color:#fff;text-align:center;margin-bottom:12px}.data-theme{background:#168a45}.label,label{display:block;font-weight:bold;margin:12px 0 6px}input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;background:#fff;font-size:16px}button{border:0;border-radius:10px;padding:13px 16px;background:#0b57d0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}button:disabled{opacity:.55}.message{padding:12px;border-radius:10px;margin-top:12px;display:none;white-space:pre-wrap}.success{background:#e5f8eb;color:#08752b}.error{background:#ffe8e8;color:#a40000}.info-box{background:#eef5ff;padding:12px;border-radius:10px;font-size:14px;margin-bottom:12px}.small{font-size:13px;color:#667085}.tx{padding:13px 0;border-bottom:1px solid #eee}.tx:last-child{border-bottom:0}.tx strong{display:block}.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);z-index:20}.nav button{background:#fff;color:#555;border-radius:0;margin:0;padding:10px 3px;font-size:12px}.nav button.active{color:#0b57d0}.hide{display:none!important}.row{display:flex;justify-content:space-between;gap:10px;align-items:center}.row button{flex:1}.danger{background:#d93025}.muted{color:#667085}
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f4f7fb;color:#172033}
+.top{background:#0b57d0;color:#fff;padding:18px;text-align:center;font-size:22px;font-weight:bold}
+.screen{display:none;padding:16px;padding-bottom:90px}
+.screen.active{display:block}
+.card{background:#fff;border-radius:15px;padding:16px;margin:12px 0;box-shadow:0 2px 10px #0001}
+.balance{background:#0b57d0;color:#fff;border-radius:18px;padding:22px;text-align:center}
+.balance .amount{font-size:32px;font-weight:bold;margin:10px 0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.service{background:#fff;border:0;border-radius:15px;padding:18px;text-align:center;font-size:16px;box-shadow:0 2px 8px #0001}
+.service div{font-size:30px;margin-bottom:7px}
+.back{border:0;background:#fff;padding:10px 14px;border-radius:10px;margin-bottom:12px;font-size:15px}
+.service-header{padding:20px;border-radius:16px;background:#0b57d0;color:#fff;text-align:center;margin-bottom:12px}
+.data-theme{background:#168a45}
+.label,label{display:block;font-weight:bold;margin:12px 0 6px}
+input,select{width:100%;padding:13px;border:1px solid #ccd3df;border-radius:10px;background:#fff;font-size:16px}
+button{border:0;border-radius:10px;padding:13px 16px;background:#0b57d0;color:#fff;font-size:16px;font-weight:bold;cursor:pointer;width:100%;margin-top:10px}
+button:disabled{opacity:.55}
+.message{padding:12px;border-radius:10px;margin-top:12px;display:none;white-space:pre-wrap}
+.success{background:#e5f8eb;color:#08752b}
+.error{background:#ffe8e8;color:#a40000}
+.info-box{background:#eef5ff;padding:12px;border-radius:10px;font-size:14px;margin-bottom:12px}
+.small{font-size:13px;color:#667085}
+.tx{padding:13px 0;border-bottom:1px solid #eee}
+.tx:last-child{border-bottom:0}
+.tx strong{display:block}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #ddd;display:grid;grid-template-columns:repeat(4,1fr);z-index:20}
+.nav button{background:#fff;color:#555;border-radius:0;margin:0;padding:10px 3px;font-size:12px}
+.nav button.active{color:#0b57d0}
+.hide{display:none!important}
+.network-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+.network-btn{border:2px solid #ddd;border-radius:14px;padding:15px;background:#fff;color:#172033;text-align:center}
+.network-btn div:first-child{font-size:26px;font-weight:bold}
+.network-btn.selected{box-shadow:0 0 0 3px #0b57d055}
+.nine{border-color:#008f45;color:#008f45}
+.airtel{border-color:#e30613;color:#e30613}
+.glo{border-color:#00a651;color:#008c45}
+.mtn{border-color:#ffcc00;color:#8a6800}
 </style>
 </head>
 <body>
@@ -87,18 +124,31 @@
 <div style="font-size:24px;font-weight:bold">Data</div>
 <div style="font-size:13px;margin-top:6px">Buy mobile data bundles.</div>
 </div>
+
 <div class="card">
-<div id="dataInfo" class="info-box">Loading VTUGATE data services...</div>
-<label>Network / Data Service</label>
-<select id="dataNetwork">
-<option value="">Loading services...</option>
+<div id="dataInfo" class="info-box">Select your network.</div>
+
+<label>Network</label>
+
+<div class="network-grid">
+<button type="button" class="network-btn nine" data-network="9mobile">🟢<br><b>9mobile</b></button>
+<button type="button" class="network-btn airtel" data-network="airtel">🔴<br><b>Airtel</b></button>
+<button type="button" class="network-btn glo" data-network="glo">🟢<br><b>Glo</b></button>
+<button type="button" class="network-btn mtn" data-network="mtn">🟡<br><b>MTN</b></button>
+</div>
+
+<select id="dataNetwork" class="hide">
+<option value="">Select Network</option>
 </select>
+
 <label>Data Plan</label>
 <select id="dataPlan" disabled>
 <option value="">Select Data Plan</option>
 </select>
+
 <label>Phone Number</label>
 <input id="dataPhone" type="tel" maxlength="11" placeholder="08012345678">
+
 <button id="buyDataBtn" disabled>Buy Data</button>
 <div id="dataMessage" class="message"></div>
 </div>
@@ -157,7 +207,15 @@ import{initializeApp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-app
 import{getFirestore,doc,getDoc,setDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-const firebaseConfig={apiKey:"AIzaSyDLdWY7gbNmLOc-jCoQ27FI9iBzVtbwhk",authDomain:"official-website-b2757.firebaseapp.com",projectId:"official-website-b2757",storageBucket:"official-website-b2757.firebasestorage.app",messagingSenderId:"295891219037",appId:"1:295891219037:web:c1b1713c9291f88cabd3b4",measurementId:"G-T0BKW67381"};
+const firebaseConfig={
+apiKey:"AIzaSyDLdWY7gbNmLOc-jCoQ27FI9iBzVtbwhk",
+authDomain:"official-website-b2757.firebaseapp.com",
+projectId:"official-website-b2757",
+storageBucket:"official-website-b2757.firebasestorage.app",
+messagingSenderId:"295891219037",
+appId:"1:295891219037:web:c1b1713c9291f88cabd3b4",
+measurementId:"G-T0BKW67381"
+};
 
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
@@ -213,6 +271,7 @@ if(!currentUser)return;
 try{
 const ref=doc(db,"users",currentUser.uid);
 const snap=await getDoc(ref);
+
 if(!snap.exists()){
 currentWallet=null;
 $("walletBalance").textContent="₦0.00";
@@ -220,14 +279,19 @@ $("walletStatus").textContent="Wallet not created";
 $("walletAccountBox").textContent="Create your wallet account above.";
 return;
 }
+
 currentWallet=snap.data();
 const balance=Number(currentWallet.walletBalance||0);
+
 $("walletBalance").textContent=money(balance);
 $("walletStatus").textContent=currentWallet.walletStatus==="active"?"Wallet active":"Wallet not active";
 $("accountName").value=currentWallet.walletAccountName||currentUser.displayName||"";
 $("accountPhone").value=currentWallet.walletPhoneNumber||"";
+
 $("walletAccountBox").innerHTML="<strong>Logical World Account Number</strong><br><span style='font-size:22px;font-weight:bold'>"+(currentWallet.walletAccountNumber||"Not available")+"</span>";
+
 $("settingsDetails").innerHTML="<strong>Name:</strong> "+(currentWallet.walletAccountName||"-")+"<br><strong>Phone:</strong> "+(currentWallet.walletPhoneNumber||"-")+"<br><strong>Account:</strong> "+(currentWallet.walletAccountNumber||"-")+"<br><strong>Balance:</strong> "+money(balance)+"<br><strong>Status:</strong> "+(currentWallet.walletStatus||"-");
+
 }catch(error){
 console.error(error);
 $("walletStatus").textContent="Unable to load wallet";
@@ -239,29 +303,38 @@ if(!currentUser){
 $("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';
 return;
 }
+
 try{
 const q=query(collection(db,"walletTransactions"),where("userId","==",currentUser.uid));
 const snap=await getDocs(q);
 let arr=[];
+
 snap.forEach(x=>arr.push({id:x.id,...x.data()}));
+
 arr.sort((a,b)=>{
 const aa=a.createdAt?.seconds||0;
 const bb=b.createdAt?.seconds||0;
 return bb-aa;
 });
+
 if(!arr.length){
 $("transactions").innerHTML='<div class="small">No wallet transactions yet.</div>';
 return;
 }
+
 $("transactions").innerHTML="";
+
 arr.slice(0,50).forEach(t=>{
 const div=document.createElement("div");
 div.className="tx";
 const amount=Number(t.amount||0);
 const date=t.createdAt?.toDate?t.createdAt.toDate().toLocaleString():t.createdAt?String(t.createdAt):"";
+
 div.innerHTML="<strong>"+(t.type||"Transaction")+"</strong><span>"+(t.description||"")+"</span><br><span>"+money(amount)+"</span><br><span class='small'>"+(t.status||"")+" "+date+"</span>";
+
 $("transactions").appendChild(div);
 });
+
 }catch(error){
 console.error(error);
 $("transactions").innerHTML='<div class="small">Unable to load transaction history.</div>';
@@ -272,19 +345,37 @@ async function verifyReturnedPayment(){
 try{
 const params=new URLSearchParams(location.search);
 const reference=params.get("reference")||params.get("trxref");
+
 if(!reference||!currentUser)return;
+
 showScreen("homeScreen");
+
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(PAYSTACK_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"verify",reference:reference,idToken:idToken})});
+
+const response=await fetch(PAYSTACK_WORKER,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+action:"verify",
+reference:reference,
+idToken:idToken
+})
+});
+
 const result=await response.json();
+
 if(!response.ok||result.status===false){
 showMessage("walletMessage",result.message||"Unable to verify payment.","error");
 return;
 }
+
 showMessage("walletMessage",result.message||"Payment verified successfully. Your wallet has been updated.","success");
+
 await loadWallet();
 await loadTransactions();
+
 history.replaceState({},document.title,location.pathname);
+
 }catch(error){
 console.error(error);
 showMessage("walletMessage",error.message||"Unable to verify payment.","error");
@@ -293,156 +384,276 @@ showMessage("walletMessage",error.message||"Unable to verify payment.","error");
 
 $("registerWalletBtn").addEventListener("click",async()=>{
 hideMessage("walletMessage");
+
 if(!currentUser){
 showMessage("walletMessage","Please log in first.","error");
 return;
 }
+
 const name=$("accountName").value.trim();
 const phone=$("accountPhone").value.trim();
+
 if(!name||!phone){
 showMessage("walletMessage","Enter your name and phone number.","error");
 return;
 }
+
 if(!/^[0-9]{11}$/.test(phone)){
 showMessage("walletMessage","Enter an 11-digit Nigerian phone number.","error");
 return;
 }
+
 const btn=$("registerWalletBtn");
 btn.disabled=true;
 btn.textContent="Saving...";
+
 try{
 const ref=doc(db,"users",currentUser.uid);
 const old=await getDoc(ref);
 const oldData=old.exists()?old.data():{};
 const generated=oldData.walletAccountNumber||generateWalletAccountNumber(phone);
-await setDoc(ref,{walletRegistered:true,walletAccountName:name,walletPhoneNumber:phone,walletCurrency:"NGN",walletStatus:"active",walletAccountNumber:generated,walletBalance:Number(oldData.walletBalance||0),walletCreatedAt:oldData.walletCreatedAt||serverTimestamp(),walletUpdatedAt:serverTimestamp()},{merge:true});
+
+await setDoc(ref,{
+walletRegistered:true,
+walletAccountName:name,
+walletPhoneNumber:phone,
+walletCurrency:"NGN",
+walletStatus:"active",
+walletAccountNumber:generated,
+walletBalance:Number(oldData.walletBalance||0),
+walletCreatedAt:oldData.walletCreatedAt||serverTimestamp(),
+walletUpdatedAt:serverTimestamp()
+},{merge:true});
+
 showMessage("walletMessage","Wallet account saved successfully.","success");
 await loadWallet();
+
 }catch(error){
 console.error(error);
 showMessage("walletMessage",error.message||"Unable to save wallet.","error");
 }
+
 btn.disabled=false;
 btn.textContent="Create / Update Wallet";
 });
 
 $("fundBtn").addEventListener("click",async()=>{
 hideMessage("fundMessage");
+
 if(!currentUser){
 showMessage("fundMessage","Please log in first.","error");
 return;
 }
+
 const amount=Number($("fundAmount").value);
+
 if(!Number.isFinite(amount)||amount<100){
 showMessage("fundMessage","Enter an amount of at least ₦100.","error");
 return;
 }
+
 if(!currentUser.email){
 showMessage("fundMessage","Your Logical World account needs an email address for Paystack funding.","error");
 return;
 }
+
 const btn=$("fundBtn");
 btn.disabled=true;
 btn.textContent="Connecting...";
+
 try{
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(PAYSTACK_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idToken:idToken,amount:amount,email:currentUser.email})});
+
+const response=await fetch(PAYSTACK_WORKER,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+idToken:idToken,
+amount:amount,
+email:currentUser.email
+})
+});
+
 const result=await response.json();
-if(!response.ok||result.status===false)throw new Error(result.message||"Unable to start payment.");
-if(result.authorization_url){window.location.href=result.authorization_url;return;}
-if(result.data&&result.data.authorization_url){window.location.href=result.data.authorization_url;return;}
-if(result.url){window.location.href=result.url;return;}
+
+if(!response.ok||result.status===false)
+throw new Error(result.message||"Unable to start payment.");
+
+if(result.authorization_url){
+window.location.href=result.authorization_url;
+return;
+}
+
+if(result.data&&result.data.authorization_url){
+window.location.href=result.data.authorization_url;
+return;
+}
+
+if(result.url){
+window.location.href=result.url;
+return;
+}
+
 throw new Error("Paystack did not return a payment URL.");
+
 }catch(error){
 console.error(error);
 showMessage("fundMessage",error.message||"Unable to start payment.","error");
 }
+
 btn.disabled=false;
 btn.textContent="Add Money";
 });
 
 $("buyAirtimeBtn").addEventListener("click",async()=>{
 hideMessage("airtimeMessage");
+
 if(!currentUser){
 showMessage("airtimeMessage","Please log in first.","error");
 return;
 }
+
 const network=$("network").value;
 const phone=$("airtimePhone").value.trim();
 const amount=Number($("airtimeAmount").value);
+
 if(!network){
 showMessage("airtimeMessage","Select a network.","error");
 return;
 }
+
 if(!/^[0-9]{11}$/.test(phone)){
 showMessage("airtimeMessage","Enter a valid 11-digit phone number.","error");
 return;
 }
+
 if(!Number.isFinite(amount)||amount<50){
 showMessage("airtimeMessage","Airtime amount must be at least ₦50.","error");
 return;
 }
+
 const btn=$("buyAirtimeBtn");
 btn.disabled=true;
 btn.textContent="Processing...";
+
 try{
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(VTUGATE_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idToken:idToken,network:network,phone_number:phone,amount:amount})});
+
+const response=await fetch(VTUGATE_WORKER,{
+method:"POST",
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({
+idToken:idToken,
+network:network,
+phone_number:phone,
+amount:amount
+})
+});
+
 const result=await response.json();
-if(!response.ok||!result.status)throw new Error(result.message||"Airtime purchase failed.");
+
+if(!response.ok||!result.status)
+throw new Error(result.message||"Airtime purchase failed.");
+
 $("walletBalance").textContent=money(result.walletBalance);
 $("walletStatus").textContent="Wallet active";
-showMessage("airtimeMessage",(result.message||"Airtime purchase successful.")+" Your new wallet balance is "+money(result.walletBalance)+".","success");
+
+showMessage(
+"airtimeMessage",
+(result.message||"Airtime purchase successful.")+
+" Your new wallet balance is "+money(result.walletBalance)+".",
+"success"
+);
+
 await loadWallet();
 await loadTransactions();
+
 }catch(error){
 console.error(error);
 showMessage("airtimeMessage",error.message||"Airtime purchase failed.","error");
 }
+
 btn.disabled=false;
 btn.textContent="Buy Airtime";
 });
 
 function findArrays(obj,found=[]){
-if(!obj||typeof obj!=="object"||found.length>20)return found;
+if(!obj||typeof obj!=="object"||found.length>30)return found;
+
 if(Array.isArray(obj)){
 if(obj.length)found.push(obj);
 obj.forEach(x=>findArrays(x,found));
 return found;
 }
+
 Object.keys(obj).forEach(k=>findArrays(obj[k],found));
 return found;
 }
 
 function pickServiceId(x){
-return x?.service_id??x?.serviceId??x?.serviceID??x?.id??x?.service?.service_id??x?.service?.id??"";
-}
-
-function pickServiceName(x,i){
-return x?.service_name??x?.serviceName??x?.name??x?.network??x?.title??x?.service?.name??x?.service?.service_name??("Data Service "+(i+1));
+return x?.service_id??
+x?.serviceId??
+x?.serviceID??
+x?.id??
+x?.service?.service_id??
+x?.service?.id??"";
 }
 
 function pickPlanId(x){
-return x?.plan_id??x?.planId??x?.planID??x?.id??x?.code??x?.plan_code??x?.planCode??"";
+return x?.plan_id??
+x?.planId??
+x?.planID??
+x?.id??
+x?.code??
+x?.plan_code??
+x?.planCode??"";
 }
 
 function pickPlanName(x,i){
-return x?.plan_name??x?.planName??x?.name??x?.description??x?.title??("Plan "+(i+1));
+return x?.plan_name??
+x?.planName??
+x?.name??
+x?.description??
+x?.title??
+("Plan "+(i+1));
 }
 
-async function loadDataServices(){
-const info=$("dataInfo");
-const networkSelect=$("dataNetwork");
-if(!info||!networkSelect)return;
+function getNetworkFromServiceId(id){
+const n=Number(id);
 
-info.textContent="Loading VTUGATE data services...";
-networkSelect.innerHTML='<option value="">Loading services...</option>';
+if(n>=1&&n<=5)return"9mobile";
+if(n>=6&&n<=10)return"airtel";
+if(n>=11&&n<=15)return"glo";
+if(n>=16&&n<=22)return"mtn";
 
+return"";
+}
+
+function networkTitle(network){
+if(network==="9mobile")return"9mobile";
+if(network==="airtel")return"Airtel";
+if(network==="glo")return"Glo";
+if(network==="mtn")return"MTN";
+return"";
+}
+
+function serviceIdsForNetwork(network){
+if(network==="9mobile")return["1","2","3","4","5"];
+if(network==="airtel")return["6","7","8","9","10"];
+if(network==="glo")return["11","12","13","14","15"];
+if(network==="mtn")return["16","17","18","19","20","21","22"];
+return[];
+}
+
+async function loadPlansFromService(serviceId){
 try{
 const response=await fetch(VTUGATE_WORKER,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
-body:JSON.stringify({action:"fetchDataServices"})
+body:JSON.stringify({
+action:"fetchDataPlans",
+service_id:String(serviceId)
+})
 });
 
 const raw=await response.text();
@@ -451,98 +662,10 @@ let result;
 try{
 result=JSON.parse(raw);
 }catch(e){
-throw new Error("VTUGATE returned an invalid response.");
+return[];
 }
 
-if(!response.ok)throw new Error(result?.message||"Unable to load data services.");
-if(result?.status===false)throw new Error(result.message||"Unable to load data services.");
-
-let list=[];
-
-const possibleArrays=[
-result?.data,
-result?.services,
-result?.data?.services,
-result?.data?.data,
-result?.data?.items,
-result?.data?.results,
-result?.results,
-result?.items
-];
-
-for(const a of possibleArrays){
-if(Array.isArray(a)&&a.length){
-list=a;
-break;
-}
-}
-
-if(!list.length){
-const allArrays=findArrays(result);
-if(allArrays.length)list=allArrays.reduce((a,b)=>a.length>=b.length?a:b,[]);
-}
-
-dataServices=list;
-
-if(!dataServices.length){
-throw new Error("VTUGATE returned no data services.");
-}
-
-networkSelect.innerHTML='<option value="">Select Data Service</option>';
-
-let added=0;
-
-dataServices.forEach((service,index)=>{
-const id=pickServiceId(service);
-if(id==="")return;
-
-const option=document.createElement("option");
-option.value=String(id);
-option.textContent=String(pickServiceName(service,index));
-networkSelect.appendChild(option);
-added++;
-});
-
-if(!added){
-throw new Error("Data services were returned, but no service ID was found.");
-}
-
-info.textContent=added+" data service(s) loaded. Select a network to view data plans.";
-
-}catch(error){
-console.error("DATA SERVICES ERROR:",error);
-networkSelect.innerHTML='<option value="">Unable to load services</option>';
-info.textContent="Unable to load VTUGATE data services: "+(error.message||"Unknown error");
-}
-}
-
-async function loadDataPlans(serviceId){
-const planSelect=$("dataPlan");
-const buyButton=$("buyDataBtn");
-const info=$("dataInfo");
-
-planSelect.disabled=true;
-buyButton.disabled=true;
-planSelect.innerHTML='<option value="">Loading plans...</option>';
-
-try{
-const response=await fetch(VTUGATE_WORKER,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({action:"fetchDataPlans",service_id:String(serviceId)})
-});
-
-const raw=await response.text();
-let result;
-
-try{
-result=JSON.parse(raw);
-}catch(e){
-throw new Error("VTUGATE returned an invalid plans response.");
-}
-
-if(!response.ok)throw new Error(result?.message||"Unable to load data plans.");
-if(result?.status===false)throw new Error(result.message||"Unable to load data plans.");
+if(!response.ok||result?.status===false)return[];
 
 let plans=[];
 
@@ -566,28 +689,90 @@ break;
 
 if(!plans.length){
 const allArrays=findArrays(result);
-if(allArrays.length)plans=allArrays.reduce((a,b)=>a.length>=b.length?a:b,[]);
+if(allArrays.length){
+plans=allArrays.reduce((a,b)=>a.length>=b.length?a:b,[]);
+}
 }
 
-if(!plans.length)throw new Error("No data plans were returned for this service.");
+return plans;
+
+}catch(error){
+console.error("SERVICE PLAN ERROR:",error);
+return[];
+}
+
+}
+
+async function loadDataPlans(network){
+const planSelect=$("dataPlan");
+const buyButton=$("buyDataBtn");
+const info=$("dataInfo");
+
+planSelect.disabled=true;
+buyButton.disabled=true;
+planSelect.innerHTML='<option value="">Loading plans...</option>';
+
+const ids=serviceIdsForNetwork(network);
+
+if(!ids.length){
+planSelect.innerHTML='<option value="">Select Data Plan</option>';
+info.textContent="Select a network.";
+return;
+}
+
+try{
+let allPlans=[];
+
+for(const serviceId of ids){
+const plans=await loadPlansFromService(serviceId);
+
+plans.forEach(plan=>{
+const id=pickPlanId(plan);
+
+if(id==="")return;
+
+const exists=allPlans.some(x=>String(pickPlanId(x))===String(id));
+
+if(!exists)allPlans.push(plan);
+});
+}
+
+if(!allPlans.length){
+throw new Error("No data plans were returned for "+networkTitle(network)+".");
+}
 
 planSelect.innerHTML='<option value="">Select Data Plan</option>';
 
 let added=0;
 
-plans.forEach((plan,index)=>{
+allPlans.forEach((plan,index)=>{
 const id=pickPlanId(plan);
-if(id==="")return;
-
 const name=pickPlanName(plan,index);
-const price=plan?.price??plan?.amount??plan?.selling_price??plan?.sellingPrice??plan?.cost??"";
-const size=plan?.size??plan?.data??plan?.volume??plan?.data_size??"";
-const validity=plan?.validity??plan?.duration??plan?.validity_period??"";
+
+const price=
+plan?.price??
+plan?.amount??
+plan?.selling_price??
+plan?.sellingPrice??
+plan?.cost??"";
+
+const size=
+plan?.size??
+plan?.data??
+plan?.volume??
+plan?.data_size??"";
+
+const validity=
+plan?.validity??
+plan?.duration??
+plan?.validity_period??"";
 
 const option=document.createElement("option");
+
 option.value=String(id);
 
 let text=String(name);
+
 if(size)text+=" - "+String(size);
 if(validity)text+=" - "+String(validity);
 if(price!=="")text+=" - "+money(price);
@@ -603,29 +788,48 @@ planSelect.appendChild(option);
 added++;
 });
 
-if(!added)throw new Error("VTUGATE returned plans without usable plan IDs.");
-
 planSelect.disabled=false;
-info.textContent=added+" data plan(s) loaded. Select a plan to continue.";
+info.textContent=added+" data plan(s) loaded for "+networkTitle(network)+". Select a plan to continue.";
 
 }catch(error){
 console.error("DATA PLANS ERROR:",error);
 planSelect.innerHTML='<option value="">Unable to load plans</option>';
-info.textContent="Unable to load data plans: "+(error.message||"Unknown error");
+info.textContent="Unable to load "+networkTitle(network)+" plans: "+(error.message||"Unknown error");
 }
 }
 
-$("dataNetwork").addEventListener("change",async()=>{
-const serviceId=$("dataNetwork").value;
+document.querySelectorAll(".network-btn").forEach(button=>{
+button.addEventListener("click",async()=>{
+document.querySelectorAll(".network-btn").forEach(x=>x.classList.remove("selected"));
+button.classList.add("selected");
+
+const network=button.dataset.network;
+$("dataNetwork").value=network;
 
 $("dataPlan").innerHTML='<option value="">Select Data Plan</option>';
 $("dataPlan").disabled=true;
 $("buyDataBtn").disabled=true;
 hideMessage("dataMessage");
 
-if(!serviceId)return;
+await loadDataPlans(network);
+});
+});
 
-await loadDataPlans(serviceId);
+$("dataNetwork").addEventListener("change",async()=>{
+const network=$("dataNetwork").value;
+
+document.querySelectorAll(".network-btn").forEach(x=>{
+x.classList.toggle("selected",x.dataset.network===network);
+});
+
+$("dataPlan").innerHTML='<option value="">Select Data Plan</option>';
+$("dataPlan").disabled=true;
+$("buyDataBtn").disabled=true;
+hideMessage("dataMessage");
+
+if(!network)return;
+
+await loadDataPlans(network);
 });
 
 $("dataPlan").addEventListener("change",()=>{
@@ -640,12 +844,12 @@ showMessage("dataMessage","Please log in first.","error");
 return;
 }
 
-const serviceId=$("dataNetwork").value;
+const network=$("dataNetwork").value;
 const planId=$("dataPlan").value;
 const phone=$("dataPhone").value.trim();
 
-if(!serviceId||!planId){
-showMessage("dataMessage","Select a data service and plan.","error");
+if(!network||!planId){
+showMessage("dataMessage","Select a network and data plan.","error");
 return;
 }
 
@@ -654,11 +858,11 @@ showMessage("dataMessage","Enter a valid 11-digit phone number.","error");
 return;
 }
 
-showMessage("dataMessage","The data networks and plans are now connected. Data purchase will be enabled after the VTUGATE buydata request format is connected. Your wallet has not been charged.","error");
-});
-
-$("transferBtn").addEventListener("click",()=>{
-showMessage("transferMessage","Wallet-to-wallet transfer is not enabled yet. No money has been deducted.","error");
+showMessage(
+"dataMessage",
+"The network and data plans are connected successfully. Data purchase is waiting for the secure VTUGATE buydata connection. Your wallet has NOT been charged.",
+"error"
+);
 });
 
 loadDataServices();
@@ -678,5 +882,6 @@ await verifyReturnedPayment();
 });
 
 </script>
+
 </body>
 </html>
