@@ -153,20 +153,11 @@
 </div>
 
 <script type="module">
-
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-import{getFirestore,doc,getDoc,setDoc,addDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+import{getFirestore,doc,getDoc,setDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
-const firebaseConfig={
-apiKey:"AIzaSyDLdWY7gbNmLOc-jCoQ27FI9iBzVtbwhk",
-authDomain:"official-website-b2757.firebaseapp.com",
-projectId:"official-website-b2757",
-storageBucket:"official-website-b2757.firebasestorage.app",
-messagingSenderId:"295891219037",
-appId:"1:295891219037:web:c1b1713c9291f88cabd3b4",
-measurementId:"G-T0BKW67381"
-};
+const firebaseConfig={apiKey:"AIzaSyDLdWY7gbNmLOc-jCoQ27FI9iBzVtbwhk",authDomain:"official-website-b2757.firebaseapp.com",projectId:"official-website-b2757",storageBucket:"official-website-b2757.firebasestorage.app",messagingSenderId:"295891219037",appId:"1:295891219037:web:c1b1713c9291f88cabd3b4",measurementId:"G-T0BKW67381"};
 
 const app=initializeApp(firebaseConfig);
 const db=getFirestore(app);
@@ -284,11 +275,7 @@ const reference=params.get("reference")||params.get("trxref");
 if(!reference||!currentUser)return;
 showScreen("homeScreen");
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(PAYSTACK_WORKER,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({action:"verify",reference:reference,idToken:idToken})
-});
+const response=await fetch(PAYSTACK_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"verify",reference:reference,idToken:idToken})});
 const result=await response.json();
 if(!response.ok||result.status===false){
 showMessage("walletMessage",result.message||"Unable to verify payment.","error");
@@ -328,17 +315,7 @@ const ref=doc(db,"users",currentUser.uid);
 const old=await getDoc(ref);
 const oldData=old.exists()?old.data():{};
 const generated=oldData.walletAccountNumber||generateWalletAccountNumber(phone);
-await setDoc(ref,{
-walletRegistered:true,
-walletAccountName:name,
-walletPhoneNumber:phone,
-walletCurrency:"NGN",
-walletStatus:"active",
-walletAccountNumber:generated,
-walletBalance:Number(oldData.walletBalance||0),
-walletCreatedAt:oldData.walletCreatedAt||serverTimestamp(),
-walletUpdatedAt:serverTimestamp()
-},{merge:true});
+await setDoc(ref,{walletRegistered:true,walletAccountName:name,walletPhoneNumber:phone,walletCurrency:"NGN",walletStatus:"active",walletAccountNumber:generated,walletBalance:Number(oldData.walletBalance||0),walletCreatedAt:oldData.walletCreatedAt||serverTimestamp(),walletUpdatedAt:serverTimestamp()},{merge:true});
 showMessage("walletMessage","Wallet account saved successfully.","success");
 await loadWallet();
 }catch(error){
@@ -369,25 +346,12 @@ btn.disabled=true;
 btn.textContent="Connecting...";
 try{
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(PAYSTACK_WORKER,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({idToken:idToken,amount:amount,email:currentUser.email})
-});
+const response=await fetch(PAYSTACK_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idToken:idToken,amount:amount,email:currentUser.email})});
 const result=await response.json();
 if(!response.ok||result.status===false)throw new Error(result.message||"Unable to start payment.");
-if(result.authorization_url){
-window.location.href=result.authorization_url;
-return;
-}
-if(result.data&&result.data.authorization_url){
-window.location.href=result.data.authorization_url;
-return;
-}
-if(result.url){
-window.location.href=result.url;
-return;
-}
+if(result.authorization_url){window.location.href=result.authorization_url;return;}
+if(result.data&&result.data.authorization_url){window.location.href=result.data.authorization_url;return;}
+if(result.url){window.location.href=result.url;return;}
 throw new Error("Paystack did not return a payment URL.");
 }catch(error){
 console.error(error);
@@ -423,11 +387,7 @@ btn.disabled=true;
 btn.textContent="Processing...";
 try{
 const idToken=await currentUser.getIdToken(true);
-const response=await fetch(VTUGATE_WORKER,{
-method:"POST",
-headers:{"Content-Type":"application/json"},
-body:JSON.stringify({idToken:idToken,network:network,phone_number:phone,amount:amount})
-});
+const response=await fetch(VTUGATE_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({idToken:idToken,network:network,phone_number:phone,amount:amount})});
 const result=await response.json();
 if(!response.ok||!result.status)throw new Error(result.message||"Airtime purchase failed.");
 $("walletBalance").textContent=money(result.walletBalance);
@@ -443,40 +403,114 @@ btn.disabled=false;
 btn.textContent="Buy Airtime";
 });
 
+function findArrays(obj,found=[]){
+if(!obj||typeof obj!=="object"||found.length>20)return found;
+if(Array.isArray(obj)){
+if(obj.length)found.push(obj);
+obj.forEach(x=>findArrays(x,found));
+return found;
+}
+Object.keys(obj).forEach(k=>findArrays(obj[k],found));
+return found;
+}
+
+function pickServiceId(x){
+return x?.service_id??x?.serviceId??x?.serviceID??x?.id??x?.service?.service_id??x?.service?.id??"";
+}
+
+function pickServiceName(x,i){
+return x?.service_name??x?.serviceName??x?.name??x?.network??x?.title??x?.service?.name??x?.service?.service_name??("Data Service "+(i+1));
+}
+
+function pickPlanId(x){
+return x?.plan_id??x?.planId??x?.planID??x?.id??x?.code??x?.plan_code??x?.planCode??"";
+}
+
+function pickPlanName(x,i){
+return x?.plan_name??x?.planName??x?.name??x?.description??x?.title??("Plan "+(i+1));
+}
+
 async function loadDataServices(){
 const info=$("dataInfo");
 const networkSelect=$("dataNetwork");
 if(!info||!networkSelect)return;
+
 info.textContent="Loading VTUGATE data services...";
 networkSelect.innerHTML='<option value="">Loading services...</option>';
+
 try{
 const response=await fetch(VTUGATE_WORKER,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({action:"fetchDataServices"})
 });
-const result=await response.json();
-if(!response.ok||result.status===false)throw new Error(result.message||"Unable to load data services.");
+
+const raw=await response.text();
+let result;
+
+try{
+result=JSON.parse(raw);
+}catch(e){
+throw new Error("VTUGATE returned an invalid response.");
+}
+
+if(!response.ok)throw new Error(result?.message||"Unable to load data services.");
+if(result?.status===false)throw new Error(result.message||"Unable to load data services.");
+
 let list=[];
-if(Array.isArray(result.data))list=result.data;
-else if(Array.isArray(result.services))list=result.services;
-else if(Array.isArray(result.data?.services))list=result.data.services;
-else if(Array.isArray(result.data?.data))list=result.data.data;
+
+const possibleArrays=[
+result?.data,
+result?.services,
+result?.data?.services,
+result?.data?.data,
+result?.data?.items,
+result?.data?.results,
+result?.results,
+result?.items
+];
+
+for(const a of possibleArrays){
+if(Array.isArray(a)&&a.length){
+list=a;
+break;
+}
+}
+
+if(!list.length){
+const allArrays=findArrays(result);
+if(allArrays.length)list=allArrays.reduce((a,b)=>a.length>=b.length?a:b,[]);
+}
+
 dataServices=list;
-if(!dataServices.length)throw new Error("VTUGATE returned no data services.");
+
+if(!dataServices.length){
+throw new Error("VTUGATE returned no data services.");
+}
+
 networkSelect.innerHTML='<option value="">Select Data Service</option>';
+
+let added=0;
+
 dataServices.forEach((service,index)=>{
-const id=service.service_id||service.serviceId||service.id||service.serviceID||"";
-const name=service.service_name||service.serviceName||service.name||service.network||service.title||("Data Service "+(index+1));
-if(!id)return;
+const id=pickServiceId(service);
+if(id==="")return;
+
 const option=document.createElement("option");
 option.value=String(id);
-option.textContent=String(name);
+option.textContent=String(pickServiceName(service,index));
 networkSelect.appendChild(option);
+added++;
 });
-info.textContent="Data services loaded. Select a service to view its available plans.";
+
+if(!added){
+throw new Error("Data services were returned, but no service ID was found.");
+}
+
+info.textContent=added+" data service(s) loaded. Select a network to view data plans.";
+
 }catch(error){
-console.error(error);
+console.error("DATA SERVICES ERROR:",error);
 networkSelect.innerHTML='<option value="">Unable to load services</option>';
 info.textContent="Unable to load VTUGATE data services: "+(error.message||"Unknown error");
 }
@@ -486,46 +520,96 @@ async function loadDataPlans(serviceId){
 const planSelect=$("dataPlan");
 const buyButton=$("buyDataBtn");
 const info=$("dataInfo");
+
 planSelect.disabled=true;
 buyButton.disabled=true;
 planSelect.innerHTML='<option value="">Loading plans...</option>';
+
 try{
 const response=await fetch(VTUGATE_WORKER,{
 method:"POST",
 headers:{"Content-Type":"application/json"},
 body:JSON.stringify({action:"fetchDataPlans",service_id:String(serviceId)})
 });
-const result=await response.json();
-if(!response.ok||result.status===false)throw new Error(result.message||"Unable to load data plans.");
+
+const raw=await response.text();
+let result;
+
+try{
+result=JSON.parse(raw);
+}catch(e){
+throw new Error("VTUGATE returned an invalid plans response.");
+}
+
+if(!response.ok)throw new Error(result?.message||"Unable to load data plans.");
+if(result?.status===false)throw new Error(result.message||"Unable to load data plans.");
+
 let plans=[];
-if(Array.isArray(result.data))plans=result.data;
-else if(Array.isArray(result.plans))plans=result.plans;
-else if(Array.isArray(result.data?.plans))plans=result.data.plans;
-else if(Array.isArray(result.data?.data))plans=result.data.data;
+
+const possibleArrays=[
+result?.data,
+result?.plans,
+result?.data?.plans,
+result?.data?.data,
+result?.data?.items,
+result?.data?.results,
+result?.results,
+result?.items
+];
+
+for(const a of possibleArrays){
+if(Array.isArray(a)&&a.length){
+plans=a;
+break;
+}
+}
+
+if(!plans.length){
+const allArrays=findArrays(result);
+if(allArrays.length)plans=allArrays.reduce((a,b)=>a.length>=b.length?a:b,[]);
+}
+
 if(!plans.length)throw new Error("No data plans were returned for this service.");
+
 planSelect.innerHTML='<option value="">Select Data Plan</option>';
+
+let added=0;
+
 plans.forEach((plan,index)=>{
-const id=plan.plan_id||plan.planId||plan.id||plan.planID||plan.code||"";
-const name=plan.plan_name||plan.planName||plan.name||plan.description||("Plan "+(index+1));
-const price=plan.price??plan.amount??plan.selling_price??plan.sellingPrice??"";
-const size=plan.size||plan.data||plan.volume||"";
-const validity=plan.validity||plan.duration||"";
-if(!id)return;
+const id=pickPlanId(plan);
+if(id==="")return;
+
+const name=pickPlanName(plan,index);
+const price=plan?.price??plan?.amount??plan?.selling_price??plan?.sellingPrice??plan?.cost??"";
+const size=plan?.size??plan?.data??plan?.volume??plan?.data_size??"";
+const validity=plan?.validity??plan?.duration??plan?.validity_period??"";
+
 const option=document.createElement("option");
 option.value=String(id);
+
 let text=String(name);
-if(size)text+=" - "+size;
-if(validity)text+=" - "+validity;
+if(size)text+=" - "+String(size);
+if(validity)text+=" - "+String(validity);
 if(price!=="")text+=" - "+money(price);
+
 option.textContent=text;
 option.dataset.price=String(price||0);
+
+try{
 option.dataset.plan=JSON.stringify(plan);
+}catch(e){}
+
 planSelect.appendChild(option);
+added++;
 });
+
+if(!added)throw new Error("VTUGATE returned plans without usable plan IDs.");
+
 planSelect.disabled=false;
-info.textContent=plans.length+" data plan(s) loaded. Select a plan to continue.";
+info.textContent=added+" data plan(s) loaded. Select a plan to continue.";
+
 }catch(error){
-console.error(error);
+console.error("DATA PLANS ERROR:",error);
 planSelect.innerHTML='<option value="">Unable to load plans</option>';
 info.textContent="Unable to load data plans: "+(error.message||"Unknown error");
 }
@@ -533,11 +617,14 @@ info.textContent="Unable to load data plans: "+(error.message||"Unknown error");
 
 $("dataNetwork").addEventListener("change",async()=>{
 const serviceId=$("dataNetwork").value;
+
 $("dataPlan").innerHTML='<option value="">Select Data Plan</option>';
 $("dataPlan").disabled=true;
 $("buyDataBtn").disabled=true;
 hideMessage("dataMessage");
+
 if(!serviceId)return;
+
 await loadDataPlans(serviceId);
 });
 
@@ -547,38 +634,46 @@ $("buyDataBtn").disabled=!$("dataPlan").value;
 
 $("buyDataBtn").addEventListener("click",async()=>{
 hideMessage("dataMessage");
+
 if(!currentUser){
 showMessage("dataMessage","Please log in first.","error");
 return;
 }
+
 const serviceId=$("dataNetwork").value;
 const planId=$("dataPlan").value;
 const phone=$("dataPhone").value.trim();
+
 if(!serviceId||!planId){
 showMessage("dataMessage","Select a data service and plan.","error");
 return;
 }
+
 if(!/^[0-9]{11}$/.test(phone)){
 showMessage("dataMessage","Enter a valid 11-digit phone number.","error");
 return;
 }
-showMessage("dataMessage","Data services and plans are connected. The Buy Data money transaction is not enabled yet because VTUGATE's exact buydata request fields have not been confirmed. Your wallet has not been charged.","error");
+
+showMessage("dataMessage","The data networks and plans are now connected. Data purchase will be enabled after the VTUGATE buydata request format is connected. Your wallet has not been charged.","error");
 });
 
 $("transferBtn").addEventListener("click",()=>{
 showMessage("transferMessage","Wallet-to-wallet transfer is not enabled yet. No money has been deducted.","error");
 });
 
+loadDataServices();
+
 onAuthStateChanged(auth,async user=>{
 currentUser=user;
+
 if(!user){
 $("walletStatus").textContent="Please log in to use your wallet.";
 $("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';
 return;
 }
+
 await loadWallet();
 await loadTransactions();
-await loadDataServices();
 await verifyReturnedPayment();
 });
 
