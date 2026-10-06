@@ -10,7 +10,7 @@ body{margin:0;font-family:Arial,sans-serif;background:#f4f6f8;color:#111}
 header{background:#111;color:#fff;padding:16px;text-align:center;font-size:21px;font-weight:bold}
 .container{max-width:650px;margin:auto;padding:15px}
 .card{background:#fff;border-radius:14px;padding:18px;margin-bottom:15px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
-.balance{text-align:center;font-size:30px;font-weight:bold;margin:8px 0;color:#111}
+.balance{text-align:center;font-size:30px;font-weight:bold;margin:8px 0}
 .account{text-align:center;font-weight:bold;margin-bottom:15px}
 .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .navbtn{border:0;border-radius:12px;padding:15px 5px;background:#fff;box-shadow:0 2px 7px rgba(0,0,0,.1);font-size:13px;font-weight:bold;cursor:pointer}
@@ -22,7 +22,7 @@ h2{margin-top:0}
 input,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:16px;margin:7px 0 12px}
 button.action{width:100%;padding:14px;border:0;border-radius:9px;background:#111;color:#fff;font-size:16px;font-weight:bold;margin-top:8px}
 button.action:disabled{opacity:.5}
-.message{padding:12px;border-radius:8px;margin:10px 0;display:none}
+.message{padding:12px;border-radius:8px;margin:10px 0;display:none;line-height:1.4}
 .success{background:#e6f7e9;color:#176b2c}
 .error{background:#ffe8e8;color:#a40000}
 .networks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
@@ -32,13 +32,15 @@ button.action:disabled{opacity:.5}
 .glo{background:#19a844;color:#fff}
 .ninemobile{background:#008f45;color:#fff}
 .network.selected{outline:4px solid #111}
-.plan{border:1px solid #ddd;border-radius:10px;padding:13px;margin:8px 0;cursor:pointer;background:#fff}
+.plan{border:1px solid #ddd;border-radius:10px;padding:14px;margin:8px 0;cursor:pointer;background:#fff}
 .plan.selected{border:3px solid #111}
-.tx{border-bottom:1px solid #ddd;padding:12px 0}
+.plan strong{font-size:16px}
+.plan-price{font-size:18px;font-weight:bold;margin-top:5px}
 .small{font-size:13px;color:#666}
 .loading{text-align:center;padding:15px;color:#666}
 .wallet-info p{margin:9px 0}
 .hidden{display:none}
+.tx{border-bottom:1px solid #ddd;padding:12px 0}
 </style>
 </head>
 
@@ -82,7 +84,8 @@ button.action:disabled{opacity:.5}
 </div>
 
 
-<!-- FUND WALLET -->
+<!-- ADD MONEY -->
+
 <div id="fund" class="section card">
 <button class="back" onclick="showMain()">← Back</button>
 <h2>➕ Fund Wallet</h2>
@@ -91,6 +94,7 @@ button.action:disabled{opacity:.5}
 <input id="fundAmount" type="number" min="100" placeholder="Enter amount">
 
 <button id="payBtn" class="action">Continue to Paystack</button>
+
 <button class="action" style="background:#777" onclick="showMain()">Cancel</button>
 
 <div id="fundMessage" class="message"></div>
@@ -98,88 +102,172 @@ button.action:disabled{opacity:.5}
 
 
 <!-- AIRTIME -->
+
 <div id="airtime" class="section card">
 <button class="back" onclick="showMain()">← Back</button>
+
 <h2>📱 Buy Airtime</h2>
 <p>Select the network you want to recharge.</p>
 
 <div class="networks">
-<button class="network mtn" data-network="mtn" onclick="selectAirtimeNetwork('mtn',this)">MTN</button>
-<button class="network airtel" data-network="airtel" onclick="selectAirtimeNetwork('airtel',this)">Airtel</button>
-<button class="network glo" data-network="glo" onclick="selectAirtimeNetwork('glo',this)">Glo</button>
-<button class="network ninemobile" data-network="9mobile" onclick="selectAirtimeNetwork('9mobile',this)">9mobile</button>
+
+<button class="network mtn" onclick="selectAirtimeNetwork('mtn',this)">
+MTN
+</button>
+
+<button class="network airtel" onclick="selectAirtimeNetwork('airtel',this)">
+Airtel
+</button>
+
+<button class="network glo" onclick="selectAirtimeNetwork('glo',this)">
+Glo
+</button>
+
+<button class="network ninemobile" onclick="selectAirtimeNetwork('9mobile',this)">
+9mobile
+</button>
+
 </div>
 
 <div id="airtimeForm" class="hidden">
+
 <label>Phone Number</label>
-<input id="airtimePhone" type="tel" maxlength="11" placeholder="08012345678">
+
+<input
+id="airtimePhone"
+type="tel"
+maxlength="11"
+placeholder="08012345678"
+>
 
 <label>Amount</label>
-<input id="airtimeAmount" type="number" min="50" placeholder="₦100">
 
-<button id="buyAirtimeBtn" class="action">Buy Airtime</button>
+<input
+id="airtimeAmount"
+type="number"
+min="50"
+placeholder="₦100"
+>
+
+<button id="buyAirtimeBtn" class="action">
+Buy Airtime
+</button>
+
 </div>
 
 <div id="airtimeMessage" class="message"></div>
+
 </div>
 
 
 <!-- DATA -->
+
 <div id="data" class="section card">
+
 <button class="back" onclick="showMain()">← Back</button>
+
 <h2>📶 Buy Data</h2>
+
 <p>Select the network you want to use.</p>
 
 <div class="networks">
-<button class="network ninemobile" onclick="selectDataNetwork('9mobile',this)">9mobile</button>
-<button class="network airtel" onclick="selectDataNetwork('airtel',this)">Airtel</button>
-<button class="network glo" onclick="selectDataNetwork('glo',this)">Glo</button>
-<button class="network mtn" onclick="selectDataNetwork('mtn',this)">MTN</button>
+
+<button class="network ninemobile" onclick="selectDataNetwork('9mobile',this)">
+9mobile
+</button>
+
+<button class="network airtel" onclick="selectDataNetwork('airtel',this)">
+Airtel
+</button>
+
+<button class="network glo" onclick="selectDataNetwork('glo',this)">
+Glo
+</button>
+
+<button class="network mtn" onclick="selectDataNetwork('mtn',this)">
+MTN
+</button>
+
 </div>
 
-<div id="dataPlansLoading" class="loading hidden">Loading data plans...</div>
+<div id="dataPlansLoading" class="loading hidden">
+Loading data plans...
+</div>
+
 <div id="dataPlans"></div>
 
 <div id="dataPurchase" class="hidden">
-<label>Phone Number</label>
-<input id="dataPhone" type="tel" maxlength="11" placeholder="08012345678">
 
-<button id="buyDataBtn" class="action">Buy Selected Data</button>
+<label>Phone Number</label>
+
+<input
+id="dataPhone"
+type="tel"
+maxlength="11"
+placeholder="08012345678"
+>
+
+<button id="buyDataBtn" class="action">
+Buy Selected Data
+</button>
+
 </div>
 
 <div id="dataMessage" class="message"></div>
+
 </div>
 
 
 <!-- SEND MONEY -->
+
 <div id="send" class="section card">
+
 <button class="back" onclick="showMain()">← Back</button>
+
 <h2>💸 Send Money</h2>
-<p>Send Money will be connected to the secure Logical World wallet transfer system.</p>
+
+<p>
+Send Money will be connected to the secure Logical World wallet transfer system.
+</p>
+
 <div class="message success" style="display:block">
 Your wallet balance is protected. No money will be deducted until secure transfer processing is connected.
 </div>
+
 </div>
 
 
 <!-- WITHDRAW -->
+
 <div id="withdraw" class="section card">
+
 <button class="back" onclick="showMain()">← Back</button>
+
 <h2>🏧 Withdraw</h2>
-<p>Withdrawals will be connected to the secure Logical World withdrawal system.</p>
+
+<p>
+Withdrawals will be connected to the secure Logical World withdrawal system.
+</p>
+
 <div class="message success" style="display:block">
 Your wallet balance is protected. No money will be deducted until secure withdrawal processing is connected.
 </div>
+
 </div>
 
 
 <!-- TRANSACTIONS -->
+
 <div id="transactions" class="section card">
+
 <button class="back" onclick="showMain()">← Back</button>
+
 <h2>📜 Transactions</h2>
+
 <div id="transactionsList">
 <div class="loading">Loading transactions...</div>
 </div>
+
 </div>
 
 </div>
@@ -190,8 +278,7 @@ Your wallet balance is protected. No money will be deducted until secure withdra
 import {auth,db} from "./firebase.js";
 
 import {
-onAuthStateChanged,
-signOut
+onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 import {
@@ -209,35 +296,52 @@ const VTUGATE_WORKER="https://logical-world-vtu.alagoagodstime.workers.dev";
 
 const PAYSTACK_WORKER="https://logical-world-paystack.alagoagodstime.workers.dev";
 
+
 let currentUser=null;
 let currentWallet=null;
+
 let selectedAirtimeNetwork="";
+
 let selectedDataNetwork="";
 let selectedDataServiceId="";
 let selectedDataPlan=null;
 
 
-/* -------------------- BASIC UI -------------------- */
+/* UI */
 
 function money(n){
+
 return "₦"+Number(n||0).toLocaleString("en-NG",{
 minimumFractionDigits:2,
 maximumFractionDigits:2
 });
+
 }
+
 
 function showMessage(id,text,type){
+
 const el=document.getElementById(id);
+
 if(!el)return;
+
 el.textContent=text;
+
 el.className="message "+type;
+
 el.style.display="block";
+
 }
 
+
 function hideMessage(id){
+
 const el=document.getElementById(id);
+
 if(el)el.style.display="none";
+
 }
+
 
 window.openSection=function(id){
 
@@ -259,6 +363,7 @@ loadTransactions();
 
 };
 
+
 window.showMain=function(){
 
 document.querySelectorAll(".section").forEach(x=>{
@@ -269,30 +374,38 @@ document.getElementById("mainWallet").style.display="block";
 
 };
 
+
 window.goBack=function(){
+
 window.location.href="index.html";
+
 };
 
 
-/* -------------------- LOAD WALLET -------------------- */
+/* WALLET */
 
 async function loadWallet(user){
 
 try{
 
 const ref=doc(db,"users",user.uid);
+
 const snap=await getDoc(ref);
 
 if(!snap.exists()){
+
 alert("Your Logical World account information could not be found.");
+
 return;
+
 }
 
 const data=snap.data();
 
 currentWallet=data;
 
-document.getElementById("balance").textContent=money(data.walletBalance||0);
+document.getElementById("balance").textContent=
+money(data.walletBalance||0);
 
 document.getElementById("accountNumber").textContent=
 data.walletAccountNumber||"-";
@@ -323,42 +436,82 @@ alert("Unable to load your wallet.");
 }
 
 
-/* -------------------- FRESH FIREBASE TOKEN -------------------- */
+/* FIREBASE LOGIN TOKEN */
 
-/*
-IMPORTANT:
-Every Airtime purchase gets a fresh Firebase ID token.
-This fixes the old expired/stale-token problem.
-*/
+async function getFreshToken(){
 
-async function getFreshIdToken(){
+if(!auth.currentUser){
 
-if(!currentUser){
 throw new Error("Login session is required.");
+
 }
 
 try{
 
-const token=await currentUser.getIdToken(true);
+await auth.currentUser.reload();
+
+const user=auth.currentUser;
+
+if(!user){
+
+throw new Error("Login session is required.");
+
+}
+
+const token=await user.getIdToken(true);
 
 if(!token){
+
 throw new Error("Login session is required.");
+
 }
 
 return token;
 
 }catch(error){
 
-console.error("Firebase token error:",error);
+console.error("Authentication token error:",error);
 
-throw new Error("Your login session could not be refreshed. Please log in again.");
-
-}
+throw new Error("Your Logical World login session could not be refreshed. Please log in again.");
 
 }
 
+}
 
-/* -------------------- AIRTIME NETWORK -------------------- */
+
+/*
+Build the request with both the JSON token
+and Authorization header.
+
+The current Worker uses idToken from the JSON body,
+while the Authorization header also gives it the
+standard Firebase Bearer token if it is ever used.
+*/
+
+async function workerRequest(body){
+
+const token=await getFreshToken();
+
+const requestBody={
+...body,
+idToken:token,
+token:token,
+accessToken:token
+};
+
+return await fetch(VTUGATE_WORKER,{
+method:"POST",
+headers:{
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
+},
+body:JSON.stringify(requestBody)
+});
+
+}
+
+
+/* AIRTIME */
 
 window.selectAirtimeNetwork=function(network,button){
 
@@ -383,81 +536,116 @@ const btn=document.getElementById("buyAirtimeBtn");
 
 const phone=document.getElementById("airtimePhone").value.trim();
 
-const amount=Number(document.getElementById("airtimeAmount").value);
+const amount=Number(
+document.getElementById("airtimeAmount").value
+);
 
 hideMessage("airtimeMessage");
 
-if(!currentUser){
-showMessage("airtimeMessage","Login session is required.","error");
+
+if(!auth.currentUser){
+
+showMessage(
+"airtimeMessage",
+"Login session is required.",
+"error"
+);
+
 return;
+
 }
+
 
 if(!selectedAirtimeNetwork){
-showMessage("airtimeMessage","Please select a network.","error");
+
+showMessage(
+"airtimeMessage",
+"Please select a network.",
+"error"
+);
+
 return;
+
 }
+
 
 if(!/^[0-9]{11}$/.test(phone)){
-showMessage("airtimeMessage","Enter a valid 11-digit Nigerian phone number.","error");
+
+showMessage(
+"airtimeMessage",
+"Enter a valid 11-digit Nigerian phone number.",
+"error"
+);
+
 return;
+
 }
+
 
 if(!Number.isFinite(amount)||amount<50){
-showMessage("airtimeMessage","Minimum airtime amount is ₦50.","error");
+
+showMessage(
+"airtimeMessage",
+"Minimum airtime amount is ₦50.",
+"error"
+);
+
 return;
+
 }
 
-const balance=Number(currentWallet?.walletBalance||0);
+
+const balance=Number(
+currentWallet?.walletBalance||0
+);
+
 
 if(balance<amount){
+
 showMessage(
 "airtimeMessage",
 "Insufficient wallet balance. Your balance is "+money(balance)+".",
 "error"
 );
+
 return;
+
 }
+
 
 btn.disabled=true;
 btn.textContent="Processing...";
 
+
 try{
 
-/*
-This is the important fix:
-getIdToken(true) forces Firebase to refresh
-the authentication token before sending it.
-*/
-
-const idToken=await getFreshIdToken();
-
-const response=await fetch(VTUGATE_WORKER,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-idToken:idToken,
+const response=await workerRequest({
 network:selectedAirtimeNetwork,
 phone_number:phone,
 amount:amount
-})
 });
+
 
 const text=await response.text();
 
 let result;
 
 try{
+
 result=JSON.parse(text);
+
 }catch{
+
 result={
 status:false,
 message:text||"Invalid response from Logical World server."
 };
+
 }
 
-console.log("Airtime response:",result);
+
+console.log("Logical World Airtime response:",result);
+
 
 if(!response.ok||!result.status){
 
@@ -471,27 +659,29 @@ return;
 
 }
 
+
 showMessage(
 "airtimeMessage",
 result.message||"Airtime purchase successful.",
 "success"
 );
 
-/*
-Use the balance returned by the secure Worker.
-*/
 
 if(typeof result.walletBalance!=="undefined"){
 
-currentWallet.walletBalance=Number(result.walletBalance);
+currentWallet.walletBalance=
+Number(result.walletBalance);
 
 document.getElementById("balance").textContent=
 money(currentWallet.walletBalance);
 
 }
 
+
 document.getElementById("airtimePhone").value="";
+
 document.getElementById("airtimeAmount").value="";
+
 
 }catch(error){
 
@@ -499,13 +689,14 @@ console.error("Airtime error:",error);
 
 showMessage(
 "airtimeMessage",
-error.message||"Airtime purchase failed. Please try again.",
+error.message||"Airtime purchase failed.",
 "error"
 );
 
 }finally{
 
 btn.disabled=false;
+
 btn.textContent="Buy Airtime";
 
 }
@@ -513,12 +704,14 @@ btn.textContent="Buy Airtime";
 });
 
 
-/* -------------------- DATA SERVICES -------------------- */
+/* DATA NETWORK */
 
 window.selectDataNetwork=async function(network,button){
 
 selectedDataNetwork=network;
+
 selectedDataServiceId="";
+
 selectedDataPlan=null;
 
 document.querySelectorAll("#data .network").forEach(x=>{
@@ -528,6 +721,7 @@ x.classList.remove("selected");
 button.classList.add("selected");
 
 document.getElementById("dataPlans").innerHTML="";
+
 document.getElementById("dataPurchase").classList.add("hidden");
 
 hideMessage("dataMessage");
@@ -537,6 +731,8 @@ await loadDataServices();
 };
 
 
+/* DATA SERVICES */
+
 async function loadDataServices(){
 
 const loading=document.getElementById("dataPlansLoading");
@@ -545,14 +741,8 @@ loading.classList.remove("hidden");
 
 try{
 
-const response=await fetch(VTUGATE_WORKER,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
+const response=await workerRequest({
 action:"fetchDataServices"
-})
 });
 
 const text=await response.text();
@@ -560,10 +750,18 @@ const text=await response.text();
 let result;
 
 try{
+
 result=JSON.parse(text);
+
 }catch{
-result={status:false,message:text};
+
+result={
+status:false,
+message:text
+};
+
 }
+
 
 if(!response.ok||!result.status){
 
@@ -577,13 +775,30 @@ return;
 
 }
 
-const services=
+
+let services=
 result.data||
 result.services||
 result.result||
 [];
 
-if(!Array.isArray(services)||services.length===0){
+
+if(!Array.isArray(services)){
+
+if(services&&typeof services==="object"){
+
+services=Object.values(services);
+
+}else{
+
+services=[];
+
+}
+
+}
+
+
+if(services.length===0){
 
 showMessage(
 "dataMessage",
@@ -597,20 +812,18 @@ return;
 
 
 /*
-VTUGATE service ordering confirmed by you:
+Confirmed VTUGATE ordering:
 
-1-5   = 9mobile
-6-10  = Airtel
+1-5 = 9mobile
+6-10 = Airtel
 11-15 = Glo
 16-22 = MTN
-
-We first try to identify the network from
-the actual returned service information.
-If that information isn't available, we use
-the confirmed service ordering.
 */
 
 let matching=[];
+
+
+/* First try actual network text */
 
 for(let i=0;i<services.length;i++){
 
@@ -618,15 +831,25 @@ const service=services[i];
 
 const raw=JSON.stringify(service).toLowerCase();
 
-if(raw.includes(selectedDataNetwork.toLowerCase())){
+if(
+raw.includes(selectedDataNetwork.toLowerCase())||
+(selectedDataNetwork==="9mobile"&&raw.includes("9mobile"))||
+(selectedDataNetwork==="airtel"&&raw.includes("airtel"))||
+(selectedDataNetwork==="glo"&&raw.includes("glo"))||
+(selectedDataNetwork==="mtn"&&raw.includes("mtn"))
+){
+
 matching.push({
 service:service,
 index:i
 });
-}
 
 }
 
+}
+
+
+/* Fallback to confirmed ordering */
 
 if(matching.length===0){
 
@@ -653,6 +876,7 @@ start=15;
 end=22;
 }
 
+
 for(let i=start;i<Math.min(end,services.length);i++){
 
 matching.push({
@@ -663,6 +887,11 @@ index:i
 }
 
 }
+
+
+const plansBox=document.getElementById("dataPlans");
+
+plansBox.innerHTML="";
 
 
 if(matching.length===0){
@@ -678,35 +907,40 @@ return;
 }
 
 
-const plansBox=document.getElementById("dataPlans");
-
-plansBox.innerHTML="";
-
 matching.forEach(item=>{
 
 const service=item.service;
+
 
 const serviceId=
 service.service_id||
 service.serviceId||
 service.id||
-service.serviceID;
+service.serviceID||
+service.service_code||
+service.code;
+
 
 if(!serviceId)return;
+
 
 const name=
 service.name||
 service.service_name||
+service.serviceName||
 service.title||
+service.description||
 (selectedDataNetwork+" Data");
+
 
 const div=document.createElement("div");
 
 div.className="plan";
 
 div.innerHTML=
-"<strong>"+escapeHtml(String(name))+"</strong><br>"+
-"<span class='small'>Data service available</span>";
+"<strong>"+escapeHtml(String(name))+"</strong>"+
+"<br><span class='small'>Service "+escapeHtml(String(serviceId))+"</span>";
+
 
 div.addEventListener("click",async()=>{
 
@@ -723,6 +957,7 @@ selectedDataPlan=null;
 await loadDataPlans(selectedDataServiceId);
 
 });
+
 
 plansBox.appendChild(div);
 
@@ -748,7 +983,7 @@ loading.classList.add("hidden");
 }
 
 
-/* -------------------- DATA PLANS -------------------- */
+/* DATA PLANS */
 
 async function loadDataPlans(serviceId){
 
@@ -759,28 +994,32 @@ plansBox.innerHTML=
 
 hideMessage("dataMessage");
 
+
 try{
 
-const response=await fetch(VTUGATE_WORKER,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
+const response=await workerRequest({
 action:"fetchDataPlans",
 service_id:String(serviceId)
-})
 });
+
 
 const text=await response.text();
 
 let result;
 
 try{
+
 result=JSON.parse(text);
+
 }catch{
-result={status:false,message:text};
+
+result={
+status:false,
+message:text
+};
+
 }
+
 
 if(!response.ok||!result.status){
 
@@ -796,21 +1035,33 @@ return;
 
 }
 
+
 let plans=
 result.data||
 result.plans||
 result.result||
 [];
 
+
 if(!Array.isArray(plans)){
 
-if(typeof plans==="object"&&plans!==null){
+if(plans&&typeof plans==="object"){
+
+/*
+Some VTUGATE responses can return plans
+inside an object instead of an array.
+*/
+
 plans=Object.values(plans);
+
 }else{
+
 plans=[];
+
 }
 
 }
+
 
 if(plans.length===0){
 
@@ -826,39 +1077,83 @@ return;
 
 }
 
+
 plansBox.innerHTML="<h3>Select Data Plan</h3>";
+
 
 plans.forEach(plan=>{
 
-const div=document.createElement("div");
-
-div.className="plan";
+/*
+VTUGATE may use different names for these
+fields. Check all common possibilities.
+*/
 
 const name=
 plan.name||
 plan.plan_name||
 plan.planName||
+plan.plan||
 plan.title||
 plan.description||
+plan.bundle||
+plan.data||
+plan.data_plan||
+plan.dataPlan||
 "Data Plan";
 
-const amount=
-plan.amount||
-plan.price||
-plan.selling_price||
-plan.sellingPrice||
+
+const amountRaw=
+plan.amount ??
+plan.price ??
+plan.selling_price ??
+plan.sellingPrice ??
+plan.customer_price ??
+plan.customerPrice ??
+plan.cost ??
+plan.sale_price ??
+plan.salePrice ??
+plan.value ??
 0;
+
+
+const amount=Number(
+String(amountRaw).replace(/[₦,\s]/g,"")
+)||0;
+
 
 const validity=
 plan.validity||
+plan.validity_period||
+plan.validityPeriod||
 plan.duration||
 plan.days||
+plan.expiry||
 "";
+
+
+const volume=
+plan.volume||
+plan.data_size||
+plan.dataSize||
+plan.size||
+"";
+
+
+const div=document.createElement("div");
+
+div.className="plan";
+
 
 div.innerHTML=
 "<strong>"+escapeHtml(String(name))+"</strong>"+
-"<br><span>"+money(amount)+"</span>"+
-(validity?"<br><span class='small'>"+escapeHtml(String(validity))+"</span>":"");
+(volume?
+"<br><span>"+escapeHtml(String(volume))+"</span>":
+"")+
+"<div class='plan-price'>"+money(amount)+"</div>"+
+(validity?
+"<span class='small'>"+escapeHtml(String(validity))+"</span>":
+"");
+
 
 div.addEventListener("click",()=>{
 
@@ -870,7 +1165,7 @@ div.classList.add("selected");
 
 selectedDataPlan={
 ...plan,
-amount:Number(amount)
+amount:amount
 };
 
 document.getElementById("dataPurchase").classList.remove("hidden");
@@ -879,9 +1174,11 @@ hideMessage("dataMessage");
 
 });
 
+
 plansBox.appendChild(div);
 
 });
+
 
 }catch(error){
 
@@ -900,27 +1197,20 @@ showMessage(
 }
 
 
-/* -------------------- DATA PURCHASE -------------------- */
+/* DATA PURCHASE */
 
-document.getElementById("buyDataBtn").addEventListener("click",async()=>{
-
-/*
-The current Logical World VTUGATE Worker does NOT contain
-a buyData action.
-
-Therefore this button must not pretend that money was deducted.
-*/
+document.getElementById("buyDataBtn").addEventListener("click",()=>{
 
 showMessage(
 "dataMessage",
-"Data plans are connected and can be viewed, but data purchase is not yet connected to the secure VTUGATE purchase endpoint. Your wallet balance has not been changed.",
+"Your data plans are connected. The secure data purchase endpoint is not yet available in the current Logical World VTUGATE Worker, so your wallet has NOT been charged.",
 "error"
 );
 
 });
 
 
-/* -------------------- PAYSTACK -------------------- */
+/* PAYSTACK */
 
 document.getElementById("payBtn").addEventListener("click",async()=>{
 
@@ -932,7 +1222,8 @@ document.getElementById("fundAmount").value
 
 hideMessage("fundMessage");
 
-if(!currentUser){
+
+if(!auth.currentUser){
 
 showMessage(
 "fundMessage",
@@ -943,6 +1234,7 @@ showMessage(
 return;
 
 }
+
 
 if(!Number.isFinite(amount)||amount<100){
 
@@ -956,41 +1248,51 @@ return;
 
 }
 
+
 btn.disabled=true;
+
 btn.textContent="Connecting...";
+
 
 try{
 
-/*
-Refresh Firebase login before Paystack initialization too.
-*/
+const token=await getFreshToken();
 
-const idToken=await getFreshIdToken();
 
 const response=await fetch(PAYSTACK_WORKER,{
 method:"POST",
 headers:{
-"Content-Type":"application/json"
+"Content-Type":"application/json",
+"Authorization":"Bearer "+token
 },
 body:JSON.stringify({
 action:"initialize",
-idToken:idToken,
+idToken:token,
+token:token,
+accessToken:token,
 amount:amount,
-email:currentUser.email||""
+email:auth.currentUser.email||""
 })
 });
+
 
 const text=await response.text();
 
 let result;
 
 try{
+
 result=JSON.parse(text);
+
 }catch{
-result={status:false,message:text};
+
+result={
+status:false,
+message:text
+};
+
 }
 
-console.log("Paystack response:",result);
 
 if(!response.ok||result.status===false){
 
@@ -1005,10 +1307,6 @@ return;
 }
 
 
-/*
-Support common Paystack response formats.
-*/
-
 const authorizationUrl=
 result.authorization_url||
 result.authorizationUrl||
@@ -1016,18 +1314,22 @@ result.data?.authorization_url||
 result.data?.authorizationUrl||
 "";
 
+
 if(authorizationUrl){
 
 window.location.href=authorizationUrl;
+
 return;
 
 }
+
 
 showMessage(
 "fundMessage",
 result.message||"Payment could not start.",
 "error"
 );
+
 
 }catch(error){
 
@@ -1042,6 +1344,7 @@ error.message||"Payment could not start.",
 }finally{
 
 btn.disabled=false;
+
 btn.textContent="Continue to Paystack";
 
 }
@@ -1049,7 +1352,7 @@ btn.textContent="Continue to Paystack";
 });
 
 
-/* -------------------- TRANSACTIONS -------------------- */
+/* TRANSACTIONS */
 
 async function loadTransactions(){
 
@@ -1058,7 +1361,8 @@ const box=document.getElementById("transactionsList");
 box.innerHTML=
 "<div class='loading'>Loading transactions...</div>";
 
-if(!currentUser){
+
+if(!auth.currentUser){
 
 box.innerHTML=
 "<div class='message error' style='display:block'>Login session is required.</div>";
@@ -1067,35 +1371,42 @@ return;
 
 }
 
+
 try{
 
 const ref=collection(db,"walletTransactions");
 
 const q=query(
 ref,
-where("userId","==",currentUser.uid),
+where("userId","==",auth.currentUser.uid),
 limit(100)
 );
+
 
 const snap=await getDocs(q);
 
 let items=[];
 
+
 snap.forEach(docSnap=>{
+
 items.push({
 id:docSnap.id,
 ...docSnap.data()
 });
+
 });
 
 
 items.sort((a,b)=>{
 
 const ta=a.createdAt?.toMillis?
-a.createdAt.toMillis():0;
+a.createdAt.toMillis():
+0;
 
 const tb=b.createdAt?.toMillis?
-b.createdAt.toMillis():0;
+b.createdAt.toMillis():
+0;
 
 return tb-ta;
 
@@ -1111,7 +1422,9 @@ return;
 
 }
 
+
 box.innerHTML="";
+
 
 items.forEach(tx=>{
 
@@ -1119,11 +1432,13 @@ const div=document.createElement("div");
 
 div.className="tx";
 
+
 const amount=Number(tx.amount||0);
 
 const date=tx.createdAt?.toDate?
 tx.createdAt.toDate().toLocaleString("en-NG"):
 "";
+
 
 div.innerHTML=
 "<strong>"+escapeHtml(String(tx.type||"Transaction"))+"</strong>"+
@@ -1132,9 +1447,11 @@ div.innerHTML=
 "<br><span class='small'>"+escapeHtml(date)+"</span>"+
 "<br><span class='small'>Status: "+escapeHtml(String(tx.status||""))+"</span>";
 
+
 box.appendChild(div);
 
 });
+
 
 }catch(error){
 
@@ -1148,7 +1465,7 @@ box.innerHTML=
 }
 
 
-/* -------------------- ESCAPE HTML -------------------- */
+/* ESCAPE */
 
 function escapeHtml(value){
 
@@ -1162,7 +1479,7 @@ return String(value)
 }
 
 
-/* -------------------- AUTH -------------------- */
+/* AUTH */
 
 onAuthStateChanged(auth,async(user)=>{
 
@@ -1170,15 +1487,20 @@ if(!user){
 
 currentUser=null;
 
+currentWallet=null;
+
 document.getElementById("balance").textContent="₦0.00";
 
 return;
 
 }
 
+
 currentUser=user;
 
-console.log("Logical World wallet user:",user.uid);
+console.log("Logical World Firebase user:",user.uid);
+
+console.log("Logical World Firebase email:",user.email);
 
 await loadWallet(user);
 
