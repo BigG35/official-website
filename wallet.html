@@ -22,7 +22,7 @@ h2{margin-top:0}
 input,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:16px;margin:7px 0 12px}
 button.action{width:100%;padding:14px;border:0;border-radius:9px;background:#111;color:#fff;font-size:16px;font-weight:bold;margin-top:8px}
 button.action:disabled{opacity:.5}
-.message{padding:12px;border-radius:8px;margin:10px 0;display:none;line-height:1.4;word-break:break-word}
+.message{padding:12px;border-radius:8px;margin:10px 0;display:none;line-height:1.4}
 .success{background:#e6f7e9;color:#176b2c}
 .error{background:#ffe8e8;color:#a40000}
 .networks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
@@ -300,34 +300,23 @@ let selectedDataPlan=null;
 /* UI */
 
 function money(n){
-
 return "₦"+Number(n||0).toLocaleString("en-NG",{
 minimumFractionDigits:2,
 maximumFractionDigits:2
 });
-
 }
 
 function showMessage(id,text,type){
-
 const el=document.getElementById(id);
-
 if(!el)return;
-
 el.textContent=text;
-
 el.className="message "+type;
-
 el.style.display="block";
-
 }
 
 function hideMessage(id){
-
 const el=document.getElementById(id);
-
 if(el)el.style.display="none";
-
 }
 
 window.openSection=function(id){
@@ -361,9 +350,7 @@ document.getElementById("mainWallet").style.display="block";
 };
 
 window.goBack=function(){
-
 window.location.href="index.html";
-
 };
 
 /* WALLET */
@@ -424,9 +411,7 @@ alert("Unable to load your wallet.");
 async function getFreshToken(){
 
 if(!auth.currentUser){
-
 throw new Error("Login session is required.");
-
 }
 
 try{
@@ -436,17 +421,13 @@ await auth.currentUser.reload();
 const user=auth.currentUser;
 
 if(!user){
-
 throw new Error("Login session is required.");
-
 }
 
 const token=await user.getIdToken(true);
 
 if(!token){
-
 throw new Error("Login session is required.");
-
 }
 
 return token;
@@ -461,10 +442,7 @@ throw new Error("Your Logical World login session could not be refreshed. Please
 
 }
 
-/*
-Build the request with both the JSON token
-and Authorization header.
-*/
+/* WORKER REQUEST */
 
 async function workerRequest(body){
 
@@ -798,6 +776,8 @@ index:i
 
 }
 
+/* FALLBACK ORDER */
+
 if(matching.length===0){
 
 let start=0;
@@ -1126,7 +1106,9 @@ const amount=Number(
 document.getElementById("fundAmount").value
 );
 
-hideMessage("if(!auth.currentUser){
+hideMessage("fundMessage");
+
+if(!auth.currentUser){
 
 showMessage(
 "fundMessage",
@@ -1241,6 +1223,8 @@ btn.disabled=false;
 btn.textContent="Continue to Paystack";
 
 }
+
+});
 
 /* TRANSACTIONS */
 
