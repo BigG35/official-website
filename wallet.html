@@ -22,7 +22,7 @@ h2{margin-top:0}
 input,select{width:100%;padding:13px;border:1px solid #ccc;border-radius:8px;font-size:16px;margin:7px 0 12px}
 button.action{width:100%;padding:14px;border:0;border-radius:9px;background:#111;color:#fff;font-size:16px;font-weight:bold;margin-top:8px}
 button.action:disabled{opacity:.5}
-.message{padding:12px;border-radius:8px;margin:10px 0;display:none;line-height:1.4}
+.message{padding:12px;border-radius:8px;margin:10px 0;display:none;line-height:1.4;word-break:break-word}
 .success{background:#e6f7e9;color:#176b2c}
 .error{background:#ffe8e8;color:#a40000}
 .networks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
@@ -83,7 +83,6 @@ button.action:disabled{opacity:.5}
 
 </div>
 
-
 <!-- ADD MONEY -->
 
 <div id="fund" class="section card">
@@ -99,7 +98,6 @@ button.action:disabled{opacity:.5}
 
 <div id="fundMessage" class="message"></div>
 </div>
-
 
 <!-- AIRTIME -->
 
@@ -159,7 +157,6 @@ Buy Airtime
 
 </div>
 
-
 <!-- DATA -->
 
 <div id="data" class="section card">
@@ -217,7 +214,6 @@ Buy Selected Data
 
 </div>
 
-
 <!-- SEND MONEY -->
 
 <div id="send" class="section card">
@@ -235,7 +231,6 @@ Your wallet balance is protected. No money will be deducted until secure transfe
 </div>
 
 </div>
-
 
 <!-- WITHDRAW -->
 
@@ -255,7 +250,6 @@ Your wallet balance is protected. No money will be deducted until secure withdra
 
 </div>
 
-
 <!-- TRANSACTIONS -->
 
 <div id="transactions" class="section card">
@@ -271,7 +265,6 @@ Your wallet balance is protected. No money will be deducted until secure withdra
 </div>
 
 </div>
-
 
 <script type="module">
 
@@ -291,11 +284,9 @@ limit,
 getDocs
 } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 
-
 const VTUGATE_WORKER="https://logical-world-vtu.alagoagodstime.workers.dev";
 
 const PAYSTACK_WORKER="https://logical-world-paystack.alagoagodstime.workers.dev";
-
 
 let currentUser=null;
 let currentWallet=null;
@@ -305,7 +296,6 @@ let selectedAirtimeNetwork="";
 let selectedDataNetwork="";
 let selectedDataServiceId="";
 let selectedDataPlan=null;
-
 
 /* UI */
 
@@ -317,7 +307,6 @@ maximumFractionDigits:2
 });
 
 }
-
 
 function showMessage(id,text,type){
 
@@ -333,7 +322,6 @@ el.style.display="block";
 
 }
 
-
 function hideMessage(id){
 
 const el=document.getElementById(id);
@@ -341,7 +329,6 @@ const el=document.getElementById(id);
 if(el)el.style.display="none";
 
 }
-
 
 window.openSection=function(id){
 
@@ -363,7 +350,6 @@ loadTransactions();
 
 };
 
-
 window.showMain=function(){
 
 document.querySelectorAll(".section").forEach(x=>{
@@ -374,13 +360,11 @@ document.getElementById("mainWallet").style.display="block";
 
 };
 
-
 window.goBack=function(){
 
 window.location.href="index.html";
 
 };
-
 
 /* WALLET */
 
@@ -435,7 +419,6 @@ alert("Unable to load your wallet.");
 
 }
 
-
 /* FIREBASE LOGIN TOKEN */
 
 async function getFreshToken(){
@@ -478,14 +461,9 @@ throw new Error("Your Logical World login session could not be refreshed. Please
 
 }
 
-
 /*
 Build the request with both the JSON token
 and Authorization header.
-
-The current Worker uses idToken from the JSON body,
-while the Authorization header also gives it the
-standard Firebase Bearer token if it is ever used.
 */
 
 async function workerRequest(body){
@@ -510,7 +488,6 @@ body:JSON.stringify(requestBody)
 
 }
 
-
 /* AIRTIME */
 
 window.selectAirtimeNetwork=function(network,button){
@@ -529,7 +506,6 @@ hideMessage("airtimeMessage");
 
 };
 
-
 document.getElementById("buyAirtimeBtn").addEventListener("click",async()=>{
 
 const btn=document.getElementById("buyAirtimeBtn");
@@ -541,7 +517,6 @@ document.getElementById("airtimeAmount").value
 );
 
 hideMessage("airtimeMessage");
-
 
 if(!auth.currentUser){
 
@@ -555,7 +530,6 @@ return;
 
 }
 
-
 if(!selectedAirtimeNetwork){
 
 showMessage(
@@ -567,7 +541,6 @@ showMessage(
 return;
 
 }
-
 
 if(!/^[0-9]{11}$/.test(phone)){
 
@@ -581,7 +554,6 @@ return;
 
 }
 
-
 if(!Number.isFinite(amount)||amount<50){
 
 showMessage(
@@ -594,11 +566,9 @@ return;
 
 }
 
-
 const balance=Number(
 currentWallet?.walletBalance||0
 );
-
 
 if(balance<amount){
 
@@ -612,10 +582,8 @@ return;
 
 }
 
-
 btn.disabled=true;
 btn.textContent="Processing...";
-
 
 try{
 
@@ -624,7 +592,6 @@ network:selectedAirtimeNetwork,
 phone_number:phone,
 amount:amount
 });
-
 
 const text=await response.text();
 
@@ -643,15 +610,21 @@ message:text||"Invalid response from Logical World server."
 
 }
 
-
 console.log("Logical World Airtime response:",result);
-
 
 if(!response.ok||!result.status){
 
+const diagnostic=
+(result.firebaseError?
+" | Firebase error: "+result.firebaseError:
+"")+
+(result.firebaseStatus?
+" | Status: "+result.firebaseStatus:
+"");
+
 showMessage(
 "airtimeMessage",
-result.message||"Airtime purchase failed.",
+(result.message||"Airtime purchase failed.")+diagnostic,
 "error"
 );
 
@@ -659,13 +632,11 @@ return;
 
 }
 
-
 showMessage(
 "airtimeMessage",
 result.message||"Airtime purchase successful.",
 "success"
 );
-
 
 if(typeof result.walletBalance!=="undefined"){
 
@@ -677,11 +648,9 @@ money(currentWallet.walletBalance);
 
 }
 
-
 document.getElementById("airtimePhone").value="";
 
 document.getElementById("airtimeAmount").value="";
-
 
 }catch(error){
 
@@ -702,7 +671,6 @@ btn.textContent="Buy Airtime";
 }
 
 });
-
 
 /* DATA NETWORK */
 
@@ -729,7 +697,6 @@ hideMessage("dataMessage");
 await loadDataServices();
 
 };
-
 
 /* DATA SERVICES */
 
@@ -762,7 +729,6 @@ message:text
 
 }
 
-
 if(!response.ok||!result.status){
 
 showMessage(
@@ -775,13 +741,11 @@ return;
 
 }
 
-
 let services=
 result.data||
 result.services||
 result.result||
 [];
-
 
 if(!Array.isArray(services)){
 
@@ -797,7 +761,6 @@ services=[];
 
 }
 
-
 if(services.length===0){
 
 showMessage(
@@ -810,20 +773,7 @@ return;
 
 }
 
-
-/*
-Confirmed VTUGATE ordering:
-
-1-5 = 9mobile
-6-10 = Airtel
-11-15 = Glo
-16-22 = MTN
-*/
-
 let matching=[];
-
-
-/* First try actual network text */
 
 for(let i=0;i<services.length;i++){
 
@@ -847,9 +797,6 @@ index:i
 }
 
 }
-
-
-/* Fallback to confirmed ordering */
 
 if(matching.length===0){
 
@@ -876,7 +823,6 @@ start=15;
 end=22;
 }
 
-
 for(let i=start;i<Math.min(end,services.length);i++){
 
 matching.push({
@@ -888,11 +834,9 @@ index:i
 
 }
 
-
 const plansBox=document.getElementById("dataPlans");
 
 plansBox.innerHTML="";
-
 
 if(matching.length===0){
 
@@ -906,11 +850,9 @@ return;
 
 }
 
-
 matching.forEach(item=>{
 
 const service=item.service;
-
 
 const serviceId=
 service.service_id||
@@ -920,9 +862,7 @@ service.serviceID||
 service.service_code||
 service.code;
 
-
 if(!serviceId)return;
-
 
 const name=
 service.name||
@@ -932,7 +872,6 @@ service.title||
 service.description||
 (selectedDataNetwork+" Data");
 
-
 const div=document.createElement("div");
 
 div.className="plan";
@@ -940,7 +879,6 @@ div.className="plan";
 div.innerHTML=
 "<strong>"+escapeHtml(String(name))+"</strong>"+
 "<br><span class='small'>Service "+escapeHtml(String(serviceId))+"</span>";
-
 
 div.addEventListener("click",async()=>{
 
@@ -958,11 +896,9 @@ await loadDataPlans(selectedDataServiceId);
 
 });
 
-
 plansBox.appendChild(div);
 
 });
-
 
 }catch(error){
 
@@ -982,7 +918,6 @@ loading.classList.add("hidden");
 
 }
 
-
 /* DATA PLANS */
 
 async function loadDataPlans(serviceId){
@@ -994,14 +929,12 @@ plansBox.innerHTML=
 
 hideMessage("dataMessage");
 
-
 try{
 
 const response=await workerRequest({
 action:"fetchDataPlans",
 service_id:String(serviceId)
 });
-
 
 const text=await response.text();
 
@@ -1020,7 +953,6 @@ message:text
 
 }
 
-
 if(!response.ok||!result.status){
 
 plansBox.innerHTML="";
@@ -1035,22 +967,15 @@ return;
 
 }
 
-
 let plans=
 result.data||
 result.plans||
 result.result||
 [];
 
-
 if(!Array.isArray(plans)){
 
 if(plans&&typeof plans==="object"){
-
-/*
-Some VTUGATE responses can return plans
-inside an object instead of an array.
-*/
 
 plans=Object.values(plans);
 
@@ -1061,7 +986,6 @@ plans=[];
 }
 
 }
-
 
 if(plans.length===0){
 
@@ -1077,16 +1001,9 @@ return;
 
 }
 
-
 plansBox.innerHTML="<h3>Select Data Plan</h3>";
 
-
 plans.forEach(plan=>{
-
-/*
-VTUGATE may use different names for these
-fields. Check all common possibilities.
-*/
 
 const name=
 plan.name||
@@ -1101,7 +1018,6 @@ plan.data_plan||
 plan.dataPlan||
 "Data Plan";
 
-
 const amountRaw=
 plan.amount ??
 plan.price ??
@@ -1115,11 +1031,9 @@ plan.salePrice ??
 plan.value ??
 0;
 
-
 const amount=Number(
 String(amountRaw).replace(/[₦,\s]/g,"")
 )||0;
-
 
 const validity=
 plan.validity||
@@ -1130,7 +1044,6 @@ plan.days||
 plan.expiry||
 "";
 
-
 const volume=
 plan.volume||
 plan.data_size||
@@ -1138,11 +1051,9 @@ plan.dataSize||
 plan.size||
 "";
 
-
 const div=document.createElement("div");
 
 div.className="plan";
-
 
 div.innerHTML=
 "<strong>"+escapeHtml(String(name))+"</strong>"+
@@ -1153,7 +1064,6 @@ div.innerHTML=
 (validity?
 "<span class='small'>"+escapeHtml(String(validity))+"</span>":
 "");
-
 
 div.addEventListener("click",()=>{
 
@@ -1174,11 +1084,9 @@ hideMessage("dataMessage");
 
 });
 
-
 plansBox.appendChild(div);
 
 });
-
 
 }catch(error){
 
@@ -1196,7 +1104,6 @@ showMessage(
 
 }
 
-
 /* DATA PURCHASE */
 
 document.getElementById("buyDataBtn").addEventListener("click",()=>{
@@ -1209,7 +1116,6 @@ showMessage(
 
 });
 
-
 /* PAYSTACK */
 
 document.getElementById("payBtn").addEventListener("click",async()=>{
@@ -1220,10 +1126,7 @@ const amount=Number(
 document.getElementById("fundAmount").value
 );
 
-hideMessage("fundMessage");
-
-
-if(!auth.currentUser){
+hideMessage("if(!auth.currentUser){
 
 showMessage(
 "fundMessage",
@@ -1234,7 +1137,6 @@ showMessage(
 return;
 
 }
-
 
 if(!Number.isFinite(amount)||amount<100){
 
@@ -1248,16 +1150,13 @@ return;
 
 }
 
-
 btn.disabled=true;
 
 btn.textContent="Connecting...";
 
-
 try{
 
 const token=await getFreshToken();
-
 
 const response=await fetch(PAYSTACK_WORKER,{
 method:"POST",
@@ -1274,7 +1173,6 @@ amount:amount,
 email:auth.currentUser.email||""
 })
 });
-
 
 const text=await response.text();
 
@@ -1293,7 +1191,6 @@ message:text
 
 }
 
-
 if(!response.ok||result.status===false){
 
 showMessage(
@@ -1306,14 +1203,12 @@ return;
 
 }
 
-
 const authorizationUrl=
 result.authorization_url||
 result.authorizationUrl||
 result.data?.authorization_url||
 result.data?.authorizationUrl||
 "";
-
 
 if(authorizationUrl){
 
@@ -1323,13 +1218,11 @@ return;
 
 }
 
-
 showMessage(
 "fundMessage",
 result.message||"Payment could not start.",
 "error"
 );
-
 
 }catch(error){
 
@@ -1349,9 +1242,6 @@ btn.textContent="Continue to Paystack";
 
 }
 
-});
-
-
 /* TRANSACTIONS */
 
 async function loadTransactions(){
@@ -1361,7 +1251,6 @@ const box=document.getElementById("transactionsList");
 box.innerHTML=
 "<div class='loading'>Loading transactions...</div>";
 
-
 if(!auth.currentUser){
 
 box.innerHTML=
@@ -1370,7 +1259,6 @@ box.innerHTML=
 return;
 
 }
-
 
 try{
 
@@ -1382,11 +1270,9 @@ where("userId","==",auth.currentUser.uid),
 limit(100)
 );
 
-
 const snap=await getDocs(q);
 
 let items=[];
-
 
 snap.forEach(docSnap=>{
 
@@ -1396,7 +1282,6 @@ id:docSnap.id,
 });
 
 });
-
 
 items.sort((a,b)=>{
 
@@ -1412,7 +1297,6 @@ return tb-ta;
 
 });
 
-
 if(items.length===0){
 
 box.innerHTML=
@@ -1422,9 +1306,7 @@ return;
 
 }
 
-
 box.innerHTML="";
-
 
 items.forEach(tx=>{
 
@@ -1432,13 +1314,11 @@ const div=document.createElement("div");
 
 div.className="tx";
 
-
 const amount=Number(tx.amount||0);
 
 const date=tx.createdAt?.toDate?
 tx.createdAt.toDate().toLocaleString("en-NG"):
 "";
-
 
 div.innerHTML=
 "<strong>"+escapeHtml(String(tx.type||"Transaction"))+"</strong>"+
@@ -1447,11 +1327,9 @@ div.innerHTML=
 "<br><span class='small'>"+escapeHtml(date)+"</span>"+
 "<br><span class='small'>Status: "+escapeHtml(String(tx.status||""))+"</span>";
 
-
 box.appendChild(div);
 
 });
-
 
 }catch(error){
 
@@ -1463,7 +1341,6 @@ box.innerHTML=
 }
 
 }
-
 
 /* ESCAPE */
 
@@ -1477,7 +1354,6 @@ return String(value)
 .replaceAll("'","&#039;");
 
 }
-
 
 /* AUTH */
 
@@ -1494,7 +1370,6 @@ document.getElementById("balance").textContent="₦0.00";
 return;
 
 }
-
 
 currentUser=user;
 
