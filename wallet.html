@@ -9,8 +9,7 @@
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6f9;color:#222}
 .header{background:#111827;color:white;padding:18px;text-align:center;font-size:22px;font-weight:bold}
 .container{max-width:700px;margin:auto;padding:15px;padding-bottom:90px}
-.screen{display:none}
-.screen.active{display:block}
+.screen{display:none}.screen.active{display:block}
 .card{background:white;border-radius:16px;padding:18px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
 .balance-card{background:linear-gradient(135deg,#111827,#26344d);color:white}
 .balance-title{font-size:14px;opacity:.8}
@@ -19,28 +18,20 @@ body{margin:0;font-family:Arial,sans-serif;background:#f3f6f9;color:#222}
 .status{font-size:13px;margin-top:8px}
 .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .menu-button{background:white;border:1px solid #e5e7eb;border-radius:16px;padding:20px 10px;text-align:center;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.06)}
-.menu-icon{font-size:30px;margin-bottom:8px}
-.menu-title{font-weight:bold;font-size:15px}
+.menu-icon{font-size:30px;margin-bottom:8px}.menu-title{font-weight:bold;font-size:15px}
 .menu-text{font-size:12px;color:#777;margin-top:5px}
 .back{background:#e5e7eb;color:#111827;margin-top:0;margin-bottom:15px}
-h2{margin-top:0;font-size:20px}
-h3{margin-top:0}
+h2{margin-top:0;font-size:20px}h3{margin-top:0}
 label{display:block;margin-top:12px;margin-bottom:5px;font-weight:bold}
 input,select,button{width:100%;padding:13px;border-radius:9px;border:1px solid #ccc;font-size:16px}
 input[readonly]{background:#f3f4f6}
 button{border:0;background:#111827;color:white;font-weight:bold;margin-top:15px;cursor:pointer}
-button:disabled{opacity:.6}
-.green{background:#087f23}
-.blue{background:#1769aa}
-.yellow{background:#d99a00}
+button:disabled{opacity:.6}.green{background:#087f23}.blue{background:#1769aa}.yellow{background:#d99a00}
 .small{font-size:13px;color:#666}
 .message{padding:12px;border-radius:8px;margin-top:12px;display:none;font-size:14px}
-.success{background:#e8f7ed;color:#087f23}
-.error{background:#fdecec;color:#b00020}
-.transaction{border-bottom:1px solid #eee;padding:13px 0}
-.transaction:last-child{border-bottom:0}
-.transaction-title{font-weight:bold}
-.transaction-meta{font-size:13px;color:#666;margin-top:4px}
+.success{background:#e8f7ed;color:#087f23}.error{background:#fdecec;color:#b00020}
+.transaction{border-bottom:1px solid #eee;padding:13px 0}.transaction:last-child{border-bottom:0}
+.transaction-title{font-weight:bold}.transaction-meta{font-size:13px;color:#666;margin-top:4px}
 .service-header{padding:22px;border-radius:16px;margin-bottom:15px;color:white}
 .airtime-theme{background:linear-gradient(135deg,#1769aa,#0d47a1)}
 .data-theme{background:linear-gradient(135deg,#087f23,#14532d)}
@@ -50,23 +41,18 @@ button:disabled{opacity:.6}
 .home-theme{background:linear-gradient(135deg,#111827,#334155)}
 .network-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .network-button{padding:18px 8px;border-radius:12px;color:white;font-weight:bold;text-align:center;cursor:pointer;margin-top:10px}
-.network-9mobile{background:#008f3d}
-.network-airtel{background:#e40000}
-.network-glo{background:#008f39}
-.network-mtn{background:#ffcc00;color:#111}
+.network-9mobile{background:#008f3d}.network-airtel{background:#e40000}
+.network-glo{background:#008f39}.network-mtn{background:#ffcc00;color:#111}
 .selected-network{outline:4px solid #111827}
 .info-box{background:#f8fafc;padding:14px;border-radius:10px;margin-top:12px;font-size:14px}
-.setting-item{padding:16px 5px;border-bottom:1px solid #eee}
-.setting-item:last-child{border-bottom:0}
-.setting-title{font-weight:bold}
-.setting-text{font-size:13px;color:#666;margin-top:4px}
+.setting-item{padding:16px 5px;border-bottom:1px solid #eee}.setting-item:last-child{border-bottom:0}
+.setting-title{font-weight:bold}.setting-text{font-size:13px;color:#666;margin-top:4px}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 4px;z-index:50}
 .bottom-nav button{margin:0;background:white;color:#333;font-size:12px;padding:7px 3px}
 .bottom-nav .nav-icon{display:block;font-size:20px;margin-bottom:3px}
 @media(max-width:480px){.network-row{grid-template-columns:1fr}}
 </style>
 </head>
-
 <body>
 
 <div class="header">Logical World Wallet</div>
@@ -74,7 +60,6 @@ button:disabled{opacity:.6}
 <div class="container">
 
 <div id="homeScreen" class="screen active">
-
 <div class="service-header home-theme">
 <div style="font-size:14px;opacity:.8">LOGICAL WORLD WALLET</div>
 <div style="font-size:25px;font-weight:bold;margin-top:7px">Welcome to your wallet</div>
@@ -91,38 +76,32 @@ button:disabled{opacity:.6}
 <div class="menu-grid">
 
 <div class="menu-button" onclick="showScreen('fundScreen')">
-<div class="menu-icon">💰</div>
-<div class="menu-title">Add Money</div>
+<div class="menu-icon">💰</div><div class="menu-title">Add Money</div>
 <div class="menu-text">Fund your wallet</div>
 </div>
 
 <div class="menu-button" onclick="showScreen('airtimeScreen')">
-<div class="menu-icon">📱</div>
-<div class="menu-title">Airtime</div>
+<div class="menu-icon">📱</div><div class="menu-title">Airtime</div>
 <div class="menu-text">Buy airtime</div>
 </div>
 
 <div class="menu-button" onclick="showScreen('dataScreen')">
-<div class="menu-icon">📶</div>
-<div class="menu-title">Data</div>
+<div class="menu-icon">📶</div><div class="menu-title">Data</div>
 <div class="menu-text">Buy data bundles</div>
 </div>
 
 <div class="menu-button" onclick="showScreen('transferScreen')">
-<div class="menu-icon">💸</div>
-<div class="menu-title">Transfer</div>
+<div class="menu-icon">💸</div><div class="menu-title">Transfer</div>
 <div class="menu-text">Send money</div>
 </div>
 
 <div class="menu-button" onclick="showScreen('historyScreen')">
-<div class="menu-icon">📋</div>
-<div class="menu-title">History</div>
+<div class="menu-icon">📋</div><div class="menu-title">History</div>
 <div class="menu-text">View transactions</div>
 </div>
 
 <div class="menu-button" onclick="showScreen('settingsScreen')">
-<div class="menu-icon">⚙️</div>
-<div class="menu-title">Settings</div>
+<div class="menu-icon">⚙️</div><div class="menu-title">Settings</div>
 <div class="menu-text">Manage wallet</div>
 </div>
 
@@ -132,230 +111,138 @@ button:disabled{opacity:.6}
 <h3>Notifications</h3>
 <div class="small">Payment, airtime, data and transfer notifications will appear here.</div>
 </div>
-
 </div>
 
 <div id="fundScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-
 <div class="service-header home-theme">
 <div style="font-size:28px">💰</div>
 <div style="font-size:23px;font-weight:bold;margin-top:6px">Add Money</div>
 <div style="font-size:13px;margin-top:6px">Fund your Logical World wallet securely.</div>
 </div>
-
 <div class="card">
-
 <label>Amount</label>
 <input id="fundAmount" type="number" min="100" placeholder="₦1000">
-
 <button id="fundBtn" class="green">Add Money</button>
-
 <div id="fundMessage" class="message"></div>
-
 <div class="info-box">Minimum wallet funding amount is ₦100.</div>
-
 </div>
 </div>
 
 <div id="airtimeScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
 
 <div id="airtimeHeader" class="service-header airtime-theme">
-
 <div style="font-size:30px">📱</div>
-
-<div id="airtimeTitle" style="font-size:24px;font-weight:bold;margin-top:5px">
-Airtime
-</div>
-
-<div id="airtimeDescription" style="font-size:13px;margin-top:6px">
-Select a network to continue.
-</div>
-
+<div id="airtimeTitle" style="font-size:24px;font-weight:bold;margin-top:5px">Airtime</div>
+<div id="airtimeDescription" style="font-size:13px;margin-top:6px">Select a network to continue.</div>
 </div>
 
 <div class="card">
-
 <h3>Select Network</h3>
-
 <div class="network-row">
 
-<div id="network9mobile" class="network-button network-9mobile" onclick="selectNetwork('9mobile')">
-9mobile
-</div>
-
-<div id="networkairtel" class="network-button network-airtel" onclick="selectNetwork('airtel')">
-Airtel
-</div>
-
-<div id="networkglo" class="network-button network-glo" onclick="selectNetwork('glo')">
-Glo
-</div>
-
-<div id="networkmtn" class="network-button network-mtn" onclick="selectNetwork('mtn')">
-MTN
-</div>
+<div id="network9mobile" class="network-button network-9mobile" onclick="selectNetwork('9mobile')">9mobile</div>
+<div id="networkairtel" class="network-button network-airtel" onclick="selectNetwork('airtel')">Airtel</div>
+<div id="networkglo" class="network-button network-glo" onclick="selectNetwork('glo')">Glo</div>
+<div id="networkmtn" class="network-button network-mtn" onclick="selectNetwork('mtn')">MTN</div>
 
 </div>
-
 <input id="network" type="hidden">
-
 </div>
 
 <div class="card">
-
 <label>Phone Number</label>
 <input id="airtimePhone" type="tel" maxlength="11" placeholder="08012345678">
-
 <label>Amount</label>
 <input id="airtimeAmount" type="number" min="50" placeholder="₦100">
-
 <button id="buyAirtimeBtn">Buy Airtime</button>
-
 <div id="airtimeMessage" class="message"></div>
-
 </div>
-
 </div>
 
 <div id="dataScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
 
 <div class="service-header data-theme">
-
 <div style="font-size:30px">📶</div>
-
-<div style="font-size:24px;font-weight:bold;margin-top:5px">
-Data
-</div>
-
-<div style="font-size:13px;margin-top:6px">
-Buy mobile data bundles.
-</div>
-
+<div style="font-size:24px;font-weight:bold;margin-top:5px">Data</div>
+<div style="font-size:13px;margin-top:6px">Buy mobile data bundles.</div>
 </div>
 
 <div class="card">
-
-<div id="dataInfo" class="info-box">
-Loading VTUGATE data services...
-</div>
+<div id="dataInfo" class="info-box">Loading VTUGATE data services...</div>
 
 <label>Network / Service</label>
-
 <select id="dataNetwork">
 <option value="">Loading services...</option>
 </select>
 
 <label>Data Plan</label>
-
 <select id="dataPlan" disabled>
 <option value="">Select Data Plan</option>
 </select>
 
 <label>Phone Number</label>
-
 <input id="dataPhone" type="tel" maxlength="11" placeholder="08012345678">
 
-<button id="buyDataBtn" disabled>
-Buy Data
-</button>
-
+<button id="buyDataBtn" disabled>Buy Data</button>
 <div id="dataMessage" class="message"></div>
-
 </div>
 </div>
 
 <div id="transferScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
 
 <div class="service-header transfer-theme">
-
 <div style="font-size:30px">💸</div>
-
-<div style="font-size:24px;font-weight:bold;margin-top:5px">
-Transfer
-</div>
-
-<div style="font-size:13px;margin-top:6px">
-Send money to another Logical World wallet.
-</div>
-
+<div style="font-size:24px;font-weight:bold;margin-top:5px">Transfer</div>
+<div style="font-size:13px;margin-top:6px">Send money to another Logical World wallet.</div>
 </div>
 
 <div class="card">
-
 <label>Recipient Wallet Account Number</label>
 <input id="recipientAccount" type="text" placeholder="Logical World account number">
 
 <label>Amount</label>
 <input id="transferAmount" type="number" min="1" placeholder="₦100">
 
-<div class="info-box">
-The recipient name will be confirmed before a transfer is completed.
-</div>
+<div class="info-box">The recipient name will be confirmed before a transfer is completed.</div>
 
 <button disabled>Continue Transfer</button>
 
 <div class="message" style="display:block">
 Wallet-to-wallet transfer will be connected after the secure transfer system is completed.
 </div>
-
 </div>
 </div>
 
 <div id="historyScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
 
 <div class="service-header history-theme">
-
 <div style="font-size:30px">📋</div>
-
-<div style="font-size:24px;font-weight:bold;margin-top:5px">
-Transaction History
-</div>
-
-<div style="font-size:13px;margin-top:6px">
-Your wallet activity.
-</div>
-
+<div style="font-size:24px;font-weight:bold;margin-top:5px">Transaction History</div>
+<div style="font-size:13px;margin-top:6px">Your wallet activity.</div>
 </div>
 
 <div class="card">
-
 <div id="transactions">
 <div class="small">Loading transactions...</div>
 </div>
-
 </div>
 </div>
 
 <div id="settingsScreen" class="screen">
-
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
 
 <div class="service-header settings-theme">
-
 <div style="font-size:30px">⚙️</div>
-
-<div style="font-size:24px;font-weight:bold;margin-top:5px">
-Settings
-</div>
-
-<div style="font-size:13px;margin-top:6px">
-Manage your Logical World wallet.
-</div>
-
+<div style="font-size:24px;font-weight:bold;margin-top:5px">Settings</div>
+<div style="font-size:13px;margin-top:6px">Manage your Logical World wallet.</div>
 </div>
 
 <div class="card">
-
 <h3>My Profile</h3>
 
 <label>Name</label>
@@ -365,13 +252,10 @@ Manage your Logical World wallet.
 <input id="accountPhone" type="tel" maxlength="11" placeholder="08012345678">
 
 <button id="registerWalletBtn">Create / Update Wallet</button>
-
 <div id="walletMessage" class="message"></div>
-
 </div>
 
 <div class="card">
-
 <h3>Wallet Account</h3>
 
 <div class="setting-item">
@@ -388,97 +272,59 @@ Manage your Logical World wallet.
 <div class="setting-title">Wallet Status</div>
 <div class="setting-text" id="settingsWalletStatus">Checking...</div>
 </div>
-
 </div>
 
 <div class="card">
-
 <h3>Security</h3>
-
 <div class="setting-item">
 <div class="setting-title">Login Security</div>
 <div class="setting-text">Your wallet requires your Logical World login.</div>
 </div>
-
 <div class="setting-item">
 <div class="setting-title">Wallet Balance Protection</div>
 <div class="setting-text">Wallet balance changes are handled through the secure wallet system.</div>
 </div>
-
 </div>
 
 <div class="card">
-
 <h3>Notifications</h3>
-
 <div class="setting-item">
 <div class="setting-title">Wallet Notifications</div>
 <div class="setting-text">Payment and wallet notifications will be added here.</div>
 </div>
-
 <div class="setting-item">
 <div class="setting-title">Service Notifications</div>
 <div class="setting-text">Airtime, data and transfer notifications will appear here.</div>
 </div>
-
 </div>
 
 <div class="card">
-
 <h3>Help & Support</h3>
-
 <div class="setting-item">
 <div class="setting-title">Logical World Support</div>
 <div class="setting-text">Support features will be connected here.</div>
 </div>
-
 </div>
 
 <div class="card">
-
 <h3>About Logical World</h3>
-
-<div class="small">
-Logical World Wallet<br>
-Digital wallet and service platform.
+<div class="small">Logical World Wallet<br>Digital wallet and service platform.</div>
 </div>
 
 </div>
-
-</div>
-
 </div>
 
 <div class="bottom-nav">
-
-<button onclick="showScreen('homeScreen')">
-<span class="nav-icon">🏠</span>
-Home
-</button>
-
-<button onclick="showScreen('airtimeScreen')">
-<span class="nav-icon">📱</span>
-Airtime
-</button>
-
-<button onclick="showScreen('historyScreen')">
-<span class="nav-icon">📋</span>
-History
-</button>
-
-<button onclick="showScreen('settingsScreen')">
-<span class="nav-icon">⚙️</span>
-Settings
-</button>
-
+<button onclick="showScreen('homeScreen')"><span class="nav-icon">🏠</span>Home</button>
+<button onclick="showScreen('airtimeScreen')"><span class="nav-icon">📱</span>Airtime</button>
+<button onclick="showScreen('historyScreen')"><span class="nav-icon">📋</span>History</button>
+<button onclick="showScreen('settingsScreen')"><span class="nav-icon">⚙️</span>Settings</button>
 </div>
 
 <script type="module">
 
 import{initializeApp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-
-import{getFirestore,doc,getDoc,setDoc,addDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
-
+import{getFirestore,doc,getDoc,setDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
 import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
 
 const firebaseConfig={
@@ -505,59 +351,37 @@ let dataServices=[];
 const $=id=>document.getElementById(id);
 
 function showMessage(id,text,type){
-
 const el=$(id);
-
 if(!el)return;
-
 el.textContent=text;
 el.className="message "+type;
 el.style.display="block";
-
 }
 
 function hideMessage(id){
-
 const el=$(id);
-
 if(el)el.style.display="none";
-
 }
 
 function money(value){
-
 return"₦"+Number(value||0).toFixed(2);
-
 }
 
 window.showScreen=function(id){
-
-document.querySelectorAll(".screen").forEach(screen=>{
-screen.classList.remove("active");
-});
-
+document.querySelectorAll(".screen").forEach(screen=>screen.classList.remove("active"));
 const screen=$(id);
-
 if(screen)screen.classList.add("active");
-
 window.scrollTo(0,0);
-
-if(id==="dataScreen"){
-loadDataServices();
-}
-
+if(id==="dataScreen")loadDataServices();
 };
 
 window.selectNetwork=function(network){
 
 $("network").value=network;
 
-document.querySelectorAll(".network-button").forEach(el=>{
-el.classList.remove("selected-network");
-});
+document.querySelectorAll(".network-button").forEach(el=>el.classList.remove("selected-network"));
 
 const selected=$("network"+network);
-
 if(selected)selected.classList.add("selected-network");
 
 const header=$("airtimeHeader");
@@ -569,42 +393,31 @@ header.style.background="linear-gradient(135deg,#e40000,#a00000)";
 title.textContent="Airtel Airtime";
 description.textContent="Airtel airtime purchase";
 }
-
 else if(network==="mtn"){
 header.style.background="linear-gradient(135deg,#ffcc00,#d99a00)";
 title.textContent="MTN Airtime";
 description.textContent="MTN airtime purchase";
 }
-
 else if(network==="glo"){
 header.style.background="linear-gradient(135deg,#008f39,#005b25)";
 title.textContent="Glo Airtime";
 description.textContent="Glo airtime purchase";
 }
-
 else if(network==="9mobile"){
 header.style.background="linear-gradient(135deg,#008f3d,#005c27)";
 title.textContent="9mobile Airtime";
 description.textContent="9mobile airtime purchase";
 }
-
 };
 
 function generateWalletAccountNumber(phone){
-
 const digits=String(phone).replace(/\D/g,"");
-
 if(digits.length!==11)return"";
-
 let arr=digits.split("");
-
 const original=Number(arr[6]);
 const changed=(original+7)%10;
-
 arr[6]=String(changed);
-
 return"LW"+arr.join("");
-
 }
 
 async function loadWallet(){
@@ -619,58 +432,41 @@ const snap=await getDoc(ref);
 if(!snap.exists()){
 
 currentWallet=null;
-
 $("walletBalance").textContent="₦0.00";
 $("walletStatus").textContent="Wallet account has not been created.";
 $("homeAccountNumber").textContent="Account number: Not created";
 $("settingsAccountNumber").textContent="Not created";
 $("settingsAccountName").textContent="Not available";
 $("settingsWalletStatus").textContent="Not registered";
-
 return;
-
 }
 
 currentWallet=snap.data();
 
 $("accountName").value=currentWallet.walletAccountName||currentUser.displayName||"";
-
 $("accountPhone").value=currentWallet.walletPhoneNumber||"";
-
 $("walletBalance").textContent=money(currentWallet.walletBalance);
-
 $("walletStatus").textContent=currentWallet.walletRegistered?"Wallet active":"Wallet account not registered";
 
 const accountNumber=currentWallet.walletAccountNumber||"Not created";
 
 $("homeAccountNumber").textContent="Account number: "+accountNumber;
-
 $("settingsAccountNumber").textContent=accountNumber;
-
 $("settingsAccountName").textContent=currentWallet.walletAccountName||"Not available";
-
 $("settingsWalletStatus").textContent=currentWallet.walletRegistered?"Active":"Not registered";
 
 }
-
 catch(error){
-
 console.error("Wallet loading error:",error);
-
 $("walletStatus").textContent="Unable to load wallet.";
-
 }
-
 }
 
 async function loadTransactions(){
 
 if(!currentUser){
-
 $("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';
-
 return;
-
 }
 
 try{
@@ -681,55 +477,34 @@ where("userId","==",currentUser.uid)
 );
 
 const snap=await getDocs(q);
-
 let rows=[];
 
-snap.forEach(d=>{
-rows.push({
-id:d.id,
-...d.data()
-});
-});
+snap.forEach(d=>rows.push({id:d.id,...d.data()}));
 
 rows.sort((a,b)=>{
-
 const at=a.createdAt?.seconds||0;
 const bt=b.createdAt?.seconds||0;
-
 return bt-at;
-
 });
 
 if(!rows.length){
-
 $("transactions").innerHTML='<div class="small">No transactions yet.</div>';
-
 return;
-
 }
 
 $("transactions").innerHTML=rows.map(t=>{
 
-let amount=Number(t.amount||0);
-
-let title=t.type||"Wallet Transaction";
-
-let description=t.description||"";
-
-let status=t.status||"";
-
+const amount=Number(t.amount||0);
+const title=t.type||"Wallet Transaction";
+const description=t.description||"";
+const status=t.status||"";
 let date="";
 
 if(t.createdAt?.toDate){
-
 date=t.createdAt.toDate().toLocaleString();
-
 }
-
 else if(t.createdAt?.seconds){
-
 date=new Date(t.createdAt.seconds*1000).toLocaleString();
-
 }
 
 return`
@@ -737,271 +512,144 @@ return`
 <div class="transaction-title">${title}</div>
 <div class="transaction-meta">${description}</div>
 <div class="transaction-meta">${date}</div>
-<div class="transaction-meta">
-${status?status+" • ":""}${money(amount)}
-</div>
-</div>
-`;
-
+<div class="transaction-meta">${status?status+" • ":""}${money(amount)}</div>
+</div>`;
 }).join("");
 
 }
-
 catch(error){
-
 console.error("Transaction loading error:",error);
-
 $("transactions").innerHTML='<div class="small">Unable to load transactions.</div>';
-
 }
-
 }
 
 async function verifyReturnedPayment(){
 
 const params=new URLSearchParams(window.location.search);
-
-const reference=
-params.get("reference")||
-params.get("trxref");
+const reference=params.get("reference")||params.get("trxref");
 
 if(!reference)return;
 
 window.history.replaceState({},document.title,location.pathname);
 
-showMessage(
-"fundMessage",
-"Verifying your Paystack payment...",
-"success"
-);
+showMessage("fundMessage","Verifying your Paystack payment...","success");
 
 try{
 
-const response=await fetch(
-PAYSTACK_WORKER,
-{
+const response=await fetch(PAYSTACK_WORKER,{
 method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"verify",
-reference:reference
-})
-}
-);
+headers:{"Content-Type":"application/json"},
+body:JSON.stringify({action:"verify",reference:reference})
+});
 
 const result=await response.json();
 
 if(!response.ok||!result.status){
-
-throw new Error(
-result.message||
-"Payment verification failed."
-);
-
+throw new Error(result.message||"Payment verification failed.");
 }
 
 showMessage(
 "fundMessage",
-"Payment successful. "+
-money(result.amount)+
-" has been added to your Logical World wallet.",
+"Payment successful. "+money(result.amount)+" has been added to your Logical World wallet.",
 "success"
 );
 
 await loadWallet();
 await loadTransactions();
-
 showScreen("fundScreen");
 
 }
-
 catch(error){
-
 console.error("Payment verification error:",error);
-
-showMessage(
-"fundMessage",
-error.message||
-"Unable to verify payment.",
-"error"
-);
-
+showMessage("fundMessage",error.message||"Unable to verify payment.","error");
+}
 }
 
-}
-
-$("registerWalletBtn").addEventListener(
-"click",
-async()=>{
+$("registerWalletBtn").addEventListener("click",async()=>{
 
 hideMessage("walletMessage");
 
 if(!currentUser){
-
 showMessage("walletMessage","Please log in first.","error");
-
 return;
-
 }
 
-const name=$
 const name=$("accountName").value.trim();
 const phone=$("accountPhone").value.trim();
 
 if(!name||!phone){
-
-showMessage(
-"walletMessage",
-"Enter your name and phone number.",
-"error"
-);
-
+showMessage("walletMessage","Enter your name and phone number.","error");
 return;
-
 }
 
 if(!/^[0-9]{11}$/.test(phone)){
-
-showMessage(
-"walletMessage",
-"Enter an 11-digit Nigerian phone number.",
-"error"
-);
-
+showMessage("walletMessage","Enter an 11-digit Nigerian phone number.",showMessage("walletMessage","Enter an 11-digit Nigerian phone number.","error");
 return;
-
 }
 
-const btn=$("registerWalletBtn");
+const accountNumber=generateWalletAccountNumber(phone);
 
-btn.disabled=true;
-btn.textContent="Saving...";
+if(!accountNumber){
+showMessage("walletMessage","Unable to generate wallet account number.","error");
+return;
+}
 
 try{
 
 const ref=doc(db,"users",currentUser.uid);
+const snap=await getDoc(ref);
+const oldData=snap.exists()?snap.data():{};
 
-const old=await getDoc(ref);
-
-const oldData=old.exists()?old.data():{};
-
-const generated=
-oldData.walletAccountNumber||
-generateWalletAccountNumber(phone);
-
-await setDoc(
-ref,
-{
+await setDoc(ref,{
 walletRegistered:true,
 walletAccountName:name,
 walletPhoneNumber:phone,
 walletCurrency:"NGN",
 walletStatus:"active",
-walletAccountNumber:generated,
+walletAccountNumber:accountNumber,
 walletBalance:Number(oldData.walletBalance||0),
-walletCreatedAt:
-oldData.walletCreatedAt||
-serverTimestamp(),
+walletCreatedAt:oldData.walletCreatedAt||serverTimestamp(),
 walletUpdatedAt:serverTimestamp()
-},
-{merge:true}
-);
+},{merge:true});
 
-showMessage(
-"walletMessage",
-"Wallet account saved successfully.",
-"success"
-);
+showMessage("walletMessage","Wallet created successfully.","success");
 
 await loadWallet();
+await loadTransactions();
+
+}catch(error){
+
+console.error("Wallet registration error:",error);
+showMessage("walletMessage",error.message||"Unable to create wallet.","error");
 
 }
-
-catch(error){
-
-console.error(
-"Wallet save error:",
-error
-);
-
-showMessage(
-"walletMessage",
-error.message||
-"Unable to save wallet.",
-"error"
-);
-
-}
-
-btn.disabled=false;
-btn.textContent="Create / Update Wallet";
 
 });
 
-$("fundBtn").addEventListener(
-"click",
-async()=>{
+$("fundBtn").addEventListener("click",async()=>{
 
 hideMessage("fundMessage");
 
 if(!currentUser){
-
-showMessage(
-"fundMessage",
-"Please log in first.",
-"error"
-);
-
+showMessage("fundMessage","Please log in first.","error");
 return;
-
 }
 
-const amount=
-Number($("fundAmount").value);
+const amount=Number($("fundAmount").value);
 
-if(
-!Number.isFinite(amount)||
-amount<100
-){
-
-showMessage(
-"fundMessage",
-"Enter an amount of at least ₦100.",
-"error"
-);
-
+if(!Number.isFinite(amount)||amount<100){
+showMessage("fundMessage","Enter an amount of at least ₦100.","error");
 return;
-
 }
-
-if(!currentUser.email){
-
-showMessage(
-"fundMessage",
-"Your Logical World account needs an email address for Paystack funding.",
-"error"
-);
-
-return;
-
-}
-
-const btn=$("fundBtn");
-
-btn.disabled=true;
-btn.textContent="Connecting...";
 
 try{
 
-const idToken=
-await currentUser.getIdToken(true);
+$("fundBtn").disabled=true;
+$("fundBtn").textContent="Connecting to Paystack...";
 
-const response=
-await fetch(
-PAYSTACK_WORKER,
-{
+const idToken=await currentUser.getIdToken(true);
+
+const response=await fetch(PAYSTACK_WORKER,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -1011,162 +659,68 @@ idToken:idToken,
 amount:amount,
 email:currentUser.email
 })
-}
-);
+});
 
-const result=
-await response.json();
+const result=await response.json();
 
-if(
-!response.ok||
-result.status===false
-){
-
-throw new Error(
-result.message||
-"Unable to start payment."
-);
-
+if(!response.ok||!result.status){
+throw new Error(result.message||"Unable to start payment.");
 }
 
-if(result.authorization_url){
-
-window.location.href=
-result.authorization_url;
-
-return;
-
+if(!result.data||!result.data.authorization_url){
+throw new Error("Paystack did not return a payment link.");
 }
 
-if(
-result.data&&
-result.data.authorization_url
-){
+window.location.href=result.data.authorization_url;
 
-window.location.href=
-result.data.authorization_url;
+}catch(error){
 
-return;
+console.error("Funding error:",error);
+showMessage("fundMessage",error.message||"Unable to start payment.","error");
 
-}
-
-if(result.url){
-
-window.location.href=
-result.url;
-
-return;
+$("fundBtn").disabled=false;
+$("fundBtn").textContent="Add Money";
 
 }
-
-throw new Error(
-"Paystack did not return a payment URL."
-);
-
-}
-
-catch(error){
-
-console.error(
-"Funding error:",
-error
-);
-
-showMessage(
-"fundMessage",
-error.message||
-"Unable to start payment.",
-"error"
-);
-
-}
-
-btn.disabled=false;
-btn.textContent="Add Money";
 
 });
 
-$("buyAirtimeBtn").addEventListener(
-"click",
-async()=>{
+$("buyAirtimeBtn").addEventListener("click",async()=>{
 
 hideMessage("airtimeMessage");
 
 if(!currentUser){
-
-showMessage(
-"airtimeMessage",
-"Please log in first.",
-"error"
-);
-
+showMessage("airtimeMessage","Please log in first.","error");
 return;
-
 }
 
-const network=
-$("network").value;
-
-const phone=
-$("airtimePhone").value.trim();
-
-const amount=
-Number($("airtimeAmount").value);
+const network=$("airtimeNetwork").value;
+const phone=$("airtimePhone").value.trim();
+const amount=Number($("airtimeAmount").value);
 
 if(!network){
-
-showMessage(
-"airtimeMessage",
-"Select a network.",
-"error"
-);
-
+showMessage("airtimeMessage","Select a network.","error");
 return;
-
 }
 
 if(!/^[0-9]{11}$/.test(phone)){
-
-showMessage(
-"airtimeMessage",
-"Enter a valid 11-digit phone number.",
-"error"
-);
-
+showMessage("airtimeMessage","Enter a valid 11-digit phone number.","error");
 return;
-
 }
 
-if(
-!Number.isFinite(amount)||
-amount<50
-){
-
-showMessage(
-"airtimeMessage",
-"Airtime amount must be at least ₦50.",
-"error"
-);
-
+if(!Number.isFinite(amount)||amount<50){
+showMessage("airtimeMessage","Minimum airtime amount is ₦50.","error");
 return;
-
 }
-
-const btn=
-$("buyAirtimeBtn");
-
-btn.disabled=true;
-btn.textContent="Processing...";
 
 try{
 
-const idToken=
-await currentUser.getIdToken(true);
+$("buyAirtimeBtn").disabled=true;
+$("buyAirtimeBtn").textContent="Processing...";
 
-const response=
-await fetch(
-VTUGATE_WORKER,
-{
+const idToken=await currentUser.getIdToken(true);
+
+const response=await fetch(VTUGATE_WORKER,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
@@ -1177,434 +731,264 @@ network:network,
 phone_number:phone,
 amount:amount
 })
+});
+
+const result=await response.json();
+
+if(!response.ok||!result.status){
+throw new Error(result.message||"Airtime purchase failed.");
 }
-);
-
-const result=
-await response.json();
-
-if(
-!response.ok||
-!result.status
-){
-
-throw new Error(
-result.message||
-"Airtime purchase failed."
-);
-
-}
-
-$("walletBalance").textContent=
-money(result.walletBalance);
-
-$("walletStatus").textContent=
-"Wallet active";
 
 showMessage(
 "airtimeMessage",
-(result.message||
-"Airtime purchase successful.")+
-" Your new wallet balance is "+
-money(result.walletBalance)+
-".",
+result.message||"Airtime purchase successful.",
 "success"
 );
+
+$("airtimePhone").value="";
+$("airtimeAmount").value="";
 
 await loadWallet();
 await loadTransactions();
 
-}
+}catch(error){
 
-catch(error){
-
-console.error(
-"Airtime purchase error:",
-error
-);
-
+console.error("Airtime error:",error);
 showMessage(
 "airtimeMessage",
-error.message||
-"Airtime purchase failed.",
+error.message||"Airtime purchase failed.",
 "error"
 );
 
-}
+}finally{
 
-btn.disabled=false;
-btn.textContent="Buy Airtime";
+$("buyAirtimeBtn").disabled=false;
+$("buyAirtimeBtn").textContent="Buy Airtime";
+
+}
 
 });
 
-async function loadDataServices(){
+$("dataService").addEventListener("change",async()=>{
 
-const info=$("dataInfo");
-const networkSelect=$("dataNetwork");
+hideMessage("dataMessage");
 
-if(!info||!networkSelect)return;
+const serviceId=$("dataService").value;
 
-if(dataServices.length)return;
+$("dataPlan").innerHTML='<option value="">Loading plans...</option>';
 
-info.textContent=
-"Loading VTUGATE data services...";
-
-networkSelect.innerHTML=
-'<option value="">Loading services...</option>';
+if(!serviceId){
+$("dataPlan").innerHTML='<option value="">Select data plan</option>';
+return;
+}
 
 try{
 
-const response=
-await fetch(
-VTUGATE_WORKER,
-{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"fetchDataServices"
-})
-}
-);
+const idToken=await currentUser.getIdToken(true);
 
-const result=
-await response.json();
-
-if(
-!response.ok||
-result.status===false
-){
-
-throw new Error(
-result.message||
-"Unable to load data services."
-);
-
-}
-
-let list=[];
-
-if(Array.isArray(result.data))
-list=result.data;
-
-else if(Array.isArray(result.services))
-list=result.services;
-
-else if(
-Array.isArray(result.data?.services)
-)
-list=result.data.services;
-
-else if(
-Array.isArray(result.data?.data)
-)
-list=result.data.data;
-
-dataServices=list;
-
-if(!dataServices.length){
-
-throw new Error(
-"VTUGATE returned no data services."
-);
-
-}
-
-networkSelect.innerHTML=
-'<option value="">Select Data Service</option>';
-
-dataServices.forEach(
-(service,index)=>{
-
-const id=
-service.service_id||
-service.serviceId||
-service.id||
-service.serviceID||
-"";
-
-const name=
-service.service_name||
-service.serviceName||
-service.name||
-service.network||
-service.title||
-("Data Service "+(index+1));
-
-if(!id)return;
-
-const option=
-document.createElement("option");
-
-option.value=String(id);
-
-option.textContent=String(name);
-
-networkSelect.appendChild(option);
-
-});
-
-info.textContent=
-"Data services loaded. Select a service to view its available plans.";
-
-}
-
-catch(error){
-
-console.error(
-"Data services error:",
-error
-);
-
-networkSelect.innerHTML=
-'<option value="">Unable to load services</option>';
-
-info.textContent=
-"Unable to load VTUGATE data services: "+
-(error.message||"Unknown error");
-
-}
-
-}
-
-async function loadDataPlans(serviceId){
-
-const planSelect=$("dataPlan");
-const buyButton=$("buyDataBtn");
-const info=$("dataInfo");
-
-planSelect.disabled=true;
-buyButton.disabled=true;
-
-planSelect.innerHTML=
-'<option value="">Loading plans...</option>';
-
-try{
-
-const response=
-await fetch(
-VTUGATE_WORKER,
-{
+const response=await fetch(VTUGATE_WORKER,{
 method:"POST",
 headers:{
 "Content-Type":"application/json"
 },
 body:JSON.stringify({
 action:"fetchDataPlans",
-service_id:String(serviceId)
+idToken:idToken,
+service_id:serviceId
 })
-}
-);
+});
 
-const result=
-await response.json();
+const result=await response.json();
 
-if(
-!response.ok||
-result.status===false
-){
-
-throw new Error(
-result.message||
-"Unable to load data plans."
-);
-
+if(!response.ok||!result.status){
+throw new Error(result.message||"Unable to load data plans.");
 }
 
-let plans=[];
+const plans=result.data||result.plans||[];
 
-if(Array.isArray(result.data))
-plans=result.data;
+$("dataPlan").innerHTML='<option value="">Select data plan</option>';
 
-else if(Array.isArray(result.plans))
-plans=result.plans;
+plans.forEach(plan=>{
 
-else if(
-Array.isArray(result.data?.plans)
-)
-plans=result.data.plans;
+const option=document.createElement("option");
 
-else if(
-Array.isArray(result.data?.data)
-)
-plans=result.data.data;
-
-if(!plans.length){
-
-throw new Error(
-"No data plans were returned for this service."
-);
-
-}
-
-planSelect.innerHTML=
-'<option value="">Select Data Plan</option>';
-
-plans.forEach(
-(plan,index)=>{
-
-const id=
-plan.plan_id||
-plan.planId||
-plan.id||
-plan.planID||
+option.value=String(
+plan.plan_code||
+plan.planCode||
 plan.code||
-"";
+plan.id||
+""
+);
 
-const name=
+option.textContent=
+String(
 plan.plan_name||
 plan.planName||
 plan.name||
-plan.description||
-("Plan "+(index+1));
-
-const price=
-plan.price||
+plan.title||
+"Data Plan"
+)+
+" - ₦"+
+String(
 plan.amount||
+plan.price||
 plan.selling_price||
-plan.sellingPrice||
-"";
-
-const size=
-plan.size||
-plan.data||
-plan.volume||
-"";
-
-const validity=
-plan.validity||
-plan.duration||
-"";
-
-if(!id)return;
-
-const option=
-document.createElement("option");
-
-option.value=String(id);
-
-let text=String(name);
-
-if(size)
-text+=" - "+size;
-
-if(validity)
-text+=" - "+validity;
-
-if(price)
-text+=" - "+money(price);
-
-option.textContent=text;
-
-option.dataset.price=
-String(price||0);
-
-option.dataset.plan=
-JSON.stringify(plan);
-
-planSelect.appendChild(option);
-
-});
-
-planSelect.disabled=false;
-
-info.textContent=
-plans.length+
-" data plan(s) loaded. Select a plan to continue.";
-
-}
-
-catch(error){
-
-console.error(
-"Data plans error:",
-error
+0
 );
 
-planSelect.innerHTML=
-'<option value="">Unable to load plans</option>';
+option.dataset.amount=String(
+plan.amount||
+plan.price||
+plan.selling_price||
+0
+);
 
-info.textContent=
-"Unable to load data plans: "+
-(error.message||"Unknown error");
+$("dataPlan").appendChild(option);
 
-}
+});
 
-}
+}catch(error){
 
-$("dataNetwork").addEventListener(
-"change",
-async()=>{
-
-const serviceId=
-$("dataNetwork").value;
+console.error("Data plans error:",error);
 
 $("dataPlan").innerHTML=
-'<option value="">Select Data Plan</option>';
-
-$("dataPlan").disabled=true;
-
-$("buyDataBtn").disabled=true;
-
-if(!serviceId)return;
-
-await loadDataPlans(serviceId);
-
-});
-
-$("dataPlan").addEventListener(
-"change",
-()=>{
-
-const selected=
-$("dataPlan").value;
-
-$("buyDataBtn").disabled=
-!selected;
-
-});
-
-$("buyDataBtn").addEventListener(
-"click",
-()=>{
+'<option value="">Unable to load plans</option>';
 
 showMessage(
 "dataMessage",
-"Data plans are connected successfully. The final Buy Data transaction fields still need to be matched to VTUGATE's exact buydata request format before money can be deducted.",
+error.message||"Unable to load data plans.",
 "error"
 );
 
+}
+
 });
 
-onAuthStateChanged(
-auth,
-async user=>{
+$("buyDataBtn").addEventListener("click",async()=>{
+
+hideMessage("dataMessage");
+
+if(!currentUser){
+showMessage("dataMessage","Please log in first.","error");
+return;
+}
+
+const serviceId=$("dataService").value;
+const planCode=$("dataPlan").value;
+const phone=$("dataPhone").value.trim();
+
+const selected=$("dataPlan").selectedOptions[0];
+
+const amount=Number(
+selected?.dataset?.amount||
+0
+);
+
+if(!serviceId){
+showMessage("dataMessage","Select a data network.","error");
+return;
+}
+
+if(!planCode){
+showMessage("dataMessage","Select a data plan.","error");
+return;
+}
+
+if(!/^[0-9]{11}$/.test(phone)){
+showMessage("dataMessage","Enter a valid 11-digit phone number.","error");
+return;
+}
+
+if(!Number.isFinite(amount)||amount<=0){
+showMessage("dataMessage","The selected data plan has an invalid price.","error");
+return;
+}
+
+try{
+
+$("buyDataBtn").disabled=true;
+$("buyDataBtn").textContent="Processing...";
+
+const idToken=await currentUser.getIdToken(true);
+
+const response=await fetch(VTUGATE_WORKER,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"buyData",
+idToken:idToken,
+service_id:serviceId,
+plan_code:planCode,
+phone_number:phone,
+amount:amount
+})
+});
+
+const result=await response.json();
+
+if(!response.ok||!result.status){
+throw new Error(result.message||"Data purchase failed.");
+}
+
+showMessage(
+"dataMessage",
+result.message||"Data purchase successful.",
+"success"
+);
+
+$("dataPhone").value="";
+
+await loadWallet();
+await loadTransactions();
+
+}catch(error){
+
+console.error("Data purchase error:",error);
+
+showMessage(
+"dataMessage",
+error.message||"Data purchase failed.",
+"error"
+);
+
+}finally{
+
+$("buyDataBtn").disabled=false;
+$("buyDataBtn").textContent="Buy Data";
+
+}
+
+});
+
+onAuthStateChanged(auth,async(user)=>{
 
 currentUser=user;
 
 if(!user){
 
-$("walletStatus").textContent=
-"Please log in to use your wallet.";
-
-$("transactions").innerHTML=
-'<div class="small">Please log in to view transactions.</div>';
-
+showScreen("homeScreen");
 return;
-
 }
 
+try{
+
 await loadWallet();
-
 await loadTransactions();
-
 await loadDataServices();
 
 await verifyReturnedPayment();
 
+}catch(error){
+
+console.error("Wallet initialization error:",error);
+
+}
+
 });
 
+});
 </script>
 
 </body>
