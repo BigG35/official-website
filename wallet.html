@@ -1,0 +1,1502 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Logical World Wallet</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;font-family:Arial,sans-serif;background:#f3f6f9;color:#222}
+.header{background:#111827;color:white;padding:18px;text-align:center;font-size:22px;font-weight:bold}
+.container{max-width:700px;margin:auto;padding:15px;padding-bottom:90px}
+.screen{display:none}
+.screen.active{display:block}
+.card{background:white;border-radius:16px;padding:18px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+.balance-card{background:linear-gradient(135deg,#111827,#26344d);color:white}
+.balance-title{font-size:14px;opacity:.8}
+.balance{font-size:34px;font-weight:bold;margin:10px 0}
+.account-number{font-size:15px;letter-spacing:1px;opacity:.9}
+.status{font-size:13px;margin-top:8px}
+.menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.menu-button{background:white;border:1px solid #e5e7eb;border-radius:16px;padding:20px 10px;text-align:center;cursor:pointer;box-shadow:0 2px 7px rgba(0,0,0,.06)}
+.menu-icon{font-size:30px;margin-bottom:8px}
+.menu-title{font-weight:bold;font-size:15px}
+.menu-text{font-size:12px;color:#777;margin-top:5px}
+.back{background:#e5e7eb;color:#111827;margin-top:0;margin-bottom:15px}
+h2{margin-top:0;font-size:20px}
+h3{margin-top:0}
+label{display:block;margin-top:12px;margin-bottom:5px;font-weight:bold}
+input,select,button{width:100%;padding:13px;border-radius:9px;border:1px solid #ccc;font-size:16px}
+input[readonly]{background:#f3f4f6}
+button{border:0;background:#111827;color:white;font-weight:bold;margin-top:15px;cursor:pointer}
+button:disabled{opacity:.6}
+.green{background:#087f23}
+.blue{background:#1769aa}
+.yellow{background:#d99a00}
+.small{font-size:13px;color:#666}
+.message{padding:12px;border-radius:8px;margin-top:12px;display:none;font-size:14px}
+.success{background:#e8f7ed;color:#087f23}
+.error{background:#fdecec;color:#b00020}
+.transaction{border-bottom:1px solid #eee;padding:13px 0}
+.transaction:last-child{border-bottom:0}
+.transaction-title{font-weight:bold}
+.transaction-meta{font-size:13px;color:#666;margin-top:4px}
+.service-header{padding:22px;border-radius:16px;margin-bottom:15px;color:white}
+.airtime-theme{background:linear-gradient(135deg,#1769aa,#0d47a1)}
+.data-theme{background:linear-gradient(135deg,#087f23,#14532d)}
+.transfer-theme{background:linear-gradient(135deg,#7c3aed,#4c1d95)}
+.history-theme{background:linear-gradient(135deg,#374151,#111827)}
+.settings-theme{background:linear-gradient(135deg,#475569,#1e293b)}
+.home-theme{background:linear-gradient(135deg,#111827,#334155)}
+.network-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.network-button{padding:18px 8px;border-radius:12px;color:white;font-weight:bold;text-align:center;cursor:pointer;margin-top:10px}
+.network-9mobile{background:#008f3d}
+.network-airtel{background:#e40000}
+.network-glo{background:#008f39}
+.network-mtn{background:#ffcc00;color:#111}
+.selected-network{outline:4px solid #111827}
+.info-box{background:#f8fafc;padding:14px;border-radius:10px;margin-top:12px;font-size:14px}
+.setting-item{padding:16px 5px;border-bottom:1px solid #eee}
+.setting-item:last-child{border-bottom:0}
+.setting-title{font-weight:bold}
+.setting-text{font-size:13px;color:#666;margin-top:4px}
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 4px;z-index:50}
+.bottom-nav button{margin:0;background:white;color:#333;font-size:12px;padding:7px 3px}
+.bottom-nav .nav-icon{display:block;font-size:20px;margin-bottom:3px}
+@media(max-width:480px){.network-row{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+
+<div class="header">Logical World Wallet</div>
+
+<div class="container">
+
+<div id="homeScreen" class="screen active">
+
+<div class="service-header home-theme">
+<div style="font-size:14px;opacity:.8">LOGICAL WORLD WALLET</div>
+<div style="font-size:25px;font-weight:bold;margin-top:7px">Welcome to your wallet</div>
+<div style="font-size:13px;margin-top:8px;opacity:.85">Manage your money and services from one place.</div>
+</div>
+
+<div class="card balance-card">
+<div class="balance-title">Available Wallet Balance</div>
+<div class="balance" id="walletBalance">₦0.00</div>
+<div class="account-number" id="homeAccountNumber">Account number: Not created</div>
+<div class="status" id="walletStatus">Checking wallet...</div>
+</div>
+
+<div class="menu-grid">
+
+<div class="menu-button" onclick="showScreen('fundScreen')">
+<div class="menu-icon">💰</div>
+<div class="menu-title">Add Money</div>
+<div class="menu-text">Fund your wallet</div>
+</div>
+
+<div class="menu-button" onclick="showScreen('airtimeScreen')">
+<div class="menu-icon">📱</div>
+<div class="menu-title">Airtime</div>
+<div class="menu-text">Buy airtime</div>
+</div>
+
+<div class="menu-button" onclick="showScreen('dataScreen')">
+<div class="menu-icon">📶</div>
+<div class="menu-title">Data</div>
+<div class="menu-text">Buy data bundles</div>
+</div>
+
+<div class="menu-button" onclick="showScreen('transferScreen')">
+<div class="menu-icon">💸</div>
+<div class="menu-title">Transfer</div>
+<div class="menu-text">Send money</div>
+</div>
+
+<div class="menu-button" onclick="showScreen('historyScreen')">
+<div class="menu-icon">📋</div>
+<div class="menu-title">History</div>
+<div class="menu-text">View transactions</div>
+</div>
+
+<div class="menu-button" onclick="showScreen('settingsScreen')">
+<div class="menu-icon">⚙️</div>
+<div class="menu-title">Settings</div>
+<div class="menu-text">Manage wallet</div>
+</div>
+
+</div>
+
+<div class="card">
+<h3>Notifications</h3>
+<div class="small">Payment, airtime, data and transfer notifications will appear here.</div>
+</div>
+
+</div>
+
+<div id="fundScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div class="service-header home-theme">
+<div style="font-size:28px">💰</div>
+<div style="font-size:23px;font-weight:bold;margin-top:6px">Add Money</div>
+<div style="font-size:13px;margin-top:6px">Fund your Logical World wallet securely.</div>
+</div>
+
+<div class="card">
+
+<label>Amount</label>
+<input id="fundAmount" type="number" min="100" placeholder="₦1000">
+
+<button id="fundBtn" class="green">Add Money</button>
+
+<div id="fundMessage" class="message"></div>
+
+<div class="info-box">Minimum wallet funding amount is ₦100.</div>
+
+</div>
+</div>
+
+<div id="airtimeScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div id="airtimeHeader" class="service-header airtime-theme">
+
+<div style="font-size:30px">📱</div>
+
+<div id="airtimeTitle" style="font-size:24px;font-weight:bold;margin-top:5px">
+Airtime
+</div>
+
+<div id="airtimeDescription" style="font-size:13px;margin-top:6px">
+Select a network to continue.
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Select Network</h3>
+
+<div class="network-row">
+
+<div id="network9mobile" class="network-button network-9mobile" onclick="selectNetwork('9mobile')">
+9mobile
+</div>
+
+<div id="networkairtel" class="network-button network-airtel" onclick="selectNetwork('airtel')">
+Airtel
+</div>
+
+<div id="networkglo" class="network-button network-glo" onclick="selectNetwork('glo')">
+Glo
+</div>
+
+<div id="networkmtn" class="network-button network-mtn" onclick="selectNetwork('mtn')">
+MTN
+</div>
+
+</div>
+
+<input id="network" type="hidden">
+
+</div>
+
+<div class="card">
+
+<label>Phone Number</label>
+<input id="airtimePhone" type="tel" maxlength="11" placeholder="08012345678">
+
+<label>Amount</label>
+<input id="airtimeAmount" type="number" min="50" placeholder="₦100">
+
+<button id="buyAirtimeBtn">Buy Airtime</button>
+
+<div id="airtimeMessage" class="message"></div>
+
+</div>
+
+</div>
+
+<div id="dataScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div class="service-header data-theme">
+
+<div style="font-size:30px">📶</div>
+
+<div style="font-size:24px;font-weight:bold;margin-top:5px">
+Data
+</div>
+
+<div style="font-size:13px;margin-top:6px">
+Buy mobile data bundles.
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="dataInfo" class="info-box">
+Loading VTUGATE data services...
+</div>
+
+<label>Select Network</label>
+
+<div class="network-row" id="dataNetworkButtons">
+<div class="network-button network-mtn data-network-button" data-data-network="mtn" role="button" tabindex="0">MTN</div>
+<div class="network-button network-glo data-network-button" data-data-network="glo" role="button" tabindex="0">Glo</div>
+<div class="network-button network-airtel data-network-button" data-data-network="airtel" role="button" tabindex="0">Airtel</div>
+<div class="network-button network-9mobile data-network-button" data-data-network="9mobile" role="button" tabindex="0">9mobile</div>
+</div>
+
+<select id="dataNetwork" hidden>
+<option value="">Select network</option>
+</select>
+
+<label>Data Plan</label>
+
+<select id="dataPlan" disabled>
+<option value="">Select Data Plan</option>
+</select>
+
+<label>Phone Number</label>
+
+<input id="dataPhone" type="tel" maxlength="11" placeholder="08012345678">
+
+<button id="buyDataBtn" disabled>
+Buy Data
+</button>
+
+<div id="dataMessage" class="message"></div>
+
+</div>
+</div>
+
+<div id="transferScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div class="service-header transfer-theme">
+
+<div style="font-size:30px">💸</div>
+
+<div style="font-size:24px;font-weight:bold;margin-top:5px">
+Transfer
+</div>
+
+<div style="font-size:13px;margin-top:6px">
+Send money to another Logical World wallet.
+</div>
+
+</div>
+
+<div class="card">
+
+<label>Recipient Wallet Account Number</label>
+<input id="recipientAccount" type="text" placeholder="Logical World account number">
+
+<label>Amount</label>
+<input id="transferAmount" type="number" min="1" placeholder="₦100">
+
+<div class="info-box">
+The recipient name will be confirmed before a transfer is completed.
+</div>
+
+<button id="transferBtn">Continue Transfer</button>
+
+<div id="transferMessage" class="message"></div>
+
+</div>
+</div>
+
+<div id="historyScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div class="service-header history-theme">
+
+<div style="font-size:30px">📋</div>
+
+<div style="font-size:24px;font-weight:bold;margin-top:5px">
+Transaction History
+</div>
+
+<div style="font-size:13px;margin-top:6px">
+Your wallet activity.
+</div>
+
+</div>
+
+<div class="card">
+
+<div id="transactions">
+<div class="small">Loading transactions...</div>
+</div>
+
+</div>
+</div>
+
+<div id="settingsScreen" class="screen">
+
+<button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
+
+<div class="service-header settings-theme">
+
+<div style="font-size:30px">⚙️</div>
+
+<div style="font-size:24px;font-weight:bold;margin-top:5px">
+Settings
+</div>
+
+<div style="font-size:13px;margin-top:6px">
+Manage your Logical World wallet.
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>My Profile</h3>
+
+<label>Name</label>
+<input id="accountName" type="text" placeholder="Your name">
+
+<label>Phone Number</label>
+<input id="accountPhone" type="tel" maxlength="11" placeholder="08012345678">
+
+<button id="registerWalletBtn">Create / Update Wallet</button>
+
+<div id="walletMessage" class="message"></div>
+
+</div>
+
+<div class="card">
+
+<h3>Wallet Account</h3>
+
+<div class="setting-item">
+<div class="setting-title">Account Number</div>
+<div class="setting-text" id="settingsAccountNumber">Not created</div>
+</div>
+
+<div class="setting-item">
+<div class="setting-title">Account Name</div>
+<div class="setting-text" id="settingsAccountName">Not available</div>
+</div>
+
+<div class="setting-item">
+<div class="setting-title">Wallet Status</div>
+<div class="setting-text" id="settingsWalletStatus">Checking...</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Security</h3>
+
+<div class="setting-item">
+<div class="setting-title">Login Security</div>
+<div class="setting-text">Your wallet requires your Logical World login.</div>
+</div>
+
+<div class="setting-item">
+<div class="setting-title">Wallet Balance Protection</div>
+<div class="setting-text">Wallet balance changes are handled through the secure wallet system.</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Notifications</h3>
+
+<div class="setting-item">
+<div class="setting-title">Wallet Notifications</div>
+<div class="setting-text">Payment and wallet notifications will be added here.</div>
+</div>
+
+<div class="setting-item">
+<div class="setting-title">Service Notifications</div>
+<div class="setting-text">Airtime, data and transfer notifications will appear here.</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>Help & Support</h3>
+
+<div class="setting-item">
+<div class="setting-title">Logical World Support</div>
+<div class="setting-text">Support features will be connected here.</div>
+</div>
+
+</div>
+
+<div class="card">
+
+<h3>About Logical World</h3>
+
+<div class="small">
+Logical World Wallet<br>
+Digital wallet and service platform.
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<div class="bottom-nav">
+
+<button onclick="showScreen('homeScreen')">
+<span class="nav-icon">🏠</span>
+Home
+</button>
+
+<button onclick="showScreen('airtimeScreen')">
+<span class="nav-icon">📱</span>
+Airtime
+</button>
+
+<button onclick="showScreen('historyScreen')">
+<span class="nav-icon">📋</span>
+History
+</button>
+
+<button onclick="showScreen('settingsScreen')">
+<span class="nav-icon">⚙️</span>
+Settings
+</button>
+
+</div>
+
+<script type="module">
+
+import{initializeApp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
+
+import{getFirestore,doc,getDoc,setDoc,addDoc,collection,query,where,getDocs,serverTimestamp}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-firestore.js";
+
+import{getAuth,onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.2.1/firebase-auth.js";
+
+const firebaseConfig={
+apiKey:"AIzaSyDLdWY7gbNmLOc-jCoQ27FI9iBzVtbwhk",
+authDomain:"official-website-b2757.firebaseapp.com",
+projectId:"official-website-b2757",
+storageBucket:"official-website-b2757.firebasestorage.app",
+messagingSenderId:"295891219037",
+appId:"1:295891219037:web:c1b1713c9291f88cabd3b4",
+measurementId:"G-T0BKW67381"
+};
+
+const app=initializeApp(firebaseConfig);
+const db=getFirestore(app);
+const auth=getAuth(app);
+
+const VTUGATE_WORKER="https://logical-world-vtu.alagoagodstime.workers.dev";
+const PAYSTACK_WORKER="https://logical-world-paystack.alagoagodstime.workers.dev";
+const TRANSFER_WORKER="https://logical-world-transfer.alagoagodstime.workers.dev";
+
+let currentUser=null;
+let currentWallet=null;
+let dataServices=[];
+
+const $=id=>document.getElementById(id);
+
+function showMessage(id,text,type){
+
+const el=$(id);
+
+if(!el)return;
+
+el.textContent=text;
+el.className="message "+type;
+el.style.display="block";
+
+}
+
+function hideMessage(id){
+
+const el=$(id);
+
+if(el)el.style.display="none";
+
+}
+
+function money(value){
+
+return"₦"+Number(value||0).toFixed(2);
+
+}
+
+window.showScreen=function(id){
+
+document.querySelectorAll(".screen").forEach(screen=>{
+screen.classList.remove("active");
+});
+
+const screen=$(id);
+
+if(screen)screen.classList.add("active");
+
+window.scrollTo(0,0);
+
+if(id==="dataScreen"){
+loadDataServices();
+}
+
+};
+
+window.selectNetwork=function(network){
+
+$("network").value=network;
+
+document.querySelectorAll(".network-button").forEach(el=>{
+el.classList.remove("selected-network");
+});
+
+const selected=$("network"+network);
+
+if(selected)selected.classList.add("selected-network");
+
+const header=$("airtimeHeader");
+const title=$("airtimeTitle");
+const description=$("airtimeDescription");
+
+if(network==="airtel"){
+header.style.background="linear-gradient(135deg,#e40000,#a00000)";
+title.textContent="Airtel Airtime";
+description.textContent="Airtel airtime purchase";
+}
+
+else if(network==="mtn"){
+header.style.background="linear-gradient(135deg,#ffcc00,#d99a00)";
+title.textContent="MTN Airtime";
+description.textContent="MTN airtime purchase";
+}
+
+else if(network==="glo"){
+header.style.background="linear-gradient(135deg,#008f39,#005b25)";
+title.textContent="Glo Airtime";
+description.textContent="Glo airtime purchase";
+}
+
+else if(network==="9mobile"){
+header.style.background="linear-gradient(135deg,#008f3d,#005c27)";
+title.textContent="9mobile Airtime";
+description.textContent="9mobile airtime purchase";
+}
+
+};
+
+function generateWalletAccountNumber(phone){
+
+const digits=String(phone).replace(/\D/g,"");
+
+if(digits.length!==11)return"";
+
+let arr=digits.split("");
+
+const original=Number(arr[6]);
+const changed=(original+7)%10;
+
+arr[6]=String(changed);
+
+return"LW"+arr.join("");
+
+}
+
+async function loadWallet(){
+
+if(!currentUser)return;
+
+try{
+
+const ref=doc(db,"users",currentUser.uid);
+const snap=await getDoc(ref);
+
+if(!snap.exists()){
+
+currentWallet=null;
+
+$("walletBalance").textContent="₦0.00";
+$("walletStatus").textContent="Wallet account has not been created.";
+$("homeAccountNumber").textContent="Account number: Not created";
+$("settingsAccountNumber").textContent="Not created";
+$("settingsAccountName").textContent="Not available";
+$("settingsWalletStatus").textContent="Not registered";
+
+return;
+
+}
+
+currentWallet=snap.data();
+
+$("accountName").value=currentWallet.walletAccountName||currentUser.displayName||"";
+
+$("accountPhone").value=currentWallet.walletPhoneNumber||"";
+
+$("walletBalance").textContent=money(currentWallet.walletBalance);
+
+$("walletStatus").textContent=currentWallet.walletRegistered?"Wallet active":"Wallet account not registered";
+
+const accountNumber=currentWallet.walletAccountNumber||"Not created";
+
+$("homeAccountNumber").textContent="Account number: "+accountNumber;
+
+$("settingsAccountNumber").textContent=accountNumber;
+
+$("settingsAccountName").textContent=currentWallet.walletAccountName||"Not available";
+
+$("settingsWalletStatus").textContent=currentWallet.walletRegistered?"Active":"Not registered";
+
+}
+
+catch(error){
+
+console.error("Wallet loading error:",error);
+
+$("walletStatus").textContent="Unable to load wallet.";
+
+}
+
+}
+
+async function loadTransactions(){
+
+if(!currentUser){
+
+$("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';
+
+return;
+
+}
+
+try{
+
+const q=query(
+collection(db,"walletTransactions"),
+where("userId","==",currentUser.uid)
+);
+
+const snap=await getDocs(q);
+
+let rows=[];
+
+snap.forEach(d=>{
+rows.push({
+id:d.id,
+...d.data()
+});
+});
+
+rows.sort((a,b)=>{
+
+const at=a.createdAt?.seconds||0;
+const bt=b.createdAt?.seconds||0;
+
+return bt-at;
+
+});
+
+if(!rows.length){
+
+$("transactions").innerHTML='<div class="small">No transactions yet.</div>';
+
+return;
+
+}
+
+$("transactions").innerHTML=rows.map(t=>{
+
+let amount=Number(t.amount||0);
+
+let title=t.type||"Wallet Transaction";
+
+let description=t.description||"";
+
+let status=t.status||"";
+
+let date="";
+
+if(t.createdAt?.toDate){
+
+date=t.createdAt.toDate().toLocaleString();
+
+}
+
+else if(t.createdAt?.seconds){
+
+date=new Date(t.createdAt.seconds*1000).toLocaleString();
+
+}
+
+return`
+<div class="transaction">
+<div class="transaction-title">${title}</div>
+<div class="transaction-meta">${description}</div>
+<div class="transaction-meta">${date}</div>
+<div class="transaction-meta">
+${status?status+" • ":""}${money(amount)}
+</div>
+</div>
+`;
+
+}).join("");
+
+}
+
+catch(error){
+
+console.error("Transaction loading error:",error);
+
+$("transactions").innerHTML='<div class="small">Unable to load transactions.</div>';
+
+}
+
+}
+
+async function verifyReturnedPayment(){
+
+const params=new URLSearchParams(window.location.search);
+
+const reference=
+params.get("reference")||
+params.get("trxref");
+
+if(!reference)return;
+
+window.history.replaceState({},document.title,location.pathname);
+
+showMessage(
+"fundMessage",
+"Verifying your Paystack payment...",
+"success"
+);
+
+try{
+
+const response=await fetch(
+PAYSTACK_WORKER,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"verify",
+reference:reference
+})
+}
+);
+
+const result=await response.json();
+
+if(!response.ok||!result.status){
+
+throw new Error(
+result.message||
+"Payment verification failed."
+);
+
+}
+
+showMessage(
+"fundMessage",
+"Payment successful. "+
+money(result.amount)+
+" has been added to your Logical World wallet.",
+"success"
+);
+
+await loadWallet();
+await loadTransactions();
+
+showScreen("fundScreen");
+
+}
+
+catch(error){
+
+console.error("Payment verification error:",error);
+
+showMessage(
+"fundMessage",
+error.message||
+"Unable to verify payment.",
+"error"
+);
+
+}
+
+}
+
+$("registerWalletBtn").addEventListener(
+"click",
+async()=>{
+
+hideMessage("walletMessage");
+
+if(!currentUser){
+
+showMessage("walletMessage","Please log in first.","error");
+
+return;
+
+}
+
+const name=$("accountName").value.trim();
+const phone=$("accountPhone").value.trim();
+
+if(!name||!phone){
+
+showMessage(
+"walletMessage",
+"Enter your name and phone number.",
+"error"
+);
+
+return;
+
+}
+
+if(!/^[0-9]{11}$/.test(phone)){
+
+showMessage(
+"walletMessage",
+"Enter an 11-digit Nigerian phone number.",
+"error"
+);
+
+return;
+
+}
+
+const btn=$("registerWalletBtn");
+
+btn.disabled=true;
+btn.textContent="Saving...";
+
+try{
+
+const ref=doc(db,"users",currentUser.uid);
+
+const old=await getDoc(ref);
+
+const oldData=old.exists()?old.data():{};
+
+const generated=
+oldData.walletAccountNumber||
+generateWalletAccountNumber(phone);
+
+await setDoc(
+ref,
+{
+walletRegistered:true,
+walletAccountName:name,
+walletPhoneNumber:phone,
+walletCurrency:"NGN",
+walletStatus:"active",
+walletAccountNumber:generated,
+walletBalance:Number(oldData.walletBalance||0),
+walletCreatedAt:
+oldData.walletCreatedAt||
+serverTimestamp(),
+walletUpdatedAt:serverTimestamp()
+},
+{merge:true}
+);
+
+showMessage(
+"walletMessage",
+"Wallet account saved successfully.",
+"success"
+);
+
+await loadWallet();
+
+}
+
+catch(error){
+
+console.error(
+"Wallet save error:",
+error
+);
+
+showMessage(
+"walletMessage",
+error.message||
+"Unable to save wallet.",
+"error"
+);
+
+}
+
+btn.disabled=false;
+btn.textContent="Create / Update Wallet";
+
+});
+
+$("fundBtn").addEventListener(
+"click",
+async()=>{
+
+hideMessage("fundMessage");
+
+if(!currentUser){
+
+showMessage(
+"fundMessage",
+"Please log in first.",
+"error"
+);
+
+return;
+
+}
+
+const amount=
+Number($("fundAmount").value);
+
+if(
+!Number.isFinite(amount)||
+amount<100
+){
+
+showMessage(
+"fundMessage",
+"Enter an amount of at least ₦100.",
+"error"
+);
+
+return;
+
+}
+
+if(!currentUser.email){
+
+showMessage(
+"fundMessage",
+"Your Logical World account needs an email address for Paystack funding.",
+"error"
+);
+
+return;
+
+}
+
+const btn=$("fundBtn");
+
+btn.disabled=true;
+btn.textContent="Connecting...";
+
+try{
+
+const idToken=
+await currentUser.getIdToken(true);
+
+const response=
+await fetch(
+PAYSTACK_WORKER,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+idToken:idToken,
+amount:amount,
+email:currentUser.email
+})
+}
+);
+
+const result=
+await response.json();
+
+if(
+!response.ok||
+result.status===false
+){
+
+throw new Error(
+result.message||
+"Unable to start payment."
+);
+
+}
+
+if(result.authorization_url){
+
+window.location.href=
+result.authorization_url;
+
+return;
+
+}
+
+if(
+result.data&&
+result.data.authorization_url
+){
+
+window.location.href=
+result.data.authorization_url;
+
+return;
+
+}
+
+if(result.url){
+
+window.location.href=
+result.url;
+
+return;
+
+}
+
+throw new Error(
+"Paystack did not return a payment URL."
+);
+
+}
+
+catch(error){
+
+console.error(
+"Funding error:",
+error
+);
+
+showMessage(
+"fundMessage",
+error.message||
+"Unable to start payment.",
+"error"
+);
+
+}
+
+btn.disabled=false;
+btn.textContent="Add Money";
+
+});
+
+$("buyAirtimeBtn").addEventListener(
+"click",
+async()=>{
+
+hideMessage("airtimeMessage");
+
+if(!currentUser){
+
+showMessage(
+"airtimeMessage",
+"Please log in first.",
+"error"
+);
+
+return;
+
+}
+
+const network=
+$("network").value;
+
+const phone=
+$("airtimePhone").value.trim();
+
+const amount=
+Number($("airtimeAmount").value);
+
+if(!network){
+
+showMessage(
+"airtimeMessage",
+"Select a network.",
+"error"
+);
+
+return;
+
+}
+
+if(!/^[0-9]{11}$/.test(phone)){
+
+showMessage(
+"airtimeMessage",
+"Enter a valid 11-digit phone number.",
+"error"
+);
+
+return;
+
+}
+
+if(
+!Number.isFinite(amount)||
+amount<50
+){
+
+showMessage(
+"airtimeMessage",
+"Airtime amount must be at least ₦50.",
+"error"
+);
+
+return;
+
+}
+
+const btn=
+$("buyAirtimeBtn");
+
+btn.disabled=true;
+btn.textContent="Processing...";
+
+try{
+
+const idToken=
+await currentUser.getIdToken(true);
+
+const response=
+await fetch(
+VTUGATE_WORKER,
+{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+idToken:idToken,
+network:network,
+phone_number:phone,
+amount:amount
+})
+}
+);
+
+const result=
+await response.json();
+
+if(
+!response.ok||
+!result.status
+){
+
+throw new Error(
+result.message||
+"Airtime purchase failed."
+);
+
+}
+
+$("walletBalance").textContent=
+money(result.walletBalance);
+
+$("walletStatus").textContent=
+"Wallet active";
+
+showMessage(
+"airtimeMessage",
+(result.message||
+"Airtime purchase successful.")+
+" Your new wallet balance is "+
+money(result.walletBalance)+
+".",
+"success"
+);
+
+await loadWallet();
+await loadTransactions();
+
+}
+
+catch(error){
+
+console.error(
+"Airtime purchase error:",
+error
+);
+
+showMessage(
+"airtimeMessage",
+error.message||
+"Airtime purchase failed.",
+"error"
+);
+
+}
+
+btn.disabled=false;
+btn.textContent="Buy Airtime";
+
+});
+
+function dataUnwrapArrays(value, arrays=[], depth=0){
+if(!value||typeof value!=="object"||depth>7)return arrays;
+if(Array.isArray(value)){
+if(value.length&&value.every(item=>item&&typeof item==="object"))arrays.push(value);
+return arrays;
+}
+for(const key of Object.keys(value))dataUnwrapArrays(value[key],arrays,depth+1);
+return arrays;
+}
+
+function dataGetList(result,kind){
+const preferred=kind==="plans"
+?["plans","data_plans","dataplans","items","results","data"]
+:["services","items","results","data"];
+for(const key of preferred){
+const v=result?.[key];
+if(Array.isArray(v))return v;
+if(v&&typeof v==="object"){
+for(const inner of preferred)if(Array.isArray(v[inner]))return v[inner];
+}
+}
+const arrays=dataUnwrapArrays(result);
+arrays.sort((a,b)=>b.length-a.length);
+return arrays[0]||[];
+}
+
+function dataGetServiceId(service){
+return service?.service_id??service?.serviceId??service?.serviceID??service?.service_code??service?.serviceCode??service?.id??service?.code??"";
+}
+
+function dataGetServiceName(service){
+return service?.service_name??service?.serviceName??service?.name??service?.network??service?.description??service?.title??service?.service_type??service?.serviceType??"";
+}
+
+function dataGetNetwork(value){
+const name=String(value||"").toLowerCase().replace(/[^a-z0-9]/g,"");
+if(name.includes("9mobile")||name.includes("etisalat"))return "9mobile";
+if(name.includes("airtel"))return "airtel";
+if(name.includes("glo"))return "glo";
+if(name.includes("mtn"))return "mtn";
+return "";
+}
+
+async function loadDataServices(){
+const info=$("dataInfo");
+const networkSelect=$("dataNetwork");
+if(!info||!networkSelect)return;
+if(!currentUser){info.textContent="Please log in to load data networks.";return;}
+info.textContent="Loading available data networks...";
+networkSelect.innerHTML='<option value="">Select network</option>';
+$("dataPlan").innerHTML='<option value="">Select network first</option>';
+$("dataPlan").disabled=true;
+$("buyDataBtn").disabled=true;
+try{
+const idToken=await currentUser.getIdToken(true);
+const response=await fetch(VTUGATE_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"fetchDataServices",idToken})});
+const raw=await response.text();
+let result;
+try{result=JSON.parse(raw);}catch{throw new Error("The data service returned an unreadable response.");}
+if(!response.ok||result.status===false)throw new Error(result.message||"Unable to load data networks.");
+dataServices=dataGetList(result,"services").filter(service=>String(dataGetServiceId(service))!=="");
+networkSelect.innerHTML='<option value="">Select network</option>';
+dataServices.forEach((service,index)=>{
+const id=String(dataGetServiceId(service));
+const name=String(dataGetServiceName(service)||("Data service "+(index+1)));
+const option=document.createElement("option");
+option.value=id;
+option.textContent=name;
+option.dataset.network=dataGetNetwork(name);
+networkSelect.appendChild(option);
+});
+if(!dataServices.length){info.textContent="VTUGATE did not return any data services. No purchase has been made.";return;}
+info.textContent="Choose your network. Its available data plans will load below.";
+}catch(error){console.error("Data services error:",error);info.textContent=error.message||"Unable to load data networks.";}
+}
+
+async function chooseDataNetwork(network){
+const info=$("dataInfo");
+const networkSelect=$("dataNetwork");
+const planSelect=$("dataPlan");
+const buyButton=$("buyDataBtn");
+document.querySelectorAll(".data-network-button").forEach(button=>button.classList.toggle("selected-network",button.dataset.dataNetwork===network));
+const match=dataServices.filter(service=>dataGetNetwork(dataGetServiceName(service))===network);
+planSelect.innerHTML='<option value="">Loading plans...</option>';
+planSelect.disabled=true;
+buyButton.disabled=true;
+if(!match.length){networkSelect.value="";planSelect.innerHTML='<option value="">Network service not found</option>';info.textContent="VTUGATE's returned service list does not identify a "+network.toUpperCase()+" data service. No purchase has been made.";return;}
+networkSelect.value=String(dataGetServiceId(match[0]));
+await loadDataPlans(networkSelect.value);
+}
+
+async function loadDataPlans(serviceId){
+const planSelect=$("dataPlan");
+const buyButton=$("buyDataBtn");
+const info=$("dataInfo");
+planSelect.disabled=true;
+buyButton.disabled=true;
+planSelect.innerHTML='<option value="">Loading plans...</option>';
+if(!serviceId||!currentUser){planSelect.innerHTML='<option value="">Select network first</option>';return;}
+try{
+const idToken=await currentUser.getIdToken(true);
+const response=await fetch(VTUGATE_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"fetchDataPlans",service_id:String(serviceId),idToken})});
+const raw=await response.text();
+let result;
+try{result=JSON.parse(raw);}catch{throw new Error("The data-plan service returned an unreadable response.");}
+if(!response.ok||result.status===false)throw new Error(result.message||"Unable to load data plans.");
+const plans=dataGetList(result,"plans");
+if(!plans.length){planSelect.innerHTML='<option value="">No data plans found</option>';info.textContent="No plans were returned for this network. No purchase has been made.";return;}
+planSelect.innerHTML='<option value="">Select Data Plan</option>';
+let added=0;
+plans.forEach((plan,index)=>{
+const code=plan?.plan_code??plan?.planCode??plan?.service_plan_id??plan?.plan_id??plan?.planId??plan?.planID??plan?.code??plan?.id??"";
+const rawPrice=plan?.selling_price??plan?.sellingPrice??plan?.plan_amount??plan?.planAmount??plan?.price_ngn??plan?.amount??plan?.price??plan?.cost??"";
+const price=Number(rawPrice);
+const name=plan?.plan_name??plan?.planName??plan?.name??plan?.description??plan?.title??("Plan "+(index+1));
+const size=plan?.size??plan?.data_size??plan?.dataSize??plan?.volume??plan?.data??"";
+const validity=plan?.validity??plan?.validity_period??plan?.duration??"";
+if(code===""||!Number.isFinite(price)||price<=0)return;
+const option=document.createElement("option");
+option.value=String(code);
+option.dataset.price=String(price);
+option.dataset.plan=JSON.stringify(plan);
+option.dataset.serviceId=String(serviceId);
+let label=String(name);
+if(size&&!label.toLowerCase().includes(String(size).toLowerCase()))label+=" - "+size;
+if(validity)label+=" - "+validity;
+label+=" - "+money(price);
+option.textContent=label;
+planSelect.appendChild(option);
+added++;
+});
+if(!added){planSelect.innerHTML='<option value="">No usable data plans found</option>';info.textContent="VTUGATE returned plans, but the plans did not contain a recognized plan code and price. No purchase has been made.";return;}
+planSelect.disabled=false;
+info.textContent=added+" data plan(s) loaded. Select your plan to continue.";
+}catch(error){console.error("Data plans error:",error);planSelect.innerHTML='<option value="">Unable to load plans</option>';info.textContent="Unable to load data plans: "+(error.message||"Unknown error");}
+}
+
+document.querySelectorAll(".data-network-button").forEach(button=>{
+button.addEventListener("click",()=>chooseDataNetwork(button.dataset.dataNetwork));
+button.addEventListener("keydown",event=>{if(event.key==="Enter"||event.key===" "){event.preventDefault();chooseDataNetwork(button.dataset.dataNetwork);}});
+});
+
+$("dataNetwork").addEventListener("change",async()=>{
+hideMessage("dataMessage");
+await loadDataPlans($("dataNetwork").value);
+});
+
+$("dataPlan").addEventListener("change",()=>{
+const option=$("dataPlan").selectedOptions[0];
+$("buyDataBtn").disabled=!option||!option.value;
+});
+
+$("buyDataBtn").addEventListener("click",async()=>{
+hideMessage("dataMessage");
+if(!currentUser){showMessage("dataMessage","Please log in first.","error");return;}
+const serviceId=$("dataNetwork").value;
+const planSelect=$("dataPlan");
+const selected=planSelect.options[planSelect.selectedIndex];
+const planCode=planSelect.value;
+const phone=$("dataPhone").value.trim();
+let plan={};
+try{plan=selected?.dataset?.plan?JSON.parse(selected.dataset.plan):{};}catch{}
+const amount=Number(plan.selling_price??plan.sellingPrice??plan.plan_amount??plan.planAmount??plan.price_ngn??plan.amount??plan.price??plan.cost??selected?.dataset?.price??0);
+if(!serviceId||!planCode){showMessage("dataMessage","Select a network and data plan.","error");return;}
+if(!/^[0-9]{11}$/.test(phone)){showMessage("dataMessage","Enter a valid 11-digit phone number.","error");return;}
+if(!Number.isFinite(amount)||amount<=0){showMessage("dataMessage","The selected data plan has no valid price. No purchase has been made.","error");return;}
+const btn=$("buyDataBtn");
+btn.disabled=true;
+btn.textContent="Processing...";
+try{
+const idToken=await currentUser.getIdToken(true);
+const response=await fetch(VTUGATE_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"buyData",idToken,service_id:String(serviceId),plan_code:String(planCode),phone_number:phone,amount})});
+const result=await response.json();
+if(!response.ok||!result.status)throw new Error(result.message||"Data purchase failed.");
+showMessage("dataMessage",(result.message||"Data purchase successful.")+" Your new wallet balance is "+money(result.walletBalance)+".","success");
+await loadWallet();
+await loadTransactions();
+}catch(error){console.error("Data purchase error:",error);showMessage("dataMessage",error.message||"Data purchase failed.","error");}
+btn.disabled=false;
+btn.textContent="Buy Data";
+});
+
+
+
+async function transferMoney(){
+ hideMessage("transferMessage");
+ if(!currentUser){showMessage("transferMessage","Please log in first.","error");return;}
+ const account=$("recipientAccount").value.trim();
+ const amount=Number($("transferAmount").value);
+ if(!account){showMessage("transferMessage","Enter the recipient wallet account number.","error");return;}
+ if(!Number.isSafeInteger(amount)||amount<1||amount>50000){showMessage("transferMessage","Enter a whole amount from ₦1 to ₦50,000.","error");return;}
+ if(!currentWallet||currentWallet.walletRegistered!==true||currentWallet.walletStatus!=="active"){
+  showMessage("transferMessage","Create or activate your wallet first.","error");return;
+ }
+ if(Number(currentWallet.walletBalance||0)<amount){showMessage("transferMessage","Your wallet balance is insufficient.","error");return;}
+ const btn=$("transferBtn");
+ btn.disabled=true;btn.textContent="Checking recipient...";
+ try{
+  const idToken=await currentUser.getIdToken(true);
+  const lookupResponse=await fetch(TRANSFER_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"lookupRecipient",idToken,recipientAccount:account})});
+  const recipient=await lookupResponse.json().catch(()=>({}));
+  if(!lookupResponse.ok||!recipient.success)throw new Error(recipient.error||recipient.message||"Could not verify recipient account.");
+  const recipientName=recipient.recipientName||"Logical World wallet user";
+  const recipientAccount=recipient.recipientAccount||account;
+  const confirmed=window.confirm("Confirm wallet transfer\n\nRecipient: "+recipientName+"\nAccount: "+recipientAccount+"\nAmount: "+money(amount)+"\n\nSend this money now?");
+  if(!confirmed){showMessage("transferMessage","Transfer cancelled. No money was sent.","error");return;}
+  btn.textContent="Processing transfer...";
+  showMessage("transferMessage","Processing transfer. Please wait...","success");
+  const transferId="lw_"+Date.now()+"_"+Math.random().toString(36).slice(2,12);
+  const response=await fetch(TRANSFER_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"transfer",idToken,recipientAccount,amount,transferId})});
+  const result=await response.json().catch(()=>({}));
+  if(!response.ok||!result.success)throw new Error(result.error||result.message||"Transfer could not be confirmed. Check History before trying again.");
+  showMessage("transferMessage","Transfer successful! Sent: "+money(amount)+". Recipient: "+(result.recipientName||recipientName)+". Account: "+(result.recipientAccount||recipientAccount)+".","success");
+  $("transferAmount").value="";
+  await loadWallet();
+  await loadTransactions();
+ }catch(error){
+  console.error("Wallet transfer error:",error);
+  showMessage("transferMessage",error.message||"Transfer failed. If the request was sent, check History before retrying.","error");
+ }finally{
+  btn.disabled=false;btn.textContent="Continue Transfer";
+ }
+}
+
+$("transferBtn").addEventListener("click",transferMoney);
+
+onAuthStateChanged(
+auth,
+async user=>{
+
+currentUser=user;
+
+if(!user){
+
+$("walletStatus").textContent=
+"Please log in to use your wallet.";
+
+$("transactions").innerHTML=
+'<div class="small">Please log in to view transactions.</div>';
+
+return;
+
+}
+
+await loadWallet();
+
+await loadTransactions();
+
+await loadDataServices();
+
+await verifyReturnedPayment();
+
+});
+
+</script>
+
+</body>
+</html>
