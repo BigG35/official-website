@@ -9,7 +9,7 @@
 *{box-sizing:border-box}
 body{margin:0;font-family:Arial,sans-serif;background:#f3f6f9;color:#222}
 .header{background:#111827;color:white;height:64px;display:flex;align-items:center;justify-content:center;position:relative;padding:0 55px;font-size:22px;font-weight:bold}
-.wallet-menu-dots{position:absolute!important;left:8px!important;top:50%!important;transform:translateY(-50%);z-index:60;width:44px!important;height:44px;padding:0!important;margin:0!important;border:0;border-radius:8px;background:transparent;color:white;font-size:30px;line-height:1;box-shadow:none;cursor:pointer}
+.wallet-menu-dots{position:absolute!important;right:8px!important;left:auto!important;top:50%!important;transform:translateY(-50%);z-index:60;width:44px!important;height:44px;padding:0!important;margin:0!important;border:0;border-radius:8px;background:transparent;color:white;font-size:30px;line-height:1;box-shadow:none;cursor:pointer}
 .header-title{width:100%;text-align:center}
 .container{max-width:700px;margin:auto;padding:15px;padding-bottom:90px}
 .screen{display:none}
@@ -69,10 +69,7 @@ button:disabled{opacity:.6}
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid #ddd;display:flex;justify-content:space-around;padding:8px 4px;z-index:50}
 .bottom-nav button{margin:0;background:white;color:#333;font-size:12px;padding:7px 3px}
 .bottom-nav .nav-icon{display:block;font-size:20px;margin-bottom:3px}
-@media(max-width:480px){
-.network-row{grid-template-columns:1fr}
-.header{font-size:20px}
-}
+@media(max-width:480px){.network-row{grid-template-columns:1fr}.header{font-size:20px}}
 </style>
 </head>
 <body>
@@ -83,7 +80,6 @@ button:disabled{opacity:.6}
 </div>
 
 <div class="container">
-
 <div id="homeScreen" class="screen active">
 <div class="service-header home-theme">
 <div style="font-size:14px;opacity:.8">LOGICAL WORLD WALLET</div>
@@ -102,17 +98,12 @@ button:disabled{opacity:.6}
 <div class="menu-button" onclick="showScreen('dataScreen')"><div class="menu-icon">📶</div><div class="menu-title">Data</div><div class="menu-text">Buy data bundles</div></div>
 <div class="menu-button" onclick="showScreen('transferScreen')"><div class="menu-icon">💸</div><div class="menu-title">Transfer</div><div class="menu-text">Send money</div></div>
 </div>
-<div class="card">
-<h3>Notifications</h3>
-<div class="small">Payment, airtime, data and transfer notifications will appear here.</div>
-</div>
+<div class="card"><h3>Notifications</h3><div class="small">Payment, airtime, data and transfer notifications will appear here.</div></div>
 </div>
 
 <div id="fundScreen" class="screen">
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-<div class="service-header home-theme">
-<div style="font-size:28px">💰</div><div style="font-size:23px;font-weight:bold;margin-top:6px">Add Money</div><div style="font-size:13px;margin-top:6px">Fund your Logical World wallet securely.</div>
-</div>
+<div class="service-header home-theme"><div style="font-size:28px">💰</div><div style="font-size:23px;font-weight:bold;margin-top:6px">Add Money</div><div style="font-size:13px;margin-top:6px">Fund your Logical World wallet securely.</div></div>
 <div class="card">
 <label>Amount</label><input id="fundAmount" type="number" min="100" placeholder="₦1000">
 <button id="fundBtn" class="green">Add Money</button>
@@ -123,9 +114,7 @@ button:disabled{opacity:.6}
 
 <div id="airtimeScreen" class="screen">
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-<div id="airtimeHeader" class="service-header airtime-theme">
-<div style="font-size:30px">📱</div><div id="airtimeTitle" style="font-size:24px;font-weight:bold;margin-top:5px">Airtime</div><div id="airtimeDescription" style="font-size:13px;margin-top:6px">Select a network to continue.</div>
-</div>
+<div id="airtimeHeader" class="service-header airtime-theme"><div style="font-size:30px">📱</div><div id="airtimeTitle" style="font-size:24px;font-weight:bold;margin-top:5px">Airtime</div><div id="airtimeDescription" style="font-size:13px;margin-top:6px">Select a network to continue.</div></div>
 <div class="card">
 <h3>Select Network</h3>
 <div class="network-row">
@@ -146,9 +135,7 @@ button:disabled{opacity:.6}
 
 <div id="dataScreen" class="screen">
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-<div class="service-header data-theme">
-<div style="font-size:30px">📶</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Data</div><div style="font-size:13px;margin-top:6px">Buy mobile data bundles.</div>
-</div>
+<div class="service-header data-theme"><div style="font-size:30px">📶</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Data</div><div style="font-size:13px;margin-top:6px">Buy mobile data bundles.</div></div>
 <div class="card">
 <div id="dataInfo" class="info-box">Loading VTUGATE data services...</div>
 <label>Select Network</label>
@@ -168,9 +155,7 @@ button:disabled{opacity:.6}
 
 <div id="transferScreen" class="screen">
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-<div class="service-header transfer-theme">
-<div style="font-size:30px">💸</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Transfer</div><div style="font-size:13px;margin-top:6px">Send money to another Logical World wallet.</div>
-</div>
+<div class="service-header transfer-theme"><div style="font-size:30px">💸</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Transfer</div><div style="font-size:13px;margin-top:6px">Send money to another Logical World wallet.</div></div>
 <div class="card">
 <label>Recipient Wallet Account Number</label><input id="recipientAccount" type="text" placeholder="Logical World account number">
 <label>Amount</label><input id="transferAmount" type="number" min="1" placeholder="₦100">
@@ -182,10 +167,7 @@ button:disabled{opacity:.6}
 
 <div id="settingsScreen" class="screen">
 <button class="back" onclick="showScreen('homeScreen')">← Back to Wallet</button>
-<div class="service-header settings-theme">
-<div style="font-size:30px">⚙️</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Settings</div><div style="font-size:13px;margin-top:6px">Manage your Logical World wallet.</div>
-</div>
-
+<div class="service-header settings-theme"><div style="font-size:30px">⚙️</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Settings</div><div style="font-size:13px;margin-top:6px">Manage your Logical World wallet.</div></div>
 <div class="card">
 <h3>My Profile</h3>
 <label>Name</label><input id="accountName" type="text" placeholder="Your name">
@@ -193,47 +175,32 @@ button:disabled{opacity:.6}
 <button id="registerWalletBtn">Create / Update Wallet</button>
 <div id="walletMessage" class="message"></div>
 </div>
-
 <div class="card">
 <h3>Wallet Account</h3>
 <div class="setting-item"><div class="setting-title">Account Number</div><div class="setting-text" id="settingsAccountNumber">Not created</div></div>
 <div class="setting-item"><div class="setting-title">Account Name</div><div class="setting-text" id="settingsAccountName">Not available</div></div>
 <div class="setting-item"><div class="setting-title">Wallet Status</div><div class="setting-text" id="settingsWalletStatus">Checking...</div></div>
 </div>
-
 <div class="card">
 <h3>Security</h3>
 <div class="setting-item"><div class="setting-title">Login Security</div><div class="setting-text">Your wallet requires your Logical World login.</div></div>
 <div class="setting-item"><div class="setting-title">Wallet Balance Protection</div><div class="setting-text">Wallet balance changes are handled through the secure wallet system.</div></div>
 </div>
-
 <div class="card">
 <h3>Notifications</h3>
 <div class="setting-item"><div class="setting-title">Wallet Notifications</div><div class="setting-text">Payment and wallet notifications will be added here.</div></div>
 <div class="setting-item"><div class="setting-title">Service Notifications</div><div class="setting-text">Airtime, data and transfer notifications will appear here.</div></div>
 </div>
-
 <div class="card history-open" role="button" tabindex="0" onclick="showScreen('transactionHistoryScreen')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();showScreen('transactionHistoryScreen')}">
 <div><div class="setting-title">Transaction History</div><div class="setting-text">Tap to view all wallet transactions.</div></div><div class="history-arrow">›</div>
 </div>
-
-<div class="card">
-<h3>Help &amp; Support</h3>
-<div class="setting-item"><div class="setting-title">Logical World Support</div><div class="setting-text">Support features will be connected here.</div></div>
-</div>
-<div class="card">
-<h3>About Logical World</h3>
-<div class="small">Logical World Wallet<br>Digital wallet and service platform.</div>
-</div>
+<div class="card"><h3>Help &amp; Support</h3><div class="setting-item"><div class="setting-title">Logical World Support</div><div class="setting-text">Support features will be connected here.</div></div></div>
+<div class="card"><h3>About Logical World</h3><div class="small">Logical World Wallet<br>Digital wallet and service platform.</div></div>
 </div>
 
 <div id="transactionHistoryScreen" class="screen">
 <button class="back" onclick="showScreen('settingsScreen')">← Back to Settings</button>
-<div class="service-header history-theme">
-<div style="font-size:30px">📋</div>
-<div style="font-size:24px;font-weight:bold;margin-top:5px">Transaction History</div>
-<div style="font-size:13px;margin-top:6px">View your wallet activity, amounts, dates and statuses.</div>
-</div>
+<div class="service-header history-theme"><div style="font-size:30px">📋</div><div style="font-size:24px;font-weight:bold;margin-top:5px">Transaction History</div><div style="font-size:13px;margin-top:6px">View your wallet activity, amounts, dates and statuses.</div></div>
 <div class="card">
 <h3>All Transactions</h3>
 <div class="small">Your wallet transactions are listed below, newest first.</div>
@@ -241,12 +208,9 @@ button:disabled{opacity:.6}
 <button type="button" class="back" onclick="loadTransactions()">Refresh Transactions</button>
 </div>
 </div>
-
 </div>
 
-<div class="bottom-nav">
-<button onclick="window.location.href='https://bigg35.github.io/official-website/'"><span class="nav-icon">🏠</span>Home</button>
-</div>
+<div class="bottom-nav"><button onclick="window.location.href='https://bigg35.github.io/official-website/'"><span class="nav-icon">🏠</span>Home</button></div>
 
 <script type="module">
 import{auth,db}from"./firebase.js";
@@ -256,36 +220,26 @@ import{onAuthStateChanged}from"https://www.gstatic.com/firebasejs/12.2.1/firebas
 const VTUGATE_WORKER="https://logical-world-vtu.alagoagodstime.workers.dev";
 const PAYSTACK_WORKER="https://logical-world-paystack.alagoagodstime.workers.dev";
 const TRANSFER_WORKER="https://logical-world-transfer.alagoagodstime.workers.dev";
-
-let currentUser=null;
-let currentWallet=null;
-let dataServices=[];
+let currentUser=null,currentWallet=null,dataServices=[];
 let authReadyResolve;
 const authReady=new Promise(resolve=>{authReadyResolve=resolve;});
 const $=id=>document.getElementById(id);
 
 function showMessage(id,text,type){
-const el=$(id);
-if(!el)return;
-el.textContent=text;
-el.className="message "+type;
-el.style.display="block";
+const el=$(id);if(!el)return;
+el.textContent=text;el.className="message "+type;el.style.display="block";
 if(el._dismissTimer)clearTimeout(el._dismissTimer);
 if(type==="success"&&/(successful|success|credited|funded|completed|sent:)/i.test(String(text))){
-el._dismissTimer=setTimeout(()=>{
-el.style.display="none";
-showScreen("homeScreen");
-loadWallet();
-},4500);
+el._dismissTimer=setTimeout(()=>{el.style.display="none";showScreen("homeScreen");loadWallet();},4500);
 }
 }
 function hideMessage(id){const el=$(id);if(el)el.style.display="none";}
 function money(value){return"₦"+Number(value||0).toFixed(2);}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));}
 
 window.showScreen=function(id){
 document.querySelectorAll(".screen").forEach(screen=>screen.classList.remove("active"));
-const screen=$(id);
-if(screen)screen.classList.add("active");
+const screen=$(id);if(screen)screen.classList.add("active");
 window.scrollTo(0,0);
 if(id==="dataScreen")loadDataServices();
 if(id==="transactionHistoryScreen")loadTransactions();
@@ -294,8 +248,7 @@ if(id==="transactionHistoryScreen")loadTransactions();
 window.selectNetwork=function(network){
 $("network").value=network;
 document.querySelectorAll("#airtimeScreen .network-button").forEach(el=>el.classList.remove("selected-network"));
-const selected=$("network"+network);
-if(selected)selected.classList.add("selected-network");
+const selected=$("network"+network);if(selected)selected.classList.add("selected-network");
 const header=$("airtimeHeader"),title=$("airtimeTitle"),description=$("airtimeDescription");
 if(network==="airtel"){header.style.background="linear-gradient(135deg,#e40000,#a00000)";title.textContent="Airtel Airtime";description.textContent="Airtel airtime purchase";}
 else if(network==="mtn"){header.style.background="linear-gradient(135deg,#ffcc00,#d99a00)";title.textContent="MTN Airtime";description.textContent="MTN airtime purchase";}
@@ -304,15 +257,12 @@ else if(network==="9mobile"){header.style.background="linear-gradient(135deg,#00
 };
 
 function generateWalletAccountNumber(phone){
-const digits=String(phone).replace(/\D/g,"");
-if(digits.length!==11)return"";
-let arr=digits.split("");
-arr[6]=String((Number(arr[6])+7)%10);
-return"LW"+arr.join("");
+const digits=String(phone).replace(/\D/g,"");if(digits.length!==11)return"";
+let arr=digits.split("");arr[6]=String((Number(arr[6])+7)%10);return"LW"+arr.join("");
 }
 
 async function loadWallet(){
-if(!currentUser)return;
+if(!currentUser)return null;
 try{
 const snap=await getDoc(doc(db,"users",currentUser.uid));
 if(!snap.exists()){
@@ -323,24 +273,36 @@ $("homeAccountNumber").textContent="Account number: Not created";
 $("settingsAccountNumber").textContent="Not created";
 $("settingsAccountName").textContent="Not available";
 $("settingsWalletStatus").textContent="Not registered";
-return;
+return null;
 }
 currentWallet=snap.data();
 $("accountName").value=currentWallet.walletAccountName||currentUser.displayName||"";
 $("accountPhone").value=currentWallet.walletPhoneNumber||"";
 $("walletBalance").textContent=money(currentWallet.walletBalance);
-$("walletStatus").textContent=currentWallet.walletRegistered?"Wallet active":"Wallet account not registered";
+$("walletStatus").textContent=currentWallet.walletRegistered&&currentWallet.walletStatus==="active"?"Wallet active":"Wallet account not registered";
 const accountNumber=currentWallet.walletAccountNumber||"Not created";
 $("homeAccountNumber").textContent="Account number: "+accountNumber;
 $("settingsAccountNumber").textContent=accountNumber;
 $("settingsAccountName").textContent=currentWallet.walletAccountName||"Not available";
-$("settingsWalletStatus").textContent=currentWallet.walletRegistered?"Active":"Not registered";
-}catch(error){console.error("Wallet loading error:",error);$("walletStatus").textContent="Unable to load wallet.";}
+$("settingsWalletStatus").textContent=currentWallet.walletRegistered&&currentWallet.walletStatus==="active"?"Active":"Not registered";
+return currentWallet;
+}catch(error){
+console.error("Wallet loading error:",error);
+$("walletStatus").textContent="Unable to load wallet.";
+throw error;
+}
 }
 
+function getTransactionDate(t){
+const raw=t.createdAt??t.timestamp??t.date??t.created_at;
+if(raw?.toDate)return raw.toDate();
+if(raw?.seconds)return new Date(raw.seconds*1000);
+if(typeof raw==="number")return new Date(raw);
+if(typeof raw==="string"){const d=new Date(raw);if(!Number.isNaN(d.getTime()))return d;}
+return null;
+}
 async function loadTransactions(){
-const list=$("transactions");
-if(!list)return;
+const list=$("transactions");if(!list)return;
 if(!currentUser){list.innerHTML='<div class="small">Please log in to view transactions.</div>';return;}
 list.innerHTML='<div class="small">Loading transactions...</div>';
 try{
@@ -348,16 +310,15 @@ const q=query(collection(db,"walletTransactions"),where("userId","==",currentUse
 const snap=await getDocs(q);
 let rows=[];
 snap.forEach(d=>rows.push({id:d.id,...d.data()}));
-rows.sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
-if(!rows.length){list.innerHTML='<div class="small" style="padding:16px 0">No transactions yet.</div>';return;}
+rows.sort((a,b)=>(getTransactionDate(b)?.getTime()||0)-(getTransactionDate(a)?.getTime()||0));
+if(!rows.length){list.innerHTML='<div class="small" style="padding:16px 0">No transactions recorded for this wallet yet.</div>';return;}
 list.innerHTML=rows.map(t=>{
 const amount=Number(t.amount||0);
-const title=escapeHTML(String(t.type||"Wallet Transaction"));
-const description=escapeHTML(String(t.description||"No description provided"));
+const title=escapeHTML(String(t.type||t.transactionType||"Wallet Transaction"));
+const description=escapeHTML(String(t.description||t.details||"No description provided"));
 const status=escapeHTML(String(t.status||""));
-let date="Date unavailable";
-if(t.createdAt?.toDate)date=t.createdAt.toDate().toLocaleString();
-else if(t.createdAt?.seconds)date=new Date(t.createdAt.seconds*1000).toLocaleString();
+const dateObject=getTransactionDate(t);
+const date=dateObject?dateObject.toLocaleString():"Date unavailable";
 return'<div class="transaction"><div class="transaction-title">'+title+'</div><div class="transaction-meta">'+description+'</div><div class="transaction-meta">'+escapeHTML(date)+'</div><div class="transaction-meta">'+(status?status+" • ":"")+money(amount)+'</div></div>';
 }).join("");
 }catch(error){
@@ -365,14 +326,10 @@ console.error("Transaction loading error:",error);
 list.innerHTML='<div class="small" style="padding:16px 0">Unable to load transactions. Please try again.</div>';
 }
 }
-function escapeHTML(value){
-return value.replace(/[&<>"']/g,char=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[char]));
-}
 
 async function verifyReturnedPayment(){
 const params=new URLSearchParams(window.location.search);
-const reference=params.get("reference")||params.get("trxref");
-if(!reference)return;
+const reference=params.get("reference")||params.get("trxref");if(!reference)return;
 window.history.replaceState({},document.title,location.pathname);
 showMessage("fundMessage","Verifying your Paystack payment...","success");
 try{
@@ -385,8 +342,7 @@ await loadWallet();await loadTransactions();showScreen("fundScreen");
 }
 
 $("registerWalletBtn").addEventListener("click",async()=>{
-hideMessage("walletMessage");
-if(!currentUser)await authReady;
+hideMessage("walletMessage");if(!currentUser)await authReady;
 if(!currentUser){showMessage("walletMessage","Please log in first.","error");return;}
 const name=$("accountName").value.trim(),phone=$("accountPhone").value.trim();
 if(!name||!phone){showMessage("walletMessage","Enter your name and phone number.","error");return;}
@@ -402,8 +358,7 @@ btn.disabled=false;btn.textContent="Create / Update Wallet";
 });
 
 $("fundBtn").addEventListener("click",async()=>{
-hideMessage("fundMessage");
-if(!currentUser)await authReady;
+hideMessage("fundMessage");if(!currentUser)await authReady;
 if(!currentUser){showMessage("fundMessage","Please log in first.","error");return;}
 const amount=Number($("fundAmount").value);
 if(!Number.isFinite(amount)||amount<100){showMessage("fundMessage","Enter an amount of at least ₦100.","error");return;}
@@ -422,8 +377,7 @@ btn.disabled=false;btn.textContent="Add Money";
 });
 
 $("buyAirtimeBtn").addEventListener("click",async()=>{
-hideMessage("airtimeMessage");
-if(!currentUser)await authReady;
+hideMessage("airtimeMessage");if(!currentUser)await authReady;
 if(!currentUser){showMessage("airtimeMessage","Please log in first.","error");return;}
 const network=$("network").value,phone=$("airtimePhone").value.trim(),amount=Number($("airtimeAmount").value);
 if(!network){showMessage("airtimeMessage","Select a network.","error");return;}
@@ -530,8 +484,7 @@ $("dataNetwork").addEventListener("change",async()=>{hideMessage("dataMessage");
 $("dataPlan").addEventListener("change",()=>{const option=$("dataPlan").selectedOptions[0];$("buyDataBtn").disabled=!option||!option.value;});
 
 $("buyDataBtn").addEventListener("click",async()=>{
-hideMessage("dataMessage");
-if(!currentUser){showMessage("dataMessage","Please log in first.","error");return;}
+hideMessage("dataMessage");if(!currentUser){showMessage("dataMessage","Please log in first.","error");return;}
 const serviceId=$("dataNetwork").value,planSelect=$("dataPlan"),selected=planSelect.options[planSelect.selectedIndex],planCode=planSelect.value,phone=$("dataPhone").value.trim();
 let plan={};try{plan=selected?.dataset?.plan?JSON.parse(selected.dataset.plan):{};}catch{}
 const amount=Number(plan.selling_price??plan.sellingPrice??plan.plan_amount??plan.planAmount??plan.price_ngn??plan.amount??plan.price??plan.cost??selected?.dataset?.price??0);
@@ -557,17 +510,23 @@ if(!currentUser){showMessage("transferMessage","Please log in first.","error");r
 const account=$("recipientAccount").value.trim(),amount=Number($("transferAmount").value);
 if(!account){showMessage("transferMessage","Enter the recipient wallet account number.","error");return;}
 if(!Number.isSafeInteger(amount)||amount<1||amount>50000){showMessage("transferMessage","Enter a whole amount from ₦1 to ₦50,000.","error");return;}
-if(!currentWallet||currentWallet.walletRegistered!==true||currentWallet.walletStatus!=="active"){showMessage("transferMessage","Create or activate your wallet first.","error");return;}
-if(Number(currentWallet.walletBalance||0)<amount){showMessage("transferMessage","Your wallet balance is insufficient.","error");return;}
-const btn=$("transferBtn");btn.disabled=true;btn.textContent="Checking recipient...";
+const btn=$("transferBtn");btn.disabled=true;btn.textContent="Checking wallet...";
 try{
+const freshWallet=await loadWallet();
+if(!freshWallet||freshWallet.walletRegistered!==true||freshWallet.walletStatus!=="active"){
+showMessage("transferMessage","Your wallet is not registered or active for this signed-in account. Check Settings → Wallet Account.","error");return;
+}
+if(Number(freshWallet.walletBalance||0)<amount){showMessage("transferMessage","Your wallet balance is insufficient.","error");return;}
 const idToken=await currentUser.getIdToken(true);
+btn.textContent="Checking recipient...";
 const lookupResponse=await fetch(TRANSFER_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"lookupRecipient",idToken,recipientAccount:account})});
 const recipient=await lookupResponse.json().catch(()=>({}));
 if(!lookupResponse.ok||!recipient.success)throw new Error(recipient.error||recipient.message||"Could not verify recipient account.");
 const recipientName=recipient.recipientName||"Logical World wallet user",recipientAccount=recipient.recipientAccount||account;
-if(!window.confirm("Confirm wallet transfer\n\nRecipient: "+recipientName+"\nAccount: "+recipientAccount+"\nAmount: "+money(amount)+"\n\nSend this money now?")){showMessage("transferMessage","Transfer cancelled. No money was sent.","error");return;}
-btn.textContent="Processing transfer...";showMessage("transferMessage","Processing transfer. Please wait...","success");
+if(!window.confirm("Confirm wallet transfer\n\nRecipient: "+recipientName+"\nAccount: "+recipientAccount+"\nAmount: "+money(amount)+"\n\nSend this money now?")){
+showMessage("transferMessage","Transfer cancelled. No money was sent.","error");return;
+}
+btn.textContent="Processing transfer...";
 const transferId="lw_"+Date.now()+"_"+Math.random().toString(36).slice(2,12);
 const response=await fetch(TRANSFER_WORKER,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({action:"transfer",idToken,recipientAccount,amount,transferId})});
 const result=await response.json().catch(()=>({}));
@@ -581,8 +540,16 @@ $("transferBtn").addEventListener("click",transferMoney);
 
 onAuthStateChanged(auth,async user=>{
 currentUser=user;authReadyResolve(user||null);
-if(!user){$("walletStatus").textContent="Please log in to use your wallet.";if($("transactions"))$("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';return;}
-await loadWallet();await loadTransactions();await loadDataServices();await verifyReturnedPayment();
+if(!user){
+currentWallet=null;
+$("walletStatus").textContent="Please log in to use your wallet.";
+if($("transactions"))$("transactions").innerHTML='<div class="small">Please log in to view transactions.</div>';
+return;
+}
+try{await loadWallet();}catch(error){}
+await loadTransactions();
+await loadDataServices();
+await verifyReturnedPayment();
 });
 </script>
 </body>
